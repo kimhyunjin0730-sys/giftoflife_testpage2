@@ -1594,7 +1594,7 @@ async function fetchAndRenderNews(containerId, limit, forceRefresh) {
     return;
   }
 
-  // ② Supabase DB 캐시 확인
+  // ② Supabase DB 캐시 확인 (24시간)
   if (!forceRefresh && _sbClient) {
     try {
       const expireTime = new Date(Date.now() - NEWS_CACHE_HOURS * 60 * 60 * 1000).toISOString();
@@ -1609,85 +1609,74 @@ async function fetchAndRenderNews(containerId, limit, forceRefresh) {
         .single();
 
       if (!error && cached?.articles) {
-        const articles = typeof cached.articles === 'string'
-          ? JSON.parse(cached.articles)
-          : cached.articles;
+        const articles = typeof cached.articles === 'string' ? JSON.parse(cached.articles) : cached.articles;
         _newsCache[cacheKey] = articles;
         renderNewsCards(el, articles, 'supabase', cached.fetched_at);
-        return;
+        return; // 유효한 캐시가 있으면 여기서 종료
       }
-    } catch(e) { /* 캐시 없음 — 계속 진행 */ }
+    } catch(e) { console.log("DB 캐시 없음, 새로 수집합니다."); }
   }
 
   // ③ 로딩 표시
   el.innerHTML = `<div class="news-loading">
     <div class="spin-ico"></div>
-    <p>${curLang==='ko'
-      ? 'giftoflifeinternational.org에서 최신 뉴스를 가져오는 중...'
-      : curLang==='zh'
-      ? '正在从 giftoflifeinternational.org 获取最新新闻...'
-      : 'Fetching latest news from giftoflifeinternational.org...'}</p>
+    <p>${curLang==='ko' ? '뉴스를 가져오는 중...' : 'Fetching news...'}</p>
   </div>`;
 
-  const sysPrompt = `You are a news fetcher for Gift of Life International website.
-Search giftoflifeinternational.org for recent news articles, children stories, and updates.
-Return ONLY a valid JSON array (no markdown fences, no extra text) with exactly ${limit} items.
-Each item must have:
-- title: string
-- date: string (e.g. "2026.03.10")
-- summary: string (1-2 sentences)
-- url: string (full URL from giftoflifeinternational.org)
-- category: string (e.g. "Children", "Global", "50th Anniversary")
-- imgUrl: string (image URL or empty string)
-Respond in ${curLang==='ko'?'Korean':curLang==='zh'?'Chinese':'English'} for title and summary.`;
-
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 3000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        system: sysPrompt,
-        messages: [{
-          role: 'user',
-          content: `Search giftoflifeinternational.org for the ${limit} most recent news articles and children stories. Include articles from /children/, /stories/, /uncategorized/ sections. Return JSON array only.`
-        }]
-      })
-    });
+    // ④ CORS 에러 없는 무료 RSS-to-JSON API 활용
+    const rssUrl = encodeURIComponent('https://giftoflifeinternational.org/feed/');
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
     const data = await res.json();
-    const textBlocks = (data.content||[]).filter(b=>b.type==='text');
-    const rawText = textBlocks.map(b=>b.text).join('');
-    const cleaned = rawText.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
-    const match = cleaned.match(/\[[\s\S]*\]/);
-    if (!match) throw new Error('No JSON array found');
-    const articles = JSON.parse(match[0]);
 
-    // ④ 메모리 캐시 저장
+    if (data.status !== 'ok') throw new Error('RSS fetch failed');
+
+    // ⑤ 가져온 데이터를 예쁘게 가공
+    const articles = data.items.slice(0, limit).map(item => {
+      // HTML 태그 지우고 텍스트만 80자 요약
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = item.description;
+      let summary = (tempDiv.textContent || tempDiv.innerText || '').trim();
+      summary = summary.substring(0, 80) + (summary.length > 80 ? '...' : '');
+
+      // 썸네일 이미지 찾기
+      let imgUrl = item.thumbnail || '';
+      if (!imgUrl) {
+        const imgMatch = item.content.match(/<img[^>]+src="([^">]+)"/);
+        if (imgMatch) imgUrl = imgMatch[1];
+      }
+
+      return {
+        title: item.title,
+        date: item.pubDate.split(' ')[0].replace(/-/g, '.'),
+        summary: summary,
+        url: item.link,
+        category: item.categories && item.categories.length > 0 ? item.categories[0] : 'News',
+        imgUrl: imgUrl
+      };
+    });
+
+    // ⑥ 메모리 및 Supabase에 새 뉴스 저장 (다음 24시간 동안 사용)
     _newsCache[cacheKey] = articles;
-
-    // ⑤ Supabase DB 저장 (news_cache 테이블 upsert)
     if (_sbClient) {
-      try {
-        await _sbClient.from('news_cache').upsert([{
-          lang: curLang,
-          limit_count: limit,
-          articles: articles,          // JSONB 컬럼에 직접 저장
-          fetched_at: new Date().toISOString(),
-          source_url: 'giftoflifeinternational.org',
-        }], { onConflict: 'lang,limit_count' });
-      } catch(saveErr) { console.warn('news_cache save error:', saveErr); }
+      await _sbClient.from('news_cache').upsert([{
+        lang: curLang,
+        limit_count: limit,
+        articles: articles,
+        fetched_at: new Date().toISOString(),
+        source_url: 'giftoflifeinternational.org (RSS)'
+      }], { onConflict: 'lang,limit_count' });
     }
 
+    // 화면에 그리기
     renderNewsCards(el, articles, 'live');
   } catch (err) {
     console.error('News fetch error:', err);
     el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--c-muted);font-size:13px">
-      ${curLang==='ko'?'뉴스를 불러오지 못했습니다.':curLang==='zh'?'无法加载新闻。':'Could not load news.'}
+      ${curLang==='ko'?'뉴스를 불러오지 못했습니다.':'Could not load news.'}
       <br><br>
       <button onclick="fetchAndRenderNews('${containerId}',${limit},true)"
-        style="padding:9px 22px;background:var(--c-blue);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">
+        style="padding:9px 22px;background:var(--c-blue);color:#fff;border:none;border-radius:4px;cursor:pointer">
         ${i18n[curLang].refresh||'다시 시도'}
       </button>
     </div>`;
