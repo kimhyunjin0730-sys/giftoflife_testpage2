@@ -1287,7 +1287,7 @@ footer{background:#07192C}
 ══════════════════════════════════════════════ */
 const SUPABASE_URL = 'https://wpeaskqbozozzcqytoyd.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwZWFza3Fib3pvenpjcXl0b3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMzczODksImV4cCI6MjA4OTgxMzM4OX0.CgYiS6FohJc9B6velW_tacb-3p18AodIIGEsuxtEM5g';
-const _SB_ACTIVE   = SUPABASE_URL !== 'https://wpeaskqbozozzcqytoyd.supabase.co';
+const _SB_ACTIVE   = true;
 let   _sbClient    = null;
 if (_SB_ACTIVE && window.supabase) {
   _sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
