@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="ko" id="htmlRoot">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title id="pageTitle">생명의 선물 코리아 | Gift of Life International Korea</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ═══ TOKENS ═══════════════════════════════════════════════ */
+:root{
+  --navy:#0d2b5e;--navy2:#1a3f7a;--navy3:#2563b8;
+  --teal:#0891b2;--teal2:#06b6d4;
+  --gold:#b8860b;--gold2:#fde68a;
+  --red:#b91c1c;--green:#166534;
+  --white:#fff;--bg:#f2f5f9;--border:#dde3ed;
+  --text:#1e293b;--muted:#64748b;
+  --shadow:0 4px 20px rgba(13,43,94,.13);
+  --r:6px;--ease:.26s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:14px}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;transition:var(--ease)}
+input,select,textarea{font-family:inherit}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--navy2);border-radius:3px}
+
+/* ═══ ANIMATIONS ════════════════════════════════════════════ */
+@keyframes hb{0%,100%{transform:scale(1)}14%{transform:scale(1.28)}28%{transform:scale(1)}42%{transform:scale(1.1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes Ken{0%{transform:scale(1)}100%{transform:scale(1.07)}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bounceIn{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes progress{from{width:0}to{width:var(--pw)}}
+
+/* ═══ REGION MODAL ══════════════════════════════════════════ */
+.region-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);animation:fadeIn .3s ease}
+.region-box{background:var(--white);border-radius:16px;padding:48px 40px;max-width:500px;width:90%;text-align:center;animation:bounceIn .4s ease;position:relative;overflow:hidden}
+.region-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--navy),var(--teal),var(--navy2))}
+.region-heart{font-size:40px;animation:hb 1.8s ease-in-out infinite;display:inline-block;margin-bottom:16px}
+.region-title{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.region-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.region-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.region-card{border:2px solid var(--border);border-radius:10px;padding:16px 10px;cursor:pointer;transition:var(--ease);display:flex;flex-direction:column;align-items:center;gap:6px}
+.region-card:hover{border-color:var(--navy3);background:rgba(37,99,184,.04);transform:translateY(-2px)}
+.region-card.active{border-color:var(--navy3);background:rgba(37,99,184,.07)}
+.region-card .flag{font-size:28px}
+.region-card .rc-name{font-weight:700;font-size:13px;color:var(--navy)}
+.region-card .rc-sub{font-size:11px;color:var(--muted)}
+.region-btn{width:100%;padding:14px;background:var(--navy2);color:#fff;border:none;border-radius:8px;font-size:14.5px;font-weight:700;letter-spacing:.2px}
+.region-btn:hover{background:var(--navy)}
+
+/* ═══ UTIL BAR ══════════════════════════════════════════════ */
+.util-bar{background:var(--navy);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.util-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.util-l{display:flex;align-items:center;gap:14px}
+.util-badge{font-size:10px;font-weight:700;letter-spacing:.8px;color:rgba(255,255,255,.5);text-transform:uppercase}
+.util-date{color:rgba(255,255,255,.35);font-size:11px}
+.util-r{display:flex;gap:7px;align-items:center}
+.ub{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);font-size:11px;padding:3px 11px;border-radius:4px}
+.ub:hover{background:rgba(255,255,255,.15);color:#fff}
+.ub.gold{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:700}
+.lang-toggle{display:flex;gap:4px;background:rgba(255,255,255,.08);border-radius:20px;padding:3px;border:1px solid rgba(255,255,255,.12)}
+.lang-btn{padding:3px 10px;border:none;border-radius:16px;font-size:11px;font-weight:600;background:transparent;color:rgba(255,255,255,.55);cursor:pointer;transition:var(--ease)}
+.lang-btn.on{background:var(--white);color:var(--navy);font-weight:700}
+
+/* ═══ HEADER ════════════════════════════════════════════════ */
+.site-hdr{background:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,.06);position:sticky;top:0;z-index:300}
+.hdr-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:66px;gap:16px}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer;flex-shrink:0}
+.logo-ico{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy3));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 3px 10px rgba(26,63,122,.3);flex-shrink:0}
+.logo-ico span{animation:hb 2s ease-in-out infinite;display:inline-block}
+.logo-ko{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;color:var(--navy);letter-spacing:-.4px;line-height:1.2}
+.logo-ko em{color:var(--navy3);font-style:normal}
+.logo-en{font-size:9px;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase}
+nav{margin-left:auto}
+.nav-ul{display:flex;align-items:center;height:66px;list-style:none;gap:0}
+.nav-ul>li{height:100%;position:relative}
+.nav-ul>li>a{display:flex;align-items:center;height:100%;padding:0 14px;font-size:13px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;transition:var(--ease);white-space:nowrap}
+.nav-ul>li>a:hover,.nav-ul>li.act>a{color:var(--navy2);border-bottom-color:var(--teal);background:rgba(8,145,178,.04)}
+.nav-drop{position:absolute;top:100%;left:0;min-width:180px;background:#fff;border:1px solid var(--border);border-top:3px solid var(--teal);box-shadow:var(--shadow);opacity:0;visibility:hidden;transform:translateY(6px);transition:var(--ease);z-index:400}
+.nav-ul>li:hover .nav-drop{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-drop a{display:flex;align-items:center;gap:7px;padding:10px 16px;font-size:12.5px;color:var(--text);border-bottom:1px solid #f5f7fa;transition:var(--ease)}
+.nav-drop a:last-child{border-bottom:none}
+.nav-drop a:hover{background:rgba(8,145,178,.05);color:var(--navy2);padding-left:20px}
+.nav-drop a::before{content:'›';color:var(--teal);font-size:14px}
+.hdr-btns{display:flex;gap:8px;margin-left:12px;flex-shrink:0}
+.btn-login{padding:8px 16px;background:transparent;color:var(--navy2);border:1.5px solid var(--navy3);border-radius:var(--r);font-size:12.5px;font-weight:600}
+.btn-login:hover{background:var(--navy2);color:#fff}
+.btn-donate{padding:8px 16px;background:var(--navy2);color:#fff;border:none;border-radius:var(--r);font-size:12.5px;font-weight:700}
+.btn-donate:hover{background:var(--navy)}
+.ham{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none}
+.ham span{width:22px;height:2px;background:var(--muted);border-radius:2px;transition:var(--ease)}
+
+/* ═══ MOBILE DRAWER ═════════════════════════════════════════ */
+.mob-wrap{position:fixed;inset:0;z-index:500;pointer-events:none}
+.mob-wrap.open{pointer-events:all}
+.mob-bg{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .3s}
+.mob-wrap.open .mob-bg{opacity:1}
+.mob-panel{position:absolute;left:0;top:0;bottom:0;width:290px;background:#fff;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;box-shadow:4px 0 28px rgba(0,0,0,.2)}
+.mob-wrap.open .mob-panel{transform:translateX(0)}
+.mob-hdr{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:20px 18px;display:flex;align-items:center;justify-content:space-between}
+.mob-logo{color:#fff;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:9px}
+.mob-x{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;line-height:1}
+.mob-item{display:flex;align-items:center;gap:10px;padding:13px 18px;font-size:14px;color:var(--text);border-bottom:1px solid #f5f7fa;cursor:pointer;transition:var(--ease)}
+.mob-item:hover{background:#f0f4ff;color:var(--navy2)}
+.mob-cta{display:block;margin:12px 18px 20px;padding:13px;background:var(--navy2);color:#fff;text-align:center;font-weight:700;border-radius:var(--r)}
+
+/* ═══ NEWS TICKER ═══════════════════════════════════════════ */
+.ticker{background:var(--navy2);overflow:hidden;height:32px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.08)}
+.ticker-lbl{background:var(--teal);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:0 14px;height:100%;display:flex;align-items:center;flex-shrink:0;text-transform:uppercase}
+.ticker-wrap{overflow:hidden;flex:1}
+.ticker-track{display:flex;animation:ticker 40s linear infinite;white-space:nowrap}
+.ticker-track:hover{animation-play-state:paused}
+.ti{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-size:11.5px;color:rgba(255,255,255,.78)}
+.ti::before{content:'●';color:var(--gold2);font-size:6px}
+
+/* ═══ BREADCRUMB ════════════════════════════════════════════ */
+.bc{background:#fff;border-bottom:1px solid var(--border);padding:7px 0}
+.bc-in{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted)}
+.bc-in .sep{color:#ccc}.bc-in .curr{color:var(--navy2);font-weight:600}
+
+/* ═══ PAGES ═════════════════════════════════════════════════ */
+.page{display:none}.page.active{display:block;animation:fadeIn .4s ease}
+
+/* ═══ AMARA HERO ════════════════════════════════════════════ */
+.amara-hero{position:relative;min-height:580px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr}
+.ah-photo{position:relative;overflow:hidden}
+.ah-photo img{width:100%;height:100%;object-fit:cover;animation:Ken 8s ease-out forwards}
+.ah-photo-ov{position:absolute;inset:0;background:linear-gradient(to right,transparent 40%,rgba(13,43,94,.9))}
+.ah-story{background:var(--navy);padding:52px 48px 52px 40px;display:flex;flex-direction:column;justify-content:center;position:relative}
+.ah-story::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--teal),var(--teal2))}
+.ah-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(8,145,178,.18);border:1px solid rgba(8,145,178,.38);color:var(--teal2);font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:4px 13px;border-radius:2px;margin-bottom:16px;width:fit-content}
+.ah-story h1{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,46px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:14px}
+.ah-story h1 em{color:var(--teal2);font-style:normal}
+.ah-story p{font-size:15px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:24px;max-width:460px}
+.ah-prog-wrap{margin-bottom:28px}
+.ah-prog-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px}
+.ah-prog-label strong{color:var(--gold2);font-size:14px}
+.ah-track{height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.ah-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--teal2));width:70%;transition:width 1.2s ease}
+.ah-btns{display:flex;gap:12px;flex-wrap:wrap}
+.ah-btn-main{padding:13px 28px;background:var(--teal);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(8,145,178,.4);display:flex;align-items:center;gap:7px}
+.ah-btn-main:hover{background:var(--teal2);transform:translateY(-1px)}
+.ah-btn-sub{padding:13px 22px;background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:var(--r);font-size:14px;font-weight:500}
+.ah-btn-sub:hover{background:rgba(255,255,255,.18)}
+.ah-children-strip{display:flex;gap:14px;margin-top:28px}
+.ah-child-thumb{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:6px;cursor:pointer;transition:var(--ease)}
+.ah-child-thumb:hover{background:rgba(255,255,255,.12)}
+.ah-child-thumb .cfl{font-size:18px}
+.ah-child-thumb .cn{font-size:11.5px;color:rgba(255,255,255,.8);font-weight:600}
+.ah-child-thumb .cc{font-size:10px;color:rgba(255,255,255,.45)}
+
+/* ═══ STATS BAR ═════════════════════════════════════════════ */
+.stats-bar{background:linear-gradient(90deg,var(--navy) 0%,var(--navy2) 100%);display:grid;grid-template-columns:repeat(4,1fr);border-bottom:3px solid var(--teal)}
+.sb-i{padding:16px 18px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.sb-i:last-child{border-right:none}
+.sb-v{font-size:clamp(20px,2.5vw,30px);font-weight:900;color:var(--gold2);font-family:'Playfair Display',serif;line-height:1;display:block}
+.sb-l{font-size:10.5px;color:rgba(255,255,255,.52);margin-top:4px;display:block}
+
+/* ═══ LAYOUT ════════════════════════════════════════════════ */
+.layout{max-width:1200px;margin:28px auto;padding:0 20px;display:grid;grid-template-columns:1fr 240px;gap:22px}
+.layout.full{grid-template-columns:1fr}
+.mc{min-width:0}
+
+/* ═══ BOXES ═════════════════════════════════════════════════ */
+.box{background:#fff;border:1px solid var(--border);margin-bottom:18px;overflow:hidden}
+.box-hd{background:var(--navy2);color:#fff;padding:10px 16px;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.box-hd .more{font-size:11px;font-weight:400;opacity:.65;cursor:pointer}
+.box-hd .more:hover{opacity:1}
+.box-bd{padding:18px}
+
+/* ═══ SIDEBAR ═══════════════════════════════════════════════ */
+.sidebar{display:flex;flex-direction:column;gap:15px}
+.sb-box{background:#fff;border:1px solid var(--border);border-top:3px solid var(--teal);overflow:hidden}
+.sb-ttl{background:var(--navy2);color:#fff;padding:9px 13px;font-size:12.5px;font-weight:700}
+.sb-nav{list-style:none}
+.sb-nav li a{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;font-size:12.5px;color:var(--text);border-bottom:1px solid #f2f4f8;transition:var(--ease)}
+.sb-nav li a:hover,.sb-nav li a.on{background:#eef3ff;color:var(--navy2);font-weight:600}
+.sb-nav li a::after{content:'›';color:#ccc;font-size:14px}
+.sb-nav li a.on::after{color:var(--teal)}
+
+/* ═══ NOTICE TABLE ══════════════════════════════════════════ */
+.ntbl{width:100%;border-collapse:collapse}
+.ntbl thead th{background:#f4f7fb;padding:8px 12px;font-size:11.5px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);text-align:center}
+.ntbl thead th:nth-child(2){text-align:left}
+.ntbl tbody td{padding:10px 12px;font-size:12.5px;border-bottom:1px solid #f2f4f8;vertical-align:middle}
+.ntbl tbody tr:last-child td{border-bottom:none}
+.ntbl tbody tr:hover td{background:#f8faff}
+.ntbl .num{text-align:center;color:#bbb;font-size:11.5px;width:40px}
+.ntbl .dt{text-align:center;color:var(--muted);font-size:11.5px;white-space:nowrap}
+.ntbl .cnt{text-align:center;color:var(--muted);font-size:11.5px;width:48px}
+.nb{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:3px;font-size:9px;font-weight:700;margin-right:5px}
+.nb-n{background:var(--navy2);color:#fff}.nb-g{background:#94a3b8;color:#fff}
+.new-b{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle}
+
+/* ═══ CHILDREN GRID ═════════════════════════════════════════ */
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ccard{background:#fff;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:var(--ease)}
+.ccard:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cc-img{height:148px;overflow:hidden;position:relative}
+.cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.ccard:hover .cc-img img{transform:scale(1.06)}
+.cc-st{position:absolute;top:8px;right:8px;font-size:9.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:3px 8px;border-radius:2px}
+.cc-st.waiting{background:var(--teal);color:#fff}.cc-st.recovered{background:var(--green);color:#fff}
+.cc-body{padding:13px}
+.cc-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cc-flag{font-size:20px}
+.cc-name{font-weight:700;font-size:14px;color:var(--text);font-family:'Noto Serif KR',serif}
+.cc-meta{font-size:10.5px;color:var(--muted);margin-top:1px}
+.cc-story{font-size:12px;color:#4a5568;line-height:1.7;margin-bottom:10px}
+.cc-pi{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-bottom:5px}
+.cc-track{height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden}
+.cc-fill{height:4px;border-radius:2px}.ccf-w{background:var(--teal)}.ccf-r{background:var(--green)}
+.cc-btn{width:100%;margin-top:10px;padding:9px;background:var(--navy2);color:#fff;border:none;font-size:12px;font-weight:700;border-radius:4px}
+.cc-btn:hover{background:var(--navy)}
+.cc-done{margin-top:9px;text-align:center;color:var(--green);font-size:11.5px;font-weight:600;border-top:1px solid #dcfce7;padding-top:7px}
+
+/* ═══ NEWS GRID ═════════════════════════════════════════════ */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nc{background:#fff;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:var(--ease)}
+.nc:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.nc-img{height:140px;overflow:hidden;position:relative}
+.nc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.nc:hover .nc-img img{transform:scale(1.06)}
+.nc-cat{position:absolute;top:7px;left:7px;background:var(--teal);color:#fff;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:2px;text-transform:uppercase}
+.nc-body{padding:13px}
+.nc-date{font-size:10.5px;color:var(--muted);margin-bottom:4px}
+.nc-title{font-weight:700;font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:5px}
+.nc-desc{font-size:11.5px;color:var(--muted);line-height:1.6}
+.nc-more{font-size:11px;font-weight:600;color:var(--teal);margin-top:7px;display:flex;align-items:center;gap:3px}
+
+/* ═══ IMPACT STRIP ══════════════════════════════════════════ */
+.impact-strip{background:var(--navy);display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);margin-bottom:18px}
+.is-cell{padding:22px 18px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.is-cell:last-child{border-right:none}
+.is-v{font-size:clamp(20px,3vw,32px);font-weight:900;color:var(--gold2);font-family:'Playfair Display',serif;line-height:1;display:block}
+.is-l{color:rgba(255,255,255,.58);font-size:11.5px;display:block;margin-top:4px}
+
+/* ═══ LOGIN MODAL ═══════════════════════════════════════════ */
+.login-overlay{position:fixed;inset:0;z-index:800;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:var(--ease)}
+.login-overlay.open{opacity:1;visibility:visible}
+.login-box{background:#fff;border-radius:4px;width:100%;max-width:560px;overflow:hidden;animation:bounceIn .4s ease}
+.login-bg{position:relative;min-height:420px;display:grid;grid-template-columns:1fr 1fr}
+.login-left{position:relative;overflow:hidden}
+.login-left img{width:100%;height:100%;object-fit:cover}
+.login-left .lo-ov{position:absolute;inset:0;background:rgba(13,43,94,.55);display:flex;align-items:flex-end;padding:20px}
+.login-left .lo-msg{color:#fff;font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;line-height:1.6}
+.login-right{padding:28px 24px;display:flex;flex-direction:column}
+.login-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:18px;letter-spacing:-.5px}
+.login-tabs{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:18px}
+.ltab{flex:1;padding:9px 6px;border:none;border-right:1px solid var(--border);background:#fff;font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer;transition:var(--ease)}
+.ltab:last-child{border-right:none}
+.ltab.on{background:var(--teal);color:#fff;font-weight:700}
+.ltab:hover:not(.on){background:#f0f4ff}
+.login-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.login-label{font-size:13px;font-weight:500;color:var(--text);width:56px;flex-shrink:0;text-align:right}
+.login-input{flex:1;padding:10px 12px;border:1px solid var(--border);font-size:13px;outline:none;font-family:'Noto Sans KR',sans-serif;transition:var(--ease);border-radius:3px}
+.login-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,145,178,.1)}
+.login-sub-btn{width:100%;padding:13px;background:#4a5568;color:#fff;border:none;font-size:15px;font-weight:700;border-radius:3px;margin-top:8px;letter-spacing:.3px}
+.login-sub-btn:hover{background:#374151}
+.login-opts{display:flex;gap:10px;margin-top:12px;justify-content:center;font-size:11.5px;color:var(--muted)}
+.login-opts a{color:var(--navy3);cursor:pointer}
+.login-opts a:hover{text-decoration:underline}
+.login-close-x{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.9);border:none;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;color:var(--text)}
+.login-close-x:hover{background:#fff}
+
+/* ═══ MEMBER DASHBOARD ══════════════════════════════════════ */
+.member-banner{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:22px 20px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.m-avatar{width:52px;height:52px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.m-info h3{color:#fff;font-family:'Noto Serif KR',serif;font-size:17px;font-weight:700}
+.m-info p{color:rgba(255,255,255,.65);font-size:12px;margin-top:2px}
+.m-badge{margin-left:auto;background:var(--gold);color:#fff;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:700;letter-spacing:.3px}
+.m-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.m-stat{background:#fff;border:1px solid var(--border);border-top:3px solid var(--teal);padding:16px}
+.m-stat .ms-v{font-size:22px;font-weight:800;color:var(--teal);font-family:'Playfair Display',serif}
+.m-stat .ms-l{font-size:11.5px;color:var(--muted);margin-top:3px}
+
+/* ═══ EVENTS ════════════════════════════════════════════════ */
+.evt-band{background:var(--navy);padding:36px 0}
+.evt-in{max-width:1200px;margin:0 auto;padding:0 20px}
+.evt-ttl{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:18px;text-align:center}
+.evt-list{display:flex;flex-direction:column;gap:8px}
+.evt-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:14px 20px;display:grid;grid-template-columns:150px 1fr auto;gap:16px;align-items:center;transition:var(--ease)}
+.evt-item:hover{background:rgba(255,255,255,.09)}
+.evt-date{color:var(--gold2);font-weight:700;font-size:12px}
+.evt-name{color:#fff;font-weight:600;font-size:13.5px}
+.evt-place{color:rgba(255,255,255,.42);font-size:11.5px;white-space:nowrap}
+
+/* ═══ FAB ═══════════════════════════════════════════════════ */
+.fab{position:fixed;bottom:24px;right:24px;z-index:400;background:var(--navy2);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:7px;box-shadow:0 6px 20px rgba(26,63,122,.4)}
+.fab:hover{background:var(--navy);transform:translateY(-2px)}
+.fab .fhb{animation:hb 1.8s ease-in-out infinite;display:inline-block}
+
+/* ═══ CHATBOT WIDGET ════════════════════════════════════════ */
+.chat-fab{position:fixed;bottom:90px;right:24px;z-index:400;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--navy3));color:#fff;border:none;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(8,145,178,.45)}
+.chat-fab:hover{transform:scale(1.08)}
+.chat-fab .cbadge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;background:var(--red);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.chat-window{position:fixed;bottom:160px;right:20px;z-index:450;width:360px;max-height:520px;background:#fff;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden;display:none;animation:slideIn .3s ease}
+.chat-window.open{display:flex}
+.chat-hdr{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.chat-hdr .ch-ava{width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.chat-hdr .ch-info{flex:1}
+.chat-hdr .ch-name{color:#fff;font-weight:700;font-size:13px}
+.chat-hdr .ch-status{color:rgba(255,255,255,.6);font-size:11px;display:flex;align-items:center;gap:4px}
+.chat-hdr .ch-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;animation:dotBlink 1.5s ease-in-out infinite;display:inline-block}
+.chat-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.chat-messages{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;background:#f8fafc}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-thumb{background:#c8d6f5;border-radius:2px}
+.msg{max-width:82%;animation:slideUp .3s ease}
+.msg.bot{align-self:flex-start}
+.msg.user{align-self:flex-end}
+.msg-bubble{padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.65}
+.msg.bot .msg-bubble{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:12px 12px 12px 3px}
+.msg.user .msg-bubble{background:var(--navy2);color:#fff;border-radius:12px 12px 3px 12px}
+.msg-time{font-size:10px;color:var(--muted);margin-top:3px;text-align:right}
+.msg.bot .msg-time{text-align:left}
+.chat-typing{display:flex;gap:4px;padding:10px 13px;background:#fff;border:1px solid var(--border);border-radius:12px;align-self:flex-start;align-items:center}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:dotBlink .9s ease-in-out infinite}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+.chat-input-row{padding:10px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;background:#fff}
+.chat-input{flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:20px;font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;resize:none;max-height:80px;overflow-y:auto;transition:var(--ease)}
+.chat-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,145,178,.1)}
+.chat-send{width:38px;height:38px;background:var(--teal);color:#fff;border:none;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-send:hover{background:var(--navy3)}
+.chat-send:disabled{background:#ccc}
+.chat-chips{display:flex;gap:6px;padding:6px 12px 0;flex-wrap:wrap;flex-shrink:0}
+.chat-chip{padding:5px 11px;background:#f0f4ff;border:1px solid #c8d6f5;border-radius:14px;font-size:11px;color:var(--navy2);cursor:pointer;font-weight:500;transition:var(--ease)}
+.chat-chip:hover{background:var(--navy2);color:#fff;border-color:var(--navy2)}
+
+/* ═══ SUCCESS MODAL ═════════════════════════════════════════ */
+.ok-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:700;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:var(--ease)}
+.ok-overlay.open{opacity:1;visibility:visible}
+.ok-box{background:#fff;border-top:4px solid var(--green);padding:36px;max-width:380px;width:100%;text-align:center;animation:bounceIn .4s ease}
+.ok-ico{font-size:50px;margin-bottom:13px}
+.ok-ttl{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:7px;font-family:'Noto Serif KR',serif}
+.ok-body{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:20px}
+.ok-close{background:var(--navy2);color:#fff;border:none;padding:11px 36px;font-size:13.5px;font-weight:700;border-radius:var(--r)}
+
+/* ═══ FOOTER ════════════════════════════════════════════════ */
+footer{background:#091829}
+.ft-top{max-width:1200px;margin:0 auto;padding:36px 20px;display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.ft-ttl{color:rgba(255,255,255,.82);font-weight:700;font-size:12.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.07);letter-spacing:.3px}
+.ft-logo-row{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.ft-logo-txt{color:#fff;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700}
+.ft-logo-txt em{color:var(--gold2);font-style:normal}
+.ft-desc{color:#2d4a6a;font-size:12px;line-height:1.85;font-family:'Noto Serif KR',serif;font-style:italic;max-width:220px}
+.ft-ct{color:#2d4a6a;font-size:12px;line-height:2.1;margin-top:11px}
+.ft-links{list-style:none}
+.ft-links li a{color:#2d4a6a;font-size:12px;display:block;padding:3px 0;transition:var(--ease)}
+.ft-links li a:hover{color:#fff;padding-left:4px}
+.ft-links li a::before{content:'›';margin-right:5px;color:var(--teal2)}
+.ft-social{display:flex;gap:7px;margin-bottom:14px}
+.ft-sc{width:32px;height:32px;background:rgba(255,255,255,.06);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;border:1px solid rgba(255,255,255,.07);transition:var(--ease)}
+.ft-sc:hover{background:rgba(255,255,255,.14)}
+.ft-bot{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.ft-bot .cp{color:#1e3a60;font-size:11px}
+
+/* ═══ FORMS / DONATE ════════════════════════════════════════ */
+.type-row{display:flex;gap:7px;margin-bottom:14px}
+.type-btn{flex:1;padding:9px;border:1px solid var(--border);background:#fff;font-size:12.5px;font-weight:500;color:var(--muted);border-radius:4px;transition:var(--ease)}
+.type-btn.on{background:var(--navy2);color:#fff;border-color:var(--navy2);font-weight:700}
+.amt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.amt-btn{padding:10px 6px;border:1.5px solid var(--border);background:#fff;font-size:13.5px;font-weight:700;border-radius:4px;transition:var(--ease)}
+.amt-btn:hover,.amt-btn.on{border-color:var(--teal);background:rgba(8,145,178,.05);color:var(--teal)}
+.fi{width:100%;padding:9px 11px;border:1px solid var(--border);font-size:12.5px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:var(--ease);border-radius:3px}
+.fi:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,145,178,.1)}
+.fl{font-size:12.5px;font-weight:500;color:var(--text);padding-top:8px}
+.fl .req{color:var(--red);font-size:9px;margin-left:2px}
+.fg{display:grid;grid-template-columns:88px 1fr;gap:9px;align-items:start;margin-bottom:11px}
+.fsel{width:100%;padding:9px 11px;border:1px solid var(--border);font-size:12.5px;font-family:'Noto Sans KR',sans-serif;background:#fff;border-radius:3px;outline:none;-webkit-appearance:none;appearance:none}
+.fsel:focus{border-color:var(--teal)}
+.rad-row{display:flex;gap:14px;padding-top:8px;flex-wrap:wrap}
+.rad-row label{display:flex;align-items:center;gap:5px;font-size:12.5px;cursor:pointer}
+.rad-row input[type=radio]{accent-color:var(--teal)}
+.acct-box{background:#f0f9ff;border:1px solid #bae6fd;border-left:3px solid var(--teal);padding:12px 14px;margin:10px 0;font-size:12.5px}
+.sub-area{display:flex;justify-content:center;gap:8px;padding-top:18px;border-top:1px solid var(--border)}
+.btn-sub{background:var(--navy2);color:#fff;border:none;padding:12px 40px;font-size:13.5px;font-weight:700;border-radius:4px}
+.btn-sub:hover{background:var(--navy)}
+.btn-rst{background:#fff;color:var(--muted);border:1px solid var(--border);padding:12px 26px;font-size:13.5px;border-radius:4px}
+.cap-wrap{display:inline-flex;align-items:center;gap:11px;padding:9px 13px;background:#f8f9fb;border:1px solid var(--border);margin-bottom:9px}
+.cap-code{font-family:monospace;font-size:19px;font-weight:700;letter-spacing:7px;color:var(--navy2);background:#fff;padding:3px 9px;border:1px dashed #ccc;user-select:none}
+.agree-row{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;padding:9px 0;border-top:1px solid var(--border);margin-top:7px}
+.agree-row input{margin-top:3px;accent-color:var(--teal)}
+.nbox{padding:12px 15px;margin-bottom:14px;font-size:12.5px;line-height:1.8;border:1px solid;border-radius:4px}
+.nbox.blue{background:#eff6ff;border-color:#bfdbfe;border-left:4px solid var(--navy3);color:#1e3a8a}
+.nbox.teal{background:#f0fdfa;border-color:#99f6e4;border-left:4px solid var(--teal);color:#134e4a}
+
+/* ═══ QUICK LINKS ═══════════════════════════════════════════ */
+.qrow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);background:#fff;margin-bottom:18px}
+.qlink{padding:18px 12px;text-align:center;cursor:pointer;border-right:1px solid var(--border);transition:var(--ease);display:flex;flex-direction:column;align-items:center;gap:6px}
+.qlink:last-child{border-right:none}
+.qlink:hover{background:rgba(8,145,178,.04);transform:translateY(-2px)}
+.qlink:hover .qi{transform:scale(1.12)}
+.qi{font-size:26px;transition:transform var(--ease)}
+.qt{font-weight:700;font-size:12.5px;color:var(--navy)}
+.qd{font-size:11px;color:var(--muted);line-height:1.4}
+.qm{font-size:11px;font-weight:600;color:var(--teal)}
+
+/* ═══ RESPONSIVE ════════════════════════════════════════════ */
+@media(max-width:1024px){
+  nav,.hdr-btns .btn-login{display:none}
+  .ham{display:flex}
+  .amara-hero{grid-template-columns:1fr}
+  .ah-photo{display:none}
+  .ah-story{padding:36px 24px}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .cg{grid-template-columns:1fr 1fr}
+  .news-grid{grid-template-columns:1fr 1fr}
+  .ft-top{grid-template-columns:1fr 1fr;gap:22px}
+  .login-bg{grid-template-columns:1fr}
+  .login-left{display:none}
+}
+@media(max-width:680px){
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .cg,.news-grid,.qrow{grid-template-columns:1fr}
+  .qrow{grid-template-columns:1fr 1fr}
+  .amt-grid{grid-template-columns:repeat(3,1fr)}
+  .fg{grid-template-columns:1fr}
+  .fl{padding-top:0}
+  .evt-item{grid-template-columns:1fr;gap:4px}
+  .ft-top{grid-template-columns:1fr}
+  .util-bar,.bc{display:none}
+  .hdr-in{height:58px}
+  .chat-window{width:calc(100vw - 24px);right:12px}
+  .region-cards{grid-template-columns:1fr}
+  .m-stats{grid-template-columns:1fr}
+  .ah-children-strip{flex-direction:column}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .m-stats{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     REGION / LANGUAGE MODAL
+════════════════════════════════════════════════════════ -->
+<div class="region-overlay" id="regionModal">
+  <div class="region-box">
+    <div class="region-heart">❤️</div>
+    <div class="region-title" id="rt">어느 지역에서 접속하시나요?</div>
+    <div class="region-sub" id="rs">지역을 선택하시면 해당 언어로 사이트가 표시됩니다.<br>Select your region to view the site in your language.</div>
+    <div class="region-cards">
+      <div class="region-card active" id="rc-ko" onclick="selRegion('ko')">
+        <div class="flag">🇰🇷</div>
+        <div class="rc-name">한국어</div>
+        <div class="rc-sub">Korean</div>
+      </div>
+      <div class="region-card" id="rc-en" onclick="selRegion('en')">
+        <div class="flag">🌏</div>
+        <div class="rc-name">English</div>
+        <div class="rc-sub">Global / International</div>
+      </div>
+      <div class="region-card" id="rc-zh" onclick="selRegion('zh')">
+        <div class="flag">🇨🇳</div>
+        <div class="rc-name">中文</div>
+        <div class="rc-sub">Chinese</div>
+      </div>
+    </div>
+    <button class="region-btn" id="regionConfirmBtn" onclick="confirmRegion()">한국어로 계속하기</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     UTIL BAR
+════════════════════════════════════════════════════════ -->
+<div class="util-bar">
+  <div class="util-in">
+    <div class="util-l">
+      <span class="util-badge" id="u-badge">Rotary International · District 3640</span>
+      <span class="util-date" id="utilDate"></span>
+    </div>
+    <div class="util-r">
+      <div class="lang-toggle">
+        <button class="lang-btn on" id="lb-ko" onclick="setLang('ko')">KO</button>
+        <button class="lang-btn" id="lb-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="lb-zh" onclick="setLang('zh')">中</button>
+      </div>
+      <button class="ub" id="u-login" onclick="openLogin()">🔑 <span data-i="login">로그인</span></button>
+      <button class="ub gold" id="u-donate" onclick="goPage('donate')">❤️ <span data-i="donate_btn">후원·납부</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════════ -->
+<header class="site-hdr">
+  <div class="hdr-in">
+    <div class="logo" onclick="goPage('home')">
+      <div class="logo-ico"><span>❤️</span></div>
+      <div>
+        <div class="logo-ko" id="logo-ko">생명의 <em>선물</em> 코리아</div>
+        <div class="logo-en" id="logo-en">Gift of Life International Korea</div>
+      </div>
+    </div>
+    <nav>
+      <ul class="nav-ul">
+        <li class="act" id="nav-home"><a href="#" onclick="goPage('home');return false" data-i="nav_home">홈</a></li>
+        <li id="nav-about"><a href="#" onclick="goPage('about');return false" data-i="nav_about">클럽 소개 <span style="font-size:9px;opacity:.5">▾</span></a>
+          <div class="nav-drop">
+            <a href="#" onclick="goPage('about');return false" data-i="dd_history">소개 및 연혁</a>
+            <a href="#" onclick="goPage('about');return false" data-i="dd_mission">미션 &amp; 비전</a>
+            <a href="#" onclick="goPage('about');return false" data-i="dd_officers">임원진 소개</a>
+          </div>
+        </li>
+        <li id="nav-news"><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스 &amp; 소식</a></li>
+        <li id="nav-activities"><a href="#" onclick="goPage('activities');return false" data-i="nav_activities">우리의 활동 <span style="font-size:9px;opacity:.5">▾</span></a>
+          <div class="nav-drop">
+            <a href="#" onclick="goPage('activities');return false" data-i="dd_heart">심장병 어린이 구호</a>
+            <a href="#" onclick="goPage('activities');return false" data-i="dd_earth">지구 살리기</a>
+            <a href="#" onclick="goPage('activities');return false" data-i="dd_cases">수술 성공 사례</a>
+          </div>
+        </li>
+        <li id="nav-donate"><a href="#" onclick="goPage('donate');return false" data-i="nav_donate">후원하기 <span style="font-size:9px;opacity:.5">▾</span></a></li>
+        <li id="nav-fee-guide"><a href="#" onclick="goPage('fee-guide');return false" data-i="nav_fee">연회비 안내</a></li>
+        <li id="nav-membership"><a href="#" onclick="goPage('membership');return false" data-i="nav_member">회원 가입</a></li>
+      </ul>
+    </nav>
+    <div class="hdr-btns">
+      <button class="btn-login" onclick="openLogin()" data-i="login">로그인</button>
+      <button class="btn-donate" onclick="goPage('donate')" data-i="donate_btn">❤️ 후원하기</button>
+    </div>
+    <button class="ham" id="hamBtn" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════
+     MOBILE DRAWER
+════════════════════════════════════════════════════════ -->
+<div class="mob-wrap" id="mobWrap">
+  <div class="mob-bg" onclick="toggleMob()"></div>
+  <div class="mob-panel">
+    <div class="mob-hdr">
+      <div class="mob-logo">❤️ <span data-i="logo_ko">생명의 선물 코리아</span></div>
+      <button class="mob-x" onclick="toggleMob()">✕</button>
+    </div>
+    <div class="mob-item" onclick="mgo('home')"><span style="width:20px;text-align:center">🏠</span><span data-i="nav_home">홈</span></div>
+    <div class="mob-item" onclick="mgo('about')"><span style="width:20px;text-align:center">🌐</span><span data-i="nav_about">클럽 소개</span></div>
+    <div class="mob-item" onclick="mgo('news')"><span style="width:20px;text-align:center">📰</span><span data-i="nav_news">뉴스 &amp; 소식</span></div>
+    <div class="mob-item" onclick="mgo('activities')"><span style="width:20px;text-align:center">💝</span><span data-i="nav_activities">우리의 활동</span></div>
+    <div class="mob-item" onclick="mgo('donate')"><span style="width:20px;text-align:center">💳</span><span data-i="nav_donate">후원하기</span></div>
+    <div class="mob-item" onclick="mgo('fee-guide')"><span style="width:20px;text-align:center">📋</span><span data-i="nav_fee">연회비 안내</span></div>
+    <div class="mob-item" onclick="mgo('membership')"><span style="width:20px;text-align:center">👥</span><span data-i="nav_member">회원 가입</span></div>
+    <div class="mob-item" onclick="openLogin()"><span style="width:20px;text-align:center">🔑</span><span data-i="login">로그인</span></div>
+    <a class="mob-cta" href="#" onclick="mgo('donate');return false" data-i="donate_btn">❤️ 후원하기</a>
+  </div>
+</div>
+
+<!-- NEWS TICKER -->
+<div class="ticker">
+  <div class="ticker-lbl" data-i="ticker_lbl">📢 최신</div>
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="tickerTr"></div>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="bc">
+  <div class="bc-in">
+    <span data-i="nav_home">홈</span><span class="sep">›</span>
+    <span class="curr" id="bcTxt">홈</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 홈
+════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- AMARA HERO — Main featured story -->
+  <div class="amara-hero">
+    <div class="ah-photo">
+      <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&h=700&fit=crop&q=85" alt="Amara" id="ah-img"/>
+      <div class="ah-photo-ov"></div>
+    </div>
+    <div class="ah-story">
+      <div class="ah-badge">
+        <span>🇲🇼</span>
+        <span data-i="ah_badge">현재 진행 중 · 말라위 · 2026</span>
+      </div>
+      <h1 id="ah-h1">Amara,<br><em>4살 소녀의<br>심장이 뜁니다</em></h1>
+      <p id="ah-p">말라위에서 태어난 Amara는 선천성 심장 기형으로 6살 이전 수술을 받지 못하면 생명을 잃을 수 있습니다. 말라위에는 심장 수술 역량이 전혀 없습니다. 생명의 선물 코리아가 Amara를 한국으로 초청하여 수술을 준비하고 있습니다. 지금 $1이 이 아이의 심장을 구할 수 있습니다.</p>
+      <div class="ah-prog-wrap">
+        <div class="ah-prog-label">
+          <span data-i="prog_label">모금 현황</span>
+          <strong>$8,400 / $12,000</strong>
+        </div>
+        <div class="ah-track"><div class="ah-fill" style="--pw:70%;width:70%"></div></div>
+      </div>
+      <div class="ah-btns">
+        <button class="ah-btn-main" onclick="goPage('donate')">
+          <span>❤️</span>
+          <span data-i="ah_cta1">Amara 후원하기</span>
+        </button>
+        <button class="ah-btn-sub" onclick="openChildModal(0)" data-i="ah_cta2">자세한 이야기 보기</button>
+      </div>
+      <div class="ah-children-strip">
+        <div class="ah-child-thumb" onclick="switchChild(1)">
+          <span class="cfl">🇪🇹</span>
+          <div><div class="cn">Hana</div><div class="cc" data-i="recovered">회복 완료</div></div>
+        </div>
+        <div class="ah-child-thumb" onclick="switchChild(2)">
+          <span class="cfl">🇧🇴</span>
+          <div><div class="cn">Diego</div><div class="cc" data-i="waiting">수술 대기</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="sb-i"><span class="sb-v">₩18.6억</span><span class="sb-l" data-i="s0">누적 모금액</span></div>
+    <div class="sb-i"><span class="sb-v">47,599명</span><span class="sb-l" data-i="s1">수술 성공 아동</span></div>
+    <div class="sb-i"><span class="sb-v">93%</span><span class="sb-l" data-i="s2">치료 못 받는 비율</span></div>
+    <div class="sb-i"><span class="sb-v">3,000+</span><span class="sb-l" data-i="s3">목표 회원 수</span></div>
+  </div>
+
+  <div class="layout">
+    <div class="mc">
+      <!-- Quick links -->
+      <div class="qrow">
+        <div class="qlink" onclick="goPage('news')"><div class="qi">📰</div><div class="qt" data-i="nav_news">뉴스 &amp; 소식</div><div class="qd" data-i="q0d">최신 활동 뉴스</div><div class="qm">→</div></div>
+        <div class="qlink" onclick="goPage('activities')"><div class="qi">💝</div><div class="qt" data-i="nav_activities">우리의 활동</div><div class="qd" data-i="q1d">심장병·지구 살리기</div><div class="qm">→</div></div>
+        <div class="qlink" onclick="goPage('donate')"><div class="qi">💳</div><div class="qt" data-i="nav_donate">후원하기</div><div class="qd" data-i="q2d">온라인 신청서</div><div class="qm">→</div></div>
+        <div class="qlink" onclick="goPage('membership')"><div class="qi">👥</div><div class="qt" data-i="nav_member">회원 가입</div><div class="qd" data-i="q3d">서포터·챔피언·파트너</div><div class="qm">→</div></div>
+      </div>
+
+      <!-- NEWS GRID -->
+      <div class="box">
+        <div class="box-hd"><span data-i="nav_news">🌐 최신 뉴스</span><span class="more" onclick="goPage('news')"><span data-i="more">더보기</span> ›</span></div>
+        <div class="box-bd"><div class="news-grid" id="homeNews"></div></div>
+      </div>
+
+      <!-- NOTICE -->
+      <div class="box">
+        <div class="box-hd">📢 <span data-i="notices">공지사항</span> <span class="more"><span data-i="more">더보기</span> ›</span></div>
+        <table class="ntbl">
+          <thead><tr><th data-i="tbl_no">번호</th><th data-i="tbl_title">제목</th><th data-i="tbl_author">작성자</th><th data-i="tbl_date">날짜</th><th data-i="tbl_views">조회</th></tr></thead>
+          <tbody id="noticeBody"></tbody>
+        </table>
+      </div>
+
+      <!-- IMPACT STRIP -->
+      <div class="impact-strip">
+        <div class="is-cell"><span class="is-v">₩1,864,634,329</span><span class="is-l" data-i="imp0">총 누적 모금액 (2003~)</span></div>
+        <div class="is-cell"><span class="is-v">47,599명</span><span class="is-l" data-i="imp1">수술 성공 아동 · 30+개국</span></div>
+        <div class="is-cell"><span class="is-v">$12,000</span><span class="is-l" data-i="imp2">한 아이 수술 평균 비용</span></div>
+      </div>
+
+      <!-- CHILDREN -->
+      <div class="box">
+        <div class="box-hd">💝 <span data-i="children_title">어린이 사례</span> <span class="more" onclick="goPage('activities')"><span data-i="more">더보기</span> ›</span></div>
+        <div class="box-bd"><div class="cg" id="homeKids"></div></div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sb-box"><div class="sb-ttl" data-i="shortcut">📌 바로가기</div><ul class="sb-nav"><li><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스 &amp; 소식</a></li><li><a href="#" onclick="goPage('about');return false" data-i="nav_about">클럽 소개</a></li><li><a href="#" onclick="goPage('activities');return false" data-i="nav_activities">우리의 활동</a></li><li><a href="#" onclick="goPage('donate');return false" data-i="nav_donate">후원하기</a></li><li><a href="#" onclick="goPage('membership');return false" data-i="nav_member">회원 가입</a></li><li><a href="#" onclick="goPage('fee-guide');return false" data-i="nav_fee">연회비 안내</a></li></ul></div>
+      <div class="sb-box" style="border-top-color:var(--gold)">
+        <div class="sb-ttl" style="background:var(--gold)">🏦 <span data-i="acct_title">납부 계좌</span></div>
+        <div style="padding:13px">
+          <div style="font-size:12px;line-height:2;color:#444"><b>국민은행</b> 123-456-7890<br><span data-i="acct_holder">예금주:</span> 생명의선물코리아</div>
+          <a style="display:block;margin-top:9px;padding:9px;background:var(--navy2);color:#fff;text-align:center;font-weight:700;font-size:12px;border-radius:var(--r)" href="#" onclick="goPage('donate');return false" data-i="pay_cta">납부 신청서 →</a>
+        </div>
+      </div>
+      <div class="sb-box" style="border-top-color:#e1306c">
+        <div class="sb-ttl" style="background:linear-gradient(90deg,#833ab4,#e1306c)">📸 Instagram</div>
+        <div style="padding:10px">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:9px" id="sbInsta"></div>
+          <a href="https://www.instagram.com/golikorea/" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:5px;padding:8px;background:linear-gradient(45deg,#405de6,#833ab4,#e1306c);color:#fff;font-weight:700;font-size:11.5px;border-radius:var(--r);text-decoration:none">📷 @golikorea</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="evt-band">
+    <div class="evt-in">
+      <div class="evt-ttl" data-i="events_ttl">📅 주요 일정</div>
+      <div class="evt-list" id="evtList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 뉴스
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-news">
+  <div class="layout full">
+    <div class="mc">
+      <div class="box" style="margin-bottom:0;border:none;background:transparent">
+        <div style="display:flex;align-items:center;gap:12px;padding:0 0 16px">
+          <div style="width:4px;height:36px;background:var(--teal);border-radius:2px"></div>
+          <h2 style="font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:var(--navy)" data-i="nav_news">뉴스 &amp; 소식</h2>
+        </div>
+      </div>
+      <div class="news-grid" id="newsGrid" style="margin-bottom:24px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 클럽 소개
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="layout">
+    <div class="mc">
+      <div style="background:linear-gradient(135deg,var(--navy),var(--navy2));padding:28px;color:#fff;margin-bottom:18px;display:flex;align-items:center;gap:20px">
+        <div style="font-size:48px">❤️</div>
+        <div><h2 style="font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;margin-bottom:5px" data-i="about_h2">Gift of Life International Korea</h2><p style="font-size:13px;opacity:.82;line-height:1.8" data-i="about_sub">로타리 125년 역사상 최초로 국경 없는 글로벌 온라인 위성클럽을 설립하여, 전 세계 회원과 함께 선천성 심장병 어린이를 구합니다.</p></div>
+      </div>
+      <div class="box">
+        <div class="box-hd" data-i="dd_history">📜 클럽 연혁</div>
+        <div class="box-bd" id="aboutTimeline"></div>
+      </div>
+      <div class="box">
+        <div class="box-hd" data-i="dd_officers">👥 주요 임원진</div>
+        <div class="box-bd">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+            <div style="border:1px solid var(--border);padding:16px 12px;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:var(--navy2);margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff">👨‍💼</div><div style="font-weight:700;font-size:13px;margin-bottom:3px">이길우 (Brett Halvorson)</div><div style="font-size:11px;color:var(--muted)" data-i="off0">설립자 겸 대표</div></div>
+            <div style="border:1px solid var(--border);padding:16px 12px;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:var(--navy2);margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff">👩‍💼</div><div style="font-weight:700;font-size:13px;margin-bottom:3px">김현진</div><div style="font-size:11px;color:var(--muted)" data-i="off1">운영 매니저</div></div>
+            <div style="border:1px solid var(--border);padding:16px 12px;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:var(--navy2);margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff">👨‍🔬</div><div style="font-weight:700;font-size:13px;margin-bottom:3px">이상진 박사</div><div style="font-size:11px;color:var(--muted)" data-i="off2">플랫폼 개발 총괄</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="sb-box"><div class="sb-ttl" data-i="nav_about">🌐 클럽 소개</div><ul class="sb-nav"><li><a href="#" class="on" data-i="dd_history">소개 및 연혁</a></li><li><a href="#" data-i="dd_mission">미션 &amp; 비전</a></li><li><a href="#" data-i="dd_officers">임원진 소개</a></li></ul></div>
+    </aside>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 활동
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-activities">
+  <div class="layout">
+    <div class="mc">
+      <div class="box">
+        <div class="box-hd" data-i="dd_heart">💝 심장병 어린이 구호</div>
+        <div class="box-bd"><div class="cg" id="actKids"></div></div>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <div class="sb-box"><div class="sb-ttl" data-i="nav_activities">💝 활동</div><ul class="sb-nav"><li><a href="#" class="on" data-i="dd_heart">심장병 어린이 구호</a></li><li><a href="#" data-i="dd_earth">지구 살리기</a></li><li><a href="#" data-i="dd_cases">수술 성공 사례</a></li></ul></div>
+    </aside>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 후원
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-donate">
+  <div class="layout">
+    <div class="mc">
+      <div style="position:relative;height:180px;overflow:hidden;margin-bottom:18px">
+        <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&h=300&fit=crop&q=85" style="width:100%;height:100%;object-fit:cover"/>
+        <div style="position:absolute;inset:0;background:rgba(13,43,94,.65);display:flex;align-items:center;padding:0 28px">
+          <div style="color:#fff"><h2 style="font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;margin-bottom:5px" data-i="donate_h2">$1이 만드는 기적</h2><p style="font-size:13px;opacity:.85" data-i="donate_sub">12,000명이 $1씩 모으면 한 아이의 심장이 다시 뜁니다.</p></div>
+        </div>
+      </div>
+      <div class="nbox teal"><b data-i="step_title">납부 절차:</b> <span data-i="steps">① 신청서 작성 → ② 계좌이체 → ③ 제출하기 → ④ 사무국 확인 후 등록 완료</span></div>
+      <form id="donateForm" onsubmit="submitDonate(event)">
+        <div class="box" style="margin-bottom:14px">
+          <div class="box-hd" data-i="amt_select">💰 금액 선택</div>
+          <div class="box-bd">
+            <div class="type-row">
+              <button type="button" class="type-btn on" id="ty-monthly" onclick="setType('monthly')" data-i="monthly">정기 월납</button>
+              <button type="button" class="type-btn" id="ty-once" onclick="setType('once')" data-i="once">일시 후원</button>
+              <button type="button" class="type-btn" id="ty-annual" onclick="setType('annual')" data-i="annual">연납</button>
+            </div>
+            <div class="amt-grid">
+              <button type="button" class="amt-btn on" onclick="pickAmt(this,'$1')">$1</button>
+              <button type="button" class="amt-btn" onclick="pickAmt(this,'$5')">$5</button>
+              <button type="button" class="amt-btn" onclick="pickAmt(this,'$10')">$10</button>
+              <button type="button" class="amt-btn" onclick="pickAmt(this,'$50')">$50</button>
+              <button type="button" class="amt-btn" onclick="pickAmt(this,'$100')">$100</button>
+            </div>
+            <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+              <input class="fi" type="text" id="customAmt" placeholder="직접 입력" style="max-width:200px"/>
+              <input class="fi" type="text" id="amtDisplay" value="$1 (정기 월납)" readonly style="max-width:200px;color:var(--navy2);font-weight:700"/>
+            </div>
+          </div>
+        </div>
+        <div class="box" style="margin-bottom:14px">
+          <div class="box-hd" data-i="donor_info">👤 후원자 정보</div>
+          <div class="box-bd">
+            <div class="fg"><label class="fl" data-i="fl_name">성명<span class="req">*</span></label><input class="fi" name="name" placeholder="홍길동" required/></div>
+            <div class="fg"><label class="fl" data-i="fl_email">이메일<span class="req">*</span></label><input class="fi" type="email" name="email" placeholder="example@email.com" required/></div>
+            <div class="fg"><label class="fl" data-i="fl_phone">연락처<span class="req">*</span></label><input class="fi" name="phone" placeholder="010-0000-0000" required/></div>
+            <div class="fg"><label class="fl" data-i="fl_grade">등급<span class="req">*</span></label>
+              <div class="rad-row">
+                <label><input type="radio" name="grade" value="supporter" onchange="calcAmt()"/> <span data-i="supporter">🥉 서포터 (₩20,000)</span></label>
+                <label><input type="radio" name="grade" value="champion" checked onchange="calcAmt()"/> <span data-i="champion">🥇 챔피언 (₩30,000)</span></label>
+                <label><input type="radio" name="grade" value="partner" onchange="calcAmt()"/> <span data-i="partner">🏢 파트너</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box" style="margin-bottom:14px">
+          <div class="box-hd" data-i="pay_info">🏦 납부 정보</div>
+          <div class="box-bd">
+            <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span style="color:var(--red)" data-i="acct_note">입금자명: 이름+후원</span></div>
+            <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input class="fi" name="depositor" placeholder="홍길동후원" required/></div>
+            <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date" name="payDate" id="payDateFld"/></div>
+            <div class="fg"><label class="fl" data-i="fl_method">납부방법</label>
+              <div class="rad-row">
+                <label><input type="radio" name="payMethod" value="transfer" checked/> <span data-i="transfer">계좌이체</span></label>
+                <label><input type="radio" name="payMethod" value="kakao"/> <span>카카오페이</span></label>
+                <label><input type="radio" name="payMethod" value="naver"/> <span>네이버페이</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box" style="margin-bottom:14px">
+          <div class="box-hd" data-i="security">🔒 보안 확인</div>
+          <div class="box-bd">
+            <div class="cap-wrap"><span class="cap-code" id="capCode">GIFT26</span><button type="button" style="background:none;border:none;color:var(--teal);font-size:12px;cursor:pointer" onclick="refreshCap()">🔄</button></div>
+            <input class="fi" type="text" name="captcha" id="capInput" placeholder="위 코드 입력" required style="max-width:200px;margin-top:7px"/>
+            <div class="agree-row"><input type="checkbox" name="agree" required/><span data-i="agree">개인정보 수집 및 이용에 동의합니다.</span></div>
+          </div>
+        </div>
+        <div class="sub-area">
+          <button type="submit" class="btn-sub" data-i="submit_btn">✅ 납부 신청서 제출하기</button>
+          <button type="reset" class="btn-rst" onclick="calcAmt()" data-i="reset_btn">↺ 초기화</button>
+        </div>
+      </form>
+    </div>
+    <aside class="sidebar">
+      <div class="sb-box"><div class="sb-ttl" data-i="nav_donate">💳 후원</div><ul class="sb-nav"><li><a href="#" class="on" data-i="submit_form">납부 신청서</a></li><li><a href="#" onclick="goPage('fee-guide');return false" data-i="nav_fee">연회비 안내</a></li></ul></div>
+      <div class="sb-box" style="padding:14px;border-top-color:var(--gold)"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px" data-i="acct_title">🏦 납부 계좌</div><div style="font-size:12px;line-height:2;color:#444"><b>국민은행</b> 123-456-7890</div></div>
+    </aside>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 연회비 안내
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-fee-guide">
+  <div class="layout full">
+    <div class="mc">
+      <div class="box">
+        <div class="box-hd" data-i="nav_fee">📋 연회비 안내</div>
+        <div class="box-bd" style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead><tr style="background:var(--navy2)"><th style="padding:11px 14px;color:#fff;text-align:left;border:1px solid rgba(255,255,255,.15)" data-i="tbl_grade">등급</th><th style="padding:11px 14px;color:#fff;border:1px solid rgba(255,255,255,.15)" data-i="monthly_fee">월 회비</th><th style="padding:11px 14px;color:#fff;border:1px solid rgba(255,255,255,.15)" data-i="annual_fee">연 회비</th><th style="padding:11px 14px;color:#fff;text-align:left;border:1px solid rgba(255,255,255,.15)" data-i="benefits">주요 혜택</th></tr></thead>
+            <tbody id="feeTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 회원 가입
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-membership">
+  <div class="layout full">
+    <div class="mc">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px" id="planGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     PAGE: 회원 대시보드
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-mypage">
+  <div class="layout full">
+    <div class="mc">
+      <div class="member-banner">
+        <div class="m-avatar">👤</div>
+        <div class="m-info">
+          <h3 id="mb-name">홍길동 회원님</h3>
+          <p id="mb-grade">챔피언 회원</p>
+        </div>
+        <div class="m-badge" id="mb-badge">🥇 CHAMPION</div>
+      </div>
+      <div class="m-stats">
+        <div class="m-stat"><div class="ms-v">₩360,000</div><div class="ms-l" data-i="total_paid">총 납부액</div></div>
+        <div class="m-stat"><div class="ms-v">12개월</div><div class="ms-l" data-i="member_period">후원 기간</div></div>
+        <div class="m-stat"><div class="ms-v">Amara</div><div class="ms-l" data-i="my_child">매칭 어린이</div></div>
+      </div>
+      <div class="box">
+        <div class="box-hd" data-i="pay_history">💳 납부 내역</div>
+        <div class="box-bd">
+          <table class="ntbl">
+            <thead><tr><th data-i="tbl_date">날짜</th><th data-i="tbl_type">구분</th><th data-i="tbl_amount">금액</th><th data-i="tbl_status">상태</th></tr></thead>
+            <tbody id="payHistBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <button onclick="logout()" style="padding:10px 28px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--r);font-size:13px;cursor:pointer" data-i="logout">로그아웃</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     LOGIN MODAL
+════════════════════════════════════════════════════════ -->
+<div class="login-overlay" id="loginModal">
+  <div style="position:relative;max-width:680px;width:90%">
+    <button class="login-close-x" onclick="closeLogin()">✕</button>
+    <div class="login-bg">
+      <div class="login-left">
+        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=800&fit=crop&q=85" alt=""/>
+        <div class="lo-ov">
+          <div class="lo-msg" data-i="login_img_msg">"우리는 아이의 심장을<br>고치기 위해 필요한<br>모든 것을 수행합니다."</div>
+        </div>
+      </div>
+      <div class="login-right">
+        <div class="login-title">LOGIN</div>
+        <div class="login-tabs">
+          <button class="ltab" id="lt-phone" onclick="setLoginTab('phone')" data-i="lt_phone">휴대폰</button>
+          <button class="ltab" id="lt-email" onclick="setLoginTab('email')" data-i="lt_email">이메일</button>
+          <button class="ltab on" id="lt-id" onclick="setLoginTab('id')" data-i="lt_id">아이디</button>
+        </div>
+        <div id="login-form-area">
+          <div class="login-row">
+            <label class="login-label" data-i="lt_id">아이디</label>
+            <input class="login-input" type="text" id="loginId" placeholder="아이디 입력"/>
+          </div>
+          <div class="login-row">
+            <label class="login-label" data-i="lt_pw">비밀번호</label>
+            <input class="login-input" type="password" id="loginPw" placeholder="비밀번호 입력"/>
+          </div>
+        </div>
+        <button class="login-sub-btn" onclick="doLogin()" data-i="login_submit">로그인</button>
+        <div class="login-opts">
+          <a onclick="alert('준비 중입니다.')" data-i="find_id">아이디 찾기</a>
+          <span style="color:#ccc">|</span>
+          <a onclick="alert('준비 중입니다.')" data-i="find_pw">비밀번호 찾기</a>
+          <span style="color:#ccc">|</span>
+          <a onclick="closeLogin();goPage('membership')" data-i="register">회원가입</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="ok-overlay" id="okMod">
+  <div class="ok-box">
+    <div class="ok-ico">✅</div>
+    <div class="ok-ttl" data-i="ok_ttl">납부 신청이 완료되었습니다</div>
+    <div class="ok-body" data-i="ok_body">신청서가 접수되었습니다. 사무국에서 확인 후 영업일 1~2일 내 이메일로 안내드립니다.</div>
+    <button class="ok-close" onclick="document.getElementById('okMod').classList.remove('open')" data-i="confirm">확인</button>
+  </div>
+</div>
+
+<!-- CHATBOT WIDGET -->
+<button class="chat-fab" onclick="toggleChat()" title="AI 챗봇">
+  💬
+  <span class="cbadge" id="chatBadge">1</span>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-hdr">
+    <div class="ch-ava">🤖</div>
+    <div class="ch-info">
+      <div class="ch-name" data-i="bot_name">GOLI 도우미</div>
+      <div class="ch-status" data-i="bot_status">온라인 · 즉시 답변</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-chips" id="chatChips"></div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-row">
+    <textarea class="chat-input" id="chatInput" placeholder="질문을 입력하세요..." rows="1" onkeydown="chatKeyDown(event)"></textarea>
+    <button class="chat-send" id="chatSendBtn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- FAB -->
+<button class="fab" onclick="goPage('donate')"><span class="fhb">❤️</span> <span data-i="donate_btn">후원하기</span></button>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo-row"><span style="font-size:19px">❤️</span><span class="ft-logo-txt" data-i="logo_ko">생명의 <em>선물</em> 코리아</span></div>
+      <p class="ft-desc" data-i="footer_tagline">"우리는 아이의 심장을 고치기 위해 필요한 모든 것을 수행합니다."</p>
+      <div class="ft-ct">📧 golikorea@naver.com<br>📱 010-9985-5328<br>🌐 www.golikorea.or.kr<br>📍 서울 영등포구 선유로3길 10, 2층</div>
+    </div>
+    <div><div class="ft-ttl" data-i="shortcut">바로가기</div><ul class="ft-links"><li><a href="#" onclick="goPage('home');return false" data-i="nav_home">홈</a></li><li><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스 &amp; 소식</a></li><li><a href="#" onclick="goPage('about');return false" data-i="nav_about">클럽 소개</a></li><li><a href="#" onclick="goPage('donate');return false" data-i="nav_donate">후원하기</a></li><li><a href="#" onclick="goPage('membership');return false" data-i="nav_member">회원 가입</a></li><li><a href="#" onclick="goPage('fee-guide');return false" data-i="nav_fee">연회비 안내</a></li></ul></div>
+    <div><div class="ft-ttl" data-i="related">관련 기관</div><ul class="ft-links"><li><a href="https://giftoflifeinternational.org" target="_blank">Gift of Life International</a></li><li><a href="#">Rotary International</a></li><li><a href="#">로타리 3640지구</a></li><li><a href="#">한국심장재단</a></li></ul></div>
+    <div><div class="ft-ttl" data-i="social">소셜 미디어</div>
+      <div class="ft-social">
+        <a class="ft-sc" href="https://www.instagram.com/golikorea/" target="_blank" style="background:linear-gradient(45deg,#405de6,#833ab4,#e1306c)">📸</a>
+        <div class="ft-sc">👥</div><div class="ft-sc">▶️</div><div class="ft-sc">💬</div>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot"><div class="cp">© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640</div></div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+/* ═══ i18n STRINGS ═════════════════════════════════════════ */
+const i18n = {
+  ko:{
+    nav_home:'홈', nav_about:'클럽 소개', nav_news:'뉴스 & 소식',
+    nav_activities:'우리의 활동', nav_donate:'후원하기',
+    nav_fee:'연회비 안내', nav_member:'회원 가입',
+    login:'로그인', donate_btn:'후원하기', logo_ko:'생명의 선물 코리아',
+    logo_en:'Gift of Life International Korea',
+    shortcut:'📌 바로가기', acct_title:'🏦 납부 계좌', acct_holder:'예금주:',
+    more:'더보기', notices:'공지사항', children_title:'어린이 사례',
+    ah_badge:'현재 진행 중 · 말라위 · 2026',
+    ah_h1:'Amara, 4살 소녀의\n심장이 뜁니다',
+    ah_p:'말라위에서 태어난 Amara는 선천성 심장 기형으로 6살 이전 수술을 받지 못하면 생명을 잃을 수 있습니다. 말라위에는 심장 수술 역량이 전혀 없습니다. 지금 $1이 이 아이의 심장을 구할 수 있습니다.',
+    ah_cta1:'Amara 후원하기', ah_cta2:'자세한 이야기 보기',
+    waiting:'수술 대기', recovered:'회복 완료',
+    prog_label:'모금 현황',
+    s0:'누적 모금액', s1:'수술 성공 아동', s2:'치료 못 받는 비율', s3:'목표 회원 수',
+    q0d:'최신 활동 뉴스', q1d:'심장병·지구 살리기', q2d:'온라인 신청서', q3d:'서포터·챔피언·파트너',
+    imp0:'총 누적 모금액 (2003~)', imp1:'수술 성공 아동 · 30+개국', imp2:'한 아이 수술 평균 비용',
+    events_ttl:'📅 주요 일정',
+    ticker_lbl:'📢 최신',
+    tbl_no:'번호', tbl_title:'제목', tbl_author:'작성자', tbl_date:'날짜', tbl_views:'조회',
+    tbl_grade:'등급', monthly_fee:'월 회비', annual_fee:'연 회비', benefits:'주요 혜택',
+    donate_h2:'$1이 만드는 기적', donate_sub:'12,000명이 $1씩 모으면 한 아이의 심장이 다시 뜁니다.',
+    step_title:'납부 절차:', steps:'① 신청서 작성 → ② 계좌이체 → ③ 제출하기 → ④ 등록 완료',
+    amt_select:'💰 금액 선택', monthly:'정기 월납', once:'일시 후원', annual:'연납',
+    donor_info:'👤 후원자 정보', pay_info:'🏦 납부 정보',
+    fl_name:'성명', fl_email:'이메일', fl_phone:'연락처', fl_grade:'등급',
+    fl_depositor:'입금자명', fl_date:'납부일', fl_method:'납부방법',
+    supporter:'🥉 서포터 (₩20,000)', champion:'🥇 챔피언 (₩30,000)', partner:'🏢 파트너',
+    acct_guide:'입금 계좌:', acct_note:'입금자명: 이름+후원',
+    transfer:'계좌이체', security:'🔒 보안 확인',
+    agree:'개인정보 수집 및 이용에 동의합니다.',
+    submit_btn:'✅ 납부 신청서 제출하기', reset_btn:'↺ 초기화',
+    submit_form:'납부 신청서', pay_cta:'납부 신청서 →',
+    lt_phone:'휴대폰', lt_email:'이메일', lt_id:'아이디', lt_pw:'비밀번호',
+    login_submit:'로그인', find_id:'아이디 찾기', find_pw:'비밀번호 찾기', register:'회원가입',
+    login_img_msg:'"우리는 아이의 심장을\n고치기 위해 필요한\n모든 것을 수행합니다."',
+    ok_ttl:'납부 신청이 완료되었습니다', ok_body:'신청서가 접수되었습니다. 사무국에서 확인 후 영업일 1~2일 내 이메일로 안내드립니다.',
+    confirm:'확인',
+    bot_name:'GOLI 도우미', bot_status:'온라인 · 즉시 답변',
+    bot_welcome:'안녕하세요! 생명의 선물 코리아 AI 도우미입니다. 후원, 회원 가입, 어린이 사례 등 무엇이든 물어보세요! 😊',
+    chip_amara:'Amara 이야기', chip_how:'어떻게 후원하나요?', chip_member:'회원 가입 방법',
+    chip_cost:'수술 비용은?',
+    dd_history:'소개 및 연혁', dd_mission:'미션 & 비전', dd_officers:'임원진 소개',
+    dd_heart:'심장병 어린이 구호', dd_earth:'지구 살리기', dd_cases:'수술 성공 사례',
+    about_h2:'Gift of Life International Korea',
+    about_sub:'로타리 125년 역사상 최초로 국경 없는 글로벌 온라인 위성클럽을 설립하여, 전 세계 회원과 함께 선천성 심장병 어린이를 구합니다.',
+    off0:'설립자 겸 대표', off1:'운영 매니저', off2:'플랫폼 개발 총괄',
+    total_paid:'총 납부액', member_period:'후원 기간', my_child:'매칭 어린이',
+    pay_history:'💳 납부 내역', tbl_type:'구분', tbl_amount:'금액', tbl_status:'상태',
+    logout:'로그아웃', related:'관련 기관', social:'소셜 미디어',
+    footer_tagline:'"우리는 아이의 심장을 고치기 위해 필요한 모든 것을 수행합니다."',
+    rt:'어느 지역에서 접속하시나요?',
+    rs:'지역을 선택하시면 해당 언어로 사이트가 표시됩니다.',
+  },
+  en:{
+    nav_home:'Home', nav_about:'About', nav_news:'News',
+    nav_activities:'Our Work', nav_donate:'Donate',
+    nav_fee:'Membership Fees', nav_member:'Join',
+    login:'Login', donate_btn:'Donate', logo_ko:'Gift of Life Korea',
+    logo_en:'Gift of Life International Korea',
+    shortcut:'📌 Quick Links', acct_title:'🏦 Bank Account', acct_holder:'Account name:',
+    more:'More', notices:'Notices', children_title:'Children\'s Stories',
+    ah_badge:'Ongoing · Malawi · 2026',
+    ah_h1:'Amara, a\n4-year-old girl\'s\nheart beats again',
+    ah_p:'Born in Malawi with congenital heart disease, Amara may not survive past age 6 without surgery. Malawi has virtually no cardiac surgery capacity. Gift of Life Korea is bringing Amara to Korea for surgery. Your $1 can save her heart.',
+    ah_cta1:'Support Amara', ah_cta2:'Read Her Story',
+    waiting:'Awaiting Surgery', recovered:'Fully Recovered',
+    prog_label:'Funding Progress',
+    s0:'Total Raised', s1:'Children Saved', s2:'Without Treatment', s3:'Member Goal',
+    q0d:'Latest News', q1d:'Heart Rescue & Earth', q2d:'Online Application', q3d:'Supporter·Champion·Partner',
+    imp0:'Total Raised (2003~)', imp1:'Children Saved · 30+ Countries', imp2:'Avg. Surgery Cost Per Child',
+    events_ttl:'📅 Upcoming Events',
+    ticker_lbl:'📢 Latest',
+    tbl_no:'No.', tbl_title:'Title', tbl_author:'Author', tbl_date:'Date', tbl_views:'Views',
+    tbl_grade:'Level', monthly_fee:'Monthly', annual_fee:'Annual', benefits:'Key Benefits',
+    donate_h2:'The $1 Miracle', donate_sub:'If 12,000 people each give $1, a child\'s heart beats again.',
+    step_title:'How it works:', steps:'① Fill form → ② Bank transfer → ③ Submit → ④ Registration complete',
+    amt_select:'💰 Select Amount', monthly:'Monthly', once:'One-time', annual:'Annual',
+    donor_info:'👤 Donor Info', pay_info:'🏦 Payment Info',
+    fl_name:'Name', fl_email:'Email', fl_phone:'Phone', fl_grade:'Level',
+    fl_depositor:'Depositor Name', fl_date:'Payment Date', fl_method:'Payment Method',
+    supporter:'🥉 Supporter (₩20,000)', champion:'🥇 Champion (₩30,000)', partner:'🏢 Partner',
+    acct_guide:'Bank Account:', acct_note:'Transfer ID: YourName+Donation',
+    transfer:'Bank Transfer', security:'🔒 Security Check',
+    agree:'I agree to the collection and use of personal information.',
+    submit_btn:'✅ Submit Application', reset_btn:'↺ Reset',
+    submit_form:'Application Form', pay_cta:'Apply Now →',
+    lt_phone:'Phone', lt_email:'Email', lt_id:'ID', lt_pw:'Password',
+    login_submit:'Login', find_id:'Find ID', find_pw:'Find Password', register:'Sign Up',
+    login_img_msg:'"We do everything necessary\nto fix a child\'s heart."',
+    ok_ttl:'Application Submitted', ok_body:'Your application has been received. We will confirm within 1-2 business days.',
+    confirm:'OK',
+    bot_name:'GOLI Assistant', bot_status:'Online · Instant Reply',
+    bot_welcome:'Hello! I\'m the Gift of Life Korea AI assistant. Ask me anything about donations, membership, or children\'s stories! 😊',
+    chip_amara:'Amara\'s Story', chip_how:'How to donate?', chip_member:'How to join?',
+    chip_cost:'Surgery cost?',
+    dd_history:'History', dd_mission:'Mission & Vision', dd_officers:'Officers',
+    dd_heart:'Heart Disease Children', dd_earth:'Save the Earth', dd_cases:'Success Stories',
+    about_h2:'Gift of Life International Korea',
+    about_sub:'Establishing the first borderless global online satellite club in Rotary\'s 125-year history to save children\'s hearts worldwide.',
+    off0:'Founder & CEO', off1:'Operations Manager', off2:'Platform Development Lead',
+    total_paid:'Total Paid', member_period:'Membership Period', my_child:'Matched Child',
+    pay_history:'💳 Payment History', tbl_type:'Type', tbl_amount:'Amount', tbl_status:'Status',
+    logout:'Logout', related:'Related', social:'Social Media',
+    footer_tagline:'"We do everything necessary to fix a child\'s heart."',
+    rt:'Select your region',
+    rs:'We\'ll display the site in your language.',
+  },
+  zh:{
+    nav_home:'首页', nav_about:'关于我们', nav_news:'新闻',
+    nav_activities:'我们的活动', nav_donate:'捐款',
+    nav_fee:'会费说明', nav_member:'加入',
+    login:'登录', donate_btn:'捐款', logo_ko:'生命礼物韩国',
+    logo_en:'Gift of Life International Korea',
+    shortcut:'📌 快速入口', acct_title:'🏦 汇款账户', acct_holder:'账户名:',
+    more:'更多', notices:'公告', children_title:'儿童案例',
+    ah_badge:'进行中 · 马拉维 · 2026',
+    ah_h1:'Amara，\n4岁女孩的\n心脏重新跳动',
+    ah_p:'Amara出生在马拉维，患有先天性心脏病。马拉维几乎没有心脏手术能力。生命礼物韩国正在帮助Amara来到韩国接受手术。您的$1可以拯救她的心脏。',
+    ah_cta1:'资助Amara', ah_cta2:'了解她的故事',
+    waiting:'等待手术', recovered:'完全康复',
+    prog_label:'筹款进度',
+    s0:'累计筹款', s1:'获救儿童', s2:'未获治疗比例', s3:'会员目标',
+    q0d:'最新新闻', q1d:'心脏病·拯救地球', q2d:'在线申请', q3d:'支持者·冠军·合作伙伴',
+    imp0:'总累计筹款(2003~)', imp1:'获救儿童 · 30+国家', imp2:'单个儿童手术平均费用',
+    events_ttl:'📅 即将举行的活动',
+    ticker_lbl:'📢 最新',
+    tbl_no:'编号', tbl_title:'标题', tbl_author:'作者', tbl_date:'日期', tbl_views:'浏览',
+    tbl_grade:'等级', monthly_fee:'月费', annual_fee:'年费', benefits:'主要权益',
+    donate_h2:'$1的奇迹', donate_sub:'如果12,000人各捐$1，一颗心脏将重新跳动。',
+    step_title:'缴费流程:', steps:'① 填写表格 → ② 银行转账 → ③ 提交 → ④ 注册完成',
+    amt_select:'💰 选择金额', monthly:'每月', once:'一次性', annual:'年缴',
+    donor_info:'👤 捐款人信息', pay_info:'🏦 付款信息',
+    fl_name:'姓名', fl_email:'邮箱', fl_phone:'电话', fl_grade:'等级',
+    fl_depositor:'汇款人姓名', fl_date:'付款日期', fl_method:'付款方式',
+    supporter:'🥉 支持者 (₩20,000)', champion:'🥇 冠军 (₩30,000)', partner:'🏢 合作伙伴',
+    acct_guide:'银行账户:', acct_note:'汇款备注: 姓名+捐款',
+    transfer:'银行转账', security:'🔒 安全验证',
+    agree:'我同意收集和使用个人信息。',
+    submit_btn:'✅ 提交申请', reset_btn:'↺ 重置',
+    submit_form:'申请表格', pay_cta:'立即申请 →',
+    lt_phone:'手机', lt_email:'邮箱', lt_id:'账号', lt_pw:'密码',
+    login_submit:'登录', find_id:'找回账号', find_pw:'找回密码', register:'注册',
+    login_img_msg:'"我们做一切必要的事情\n来修复孩子的心脏。"',
+    ok_ttl:'申请已提交', ok_body:'您的申请已收到，我们将在1-2个工作日内通过电子邮件确认。',
+    confirm:'确认',
+    bot_name:'GOLI助手', bot_status:'在线 · 即时回复',
+    bot_welcome:'您好！我是生命礼物韩国AI助手。随时问我关于捐款、会员或儿童故事的问题！😊',
+    chip_amara:'Amara的故事', chip_how:'如何捐款？', chip_member:'如何加入？',
+    chip_cost:'手术费用？',
+    dd_history:'历史', dd_mission:'使命与愿景', dd_officers:'核心成员',
+    dd_heart:'心脏病儿童救助', dd_earth:'拯救地球', dd_cases:'成功案例',
+    about_h2:'生命礼物国际韩国',
+    about_sub:'建立扶轮社125年历史上首个无国界全球在线卫星社，与全球会员共同拯救先天性心脏病儿童。',
+    off0:'创始人兼代表', off1:'运营经理', off2:'平台开发负责人',
+    total_paid:'总缴费额', member_period:'会员期限', my_child:'匹配儿童',
+    pay_history:'💳 缴费记录', tbl_type:'类型', tbl_amount:'金额', tbl_status:'状态',
+    logout:'退出登录', related:'相关机构', social:'社交媒体',
+    footer_tagline:'"我们做一切必要的事情来修复孩子的心脏。"',
+    rt:'请选择您的地区',
+    rs:'我们将以您的语言显示网站。',
+  },
+};
+
+/* ═══ DATA ═════════════════════════════════════════════════ */
+const KIDS = [
+  {name:'Amara',flag:'🇲🇼',country:{ko:'말라위',en:'Malawi',zh:'马拉维'},age:{ko:'4세',en:'Age 4',zh:'4岁'},status:'waiting',goal:12000,raised:8400,img:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=360&fit=crop&q=80',story:{ko:'말라위는 심장 수술 역량이 전무합니다. Amara는 한국으로 초청되어 수술을 기다리고 있습니다.',en:'Malawi has virtually no cardiac surgery capacity. Amara has been brought to Korea and is awaiting her life-saving operation.',zh:'马拉维几乎没有心脏手术能力。Amara已被带到韩国，正在等待手术。'}},
+  {name:'Hana',flag:'🇪🇹',country:{ko:'에티오피아',en:'Ethiopia',zh:'埃塞俄比亚'},age:{ko:'3세',en:'Age 3',zh:'3岁'},status:'recovered',goal:12000,raised:12000,img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=360&fit=crop&q=80',story:{ko:'2024년 서울대학교 어린이병원에서 성공적으로 수술을 마쳤습니다.',en:'Successfully operated at Seoul National University Children\'s Hospital in 2024. Hana is now running freely.',zh:'2024年在首尔国立大学儿童医院成功手术。'}},
+  {name:'Diego',flag:'🇧🇴',country:{ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'waiting',goal:12000,raised:5200,img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=360&fit=crop&q=80',story:{ko:'볼리비아 작은 마을 출신. 수술만 받으면 완전한 회복이 가능합니다.',en:'Born in a small Bolivian village. A single surgery would allow for a full recovery.',zh:'Diego出生在玻利维亚的小村庄，只需一次手术就能完全康复。'}},
+];
+
+const NEWS_DATA = [
+  {cat:{ko:'글로벌 활동',en:'Global',zh:'全球活动'},date:'2026.03.10',title:{ko:'이집트 심장 수술 팀 파견 — 작은 심장을 치료하다',en:'Healing Little Hearts In Egypt',zh:'在埃及治愈小小心脏'},desc:{ko:'La Jolla Sunrise Rotary Club 지원으로 이집트 심장 수술 팀 파견 완료.',en:'Team deployed to Egypt with support from La Jolla Sunrise Rotary Club.',zh:'在La Jolla Sunrise扶轮社支持下，医疗团队前往埃及。'},img:'https://images.unsplash.com/photo-1575793033139-745b2ee9daf3?w=400&h=240&fit=crop&q=80',url:'https://giftoflifeinternational.org/uncategorized/healing-little-hearts-in-egypt/'},
+  {cat:{ko:'어린이 사례',en:'Children',zh:'儿童案例'},date:'2026.02.23',title:{ko:'코소보의 Krist — 5세 소년의 기적',en:'Meet Krist from Kosovo',zh:'认识科索沃的Krist'},desc:{ko:'2022년 수술 후 건강하게 성장 중인 코소보 Krist의 이야기.',en:'Krist, 5, from Kosovo received surgery in 2022 and is now growing up healthy.',zh:'2022年手术后，来自科索沃的5岁Krist健康成长。'},img:'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=240&fit=crop&q=80',url:'https://giftoflifeinternational.org/children/meet-krist-from-kosovo/'},
+  {cat:{ko:'50주년',en:'50th Anniversary',zh:'50周年'},date:'2025.05',title:{ko:'Gift of Life International — Golden Jubilee 50주년',en:'Gift of Life Golden Jubilee — 50 Years',zh:'生命礼物50周年Golden Jubilee'},desc:{ko:'1975년 뉴욕에서 시작된 Gift of Life International 50주년 기념.',en:'Celebrating 50 years of Gift of Life International, founded in New York in 1975.',zh:'庆祝1975年在纽约创立的生命礼物国际50周年。'},img:'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=400&h=240&fit=crop&q=80',url:'https://giftoflifeinternational.org/celebrating-50-years/'},
+];
+
+const NOTICES = [
+  {no:'공지',title:{ko:'2026년 연회비 납부 안내',en:'2026 Membership Fee Notice',zh:'2026年会费缴费通知'},author:{ko:'운영사무국',en:'Admin',zh:'运营办公室'},date:'2026-03-15',views:218,isNew:true,isNotice:true},
+  {no:'공지',title:{ko:'5월 2일 자선 음악회 개최 안내 (국립극장)',en:'Charity Concert May 2nd (National Theater)',zh:'5月2日慈善音乐会通知'},author:{ko:'운영사무국',en:'Admin',zh:'运营办公室'},date:'2026-03-10',views:185,isNew:true,isNotice:true},
+  {no:'3',title:{ko:'이집트 심장 수술 팀 파견 완료 보고',en:'Egypt Surgery Team Deployment Report',zh:'埃及心脏手术团队派遣报告'},author:{ko:'운영사무국',en:'Admin',zh:'运营办公室'},date:'2026-03-12',views:97,isNew:false,isNotice:false},
+  {no:'2',title:{ko:'글로벌 온라인 위성클럽 회원 모집 안내',en:'Global Online Satellite Club Membership',zh:'全球在线卫星社会员招募'},author:{ko:'운영사무국',en:'Admin',zh:'运营办公室'},date:'2026-03-01',views:130,isNew:false,isNotice:false},
+  {no:'1',title:{ko:'생명의 선물 코리아 위성클럽 공식 설립 발표',en:'Gift of Life Korea Satellite Club Founded',zh:'生命礼物韩国卫星社正式成立'},author:{ko:'운영사무국',en:'Admin',zh:'运营办공실'},date:'2026-02-01',views:63,isNew:false,isNotice:false},
+];
+
+const EVENTS_DATA = [
+  {date:'2026.05.02',title:{ko:'심장병 어린이 수술을 위한 자선 음악회',en:'Charity Concert for Heart Surgery',zh:'心脏病儿童手术慈善音乐会'},place:{ko:'국립극장 (오후 5시)',en:'National Theater (5 PM)',zh:'国立剧场（下午5时）'}},
+  {date:'2026.06',title:{ko:'생명의 선물 위성클럽 공식 발족식',en:'Satellite Club Official Launch',zh:'卫星社正式成立仪式'},place:{ko:'온라인 (Zoom)',en:'Online (Zoom)',zh:'线上（Zoom）'}},
+  {date:{ko:'매월 마지막 금요일',en:'Last Friday Monthly',zh:'每月最后一个周五'},title:{ko:'글로벌 Zoom 정기미팅',en:'Global Zoom Meeting',zh:'全球Zoom月例会'},place:{ko:'Zoom 온라인',en:'Zoom Online',zh:'Zoom线上'}},
+];
+
+const TIMELINE = [
+  {yr:'1975',txt:{ko:'미국 뉴욕 Manhasset Rotary Club에서 Gift of Life International 설립',en:'Gift of Life International founded at Manhasset Rotary Club, New York',zh:'美国纽约Manhasset扶轮社创立Gift of Life International'}},
+  {yr:'1983',txt:{ko:'레이건 대통령 지원으로 한국 심장병 아동 이길우(Brett Halvorson) 에어포스원 탑승 미국 수술 성공',en:'Reagan-supported Korean child Lee Kil-woo (Brett Halvorson) flies on Air Force One for heart surgery in the US',zh:'在里根总统支持下，韩国心脏病儿童李吉宇乘坐空军一号赴美手术成功'}},
+  {yr:'2003',txt:{ko:'국제 생명의 선물 공식 비영리기구(NGO) 출범. 한국 로타리 3640지구 활동 본격화',en:'Gift of Life International officially becomes an NGO. Korean Rotary District 3640 activities begin',zh:'国际生命礼物正式成为NGO。韩国扶轮社3640地区活动正式启动'}},
+  {yr:'2008',txt:{ko:'10,000번째 아동 치료 달성 (우간다)',en:'10,000th child treated (Uganda)',zh:'第10,000名儿童治疗完成（乌干达）'}},
+  {yr:'2024',txt:{ko:'누적 47,599명 구호 달성. 총 누적 모금액 ₩1,864,634,329원',en:'47,599 children saved. Total raised: ₩1,864,634,329',zh:'累计47,599名儿童获救。总筹款₩1,864,634,329'}},
+  {yr:'2026',txt:{ko:'로타리 125년 역사상 최초 글로벌 온라인 위성클럽 설립 — 6월 공식 발족 예정',en:'First global online satellite club in Rotary\'s 125-year history — Official launch June 2026',zh:'扶轮社125年历史上首个全球在线卫星社——2026年6月正式成立'},isNew:true},
+];
+
+const FEE_DATA = [
+  {grade:{ko:'🥉 서포터',en:'🥉 Supporter',zh:'🥉 支持者'},monthly:'₩20,000',annual:'₩240,000',benefits:{ko:'월 1회 Zoom, 뉴스레터, 디지털 회원증',en:'Monthly Zoom, Newsletter, Digital Card',zh:'月度Zoom, 通讯, 数字会员证'},isRec:false},
+  {grade:{ko:'🥇 챔피언',en:'🥇 Champion',zh:'🥇 冠军'},monthly:'₩30,000',annual:'₩360,000',benefits:{ko:'전체 Zoom, 1:1 어린이 매칭, 공식 회원증, 연간 리포트, SNS 홍보대사',en:'All Zoom, 1:1 child match, Official Card, Annual Report, SNS Ambassador',zh:'全部Zoom, 1:1儿童匹配, 官方会员证, 年报, SNS大使'},isRec:true},
+  {grade:{ko:'🏢 파트너',en:'🏢 Partner',zh:'🏢 合作伙伴'},monthly:{ko:'별도 문의',en:'Contact Us',zh:'请联系'},annual:{ko:'별도 문의',en:'Contact Us',zh:'请联系'},benefits:{ko:'기업·단체 후원, 공동 캠페인, CSR',en:'Corporate sponsorship, Joint campaigns, CSR',zh:'企业赞助, 联合活动, CSR'},isRec:false},
+];
+
+const IG_IMGS = [
+  'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=200&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=200&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=200&h=200&fit=crop',
+  'https://images.unsplash.com/photo-1464207687429-7505649dae38?w=200&h=200&fit=crop',
+];
+
+/* ═══ STATE ════════════════════════════════════════════════ */
+let curLang = 'ko';
+let selLang = 'ko';
+let isLoggedIn = false;
+let currentUser = null;
+let chatOpen = false;
+let chatHistory = [];
+let isSending = false;
+
+/* ═══ INIT ══════════════════════════════════════════════════ */
+const now = new Date();
+document.getElementById('utilDate').textContent =
+  `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+document.getElementById('payDateFld').value = now.toISOString().slice(0,10);
+
+/* ═══ REGION MODAL ══════════════════════════════════════════ */
+function selRegion(lang) {
+  selLang = lang;
+  ['ko','en','zh'].forEach(l => document.getElementById('rc-'+l).classList.remove('active'));
+  document.getElementById('rc-'+lang).classList.add('active');
+  const btn = document.getElementById('regionConfirmBtn');
+  const labels = {ko:'한국어로 계속하기', en:'Continue in English', zh:'以中文继续'};
+  btn.textContent = labels[lang];
+}
+function confirmRegion() {
+  setLang(selLang);
+  document.getElementById('regionModal').style.display = 'none';
+}
+
+/* ═══ LANGUAGE ══════════════════════════════════════════════ */
+function setLang(lang) {
+  curLang = lang;
+  document.getElementById('htmlRoot').lang = lang === 'ko' ? 'ko' : lang === 'zh' ? 'zh' : 'en';
+  ['ko','en','zh'].forEach(l => {
+    document.getElementById('lb-'+l).classList.toggle('on', l === lang);
+    document.getElementById('rc-'+l).classList.toggle('active', l === lang);
+  });
+  const t = i18n[lang];
+  // Update all data-i elements
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const k = el.getAttribute('data-i');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+  // Logo
+  document.getElementById('logo-ko').innerHTML =
+    lang === 'ko' ? '생명의 <em>선물</em> 코리아' :
+    lang === 'zh' ? '生命的 <em>礼物</em> 韩国' :
+    'Gift of <em>Life</em> Korea';
+  // Amara hero
+  const ah1 = document.getElementById('ah-h1');
+  if (ah1) { ah1.innerHTML = t.ah_h1.replace('\n','<br/>'); }
+  const ahp = document.getElementById('ah-p');
+  if (ahp) ahp.textContent = t.ah_p;
+  // Page title
+  document.getElementById('pageTitle').textContent =
+    lang === 'ko' ? '생명의 선물 코리아 | Gift of Life International Korea' :
+    lang === 'zh' ? '生命礼物韩国 | Gift of Life International Korea' :
+    'Gift of Life International Korea';
+  // Region modal
+  document.getElementById('rt').textContent = t.rt;
+  document.getElementById('rs').textContent = t.rs;
+  // Re-render dynamic content
+  renderAll();
+}
+
+/* ═══ PAGE NAV ══════════════════════════════════════════════ */
+const PAGES = {
+  home:{p:'page-home',n:'nav-home',bc:'nav_home'},
+  news:{p:'page-news',n:'nav-news',bc:'nav_news'},
+  about:{p:'page-about',n:'nav-about',bc:'nav_about'},
+  activities:{p:'page-activities',n:'nav-activities',bc:'nav_activities'},
+  donate:{p:'page-donate',n:'nav-donate',bc:'nav_donate'},
+  'fee-guide':{p:'page-fee-guide',n:'nav-fee-guide',bc:'nav_fee'},
+  membership:{p:'page-membership',n:'nav-membership',bc:'nav_member'},
+  mypage:{p:'page-mypage',n:null,bc:'login'},
+};
+function goPage(k) {
+  const d = PAGES[k]; if (!d) return;
+  document.querySelectorAll('.page').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.nav-ul>li').forEach(e => e.classList.remove('act'));
+  document.getElementById(d.p).classList.add('active');
+  if (d.n) { const ni = document.getElementById(d.n); if (ni) ni.classList.add('act'); }
+  const t = i18n[curLang];
+  document.getElementById('bcTxt').textContent = t[d.bc] || d.bc;
+  window.scrollTo({top:0,behavior:'smooth'});
+  closeMob();
+}
+function mgo(k) { goPage(k); }
+function toggleMob() { document.getElementById('mobWrap').classList.toggle('open'); }
+function closeMob() { document.getElementById('mobWrap').classList.remove('open'); }
+
+/* ═══ CHILD HERO SWITCH ════════════════════════════════════ */
+const CHILD_HEROES = [
+  {img:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=900&h=700&fit=crop&q=85',progress:70,raised:8400,goal:12000},
+  {img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=900&h=700&fit=crop&q=85',progress:100,raised:12000,goal:12000},
+  {img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&h=700&fit=crop&q=85',progress:43,raised:5200,goal:12000},
+];
+function switchChild(i) {
+  const c = KIDS[i], h = CHILD_HEROES[i], t = i18n[curLang];
+  document.getElementById('ah-img').src = h.img;
+  document.getElementById('ah-h1').innerHTML =
+    `${c.name},<br><em>${c.country[curLang]}</em>`;
+  document.getElementById('ah-p').textContent = c.story[curLang];
+  document.querySelector('.ah-fill').style.width = h.progress + '%';
+  document.querySelector('.ah-prog-label strong').textContent =
+    `$${h.raised.toLocaleString()} / $${h.goal.toLocaleString()}`;
+}
+function openChildModal(i) { switchChild(i); }
+
+/* ═══ RENDER FUNCTIONS ══════════════════════════════════════ */
+function renderAll() {
+  renderKids('homeKids');
+  renderKids('actKids');
+  renderNews('homeNews', 3);
+  renderNews('newsGrid', 9);
+  renderNotices();
+  renderEvents();
+  renderTimeline();
+  renderFeeTable();
+  renderPlans();
+  renderPayHistory();
+  renderChatChips();
+  renderTicker();
+  renderSbInsta();
+}
+
+function renderKids(id) {
+  const el = document.getElementById(id); if (!el) return;
+  const t = i18n[curLang];
+  el.innerHTML = KIDS.map((k, i) => {
+    const pct = Math.min((k.raised / k.goal) * 100, 100).toFixed(0);
+    const ok = k.status === 'recovered';
+    return `<div class="ccard" onclick="switchChild(${i})">
+      <div class="cc-img"><img src="${k.img}" loading="lazy"/>
+        <span class="cc-st ${k.status}">${ok ? t.recovered : t.waiting}</span>
+      </div>
+      <div class="cc-body">
+        <div class="cc-hd">
+          <span class="cc-flag">${k.flag}</span>
+          <div><div class="cc-name">${k.name}</div><div class="cc-meta">${k.country[curLang]} · ${k.age[curLang]}</div></div>
+        </div>
+        <p class="cc-story">${k.story[curLang]}</p>
+        <div class="cc-pi"><span>${t.prog_label}</span><span>$${k.raised.toLocaleString()} / $${k.goal.toLocaleString()}</span></div>
+        <div class="cc-track"><div class="cc-fill ccf-${k.status}" style="width:${pct}%"></div></div>
+        ${!ok ? `<button class="cc-btn" onclick="event.stopPropagation();goPage('donate')">${t.ah_cta1.replace('Amara ','')}</button>`
+               : `<div class="cc-done">✔ ${t.recovered}</div>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderNews(id, limit) {
+  const el = document.getElementById(id); if (!el) return;
+  const t = i18n[curLang];
+  el.innerHTML = NEWS_DATA.slice(0, limit).map(n => `
+    <div class="nc" onclick="window.open('${n.url}','_blank')">
+      <div class="nc-img"><img src="${n.img}" loading="lazy"/><span class="nc-cat">${n.cat[curLang]}</span></div>
+      <div class="nc-body">
+        <div class="nc-date">${n.date}</div>
+        <div class="nc-title">${n.title[curLang]}</div>
+        <div class="nc-desc">${n.desc[curLang]}</div>
+        <div class="nc-more">${t.more} →</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderNotices() {
+  const el = document.getElementById('noticeBody'); if (!el) return;
+  const t = i18n[curLang];
+  el.innerHTML = NOTICES.map(n => `
+    <tr>
+      <td class="num">${n.isNotice ? (curLang==='ko'?'공지':curLang==='zh'?'公告':'Notice') : n.no}</td>
+      <td><span class="nb ${n.isNotice?'nb-n':'nb-g'}">${n.isNotice?(curLang==='ko'?'공':curLang==='zh'?'公':'N'):(curLang==='ko'?'일':'G')}</span>${n.title[curLang]}${n.isNew?`<span class="new-b">NEW</span>`:''}</td>
+      <td class="dt">${n.author[curLang]}</td>
+      <td class="dt">${n.date}</td>
+      <td class="cnt">${n.views}</td>
+    </tr>`).join('');
+}
+
+function renderEvents() {
+  const el = document.getElementById('evtList'); if (!el) return;
+  el.innerHTML = EVENTS_DATA.map(e => `
+    <div class="evt-item">
+      <span class="evt-date">${typeof e.date === 'object' ? e.date[curLang] : e.date}</span>
+      <span class="evt-name">${e.title[curLang]}</span>
+      <span class="evt-place">📍 ${e.place[curLang]}</span>
+    </div>`).join('');
+}
+
+function renderTimeline() {
+  const el = document.getElementById('aboutTimeline'); if (!el) return;
+  el.innerHTML = TIMELINE.map(t => `
+    <div style="display:flex;gap:0;padding:13px 0;border-bottom:1px solid var(--border);align-items:flex-start">
+      <div style="width:68px;font-weight:700;color:${t.isNew?'var(--red)':'var(--navy2)'};font-family:'Noto Serif KR',serif;font-size:14px;flex-shrink:0;padding-top:2px">${t.yr}</div>
+      <div style="width:11px;height:11px;border-radius:50%;background:${t.isNew?'var(--red)':'var(--gold)'};margin-top:4px;flex-shrink:0;margin-right:14px;box-shadow:0 0 0 3px rgba(184,134,11,.2)"></div>
+      <div style="font-size:13px;color:var(--text);line-height:1.7${t.isNew?';font-weight:600':''}">${t.txt[curLang]}</div>
+    </div>`).join('');
+}
+
+function renderFeeTable() {
+  const el = document.getElementById('feeTableBody'); if (!el) return;
+  const t = i18n[curLang];
+  el.innerHTML = FEE_DATA.map(f => `
+    <tr style="${f.isRec?'background:#f0f9ff':''};border-bottom:1px solid var(--border)">
+      <td style="padding:11px 14px;font-weight:600;border:1px solid var(--border)">${f.grade[curLang]}${f.isRec?` <span style="background:var(--teal);color:#fff;font-size:9.5px;padding:2px 7px;border-radius:2px;margin-left:5px">${curLang==='ko'?'추천':curLang==='zh'?'推荐':'Recommended'}</span>`:''}</td>
+      <td style="padding:11px 14px;text-align:center;font-weight:700;color:var(--navy);font-size:14px;border:1px solid var(--border)">${f.monthly[curLang]||f.monthly}</td>
+      <td style="padding:11px 14px;text-align:center;font-weight:700;color:var(--navy);font-size:14px;border:1px solid var(--border);${f.isRec?'background:#e0f7f7':''}">${f.annual[curLang]||f.annual}</td>
+      <td style="padding:11px 14px;font-size:12px;color:var(--muted);border:1px solid var(--border)">${f.benefits[curLang]}</td>
+    </tr>`).join('');
+}
+
+function renderPlans() {
+  const el = document.getElementById('planGrid'); if (!el) return;
+  const t = i18n[curLang];
+  const featLabels = {
+    ko:['월 1회 Zoom 미팅','뉴스레터·케이스 업데이트','디지털 회원증'],
+    en:['Monthly Zoom meeting','Newsletter & case updates','Digital membership card'],
+    zh:['月度Zoom会议','通讯及案例更新','数字会员证'],
+  };
+  const champFeats = {
+    ko:['전체 Zoom 미팅','어린이 1:1 매칭','공식 회원증','연간 임팩트 리포트','SNS 홍보대사'],
+    en:['All Zoom meetings','1:1 child sponsorship','Official satellite card','Annual impact report','SNS ambassador'],
+    zh:['所有Zoom会议','1:1儿童赞助','官方卫星社会员证','年度影响力报告','社交媒体大使'],
+  };
+  el.innerHTML = FEE_DATA.map((f, i) => {
+    const feats = i === 1 ? champFeats[curLang] : featLabels[curLang];
+    return `
+    <div style="background:#fff;border:${f.isRec?'2px solid var(--teal)':'1px solid var(--border)'};overflow:hidden;${f.isRec?'box-shadow:0 6px 28px rgba(8,145,178,.14)':''}">
+      ${f.isRec?`<div style="background:var(--teal);color:#fff;text-align:center;padding:7px;font-size:10.5px;font-weight:700;letter-spacing:1px">${curLang==='ko'?'가장 인기':curLang==='zh'?'最受欢迎':'MOST POPULAR'}</div>`:''}
+      <div style="padding:24px 20px">
+        <div style="font-weight:700;font-size:16px;margin-bottom:5px">${f.grade[curLang]}</div>
+        <div style="display:flex;align-items:baseline;gap:3px;margin-bottom:18px">
+          <span style="font-size:28px;font-weight:900;color:var(--teal);font-family:'Playfair Display',serif">${f.monthly[curLang]||f.monthly}</span>
+          <span style="color:var(--muted);font-size:12px">/${curLang==='ko'?'월':curLang==='zh'?'月':'mo'}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+          ${feats.map(ft=>`<div style="display:flex;gap:8px;font-size:13px;color:#4a5568"><span style="color:var(--teal);font-weight:700">✓</span>${ft}</div>`).join('')}
+        </div>
+        <button onclick="goPage('donate')" style="width:100%;padding:11px;border-radius:4px;font-weight:700;font-size:13px;cursor:pointer;background:${f.isRec?'var(--teal)':'transparent'};color:${f.isRec?'#fff':'var(--teal)'};border:${f.isRec?'none':'2px solid var(--teal)'}">
+          ${curLang==='ko'?'가입하기':curLang==='zh'?'立即加入':'Join Now'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPayHistory() {
+  const el = document.getElementById('payHistBody'); if (!el) return;
+  const t = i18n[curLang];
+  const data = [
+    {date:'2026-03-01',type:{ko:'정기 월납',en:'Monthly',zh:'月缴'},amount:'₩30,000',status:{ko:'완료',en:'Complete',zh:'完成'}},
+    {date:'2026-02-01',type:{ko:'정기 월납',en:'Monthly',zh:'月缴'},amount:'₩30,000',status:{ko:'완료',en:'Complete',zh:'完成'}},
+    {date:'2026-01-01',type:{ko:'정기 월납',en:'Monthly',zh:'月缴'},amount:'₩30,000',status:{ko:'완료',en:'Complete',zh:'完成'}},
+  ];
+  el.innerHTML = data.map(d => `
+    <tr><td class="dt">${d.date}</td><td class="dt">${d.type[curLang]}</td><td class="dt" style="font-weight:600;color:var(--teal)">${d.amount}</td><td class="dt"><span style="background:#dcfce7;color:var(--green);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600">${d.status[curLang]}</span></td></tr>`).join('');
+}
+
+function renderChatChips() {
+  const el = document.getElementById('chatChips'); if (!el) return;
+  const t = i18n[curLang];
+  const chips = [t.chip_amara, t.chip_how, t.chip_member, t.chip_cost];
+  el.innerHTML = chips.map(c =>
+    `<button class="chat-chip" onclick="quickAsk('${c}')">${c}</button>`
+  ).join('');
+}
+
+function renderTicker() {
+  const el = document.getElementById('tickerTr'); if (!el) return;
+  const items = curLang === 'ko' ? [
+    '이집트 심장 수술 팀 파견 성공 완료 — 2026.03',
+    '코소보 Krist, 2022년 수술 후 건강하게 성장 중',
+    '우간다 Prossy(15세) 수술 지원 개시',
+    '볼리비아 Mia(3세) 심장 수술 성공',
+    '5월 2일 자선 음악회 국립극장 오후 5시',
+    '생명의 선물 코리아 글로벌 위성클럽 6월 공식 발족 예정',
+    'Gift of Life International 50주년 Golden Jubilee',
+  ] : curLang === 'en' ? [
+    'Egypt Heart Surgery Team Deployed Successfully — 2026.03',
+    'Kosovo\'s Krist growing up healthy after 2022 surgery',
+    'Uganda\'s Prossy (15) surgery support initiated',
+    'Bolivia\'s Mia (3) heart surgery successful',
+    'Charity Concert May 2nd — National Theater',
+    'GOL Korea Satellite Club official launch June 2026',
+    'Gift of Life International Golden Jubilee — 50 Years',
+  ] : [
+    '埃及心脏手术团队成功完成任务 — 2026.03',
+    '科索沃Krist 2022年手术后健康成长',
+    '乌干达Prossy(15岁)开始手术支持',
+    '玻利维亚Mia(3岁)心脏手术成功',
+    '5月2日慈善音乐会 国立剧场',
+    '生命礼物韩国卫星社 6月正式成立',
+    '生命礼物国际50周年Golden Jubilee',
+  ];
+  const doubled = [...items, ...items];
+  el.innerHTML = doubled.map(s => `<span class="ti">${s}</span>`).join('');
+}
+
+function renderSbInsta() {
+  const el = document.getElementById('sbInsta'); if (!el) return;
+  el.innerHTML = IG_IMGS.slice(0,6).map(u =>
+    `<a href="https://www.instagram.com/golikorea/" target="_blank" style="aspect-ratio:1;overflow:hidden;display:block"><img src="${u}" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></a>`
+  ).join('');
+}
+
+/* ═══ LOGIN ════════════════════════════════════════════════ */
+function openLogin() { document.getElementById('loginModal').classList.add('open'); }
+function closeLogin() { document.getElementById('loginModal').classList.remove('open'); }
+let loginTab = 'id';
+function setLoginTab(tab) {
+  loginTab = tab;
+  ['phone','email','id'].forEach(t => document.getElementById('lt-'+t).classList.toggle('on', t===tab));
+  const area = document.getElementById('login-form-area');
+  const t = i18n[curLang];
+  if (tab === 'phone') {
+    area.innerHTML = `<div class="login-row"><label class="login-label">${t.lt_phone}</label><input class="login-input" type="tel" id="loginId" placeholder="010-0000-0000"/></div><div class="login-row"><label class="login-label">${t.lt_pw}</label><input class="login-input" type="password" id="loginPw"/></div>`;
+  } else if (tab === 'email') {
+    area.innerHTML = `<div class="login-row"><label class="login-label">${t.lt_email}</label><input class="login-input" type="email" id="loginId" placeholder="example@email.com"/></div><div class="login-row"><label class="login-label">${t.lt_pw}</label><input class="login-input" type="password" id="loginPw"/></div>`;
+  } else {
+    area.innerHTML = `<div class="login-row"><label class="login-label">${t.lt_id}</label><input class="login-input" type="text" id="loginId" placeholder="${curLang==='ko'?'아이디 입력':curLang==='zh'?'输入账号':'Enter ID'}"/></div><div class="login-row"><label class="login-label">${t.lt_pw}</label><input class="login-input" type="password" id="loginPw" placeholder="${curLang==='ko'?'비밀번호 입력':curLang==='zh'?'输入密码':'Enter Password'}"/></div>`;
+  }
+}
+function doLogin() {
+  const id = document.getElementById('loginId')?.value;
+  const pw = document.getElementById('loginPw')?.value;
+  if (!id || !pw) {
+    alert(curLang==='ko'?'아이디와 비밀번호를 입력해 주세요.':curLang==='zh'?'请输入账号和密码。':'Please enter ID and password.');
+    return;
+  }
+  // Demo login
+  isLoggedIn = true;
+  currentUser = { name: id, grade: 'champion' };
+  closeLogin();
+  document.getElementById('mb-name').textContent = id + (curLang==='ko'?' 회원님':curLang==='zh'?' 会员':'');
+  document.getElementById('mb-grade').textContent = curLang==='ko'?'챔피언 회원':curLang==='zh'?'冠军会员':'Champion Member';
+  // Update header
+  document.getElementById('u-login').innerHTML = `👤 ${id}`;
+  document.getElementById('u-login').onclick = () => goPage('mypage');
+  goPage('mypage');
+}
+function logout() {
+  isLoggedIn = false; currentUser = null;
+  const t = i18n[curLang];
+  document.getElementById('u-login').innerHTML = `🔑 <span>${t.login}</span>`;
+  document.getElementById('u-login').onclick = openLogin;
+  goPage('home');
+}
+
+/* ═══ DONATE FORM ══════════════════════════════════════════ */
+let curType = 'monthly', curAmt = '$1';
+function setType(t) {
+  curType = t;
+  ['monthly','once','annual'].forEach(x => document.getElementById('ty-'+x).classList.remove('on'));
+  document.getElementById('ty-'+t).classList.add('on');
+  calcAmt();
+}
+function pickAmt(btn, a) {
+  curAmt = a;
+  document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('customAmt').value = '';
+  calcAmt();
+}
+const PRICES = {supporter:{monthly:20000,annual:228000,once:20000},champion:{monthly:30000,annual:342000,once:30000},partner:{monthly:0,annual:0,once:0}};
+function calcAmt() {
+  const g = (document.querySelector('input[name="grade"]:checked')||{value:'champion'}).value;
+  if (g === 'partner') { document.getElementById('amtDisplay').value = curLang==='ko'?'별도 협의':curLang==='zh'?'请联系':'Contact Us'; return; }
+  const key = curType === 'annual' ? 'annual' : curType === 'once' ? 'once' : 'monthly';
+  const amt = PRICES[g]?.[key] || 0;
+  const lbls = {monthly:{ko:'정기 월납',en:'Monthly',zh:'月缴'},once:{ko:'일시',en:'One-time',zh:'一次性'},annual:{ko:'연납',en:'Annual',zh:'年缴'}};
+  document.getElementById('amtDisplay').value = '₩' + amt.toLocaleString() + ' (' + lbls[curType][curLang] + ')';
+}
+document.querySelectorAll('input[name="grade"]').forEach(r => r.addEventListener('change', calcAmt));
+
+const CAPS = ['GIFT26','LIFE77','HEART9','ROTARY','GOL123'];
+let curCap = 'GIFT26';
+function refreshCap() {
+  curCap = CAPS[Math.floor(Math.random()*CAPS.length)];
+  document.getElementById('capCode').textContent = curCap;
+  document.getElementById('capInput').value = '';
+}
+function submitDonate(e) {
+  e.preventDefault();
+  if (document.getElementById('capInput').value.toUpperCase().trim() !== curCap) {
+    alert(curLang==='ko'?'보안 코드가 일치하지 않습니다.':curLang==='zh'?'安全码不匹配。':'Security code mismatch.');
+    return;
+  }
+  document.getElementById('okMod').classList.add('open');
+  e.target.reset(); calcAmt();
+}
+
+/* ═══ CHATBOT ══════════════════════════════════════════════ */
+const SITE_CONTEXT = `
+You are the official AI assistant for Gift of Life International Korea (생명의 선물 코리아), a satellite Rotary club that helps children with congenital heart disease.
+
+KEY FACTS:
+- Organization: Gift of Life International Korea (www.golikorea.or.kr)
+- Founded: 2003 in Seoul. Parent org: Gift of Life International, founded 1975 New York.
+- Founder: 이길우 (Brett Halvorson) — himself received heart surgery via GOL in 1983, flew on Air Force One with President Reagan. He returned to Korea and established GOL Korea.
+- Mission: Save children with congenital heart disease (CHD) regardless of birthplace.
+- Stats: 47,599 children saved, ₩1,864,634,329 raised since 2003, 93% of 1.3M CHD births/year don't get surgery.
+- Goal: First borderless global online satellite club in Rotary's 125-year history, targeting 3,000+ members.
+- Contact: golikorea@naver.com, 010-9985-5328, Seoul Yeongdeungpo-gu.
+
+CURRENT CHILDREN:
+1. Amara (말라위/Malawi, age 4) - Awaiting surgery in Korea. $8,400 of $12,000 raised. Status: WAITING.
+2. Hana (에티오피아/Ethiopia, age 3) - Successfully operated at Seoul National University Children's Hospital in 2024. Status: RECOVERED.
+3. Diego (볼리비아/Bolivia, age 5) - Awaiting surgery. $5,200 of $12,000 raised. Status: WAITING.
+
+SURGERY COSTS: ~$12,000 per child ($3,500-8,000 surgery + $3,000 airfare/stay + $500 admin).
+
+MEMBERSHIP:
+- Supporter: ₩20,000/month — Monthly Zoom, newsletter, digital card.
+- Champion: ₩30,000/month — All Zoom meetings, 1:1 child sponsorship, official card, annual report, SNS ambassador. RECOMMENDED.
+- Partner: Custom — Corporate/org sponsorship, joint campaigns, CSR.
+
+PAYMENT: Bank transfer to Kookmin Bank 123-456-7890 (예금주: 생명의선물코리아). Also KakaoPay/NaverPay (coming soon). Write your name+"후원" as transfer ID.
+
+UPCOMING EVENTS:
+- May 2, 2026: Charity Concert at National Theater (5 PM)
+- June 2026: Satellite Club official launch (Online Zoom)
+- Last Friday monthly: Global Zoom meeting
+
+RECENT NEWS:
+- Egypt heart surgery team deployed (March 2026)
+- Kosovo's Krist growing healthy after 2022 surgery
+- Bolivia's Mia heart surgery successful
+- Gift of Life International Golden Jubilee - 50th Anniversary (2025)
+
+INSTAGRAM: @golikorea — https://www.instagram.com/golikorea/
+WEBSITE: www.golikorea.or.kr
+
+Answer in the same language as the user's question (Korean/English/Chinese). Be warm, empathetic, and helpful. For sensitive medical questions about specific children, maintain privacy.
+`;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+  document.getElementById('chatBadge').style.display = chatOpen ? 'none' : 'flex';
+  if (chatOpen && chatHistory.length === 0) {
+    addBotMsg(i18n[curLang].bot_welcome);
+  }
+}
+
+function addBotMsg(text) {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'msg bot';
+  d.innerHTML = `<div class="msg-bubble">${text.replace(/\n/g,'<br/>')}</div><div class="msg-time">${new Date().toLocaleTimeString(curLang==='ko'?'ko-KR':'en-US',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'msg user';
+  d.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${new Date().toLocaleTimeString(curLang==='ko'?'ko-KR':'en-US',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = 'chat-typing'; d.id = 'chatTyping';
+  d.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() {
+  const el = document.getElementById('chatTyping');
+  if (el) el.remove();
+}
+
+function quickAsk(text) {
+  document.getElementById('chatInput').value = text;
+  sendChat();
+}
+
+function chatKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+}
+
+async function sendChat() {
+  if (isSending) return;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMsg(text);
+  chatHistory.push({ role: 'user', content: text });
+  isSending = true;
+  document.getElementById('chatSendBtn').disabled = true;
+  showTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: SITE_CONTEXT,
+        messages: chatHistory.slice(-10),
+      }),
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || (curLang==='ko'?'죄송합니다, 잠시 후 다시 시도해 주세요.':'Sorry, please try again.');
+    hideTyping();
+    addBotMsg(reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    hideTyping();
+    addBotMsg(curLang === 'ko'
+      ? '현재 연결에 문제가 있습니다. 직접 문의: golikorea@naver.com'
+      : curLang === 'zh'
+      ? '连接出现问题，请直接联系: golikorea@naver.com'
+      : 'Connection issue. Contact directly: golikorea@naver.com');
+  }
+  isSending = false;
+  document.getElementById('chatSendBtn').disabled = false;
+}
+
+/* ═══ INITIAL RENDER ════════════════════════════════════════ */
+renderAll();
+</script>
+</body>
+</html>
