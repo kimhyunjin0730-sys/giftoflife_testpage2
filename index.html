@@ -1437,24 +1437,54 @@ function setAuthMode(mode){
   document.getElementById('loginErr').classList.remove('show');
 }
 function showLoginErr(msg){const el=document.getElementById('loginErr');el.textContent=msg;el.classList.add('show');}
+
 async function doAuth(){
   const email=document.getElementById('authEmail').value.trim();
   const pw=document.getElementById('authPw').value;
-  if(!email||!pw){showLoginErr(curLang==='ko'?'이메일과 비밀번호를 입력하세요.':'Please enter email and password.');return;}
-  const btn=document.getElementById('authSubmitBtn');btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
-  // Demo mode
-  const user={email,name:document.getElementById('authName')?.value||email.split('@')[0]};
-  currentUser=user;
-  if(_sb&&authMode==='signup'){await _sb.from('members').upsert([{email,name:user.name,phone:document.getElementById('authPhone')?.value||'',grade:'supporter'}],{onConflict:'email'}).catch(()=>{});}
-  btn.disabled=false;btn.innerHTML=`<span>${T[curLang].lt_login}</span>`;
-  loginSuccess(user);
+  
+  if(!email||!pw){
+    showLoginErr(curLang==='ko'?'이메일과 비밀번호를 입력하세요.':'Please enter email and password.');
+    return;
+  }
+  
+  const btn=document.getElementById('authSubmitBtn');
+  const originalText = btn.innerHTML; // 원래 버튼 글자(로그인/회원가입) 기억
+  btn.innerHTML='<span class="spinner"></span>';
+  btn.disabled=true;
+  
+  try {
+    const user={email, name:document.getElementById('authName')?.value||email.split('@')[0]};
+    
+    // 회원가입 모드일 때만 DB 저장
+    if(_sb && authMode==='signup'){
+      const { error } = await _sb.from('members').upsert(
+        [{email, name:user.name, phone:document.getElementById('authPhone')?.value||'', grade:'supporter'}],
+        {onConflict:'email'}
+      );
+      if (error) throw error; // 에러가 나면 멈추고 catch로 보냄
+    }
+    
+    // 에러 없이 통과하면 로그인 성공 처리
+    loginSuccess(user);
+
+  } catch (err) {
+    // 에러 발생 시 콘솔에 찍고 화면에 표시
+    console.error("Supabase Error:", err);
+    showLoginErr(curLang==='ko' ? `오류: ${err.message}` : `Error: ${err.message}`);
+  } finally {
+    // 성공하든 에러가 나든 무조건 로딩(스피너) 끄기
+    btn.disabled=false;
+    btn.innerHTML = originalText;
+  }
 }
+
 function loginSuccess(user){
   currentUser=user;closeLogin();
   document.getElementById('btnLogin').textContent='👤 '+( user.name||user.email.split('@')[0]);
   document.getElementById('btnLogin').onclick=goMyPage;
   updateMyPage(user);goPage('mypage');
 }
+
 function doLogout(){
   currentUser=null;
   document.getElementById('btnLogin').textContent=T[curLang].login;
