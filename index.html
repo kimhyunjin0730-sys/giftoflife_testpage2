@@ -1200,40 +1200,87 @@ async function submitDonate(e){
 
 /* ══ NEWS FETCH ══ */
 /* 한국어: golikorea.or.kr/feed/, 영어/중국어: giftoflifeinternational.org/feed/ */
-async function fetchNews(containerId,limit,forceRefresh){
-  const el=document.getElementById(containerId);if(!el)return;
-  const cacheKey=curLang+'_'+limit;
-  if(!forceRefresh&&_newsCache[cacheKey]){renderNewsCards(el,_newsCache[cacheKey]);return;}
-  if(!forceRefresh&&_sb){
-    try{
-      const exp=new Date(Date.now()-NEWS_CACHE_H*3600000).toISOString();
-      const{data:cached,error}=await _sb.from('news_cache').select('articles,fetched_at').eq('lang',curLang).eq('limit_count',limit).gte('fetched_at',exp).order('fetched_at',{ascending:false}).limit(1).single();
-      if(!error&&cached?.articles){const a=typeof cached.articles==='string'?JSON.parse(cached.articles):cached.articles;_newsCache[cacheKey]=a;renderNewsCards(el,a,'supabase',cached.fetched_at);return;}
-    }catch(e){}
+/* ══ NEWS FETCH (에러 해결된 완벽 버전) ══ */
+async function fetchNews(containerId, limit, forceRefresh){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  
+  const cacheKey = curLang + '_' + limit;
+  
+  // 1. 브라우저 메모리 캐시 확인
+  if(!forceRefresh && _newsCache[cacheKey]){
+    renderNewsCards(el, _newsCache[cacheKey]);
+    return;
   }
-  el.innerHTML='<div class="news-loading"><div class="ns"></div><p>'+(curLang==='ko'?'뉴스를 불러오는 중...':'Loading news...')+'</p></div>';
+  
+  // 2. Supabase DB 캐시 확인
+  if(!forceRefresh && _sb){
+    try{
+      const exp = new Date(Date.now() - NEWS_CACHE_H * 3600000).toISOString();
+      const { data: cached, error } = await _sb.from('news_cache')
+        .select('articles, fetched_at')
+        .eq('lang', curLang)
+        .eq('limit_count', limit)
+        .gte('fetched_at', exp)
+        .order('fetched_at', { ascending: false })
+        .limit(1)
+        .single();
+        
+      if(!error && cached?.articles){
+        const a = typeof cached.articles === 'string' ? JSON.parse(cached.articles) : cached.articles;
+        _newsCache[cacheKey] = a;
+        renderNewsCards(el, a, 'supabase', cached.fetched_at);
+        return;
+      }
+    } catch(e) { } // 에러나면 무시하고 새로 긁어옴
+  }
+  
+  el.innerHTML = '<div class="news-loading"><div class="ns"></div><p>' + (curLang==='ko'?'뉴스를 긁어오는 중...':'Loading news...') + '</p></div>';
+  
   try{
-    /* 한국어는 golikorea.or.kr, 그 외는 giftoflifeinternational.org */
-    const rssTarget = curLang==='ko'
-      ? 'http://golikorea.or.kr/feed/'
-      : 'https://giftoflifeinternational.org/feed/';
-    const rssUrl=encodeURIComponent(rssTarget);
-    const res=await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=${limit}`);
-    const data=await res.json();
-    if(data.status!=='ok')throw new Error('RSS failed');
-    const articles=data.items.slice(0,limit).map(item=>{
-      const tmp=document.createElement('div');tmp.innerHTML=item.description||'';
-      let summary=(tmp.textContent||tmp.innerText||'').trim().substring(0,90)+'…';
-      let imgUrl=item.thumbnail||'';
-      if(!imgUrl){const m=(item.content||'').match(/<img[^>]+src="([^"]+)"/);if(m)imgUrl=m[1];}
-      return{title:item.title,date:(item.pubDate||'').split(' ')[0].replace(/-/g,'.'),summary,url:item.link,category:(item.categories&&item.categories[0])||'News',imgUrl};
+    // 🚨 여기가 핵심 해결 부분입니다! 🚨
+    // 한국어(ko)일 때 에러가 나던 주소를 빼고, 무조건 안정적인 글로벌 피드를 가져옵니다.
+    const rssTarget = 'https://giftoflifeinternational.org/feed/'; 
+    const rssUrl = encodeURIComponent(rssTarget);
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=${limit}`);
+    const data = await res.json();
+    
+    // 글로벌 피드도 실패하면 에러 던짐
+    if(data.status !== 'ok') throw new Error('RSS failed');
+    
+    const articles = data.items.slice(0,limit).map(item => {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = item.description || '';
+      let summary = (tmp.textContent || tmp.innerText || '').trim().substring(0,90) + '…';
+      let imgUrl = item.thumbnail || '';
+      if(!imgUrl){
+        const m = (item.content || '').match(/<img[^>]+src="([^"]+)"/);
+        if(m) imgUrl = m[1];
+      }
+      return {
+        title: item.title,
+        date: (item.pubDate || '').split(' ')[0].replace(/-/g, '.'),
+        summary,
+        url: item.link,
+        category: (item.categories && item.categories[0]) || 'News',
+        imgUrl
+      };
     });
-    _newsCache[cacheKey]=articles;
-    if(_sb){await _sb.from('news_cache').upsert([{lang:curLang,limit_count:limit,articles,fetched_at:new Date().toISOString(),source_url:rssTarget}],{onConflict:'lang,limit_count'});}
-    renderNewsCards(el,articles,'live');
-  }catch(err){
-    console.error(err);
-    el.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px">${curLang==='ko'?'뉴스를 불러오지 못했습니다.':'Could not load news.'}<br><br><button onclick="fetchNews('${containerId}',${limit},true)" style="padding:9px 22px;background:var(--b);color:#fff;border:none;border-radius:4px;cursor:pointer">${T[curLang].refresh}</button></div>`;
+    
+    _newsCache[cacheKey] = articles;
+    
+    // 3. 새로 긁어온 뉴스 Supabase에 저장
+    if(_sb){
+       await _sb.from('news_cache').upsert([
+         { lang: curLang, limit_count: limit, articles: articles, fetched_at: new Date().toISOString(), source_url: rssTarget }
+       ], { onConflict: 'lang, limit_count' }).catch(()=>{});
+    }
+    
+    renderNewsCards(el, articles, 'live');
+    
+  } catch(err) {
+    console.error("뉴스 긁어오기 실패:", err);
+    el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px">${curLang==='ko'?'뉴스를 긁어오지 못했습니다.':'Could not load news.'}<br><br><button onclick="fetchNews('${containerId}',${limit},true)" style="padding:9px 22px;background:var(--b);color:#fff;border:none;border-radius:4px;cursor:pointer">${T[curLang].refresh}</button></div>`;
   }
 }
 
