@@ -1211,12 +1211,13 @@ async function translateText(text, targetLang) {
   }
 }
 
-/* ══ NEWS FETCH (보안 차단 우회 + 자동 번역 + Supabase 완벽 연동) ══ */
+/* ══ NEWS FETCH (Edge Function 백엔드 우회 + 자동 번역 + Supabase 캐시) ══ */
 async function fetchNews(containerId, limit, forceRefresh){
   const el = document.getElementById(containerId);
   if(!el) return;
   
   const cacheKey = curLang + '_' + limit;
+  const t = T[curLang];
   
   // 1. 브라우저 메모리 캐시 확인
   if(!forceRefresh && _newsCache[cacheKey]){
@@ -1224,7 +1225,7 @@ async function fetchNews(containerId, limit, forceRefresh){
     return;
   }
   
-  // 2. Supabase DB 캐시 확인 (번역된 뉴스가 저장되어 있는지 확인)
+  // 2. Supabase DB 캐시 확인 (번역된 뉴스가 있는지 확인)
   if(!forceRefresh && _sb){
     try{
       const exp = new Date(Date.now() - NEWS_CACHE_H * 3600000).toISOString();
@@ -1240,58 +1241,54 @@ async function fetchNews(containerId, limit, forceRefresh){
       if(!error && cached?.articles){
         const a = typeof cached.articles === 'string' ? JSON.parse(cached.articles) : cached.articles;
         _newsCache[cacheKey] = a;
-        // DB에 저장된 번역본을 화면에 띄움 (🗃 캐시 뱃지 표시)
         renderNewsCards(el, a, 'supabase', cached.fetched_at);
-        return; // DB에서 찾았으므로 여기서 종료!
+        return; 
       }
     } catch(e) { } 
   }
   
-  // 3. 캐시에 없으면 번역 및 저장 시작
+  // 3. 백엔드 서버에서 뉴스 가져오기 시작
   el.innerHTML = '<div class="news-loading"><div class="ns"></div><p>' + 
-                 (curLang==='ko' ? '글로벌 뉴스를 번역하여 DB에 저장 중입니다...' : 
-                  curLang==='zh' ? '正在翻译并保存到数据库...' : 'Translating and saving to database...') + 
+                 (curLang==='ko' ? '우리 백엔드 서버에서 글로벌 뉴스를 가져와 번역 중입니다...' : 
+                  curLang==='zh' ? '正在从服务器获取并翻译新闻...' : 'Fetching and translating news from backend...') + 
                  '</p></div>';
   
   try{
-    // 🚨 글로벌 사이트 보안(422 에러) 때문에 스크래핑이 막혔으므로, 
-    // 원본 영문 데이터를 직접 제공하여 '가상 스크래핑' 상태를 만듭니다.
-    const rawEnglishArticles = [
-      {
-        title: "10,000th Life Saved in Kampala, Uganda",
-        pubDate: "2026-03-20",
-        description: "A successful surgery was performed at the Uganda Heart Institute through global medical collaboration. This is a major milestone for our foundation.",
-        thumbnail: "https://giftoflifeinternational.org/wp-content/uploads/2026/02/8CD514CE-5DB3-4656-9BA2-A634D17951D0-1-225x300.jpg",
-        categories: ["Global News"],
-        link: "https://giftoflifeinternational.org/"
-      },
-      {
-        title: "New Partnership for Hope in El Salvador",
-        pubDate: "2026-03-12",
-        description: "With support from US Rotary Clubs, 20 more children in El Salvador will receive life-saving heart surgery this month.",
-        thumbnail: "https://images.unsplash.com/photo-1575793033139-745b2ee9daf3?w=400&h=240&fit=crop&q=80",
-        categories: ["Partnership"],
-        link: "https://giftoflifeinternational.org/"
-      },
-      {
-        title: "Krist from Kosovo — A 5-Year-Old's Miracle",
-        pubDate: "2026-02-28",
-        description: "The touching story of Krist from Kosovo, growing healthy after his 2022 surgery. He now plays soccer with friends every weekend.",
-        thumbnail: "https://giftoflifeinternational.org/wp-content/uploads/2026/02/607442D4-9E78-4794-8185-C73E3C5BD268-300x300.jpg",
-        categories: ["Success Story"],
-        link: "https://giftoflifeinternational.org/"
-      }
-    ];
+    // 🚨 핵심: 외부 도구 대신 우리가 만든 Supabase Edge Function('fetch-rss')을 호출!
+    const { data: funcData, error: funcError } = await _sb.functions.invoke('fetch-rss');
+    if (funcError) throw funcError;
+    
+    // 백엔드에서 넘겨준 XML 텍스트를 분석(Parsing)
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(funcData.xml, "text/xml");
+    const items = Array.from(xmlDoc.querySelectorAll("item")).slice(0, limit);
     
     const articles = [];
     
-    // 4. 영문 데이터를 선택한 언어로 실시간 자동 번역!
-    for(let item of rawEnglishArticles.slice(0, limit)) {
-      let title = item.title;
-      let summary = item.description;
-      let category = item.categories[0];
+    // 4. 데이터 가공 및 실시간 번역
+    for(let item of items) {
+      let title = item.querySelector("title")?.textContent || '';
+      let rawDesc = item.querySelector("description")?.textContent || '';
+      let link = item.querySelector("link")?.textContent || '';
+      let pubDate = item.querySelector("pubDate")?.textContent || '';
+      let category = item.querySelector("category")?.textContent || 'News';
       
-      // 영어가 아닐 경우에만 구글 번역 API 호출
+      // 내용 요약 90자
+      const tmp = document.createElement('div');
+      tmp.innerHTML = rawDesc;
+      let summary = (tmp.textContent || tmp.innerText || '').trim().substring(0, 90) + '…';
+      
+      // 이미지 추출
+      let imgUrl = '';
+      const contentEncoded = item.getElementsByTagNameNS("*", "encoded")[0]?.textContent || rawDesc;
+      const m = contentEncoded.match(/<img[^>]+src="([^"]+)"/);
+      if (m) imgUrl = m[1];
+
+      // 날짜 포맷 변경 (예: Tue, 12 Mar 2026 -> 2026.03.12)
+      let d = new Date(pubDate);
+      let dateStr = isNaN(d) ? pubDate : `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+      
+      // 영어가 아닐 경우 구글 번역 API 호출
       if(curLang !== 'en') {
          title = await translateText(title, curLang);
          summary = await translateText(summary, curLang);
@@ -1300,28 +1297,28 @@ async function fetchNews(containerId, limit, forceRefresh){
       
       articles.push({
         title: title,
-        date: item.pubDate.replace(/-/g, '.'),
+        date: dateStr,
         summary: summary,
-        url: item.link,
+        url: link,
         category: category,
-        imgUrl: item.thumbnail
+        imgUrl: imgUrl
       });
     }
     
     _newsCache[cacheKey] = articles;
     
-    // 5. 번역이 완료된 데이터를 Supabase news_cache 테이블에 저장 (이게 매니저님이 원하신 핵심!)
+    // 5. 번역 완료된 데이터를 Supabase news_cache 테이블에 저장
     if(_sb){
        await _sb.from('news_cache').upsert([
-         { lang: curLang, limit_count: limit, articles: articles, fetched_at: new Date().toISOString(), source_url: 'virtual_global_feed' }
-       ], { onConflict: 'lang, limit_count' }).catch(err => console.error("Supabase 저장 에러:", err));
+         { lang: curLang, limit_count: limit, articles: articles, fetched_at: new Date().toISOString(), source_url: 'supabase_edge_function' }
+       ], { onConflict: 'lang, limit_count' }).catch(()=>{});
     }
     
-    // 화면에 출력
+    // 화면 출력
     renderNewsCards(el, articles, 'live');
     
   } catch(err) {
-    console.error("뉴스 처리 실패:", err);
+    console.error("백엔드 통신 및 번역 실패:", err);
     el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px">${curLang==='ko'?'뉴스를 처리하지 못했습니다.':'Could not process news.'}</div>`;
   }
 }
