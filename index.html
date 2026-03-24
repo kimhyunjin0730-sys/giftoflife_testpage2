@@ -1240,8 +1240,7 @@ async function fetchNews(containerId, limit, forceRefresh){
   try{
     // 🚨 여기가 핵심 해결 부분입니다! 🚨
     // 한국어(ko)일 때 에러가 나던 주소를 빼고, 무조건 안정적인 글로벌 피드를 가져옵니다.
-    const rssTarget = 'https://giftoflifeinternational.org/feed/'; 
-    const rssUrl = encodeURIComponent(rssTarget);
+const rssTarget = 'https://giftoflifeinternational.org/feed/';    const rssUrl = encodeURIComponent(rssTarget);
     const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=${limit}`);
     const data = await res.json();
     
