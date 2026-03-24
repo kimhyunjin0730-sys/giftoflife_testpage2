@@ -1198,20 +1198,7 @@ async function submitDonate(e){
   e.target.reset();
 }
 
-/* ══ 구글 번역 API (무료 내장형) ══ */
-async function translateText(text, targetLang) {
-  if(!text || targetLang === 'en') return text;
-  const tl = targetLang === 'zh' ? 'zh-CN' : targetLang;
-  try {
-    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`);
-    const data = await res.json();
-    return data[0].map(x => x[0]).join(''); 
-  } catch(e) {
-    return text; 
-  }
-}
-
-/* ══ NEWS FETCH (Edge Function 백엔드 우회 + 자동 번역 + Supabase 캐시) ══ */
+/* ══ NEWS FETCH (원문 그대로 스크래핑 & Supabase 저장) ══ */
 async function fetchNews(containerId, limit, forceRefresh){
   const el = document.getElementById(containerId);
   if(!el) return;
@@ -1219,13 +1206,13 @@ async function fetchNews(containerId, limit, forceRefresh){
   const cacheKey = curLang + '_' + limit;
   const t = T[curLang];
   
-  // 1. 브라우저 메모리 캐시 확인
+  // 1. 브라우저 캐시 확인
   if(!forceRefresh && _newsCache[cacheKey]){
     renderNewsCards(el, _newsCache[cacheKey]);
     return;
   }
   
-  // 2. Supabase DB 캐시 확인 (번역된 뉴스가 있는지 확인)
+  // 2. Supabase DB 캐시 확인 (저장된 원문 즉시 로딩)
   if(!forceRefresh && _sb){
     try{
       const exp = new Date(Date.now() - NEWS_CACHE_H * 3600000).toISOString();
@@ -1242,84 +1229,63 @@ async function fetchNews(containerId, limit, forceRefresh){
         const a = typeof cached.articles === 'string' ? JSON.parse(cached.articles) : cached.articles;
         _newsCache[cacheKey] = a;
         renderNewsCards(el, a, 'supabase', cached.fetched_at);
-        return; 
+        return;
       }
     } catch(e) { } 
   }
   
-  // 3. 백엔드 서버에서 뉴스 가져오기 시작
+  // 3. 화면 로딩 표시
   el.innerHTML = '<div class="news-loading"><div class="ns"></div><p>' + 
-                 (curLang==='ko' ? '우리 백엔드 서버에서 글로벌 뉴스를 가져와 번역 중입니다...' : 
-                  curLang==='zh' ? '正在从服务器获取并翻译新闻...' : 'Fetching and translating news from backend...') + 
+                 (curLang==='ko' ? '공식 홈페이지 뉴스를 가져오는 중...' : 
+                  'Fetching news from official site...') + 
                  '</p></div>';
   
   try{
-    // 🚨 핵심: 외부 도구 대신 우리가 만든 Supabase Edge Function('fetch-rss')을 호출!
-    const { data: funcData, error: funcError } = await _sb.functions.invoke('fetch-rss');
-    if (funcError) throw funcError;
-    
-    // 백엔드에서 넘겨준 XML 텍스트를 분석(Parsing)
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(funcData.xml, "text/xml");
-    const items = Array.from(xmlDoc.querySelectorAll("item")).slice(0, limit);
-    
-    const articles = [];
-    
-    // 4. 데이터 가공 및 실시간 번역
-    for(let item of items) {
-      let title = item.querySelector("title")?.textContent || '';
-      let rawDesc = item.querySelector("description")?.textContent || '';
-      let link = item.querySelector("link")?.textContent || '';
-      let pubDate = item.querySelector("pubDate")?.textContent || '';
-      let category = item.querySelector("category")?.textContent || 'News';
+    // 🚨 핵심: 한국어는 한국 사이트, 그 외는 글로벌 사이트에서 원문 그대로 긁어옴!
+    const rssTarget = curLang === 'ko' 
+      ? 'http://golikorea.or.kr/feed/' 
+      : 'https://giftoflifeinternational.org/feed/';
       
-      // 내용 요약 90자
+    const rssUrl = encodeURIComponent(rssTarget);
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=${limit}`);
+    const data = await res.json();
+    
+    if(data.status !== 'ok') throw new Error('RSS failed');
+    
+    // 4. 가져온 데이터 원문 그대로 가공 (번역 X)
+    const articles = data.items.slice(0,limit).map(item => {
       const tmp = document.createElement('div');
-      tmp.innerHTML = rawDesc;
-      let summary = (tmp.textContent || tmp.innerText || '').trim().substring(0, 90) + '…';
-      
-      // 이미지 추출
-      let imgUrl = '';
-      const contentEncoded = item.getElementsByTagNameNS("*", "encoded")[0]?.textContent || rawDesc;
-      const m = contentEncoded.match(/<img[^>]+src="([^"]+)"/);
-      if (m) imgUrl = m[1];
-
-      // 날짜 포맷 변경 (예: Tue, 12 Mar 2026 -> 2026.03.12)
-      let d = new Date(pubDate);
-      let dateStr = isNaN(d) ? pubDate : `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-      
-      // 영어가 아닐 경우 구글 번역 API 호출
-      if(curLang !== 'en') {
-         title = await translateText(title, curLang);
-         summary = await translateText(summary, curLang);
-         category = await translateText(category, curLang);
+      tmp.innerHTML = item.description || '';
+      let summary = (tmp.textContent || tmp.innerText || '').trim().substring(0,90) + '…';
+      let imgUrl = item.thumbnail || '';
+      if(!imgUrl){
+        const m = (item.content || '').match(/<img[^>]+src="([^"]+)"/);
+        if(m) imgUrl = m[1];
       }
-      
-      articles.push({
-        title: title,
-        date: dateStr,
+      return {
+        title: item.title,
+        date: (item.pubDate || '').split(' ')[0].replace(/-/g, '.'),
         summary: summary,
-        url: link,
-        category: category,
+        url: item.link,
+        category: (item.categories && item.categories[0]) || 'News',
         imgUrl: imgUrl
-      });
-    }
+      };
+    });
     
     _newsCache[cacheKey] = articles;
     
-    // 5. 번역 완료된 데이터를 Supabase news_cache 테이블에 저장
+    // 5. 원문 데이터를 Supabase news_cache 테이블에 저장!
     if(_sb){
        await _sb.from('news_cache').upsert([
-         { lang: curLang, limit_count: limit, articles: articles, fetched_at: new Date().toISOString(), source_url: 'supabase_edge_function' }
-       ], { onConflict: 'lang, limit_count' }).catch(()=>{});
+         { lang: curLang, limit_count: limit, articles: articles, fetched_at: new Date().toISOString(), source_url: rssTarget }
+       ], { onConflict: 'lang, limit_count' }).catch(err => console.error("DB 저장 에러:", err));
     }
     
-    // 화면 출력
     renderNewsCards(el, articles, 'live');
     
   } catch(err) {
-    console.error("백엔드 통신 및 번역 실패:", err);
-    el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px">${curLang==='ko'?'뉴스를 처리하지 못했습니다.':'Could not process news.'}</div>`;
+    console.error("뉴스 처리 실패:", err);
+    el.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px">${curLang==='ko'?'뉴스를 가져오지 못했습니다. (공식 홈페이지 보안 설정 문제)':'Could not fetch news from the server.'}<br><br><button onclick="fetchNews('${containerId}',${limit},true)" style="padding:9px 22px;background:var(--b);color:#fff;border:none;border-radius:4px;cursor:pointer">${T[curLang].refresh}</button></div>`;
   }
 }
 
