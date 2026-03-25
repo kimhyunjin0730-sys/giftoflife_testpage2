@@ -1107,7 +1107,8 @@ const SUPABASE_URL = 'https://wpeaskqbozozzcqytoyd.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndwZWFza3Fib3pvenpjcXl0b3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMzczODksImV4cCI6MjA4OTgxMzM4OX0.CgYiS6FohJc9B6velW_tacb-3p18AodIIGEsuxtEM5g';
 const RESEND_API_KEY = 're_Bd6AaBkk_Md8ndw2MLJoSbSH1fb8rpzL6';
 const CONTACT_TO = 'kim.hyunjin@jinnhyun.com';
-const ADMIN_EMAILS = ['kim.hyunjin@jinnhyun.com', 'golikorea@naver.com'];
+const ADMIN_EMAILS = ['kim.hyunjin@jinnhyun.com', 'golikorea@naver.com', 'admin@goli.internal'];
+const HARDCODED_ADMIN = {id:'admin.goli', pw:'goli1234', email:'admin@goli.internal', name:'GOLI 관리자'};
 const NEWS_PER_PAGE = 6;
 
 /* ── Supabase client ── */
@@ -1402,7 +1403,12 @@ async function loadNewsFromDB(){
 function selRegion(l){
   selLang=l;
   ['ko','en','zh'].forEach(x=>document.getElementById('rc-'+x).classList.toggle('active',x===l));
+  // Update modal text in selected language
+  const titles={ko:'어느 지역에서 접속하시나요?',en:'Where are you connecting from?',zh:'请选择您的地区'};
+  const subs={ko:'지역을 선택하시면 해당 언어로 사이트가 표시됩니다.',en:"Select your region and we'll display the site in your language.",zh:'选择您的地区，我们将以您的语言显示网站。'};
   const lb={ko:'한국어로 계속하기',en:'Continue in English',zh:'以中文继续'};
+  document.getElementById('rt').textContent=titles[l];
+  document.getElementById('rs').textContent=subs[l];
   document.getElementById('regionConfirmBtn').textContent=lb[l];
 }
 function confirmRegion(){setLang(selLang);document.getElementById('regionModal').style.display='none';}
@@ -1579,26 +1585,33 @@ async function doAuth(){
   const email=document.getElementById('authEmail').value.trim();
   const pw=document.getElementById('authPw').value;
   const errEl=document.getElementById('loginErr');
-  if(!email||!pw){errEl.textContent='이메일과 비밀번호를 입력하세요.';errEl.classList.add('show');return;}
-  if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');return;}
+  if(!email||!pw){errEl.textContent='이메일(또는 아이디)과 비밀번호를 입력하세요.';errEl.classList.add('show');return;}
   const btn=document.getElementById('authSubmitBtn');btn.innerHTML='<span class="spinner dark"></span>';btn.disabled=true;
 
+  // ── 하드코딩 관리자 로그인 (ID: admin.goli / PW: goli1234) ──
+  if((email===HARDCODED_ADMIN.id||email===HARDCODED_ADMIN.email) && pw===HARDCODED_ADMIN.pw){
+    closeLogin();
+    const fakeUser={id:'admin-local',email:HARDCODED_ADMIN.email,user_metadata:{name:HARDCODED_ADMIN.name}};
+    onUserLogin(fakeUser);
+    btn.innerHTML='<span id="authBtnTxt">로그인</span>';btn.disabled=false;
+    return;
+  }
+
   if(authMode==='login'){
+    if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">로그인</span>';btn.disabled=false;return;}
     const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
     if(error){errEl.textContent=error.message==='Invalid login credentials'?'이메일 또는 비밀번호가 올바르지 않습니다.':error.message;errEl.classList.add('show');}
     else{closeLogin();}
   }else{
+    if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
     const name=document.getElementById('authName').value.trim()||email.split('@')[0];
-    // Check if email already exists
     const {data:existing}=await sb.from('members').select('id').eq('email',email).maybeSingle();
     if(existing){errEl.textContent='이미 가입된 이메일입니다. 로그인해 주세요.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
     const {data,error}=await sb.auth.signUp({email,password:pw});
     if(error){errEl.textContent=error.message;errEl.classList.add('show');}
     else{
-      // Save member profile
       await sb.from('members').insert([{firebase_uid:data.user.id,name,email,grade:'supporter',lang:curLang}]);
       closeLogin();
-      errEl.classList.remove('show');
       alert('회원가입이 완료되었습니다! 이메일 확인 후 로그인해 주세요.');
     }
   }
@@ -1831,17 +1844,133 @@ function showTyping(){const el=document.getElementById('chatMsgs');const d=docum
 function hideTyping(){const e=document.getElementById('chatTyping');if(e)e.remove();}
 function quickAsk(text){document.getElementById('chatInp').value=text;sendChat();}
 function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+/* ── 로컬 키워드 응답 (API CORS 실패 시 폴백) ── */
+function localReply(text){
+  const t=text.toLowerCase();
+  const L=curLang;
+
+  // 후원/기부 방법
+  if(/후원|기부|donate|donation|捐款|how.*giv|어떻게/.test(t)){
+    return {
+      ko:'💳 **후원 방법**\n\n1️⃣ 후원하기 페이지로 이동\n2️⃣ 금액 선택 ($1, ₩20,000, ₩30,000 등)\n3️⃣ 국민은행 123-456-7890으로 입금\n4️⃣ 신청서 제출 → 사무국 확인\n\n월 ₩30,000(챔피언)으로 아이 1명을 직접 매칭 지원할 수 있습니다! ❤️',
+      en:'💳 **How to Donate**\n\n1️⃣ Go to the Donate page\n2️⃣ Select amount ($1, $20, $30, etc.)\n3️⃣ Transfer to Kookmin Bank 123-456-7890\n4️⃣ Submit form → Office confirms\n\nWith $25/month (Champion) you can be matched 1:1 with a child! ❤️',
+      zh:'💳 **如何捐款**\n\n1️⃣ 前往捐款页面\n2️⃣ 选择金额（$1、$20、$30等）\n3️⃣ 转账至Kookmin Bank 123-456-7890\n4️⃣ 提交申请 → 办公室确认\n\n每月$25（冠军会员）可1:1资助一名儿童！❤️'
+    }[L];
+  }
+
+  // Amara
+  if(/amara/i.test(t)){
+    return {
+      ko:'👧 **Amara (말라위, 4세)**\n\n말라위는 심장 수술 역량이 전무합니다. 선천성 심장 기형을 가진 Amara는 6살 이전 수술이 필요합니다.\n\n💰 모금 현황: $8,400 / $12,000 (70%)\n\n지금 후원 페이지에서 Amara를 도와주세요! ❤️',
+      en:"👧 **Amara (Malawi, age 4)**\n\nMalawi has no cardiac surgery capacity. Amara has a congenital heart defect and needs surgery before age 6.\n\n💰 Raised: $8,400 / $12,000 (70%)\n\nHelp Amara on the Donate page! ❤️",
+      zh:'👧 **Amara（马拉维，4岁）**\n\n马拉维没有心脏手术能力。Amara患有先天性心脏缺陷，需在6岁前手术。\n\n💰 筹款：$8,400 / $12,000 (70%)\n\n请在捐款页面帮助Amara！❤️'
+    }[L];
+  }
+
+  // 수술 비용
+  if(/비용|cost|费用|수술.*얼마|price|요금/.test(t)){
+    return {
+      ko:'💰 **수술 비용 구성**\n\n• 수술비: $3,500~$8,000\n• 항공편 & 체류: $3,000\n• 행정비용: $500\n• **총합: 약 $12,000 (약 ₩14,400,000)**\n\n12,000명이 $1씩 모으면 한 아이의 심장이 다시 뜁니다!',
+      en:'💰 **Surgery Cost Breakdown**\n\n• Surgery: $3,500–$8,000\n• Airfare & stay: $3,000\n• Admin: $500\n• **Total: ~$12,000**\n\nIf 12,000 people give $1 each, a child lives!',
+      zh:'💰 **手术费用明细**\n\n• 手术费：$3,500~$8,000\n• 机票及住宿：$3,000\n• 行政费用：$500\n• **合计：约$12,000**\n\n12,000人各捐$1，一个孩子就能获救！'
+    }[L];
+  }
+
+  // 회원 가입
+  if(/가입|join|member|회원|加入|멤버/.test(t)){
+    return {
+      ko:'👥 **회원 등급**\n\n🥉 **서포터** — ₩20,000/월\n월 1회 Zoom, 뉴스레터, 디지털 회원증\n\n🥇 **챔피언** — ₩30,000/월 ⭐추천\n전체 Zoom, 1:1 아동 매칭, 공식 회원증, SNS 홍보대사\n\n🏢 **파트너** — 기업/단체 별도 협의\n\n가입은 우측 상단 → 회원가입 버튼!',
+      en:'👥 **Membership Tiers**\n\n🥉 **Supporter** — ₩20,000/mo\nMonthly Zoom, newsletter, digital card\n\n🥇 **Champion** — ₩30,000/mo ⭐Recommended\nAll Zoom, 1:1 child match, official card\n\n🏢 **Partner** — Corporate, contact us\n\nClick Sign Up in the top right!',
+      zh:'👥 **会员等级**\n\n🥉 **支持者** — ₩20,000/月\n月度Zoom、通讯、数字会员证\n\n🥇 **冠军** — ₩30,000/月 ⭐推荐\n全部Zoom、1:1儿童匹配、官方会员证\n\n🏢 **合作伙伴** — 企业另行协商\n\n点击右上角"加入"按钮！'
+    }[L];
+  }
+
+  // 이벤트/일정
+  if(/이벤트|일정|event|schedule|concert|음악회|活动|日程/.test(t)){
+    return {
+      ko:'📅 **주요 일정**\n\n🎵 **5월 2일 오후 5시** — 자선 음악회 (국립극장)\n🚀 **6월 2026** — 위성클럽 공식 발족 (Zoom)\n📞 **매월 마지막 금요일** — 글로벌 Zoom 정기미팅',
+      en:'📅 **Upcoming Events**\n\n🎵 **May 2, 5PM** — Charity Concert (National Theater)\n🚀 **June 2026** — Satellite Club Launch (Zoom)\n📞 **Last Friday monthly** — Global Zoom Meeting',
+      zh:'📅 **即将举行的活动**\n\n🎵 **5月2日下午5时** — 慈善音乐会（国立剧场）\n🚀 **2026年6月** — 卫星社正式成立（Zoom）\n📞 **每月最后周五** — 全球Zoom例会'
+    }[L];
+  }
+
+  // 클럽 소개/연혁
+  if(/소개|about|연혁|history|역사|클럽|历史|关于/.test(t)){
+    return {
+      ko:'❤️ **생명의 선물 코리아 소개**\n\n1975년 미국 뉴욕에서 설립된 Gift of Life International의 한국 위성클럽입니다.\n\n설립자 이길우(Brett Halvorson)는 1983년 레이건 대통령 지원으로 에어포스원을 타고 미국에서 심장 수술을 받은 생존자입니다.\n\n📊 47,599명 구호 | ₩18.6억 모금 | 30+개국',
+      en:'❤️ **About Gift of Life International Korea**\n\nA satellite club of Gift of Life International (est. 1975, New York).\n\nFounder Brett Halvorson survived heart surgery in 1983 aboard Air Force One under President Reagan.\n\n📊 47,599 children saved | ₩1.86B raised | 30+ countries',
+      zh:'❤️ **关于生命礼物国际韩国**\n\n是1975年在纽约成立的Gift of Life International的卫星社。\n\n创始人Brett Halvorson是1983年在里根总统支持下乘坐空军一号赴美心脏手术的幸存者。\n\n📊 47,599名儿童获救 | ₩18.6亿筹款 | 30+国家'
+    }[L];
+  }
+
+  // 연락처
+  if(/연락|contact|문의|电话|邮件|email|전화|주소/.test(t)){
+    return {
+      ko:'📬 **연락처**\n\n📧 golikorea@naver.com\n📱 010-9985-5328\n📸 Instagram: @golikorea\n📍 서울 영등포구 선유로3길 10, 2층\n🌐 www.golikorea.or.kr',
+      en:'📬 **Contact**\n\n📧 golikorea@naver.com\n📱 010-9985-5328\n📸 Instagram: @golikorea\n📍 2F, 10 Seonyu-ro 3-gil, Yeongdeungpo-gu, Seoul\n🌐 www.golikorea.or.kr',
+      zh:'📬 **联系方式**\n\n📧 golikorea@naver.com\n📱 010-9985-5328\n📸 Instagram: @golikorea\n📍 首尔市永登浦区仙游路3街10号2楼\n🌐 www.golikorea.or.kr'
+    }[L];
+  }
+
+  // 선천성 심장병 통계
+  if(/통계|stat|135만|심장병|congenital|CHD|先天|心脏病/.test(t)){
+    return {
+      ko:'📊 **선천성 심장병 현황**\n\n• 매년 전 세계 약 135만 명 CHD 아이 출생\n• 그 중 93%가 수술을 받지 못함 (~100만 명 사망)\n• 현재 약 10%만 수술 가능\n• 한 아이당 수술비 약 $12,000\n\n우리가 함께하면 바꿀 수 있습니다!',
+      en:'📊 **CHD Statistics**\n\n• ~1.35M children born with CHD annually worldwide\n• 93% don't receive surgery (~1M deaths)\n• Only ~10% currently receive treatment\n• Surgery cost: ~$12,000 per child\n\nTogether we can change this!',
+      zh:'📊 **先天性心脏病现状**\n\n• 全球每年约135万名CHD患儿出生\n• 其中93%未获手术（约100万人死亡）\n• 目前仅约10%能接受治疗\n• 每名儿童手术费约$12,000\n\n我们携手可以改变这一切！'
+    }[L];
+  }
+
+  // 관리자 페이지
+  if(/관리자|admin|어드민/.test(t)){
+    return {
+      ko:'⚙️ **관리자 접속 방법**\n\nID: `admin.goli` / PW: `goli1234` 로 로그인 후 마이페이지에서 ⚙️ 관리자 버튼을 클릭하세요.\n\n관리자 기능: 뉴스 추가/수정/삭제, 회원 관리, 문의 확인, 후원 내역 조회',
+      en:'⚙️ **Admin Access**\n\nLogin with ID: `admin.goli` / PW: `goli1234`, then click the ⚙️ Admin button on your profile page.\n\nAdmin features: News CRUD, member management, contact inbox, donation records',
+      zh:'⚙️ **管理员访问**\n\n使用ID: `admin.goli` / PW: `goli1234` 登录，然后在我的页面点击⚙️管理员按钮。\n\n管理功能：新闻增删改、会员管理、联系收件箱、捐款记录'
+    }[L];
+  }
+
+  return null; // API에 위임
+}
+
 async function sendChat(){
   if(isSending)return;
   const inp=document.getElementById('chatInp');const text=inp.value.trim();if(!text)return;
   inp.value='';addUserMsg(text);chatHist.push({role:'user',content:text});
   isSending=true;document.getElementById('chatSendBtn').disabled=true;showTyping();
+
+  // 1) 로컬 키워드 우선 응답
+  const local=localReply(text);
+  if(local){
+    await new Promise(r=>setTimeout(r,500));
+    hideTyping();
+    addBotMsg(local.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/`(.*?)`/g,'<code style="background:#f0f4ff;padding:1px 5px;border-radius:3px;font-size:12px">$1</code>'));
+    chatHist.push({role:'assistant',content:local});
+    isSending=false;document.getElementById('chatSendBtn').disabled=false;
+    return;
+  }
+
+  // 2) Anthropic API 시도
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,system:getSiteCtx(),messages:chatHist.slice(-10)})});
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,system:getSiteCtx(),messages:chatHist.slice(-10)})
+    });
+    if(!res.ok) throw new Error('API '+res.status);
     const data=await res.json();
-    const reply=data.content?.[0]?.text||'Sorry, try again.';
+    const reply=data.content?.[0]?.text||'죄송합니다, 다시 시도해 주세요.';
     hideTyping();addBotMsg(reply);chatHist.push({role:'assistant',content:reply});
-  }catch(err){hideTyping();addBotMsg('연결 오류. 문의: golikorea@naver.com');}
+  }catch(err){
+    // 3) API 실패 시 종합 안내로 폴백
+    hideTyping();
+    const fallback={
+      ko:'안녕하세요! 제가 직접 답변드릴게요. 궁금한 내용을 알려주세요:\n\n💛 <b>후원 방법</b>: "후원" 또는 "기부"\n👧 <b>아동 사례</b>: "Amara", "Krist", "Diego"\n💰 <b>수술 비용</b>: "비용" 또는 "수술"\n👥 <b>회원 가입</b>: "가입" 또는 "멤버십"\n📅 <b>일정/이벤트</b>: "일정"\n📬 <b>연락처</b>: "연락" 또는 "문의"',
+      en:'Hello! Ask me about:\n\n💛 <b>How to donate</b>: type "donate"\n👧 <b>Child stories</b>: "Amara", "Krist", "Diego"\n💰 <b>Surgery cost</b>: "cost"\n👥 <b>Membership</b>: "join"\n📅 <b>Events</b>: "events"\n📬 <b>Contact</b>: "contact"',
+      zh:'您好！请问我：\n\n💛 <b>如何捐款</b>：输入"捐款"\n👧 <b>儿童故事</b>："Amara"、"Krist"\n💰 <b>手术费用</b>："费用"\n👥 <b>会员</b>："加入"\n📅 <b>活动</b>："活动"\n📬 <b>联系</b>："联系"'
+    };
+    addBotMsg(fallback[curLang]||fallback.ko);
+  }
   isSending=false;document.getElementById('chatSendBtn').disabled=false;
 }
 
