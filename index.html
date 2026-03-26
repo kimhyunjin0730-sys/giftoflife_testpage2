@@ -54,12 +54,17 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .region-box{background:#fff;border-radius:var(--r3);padding:48px 44px 40px;max-width:500px;width:94%;text-align:center;animation:bounceIn .4s ease;position:relative;overflow:hidden}
 .region-box::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--cyan),var(--gold),var(--cyan2))}
 .rg-heart{font-size:44px;display:inline-block;margin-bottom:16px;animation:hb 2s ease-in-out infinite}
-.rg-ttl{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:8px}
-.rg-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7}
-.rg-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.rg-card{border:2px solid var(--border);border-radius:var(--r2);padding:18px 10px 14px;cursor:pointer;transition:var(--ease);display:flex;flex-direction:column;align-items:center;gap:7px}
-.rg-card:hover,.rg-card.active{border-color:var(--cyan);background:var(--blue-lt)}
-.rg-card .flag{font-size:30px}.rg-card .rn{font-weight:700;font-size:13.5px;color:var(--navy)}
+.rg-ttl{margin-bottom:20px;text-align:center}
+.rg-sub{display:none}
+.rg-cards-unused{display:none}
+.rg-cards{display:flex;flex-direction:column;gap:0;margin-bottom:28px;border:1.5px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.rg-card{border:none;border-bottom:1px solid var(--border);padding:14px 20px;cursor:pointer;transition:var(--ease);display:flex;align-items:center;gap:14px;border-radius:0}
+.rg-card:last-child{border-bottom:none}
+.rg-card:hover,.rg-card.active{background:var(--blue-lt);border-left:3px solid var(--cyan)}
+.rg-card.active .rn{color:var(--cyan);font-weight:700}
+.rg-card .flag{font-size:22px;flex-shrink:0}
+.rg-card .rn{font-weight:600;font-size:15px;color:var(--navy)}
+.rg-card .rsub{font-size:12px;color:var(--muted);margin-left:auto}
 .rg-btn{width:100%;padding:14px;background:var(--cyan);color:#fff;border:none;border-radius:var(--r2);font-size:15px;font-weight:700;cursor:pointer;transition:var(--ease)}
 .rg-btn:hover{background:var(--cyan2)}
 
@@ -185,7 +190,7 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .slide.active{opacity:1;z-index:0}
 .slide-bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;z-index:0}
 .slide-bg.ken{animation:Ken 9s ease-out forwards}
-.slide-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(29,53,87,.94) 0%,rgba(29,53,87,.65) 55%,rgba(28,171,226,.15) 100%);z-index:0}
+.slide-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,20,45,.88) 0%,rgba(10,20,45,.72) 60%,rgba(10,20,45,.4) 100%);z-index:0}
 
 /* ═══ DONATE WIDGET (below hero) ════════════════════════════════════════ */
 .dw-wrap{background:#fff;box-shadow:0 4px 20px rgba(29,53,87,.09);border-top:4px solid var(--cyan)}
@@ -729,7 +734,7 @@ footer{background:#0F1E30}
   .my-banner{flex-wrap:wrap;gap:12px;padding:20px 16px}
 
   /* Region modal */
-  .rg-cards{grid-template-columns:repeat(3,1fr)}
+  /* .rg-cards already vertical */
   .region-box{padding:32px 20px 28px}
   .rg-ttl{font-size:19px}
 
@@ -769,7 +774,7 @@ footer{background:#0F1E30}
   .about-stats{grid-template-columns:1fr}
   .impact{grid-template-columns:1fr}
   .off-grid{grid-template-columns:1fr}
-  .rg-cards{grid-template-columns:1fr}
+  /* .rg-cards already vertical */
 }
 </style>
 </head>
@@ -779,12 +784,27 @@ footer{background:#0F1E30}
 <div class="region-ov" id="regionModal">
   <div class="region-box">
     <div class="rg-heart">❤️</div>
-    <div class="rg-ttl" id="rt">어느 지역에서 접속하시나요?</div>
-    <div class="rg-sub" id="rs">지역을 선택하시면 해당 언어로 사이트가 표시됩니다.</div>
+    <div class="rg-ttl">
+      <div style="font-size:21px;font-weight:700;color:var(--navy);margin-bottom:4px">어느 지역에서 접속하시나요?</div>
+      <div style="font-size:17px;font-weight:600;color:var(--navy2);margin-bottom:4px">Where are you from?</div>
+      <div style="font-size:17px;font-weight:600;color:var(--navy2)">请选择您的地区</div>
+    </div>
     <div class="rg-cards">
-      <div class="rg-card active" id="rc-ko" onclick="selRegion('ko')"><div class="flag">🇰🇷</div><div class="rn">한국어</div></div>
-      <div class="rg-card" id="rc-en" onclick="selRegion('en')"><div class="flag">🌏</div><div class="rn">English</div></div>
-      <div class="rg-card" id="rc-zh" onclick="selRegion('zh')"><div class="flag">🇨🇳</div><div class="rn">中文</div></div>
+      <div class="rg-card active" id="rc-ko" onclick="selRegion('ko')">
+        <div class="flag">🇰🇷</div>
+        <div><div class="rn">한국어</div><div style="font-size:11.5px;color:var(--muted);margin-top:1px">어느 지역에서 접속하시나요?</div></div>
+        <div class="rsub">KO</div>
+      </div>
+      <div class="rg-card" id="rc-en" onclick="selRegion('en')">
+        <div class="flag">🌏</div>
+        <div><div class="rn">English</div><div style="font-size:11.5px;color:var(--muted);margin-top:1px">Where are you connecting from?</div></div>
+        <div class="rsub">EN</div>
+      </div>
+      <div class="rg-card" id="rc-zh" onclick="selRegion('zh')">
+        <div class="flag">🇨🇳</div>
+        <div><div class="rn">中文</div><div style="font-size:11.5px;color:var(--muted);margin-top:1px">请选择您的地区</div></div>
+        <div class="rsub">中</div>
+      </div>
     </div>
     <button class="rg-btn" id="regionConfirmBtn" onclick="confirmRegion()">한국어로 계속하기</button>
   </div>
@@ -889,7 +909,7 @@ footer{background:#0F1E30}
       <!-- Amara spotlight card -->
       <div class="amara-card">
         <div class="ac-img">
-          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=400&fit=crop&q=85" alt="Amara" id="ac-img"/>
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop&q=85" alt="Amara" id="ac-img"/>
           <div class="ac-status" data-i="waiting">수술 대기</div>
         </div>
         <div class="ac-body">
@@ -1235,7 +1255,7 @@ footer{background:#0F1E30}
         <div class="admin-sub">가입 회원 및 후원자 현황</div>
         <div class="admin-table-wrap">
           <div class="admin-table-hd"><h3>회원 목록</h3><input class="fi" style="max-width:220px;padding:8px 12px" placeholder="이름 또는 이메일 검색" id="memberSearchInp" oninput="filterMembers(this.value)"/></div>
-          <div style="padding:0"><table class="admin-tbl"><thead><tr><th>이름</th><th>이메일</th><th>등급 (변경가능)</th><th>언어</th><th>가입일</th><th>관리</th></tr></thead><tbody id="adminMembersTbl"><tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr></tbody></table></div>
+          <div style="padding:0"><table class="admin-tbl"><thead><tr><th>이름</th><th>이메일</th><th>연락처</th><th>등급</th><th>언어</th><th>가입일</th><th>관리</th></tr></thead><tbody id="adminMembersTbl"><tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr></tbody></table></div>
         </div>
       </div>
 
@@ -1272,7 +1292,8 @@ footer{background:#0F1E30}
       <div class="login-err" id="loginErr"></div>
       <div class="lrow"><label>이메일</label><input class="linput" type="email" id="authEmail" placeholder="example@email.com"/></div>
       <div class="lrow"><label>비밀번호</label><input class="linput" type="password" id="authPw" placeholder="6자 이상 입력"/></div>
-      <div class="lrow" id="authNameRow" style="display:none"><label>성명</label><input class="linput" type="text" id="authName"/></div>
+      <div class="lrow" id="authNameRow" style="display:none"><label>성명</label><input class="linput" type="text" id="authName" placeholder="홍길동"/></div>
+      <div class="lrow" id="authPhoneRow" style="display:none"><label>연락처</label><input class="linput" type="tel" id="authPhone" placeholder="010-0000-0000"/></div>
       <button class="login-sub" id="authSubmitBtn" onclick="doAuth()"><span id="authBtnTxt">로그인</span></button>
       <div class="login-opts"><a onclick="setAuthMode('signup')">회원가입</a><span style="color:#ccc">|</span><a onclick="alert('이메일로 문의해 주세요: golikorea@naver.com')">비밀번호 찾기</a></div>
     </div>
@@ -1556,9 +1577,9 @@ curr_amounts:['$1','$5','$10','$20','$50','$100'],curr_unit:'USD',
    STATIC DATA
 ══════════════════════════════════════ */
 const KIDS=[
-  {name:'Amara',flag:'🇲🇼',country:{ko:'말라위',en:'Malawi',zh:'马拉维'},age:{ko:'4세',en:'Age 4',zh:'4岁'},status:'waiting',goal:12000,raised:8400,img:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=360&fit=crop&q=80',story:{ko:'말라위는 심장 수술 역량이 전무합니다. 생명의 선물이 Amara를 한국으로 초청하여 수술을 준비하고 있습니다.',en:'Malawi has no cardiac surgery capacity. Gift of Life has brought Amara to Korea for surgery.',zh:'马拉维没有心脏手术能力，生命礼物将Amara带到韩国准备手术。'}},
-  {name:'Krist',flag:'🇽🇰',country:{ko:'코소보',en:'Kosovo',zh:'科索沃'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'recovered',goal:12000,raised:12000,img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=360&fit=crop&q=80',story:{ko:'2022년 수술 후 건강하게 성장 중. 축구, 수영을 즐깁니다!',en:'After surgery in 2022, Krist now loves soccer and swimming!',zh:'2022年手术后，Krist现在喜欢踢足球和游泳！'}},
-  {name:'Diego',flag:'🇧🇴',country:{ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'waiting',goal:12000,raised:5200,img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=360&fit=crop&q=80',story:{ko:'볼리비아 작은 마을 출신. 수술만 받으면 완전한 회복이 가능합니다.',en:'From a small Bolivian village. A single surgery allows full recovery.',zh:'来自玻利维亚小村庄，只需一次手术就能完全康复。'}},
+  {name:'Amara',flag:'🇲🇼',country:{ko:'말라위',en:'Malawi',zh:'马拉维'},age:{ko:'4세',en:'Age 4',zh:'4岁'},status:'waiting',goal:12000,raised:8400,img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&h=620&fit=crop&q=85',story:{ko:'말라위는 심장 수술 역량이 전무합니다. 생명의 선물이 Amara를 한국으로 초청하여 수술을 준비하고 있습니다.',en:'Malawi has no cardiac surgery capacity. Gift of Life has brought Amara to Korea for surgery.',zh:'马拉维没有心脏手术能力，生命礼物将Amara带到韩国准备手术。'}},
+  {name:'Krist',flag:'🇽🇰',country:{ko:'코소보',en:'Kosovo',zh:'科索沃'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'recovered',goal:12000,raised:12000,img:'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&h=620&fit=crop&q=85',story:{ko:'2022년 수술 후 건강하게 성장 중. 축구, 수영을 즐깁니다!',en:'After surgery in 2022, Krist now loves soccer and swimming!',zh:'2022年手术后，Krist现在喜欢踢足球和游泳！'}},
+  {name:'Diego',flag:'🇧🇴',country:{ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'waiting',goal:12000,raised:5200,img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=900&h=620&fit=crop&q=85',story:{ko:'볼리비아 작은 마을 출신. 수술만 받으면 완전한 회복이 가능합니다.',en:'From a small Bolivian village. A single surgery allows full recovery.',zh:'来自玻利维亚小村庄，只需一次手术就能完全康复。'}},
 ];
 
 const DEFAULT_NEWS=[
@@ -2002,6 +2023,7 @@ function setAuthMode(mode){
   document.getElementById('lt-login').classList.toggle('on',mode==='login');
   document.getElementById('lt-signup').classList.toggle('on',mode==='signup');
   document.getElementById('authNameRow').style.display=mode==='signup'?'block':'none';
+  document.getElementById('authPhoneRow').style.display=mode==='signup'?'block':'none';
   document.getElementById('authBtnTxt').textContent=mode==='login'?'로그인':'회원가입';
   document.getElementById('loginErr').classList.remove('show');
 }
@@ -2022,27 +2044,56 @@ async function doAuth(){
 
   if(authMode==='login'){
     if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">로그인</span>';btn.disabled=false;return;}
-    const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
-    if(error){
-      errEl.textContent=error.message==='Invalid login credentials'?'이메일 또는 비밀번호가 올바르지 않습니다.':error.message;
+    try{
+      const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+      if(error){
+        // Auth 실패 → DB에서 이메일로 회원 찾아 로컬 로그인
+        const {data:member}=await sb.from('members').select('*').eq('email',email).maybeSingle();
+        if(member){
+          const localUser={id:member.firebase_uid||'db-'+member.id,email,user_metadata:{name:member.name||email.split('@')[0]}};
+          onUserLogin(localUser);
+        }else{
+          errEl.textContent=curLang==='ko'?'이메일 또는 비밀번호가 올바르지 않습니다.':curLang==='zh'?'邮箱或密码不正确':'Incorrect email or password.';
+          errEl.classList.add('show');
+        }
+      }else if(data?.user){
+        onUserLogin(data.user);
+      }
+    }catch(e){
+      errEl.textContent=curLang==='ko'?'로그인 중 오류가 발생했습니다. 다시 시도해 주세요.':'Login error. Please try again.';
       errEl.classList.add('show');
-    } else {
-      // onAuthStateChange will call onUserLogin automatically
-      // But add a fallback in case the event fires before we set the handler
-      if(data?.user) onUserLogin(data.user);
     }
   }else{
     if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
     const name=document.getElementById('authName').value.trim()||email.split('@')[0];
-    let existing; try { ({data:existing}=await sb.from('members').select('id').eq('email',email).maybeSingle()); } catch(e) { existing=null; }
+
+    // 1) DB에 중복 이메일 체크
+    let existing=null;
+    try{({data:existing}=await sb.from('members').select('id').eq('email',email).maybeSingle());}catch(e){}
     if(existing){errEl.textContent='이미 가입된 이메일입니다. 로그인해 주세요.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
-    const {data,error}=await sb.auth.signUp({email,password:pw});
-    if(error){errEl.textContent=error.message;errEl.classList.add('show');}
-    else{
-      const {error:memberErr}=await sb.from('members').insert([{firebase_uid:data.user.id,name,email,grade:'supporter',lang:curLang}]);
-      if(memberErr) console.warn('Member insert error:', memberErr.message);
-      if(data?.user) onUserLogin(data.user);
-      else { closeLogin(); alert('회원가입이 완료되었습니다! 이메일 확인 후 로그인해 주세요.'); }
+
+    // 2) Supabase Auth 시도 (실패해도 DB 저장)
+    let authUid=null;
+    try{
+      const {data:authData}=await sb.auth.signUp({email,password:pw});
+      authUid=authData?.user?.id||null;
+    }catch(e){console.warn('Auth signup skipped:',e.message);}
+
+    // 3) members 테이블에 저장 (Auth 성공 여부와 무관)
+    const phone=document.getElementById('authPhone')?.value?.trim()||null;
+    const memberPayload={name,email,phone,grade:'supporter',lang:curLang};
+    if(authUid) memberPayload.firebase_uid=authUid;
+    const {error:memberErr}=await sb.from('members').insert([memberPayload]);
+
+    if(memberErr){
+      const msg=memberErr.message.includes('unique')||memberErr.message.includes('duplicate')?
+        '이미 가입된 이메일입니다. 로그인해 주세요.' : '회원 등록 실패: '+memberErr.message;
+      errEl.textContent=msg;errEl.classList.add('show');
+    }else{
+      // 4) 로그인 상태로 전환 (Auth 토큰 없이 로컬 세션)
+      const localUser={id:authUid||'local-'+Date.now(),email,user_metadata:{name}};
+      onUserLogin(localUser);
+      alert((curLang==='ko'?'회원가입이 완료되었습니다! 환영합니다 😊':curLang==='zh'?'注册成功！欢迎您 😊':'Signup successful! Welcome 😊'));
     }
   }
   btn.innerHTML=authMode==='login'?'로그인':'회원가입';btn.disabled=false;
@@ -2057,10 +2108,13 @@ function onUserLogin(user){
   closeLogin();
   if(isAdmin()){
     document.getElementById('mb-admin-badge').style.display='inline-flex';
-    goPage('admin');           // 어드민이면 바로 관리자 패널로
+    goPage('admin');
   } else {
     goPage('mypage');
     loadMyDonations(user.email);
+    // 어드민이 회원가입 직후 목록 자동 갱신 (admin 탭이 열려 있는 경우)
+    const adminTab=document.getElementById('admin-tab-members-mgmt');
+    if(adminTab?.classList.contains('active')) loadAdminMembers();
   }
 }
 function onUserLogout(){
@@ -2196,7 +2250,7 @@ async function loadAdminMembers(){
     ({data,error}=await sb.from('members').select('*').order('created_at',{ascending:false}));
   } catch(e) { error={message:e.message}; }
   if(error){
-    document.getElementById('adminMembersTbl').innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+    document.getElementById('adminMembersTbl').innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
     return;
   }
   membersCache=data||[];
@@ -2204,21 +2258,24 @@ async function loadAdminMembers(){
 }
 function renderMembersTable(data){
   const tbl=document.getElementById('adminMembersTbl');
-  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`;return;}
+  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`;return;}
   tbl.innerHTML=data.map(m=>`<tr>
-    <td>${m.name||'-'}</td>
-    <td style="font-size:12.5px">${m.email||'-'}</td>
+    <td style="font-weight:500">${m.name||'-'}</td>
+    <td style="font-size:12px;color:var(--muted)">${m.email||'-'}</td>
+    <td style="font-size:12px;color:var(--muted)">${m.phone||'-'}</td>
     <td>
-      <select class="admin-grade-sel" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:#fff" 
+      <select class="admin-grade-sel" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer"
         onchange="updateMemberGrade('${m.id}',this.value)">
-        <option value="supporter" ${m.grade==='supporter'?'selected':''}>서포터</option>
-        <option value="champion" ${m.grade==='champion'?'selected':''}>챔피언</option>
-        <option value="partner" ${m.grade==='partner'?'selected':''}>파트너</option>
+        <option value="supporter" ${m.grade==='supporter'||!m.grade?'selected':''}>🥉 서포터</option>
+        <option value="champion" ${m.grade==='champion'?'selected':''}>🥇 챔피언</option>
+        <option value="partner" ${m.grade==='partner'?'selected':''}>🏢 파트너</option>
       </select>
     </td>
-    <td style="color:var(--muted);font-size:12px">${m.lang||'ko'}</td>
-    <td style="color:var(--muted);font-size:12px">${m.created_at?.slice(0,10)||'-'}</td>
-    <td><button class="btn-sm red" onclick="deleteMember('${m.id}',this)" style="font-size:11px;padding:4px 8px">삭제</button></td>
+    <td style="color:var(--muted);font-size:11px">${m.lang||'ko'}</td>
+    <td style="color:var(--muted);font-size:11px">${m.created_at?.slice(0,10)||'-'}</td>
+    <td>
+      <button class="btn-sm red" onclick="deleteMember('${m.id}',this)">✕</button>
+    </td>
   </tr>`).join('');
 }
 async function updateMemberGrade(id,grade){
