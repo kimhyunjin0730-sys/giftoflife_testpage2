@@ -1480,9 +1480,9 @@ curr_amounts:['$1','$5','$10','$20','$50','$100'],curr_unit:'USD',
    STATIC DATA
 ══════════════════════════════════════ */
 const KIDS=[
-  {name:'Amara',flag:'🇲🇼',country:{ko:'말라위',en:'Malawi',zh:'马拉维'},age:{ko:'4세',en:'Age 4',zh:'4岁'},status:'waiting',goal:12000,raised:8400,img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&h=620&fit=crop&q=85',story:{ko:'말라위는 심장 수술 역량이 전무합니다. 생명의 선물이 Amara를 한국으로 초청하여 수술을 준비하고 있습니다.',en:'Malawi has no cardiac surgery capacity. Gift of Life has brought Amara to Korea for surgery.',zh:'马拉维没有心脏手术能力，生命礼物将Amara带到韩国准备手术。'}},
-  {name:'Krist',flag:'🇽🇰',country:{ko:'코소보',en:'Kosovo',zh:'科索沃'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'recovered',goal:12000,raised:12000,img:'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&h=620&fit=crop&q=85',story:{ko:'2022년 수술 후 건강하게 성장 중. 축구, 수영을 즐깁니다!',en:'After surgery in 2022, Krist now loves soccer and swimming!',zh:'2022年手术后，Krist现在喜欢踢足球和游泳！'}},
-  {name:'Diego',flag:'🇧🇴',country:{ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'waiting',goal:12000,raised:5200,img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=900&h=620&fit=crop&q=85',story:{ko:'볼리비아 작은 마을 출신. 수술만 받으면 완전한 회복이 가능합니다.',en:'From a small Bolivian village. A single surgery allows full recovery.',zh:'来自玻利维亚小村庄，只需一次手术就能完全康复。'}},
+  {name:'Amara',flag:'🇲🇼',country:{ko:'말라위',en:'Malawi',zh:'马拉维'},age:{ko:'4세',en:'Age 4',zh:'4岁'},status:'waiting',goal:12000,raised:8400,img:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1400&h=800&fit=crop&q=90',story:{ko:'말라위는 심장 수술 역량이 전무합니다. 생명의 선물이 Amara를 한국으로 초청하여 수술을 준비하고 있습니다.',en:'Malawi has no cardiac surgery capacity. Gift of Life has brought Amara to Korea for surgery.',zh:'马拉维没有心脏手术能力，生命礼物将Amara带到韩国准备手术。'}},
+  {name:'Krist',flag:'🇽🇰',country:{ko:'코소보',en:'Kosovo',zh:'科索沃'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'recovered',goal:12000,raised:12000,img:'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&h=800&fit=crop&q=90',story:{ko:'2022년 수술 후 건강하게 성장 중. 축구, 수영을 즐깁니다!',en:'After surgery in 2022, Krist now loves soccer and swimming!',zh:'2022年手术后，Krist现在喜欢踢足球和游泳！'}},
+  {name:'Diego',flag:'🇧🇴',country:{ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},age:{ko:'5세',en:'Age 5',zh:'5岁'},status:'waiting',goal:12000,raised:5200,img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1400&h=800&fit=crop&q=90',story:{ko:'볼리비아 작은 마을 출신. 수술만 받으면 완전한 회복이 가능합니다.',en:'From a small Bolivian village. A single surgery allows full recovery.',zh:'来自玻利维亚小村庄，只需一次手术就能完全康复。'}},
 ];
 
 const DEFAULT_NEWS=[
@@ -1682,8 +1682,8 @@ function setLang(lang){
   if(ftl) ftl.innerHTML=logoMap[lang];
 
   // ── Region / notice bar ──
-  document.getElementById('rt').textContent=t.rt;
-  document.getElementById('rs').textContent=t.rs;
+  const rtEl=document.getElementById('rt');if(rtEl) rtEl.textContent=t.rt;
+  const rsEl=document.getElementById('rs');if(rsEl) rsEl.textContent=t.rs;
   document.getElementById('nb_txt').textContent=t.nb_txt;
   document.getElementById('nb_link').textContent=t.nb_link;
 
