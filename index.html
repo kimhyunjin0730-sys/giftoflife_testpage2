@@ -4,7 +4,11 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title id="pageTitle">Gift of Life International Korea</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<!-- Pretendard (한국어 최적화) -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+<!-- Playfair Display (숫자·영문 헤드라인) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 /* ═══ DESIGN TOKENS — UNICEF inspired ═══════════════════════════════════ */
@@ -25,11 +29,11 @@
   --max:1180px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:15px}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;font-size:15.5px;-webkit-text-size-adjust:100%}
+body{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;word-break:keep-all;overflow-wrap:break-word}
 a{text-decoration:none;color:inherit}img{display:block;max-width:100%}
-button{font-family:inherit;cursor:pointer;border:none;transition:var(--ease)}
-input,select,textarea{font-family:inherit;outline:none}
+button{font-family:'Pretendard Variable',Pretendard,sans-serif;cursor:pointer;border:none;transition:var(--ease)}
+input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;outline:none}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
 
 /* ═══ ANIMATIONS ════════════════════════════════════════════════════════ */
@@ -137,10 +141,10 @@ input,select,textarea{font-family:inherit;outline:none}
 .uni-hero{position:relative;min-height:620px;overflow:hidden;background:var(--navy)}
 .uni-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;animation:Ken 10s ease-out forwards}
 .uni-hero-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(29,53,87,.94) 0%,rgba(29,53,87,.72) 50%,rgba(28,171,226,.18) 100%)}
-.uni-hero-content{position:relative;z-index:5;max-width:var(--max);margin:0 auto;padding:80px 24px 60px;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:620px}
+.uni-hero-content{position:relative;z-index:10;max-width:var(--max);margin:0 auto;padding:80px 24px 60px;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:620px}
 .uni-hero-left{max-width:580px}
-.uni-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:22px;backdrop-filter:blur(6px)}
-.uni-eyebrow span{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 1.8s infinite}
+.uni-eyebrow{display:inline-flex;flex-direction:row;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:22px;backdrop-filter:blur(6px);white-space:nowrap;max-width:100%}
+.uni-eyebrow .dot{width:6px;height:6px;min-width:6px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;animation:hb 1.8s infinite}
 .uni-hero-h{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,58px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:18px;animation:slideLeft .7s ease both}
 .uni-hero-h .accent{color:var(--gold);font-style:italic}
 .uni-hero-p{font-size:16px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:30px;max-width:480px;animation:fadeUp .7s .15s ease both}
@@ -177,11 +181,11 @@ input,select,textarea{font-family:inherit;outline:none}
 .uni-nav{position:absolute;bottom:20px;right:28px;z-index:10;display:flex;gap:6px}
 .uni-nav-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--ease)}
 .uni-nav-btn:hover{background:rgba(255,255,255,.28)}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;z-index:1}
-.slide.active{opacity:1;z-index:2}
-.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center 30%}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;z-index:0}
+.slide.active{opacity:1;z-index:0}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;z-index:0}
 .slide-bg.ken{animation:Ken 9s ease-out forwards}
-.slide-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(29,53,87,.94) 0%,rgba(29,53,87,.65) 55%,rgba(28,171,226,.15) 100%)}
+.slide-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(29,53,87,.94) 0%,rgba(29,53,87,.65) 55%,rgba(28,171,226,.15) 100%);z-index:0}
 
 /* ═══ DONATE WIDGET (below hero) ════════════════════════════════════════ */
 .dw-wrap{background:#fff;box-shadow:0 4px 20px rgba(29,53,87,.09);border-top:4px solid var(--cyan)}
@@ -531,7 +535,7 @@ textarea.fi{resize:vertical;min-height:120px}
 .chat-typing span:nth-child(2){animation-delay:.2s}
 .chat-typing span:nth-child(3){animation-delay:.4s}
 .chat-inp-row{padding:11px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;background:#fff}
-.chat-inp{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:20px;font-size:13px;outline:none;resize:none;max-height:80px;font-family:'Plus Jakarta Sans',sans-serif;transition:var(--ease)}
+.chat-inp{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:20px;font-size:13px;outline:none;resize:none;max-height:80px;font-family:'Pretendard Variable',Pretendard,sans-serif;transition:var(--ease)}
 .chat-inp:focus{border-color:var(--cyan)}
 .chat-send{width:38px;height:38px;background:var(--cyan);color:#fff;border:none;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .chat-send:hover{background:var(--cyan2)}
@@ -545,30 +549,47 @@ textarea.fi{resize:vertical;min-height:120px}
 /* ═══ IG GRID ═══════════════════════════════════════════════════════════ */
 .ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:10px}
 
-/* ═══ ARTICLE MODAL ════════════════════════════════════════════════════ */
-.article-ov{position:fixed;inset:0;background:rgba(29,53,87,.85);z-index:2500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:var(--ease);backdrop-filter:blur(8px)}
-.article-ov.open{opacity:1;visibility:visible}
-.article-box{background:#fff;border-radius:var(--r2);width:100%;max-width:760px;max-height:90vh;overflow-y:auto;animation:bounceIn .35s ease;box-shadow:var(--sh2);display:flex;flex-direction:column}
-.article-img-wrap{width:100%;height:320px;overflow:hidden;position:relative;flex-shrink:0}
-.article-img-wrap img{width:100%;height:100%;object-fit:cover}
-.article-cat-badge{position:absolute;top:16px;left:16px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:5px 14px;border-radius:16px;letter-spacing:.3px}
-.article-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.9);border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.article-close:hover{background:#fff}
-.article-body{padding:32px}
-.article-title{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--navy);line-height:1.3;margin-bottom:14px}
-.article-desc{font-size:15px;color:#4a5568;line-height:1.9;margin-bottom:24px}
-.article-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:20px;border-top:1px solid var(--border)}
-.article-ext-link{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--blue);color:#fff;border-radius:var(--r2);font-size:13.5px;font-weight:700;cursor:pointer;transition:var(--ease);text-decoration:none}
-.article-ext-link:hover{background:var(--navy2)}
-.article-nav{display:flex;gap:8px}
-.article-nav-btn{padding:9px 18px;border:1.5px solid var(--border);background:#fff;border-radius:var(--r);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:var(--ease)}
-.article-nav-btn:hover{border-color:var(--blue);color:var(--blue)}
-.article-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+/* ═══ ARTICLE PAGE ══════════════════════════════════════════════════════ */
+/* 모달 오버레이 제거 - 완전한 별도 페이지로 전환 */
+.article-ov{display:none}  /* 기존 모달 비활성화 */
+
+/* Article Page styles */
+.ap-hero{position:relative;width:100%;height:480px;overflow:hidden;background:var(--navy)}
+.ap-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.ap-hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(29,53,87,.7) 0%,transparent 50%)}
+.ap-back{position:absolute;top:20px;left:24px;display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--ease);backdrop-filter:blur(6px)}
+.ap-back:hover{background:rgba(255,255,255,.28)}
+.ap-cat{position:absolute;bottom:24px;left:24px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:5px 14px;border-radius:16px;letter-spacing:.3px}
+.ap-body{max-width:760px;margin:0 auto;padding:48px 24px 64px}
+.ap-title{font-family:'Playfair Display',serif;font-size:clamp(24px,3.5vw,38px);font-weight:900;color:var(--navy);line-height:1.25;margin-bottom:24px}
+.ap-divider{width:60px;height:4px;background:var(--blue);border-radius:2px;margin-bottom:28px}
+.ap-desc{font-size:16px;color:#374151;line-height:2;margin-bottom:36px;white-space:pre-line}
+.ap-donate-cta{background:linear-gradient(135deg,var(--navy),var(--blue2));border-radius:var(--r2);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:40px;flex-wrap:wrap}
+.ap-donate-cta p{color:rgba(255,255,255,.85);font-size:14px;margin-top:5px}
+.ap-donate-cta h4{color:#fff;font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
+.ap-donate-btn{padding:12px 28px;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r2);font-size:14px;font-weight:800;cursor:pointer;transition:var(--ease);white-space:nowrap;flex-shrink:0}
+.ap-donate-btn:hover{background:#FFE033;transform:translateY(-1px)}
+.ap-ext-btn{display:inline-flex;align-items:center;gap:9px;padding:12px 26px;background:var(--blue);color:#fff;border:none;border-radius:var(--r2);font-size:14px;font-weight:700;cursor:pointer;transition:var(--ease);text-decoration:none}
+.ap-ext-btn:hover{background:var(--navy2)}
+.ap-nav-row{display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid var(--border);margin-top:12px;flex-wrap:wrap;gap:12px}
+.ap-nav-btn{display:flex;align-items:center;gap:8px;padding:11px 20px;border:1.5px solid var(--border);background:#fff;border-radius:var(--r2);font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;transition:var(--ease);max-width:240px}
+.ap-nav-btn:hover{border-color:var(--blue);color:var(--blue);background:#EBF7FC}
+.ap-nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.ap-nav-btn .ap-nav-label{font-size:11px;color:var(--muted);display:block;margin-bottom:2px}
+.ap-nav-btn .ap-nav-title{font-size:13px;font-weight:600;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
+.ap-nav-prev .ap-nav-label::before{content:'← '}
+.ap-nav-next{text-align:right}
+.ap-nav-next .ap-nav-label::after{content:' →'}
+.ap-back-all{display:inline-flex;align-items:center;gap:7px;color:var(--blue);font-size:13.5px;font-weight:600;cursor:pointer;margin-bottom:32px}
+.ap-back-all:hover{text-decoration:underline}
 @media(max-width:680px){
-  .article-img-wrap{height:200px}
-  .article-body{padding:20px 16px}
-  .article-title{font-size:20px}
-  .article-desc{font-size:14px}
+  .ap-hero{height:260px}
+  .ap-body{padding:28px 16px 48px}
+  .ap-title{font-size:22px}
+  .ap-desc{font-size:15px;line-height:1.85}
+  .ap-donate-cta{padding:20px}
+  .ap-nav-row{flex-direction:column;align-items:stretch}
+  .ap-nav-btn{max-width:100%}
 }
 
 /* ═══ SPINNER ═══════════════════════════════════════════════════════════ */
@@ -645,7 +666,7 @@ footer{background:#0F1E30}
     gap:0
   }
   .uni-hero-left{max-width:100%}
-  .uni-eyebrow{font-size:9.5px;padding:4px 12px;margin-bottom:14px}
+  .uni-eyebrow{font-size:9.5px;padding:4px 10px;margin-bottom:12px;white-space:nowrap;flex-direction:row}
   .uni-hero-h{font-size:clamp(24px,7vw,36px);margin-bottom:12px}
   .uni-hero-p{font-size:14px;margin-bottom:20px;line-height:1.7}
   .uni-hero-btns{flex-direction:column;gap:10px;width:100%}
@@ -857,9 +878,9 @@ footer{background:#0F1E30}
     <!-- background slides injected by JS -->
     <div class="uni-hero-content">
       <div class="uni-hero-left" id="heroLeft">
-        <div class="uni-eyebrow"><span></span> <span id="hero-eyebrow-txt">현재 진행 중 · 말라위 · 2026</span></div>
-        <h1 class="uni-hero-h" id="uni-hero-h">모든 아이는 <br><span class="accent">심장을 고칠</span><br>권리가 있습니다</h1>
-        <p class="uni-hero-p" id="uni-hero-p">매년 135만 명의 아이들이 선천성 심장병을 안고 태어납니다. 93%는 수술을 받지 못합니다. 당신의 $1이 그 숫자를 바꿉니다.</p>
+        <div class="uni-eyebrow"><span class="dot"></span><span id="hero-eyebrow-txt"></span></div>
+        <h1 class="uni-hero-h" id="uni-hero-h"></h1>
+        <p class="uni-hero-p" id="uni-hero-p"></p>
         <div class="uni-hero-btns">
           <button class="uni-btn-primary" onclick="goPage('donate')">❤️ <span data-i="donate_btn">지금 후원하기</span></button>
           <button class="uni-btn-ghost" onclick="goPage('activities')"><span data-i="more">어린이 이야기</span> →</button>
@@ -959,6 +980,42 @@ footer{background:#0F1E30}
       <div class="pagination" id="newsPagination"></div>
     </div>
   </div></div>
+</div>
+
+<!-- ════ ARTICLE DETAIL PAGE ════ -->
+<div class="page" id="page-article">
+  <div class="ap-hero">
+    <img id="ap-img" src="" alt=""/>
+    <div class="ap-hero-ov"></div>
+    <button class="ap-back" onclick="goPage('news')">← <span id="ap-back-txt">뉴스 목록</span></button>
+    <span class="ap-cat" id="ap-cat"></span>
+  </div>
+  <div class="ap-body">
+    <div class="ap-back-all" onclick="goPage('news')">← <span id="ap-back-all-txt">뉴스 & 소식으로 돌아가기</span></div>
+    <h1 class="ap-title" id="ap-title"></h1>
+    <div class="ap-divider"></div>
+    <div class="ap-desc" id="ap-desc"></div>
+    <div class="ap-donate-cta">
+      <div>
+        <h4 id="ap-cta-h">❤️ 이 아이를 도울 수 있습니다</h4>
+        <p id="ap-cta-p">$1이 모여 한 아이의 심장을 구합니다. 지금 함께해 주세요.</p>
+      </div>
+      <button class="ap-donate-btn" onclick="goPage('donate')" id="ap-cta-btn">❤️ 후원하기</button>
+    </div>
+    <div style="margin-bottom:28px">
+      <a class="ap-ext-btn" id="ap-ext-link" href="#" target="_blank" style="display:none">
+        🔗 <span id="ap-ext-txt">원문 보기</span>
+      </a>
+    </div>
+    <div class="ap-nav-row">
+      <button class="ap-nav-btn ap-nav-prev" id="ap-prev" onclick="navigateArticle(-1)">
+        <div><span class="ap-nav-label" id="ap-prev-lbl">이전 기사</span><span class="ap-nav-title" id="ap-prev-title"></span></div>
+      </button>
+      <button class="ap-nav-btn ap-nav-next" id="ap-next" onclick="navigateArticle(1)">
+        <div><span class="ap-nav-label" id="ap-next-lbl">다음 기사</span><span class="ap-nav-title" id="ap-next-title"></span></div>
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- ════ ABOUT ════ -->
@@ -1101,7 +1158,7 @@ footer{background:#0F1E30}
       <div class="my-ava">👤</div>
       <div class="my-info"><h3 id="mb-name">회원님</h3><p id="mb-email">user@email.com</p></div>
       <div style="margin-left:auto;display:flex;gap:10px;align-items:center;">
-        <span id="mb-admin-badge" style="display:none;background:var(--gold);color:#fff;padding:5px 12px;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer" onclick="goPage('admin')">⚙️ 관리자</span>
+        <span id="mb-admin-badge" style="display:none;background:var(--gold);color:#fff;padding:5px 12px;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer" onclick="goPage('admin')">⚙️ Administrator</span>
         <button onclick="doLogout()" style="padding:9px 20px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:13px;cursor:pointer" data-i="logout">로그아웃</button>
       </div>
     </div>
@@ -1123,7 +1180,7 @@ footer{background:#0F1E30}
 <div class="page" id="page-admin">
   <div class="admin-layout">
     <div class="admin-sidebar">
-      <div class="admin-sidebar-ttl">관리자 패널</div>
+      <div class="admin-sidebar-ttl">Administrator</div>
       <div class="admin-nav-item active" onclick="switchAdminTab('dashboard')">📊 대시보드</div>
       <div class="admin-nav-item" onclick="switchAdminTab('news-mgmt')">📰 뉴스 관리</div>
       <div class="admin-nav-item" onclick="switchAdminTab('members-mgmt')">👥 회원 관리</div>
@@ -1144,7 +1201,12 @@ footer{background:#0F1E30}
         </div>
         <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:22px;box-shadow:var(--sh)">
           <div style="font-weight:700;font-size:15px;color:var(--navy);margin-bottom:16px">⚡ 빠른 작업</div>
+          <!-- DB 연결 상태 -->
+          <div id="db-status" style="margin-bottom:16px;font-size:13px;padding:10px 14px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border)">
+            <span class="spinner dark"></span> DB 연결 확인 중...
+          </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn-primary" onclick="loadAdminDashboard()">🔄 새로고침</button>
             <button class="btn-primary" onclick="openNewsModal()">+ 뉴스 추가</button>
             <button class="btn-primary" style="background:var(--green)" onclick="switchAdminTab('contacts-mgmt');loadAdminContacts()">✉️ 문의 확인</button>
             <button class="btn-primary" style="background:var(--navy)" onclick="switchAdminTab('members-mgmt');loadAdminMembers()">👥 회원 목록</button>
@@ -1274,29 +1336,6 @@ footer{background:#0F1E30}
 </div>
 
 <!-- CHATBOT -->
-<!-- ARTICLE DETAIL MODAL -->
-<div class="article-ov" id="articleModal">
-  <div class="article-box" id="articleBox">
-    <div class="article-img-wrap">
-      <img id="articleImg" src="" alt=""/>
-      <span class="article-cat-badge" id="articleCat"></span>
-      <button class="article-close" onclick="closeArticle()">✕</button>
-    </div>
-    <div class="article-body">
-      <h2 class="article-title" id="articleTitle"></h2>
-      <p class="article-desc" id="articleDesc"></p>
-      <div class="article-footer">
-        <a class="article-ext-link" id="articleExtLink" href="#" target="_blank" style="display:none">
-          🔗 <span id="articleExtTxt">원문 보기</span>
-        </a>
-        <div class="article-nav">
-          <button class="article-nav-btn" id="articlePrev" onclick="navigateArticle(-1)">‹ 이전</button>
-          <button class="article-nav-btn" id="articleNext" onclick="navigateArticle(1)">다음 ›</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <button class="chat-fab" onclick="toggleChat()">💬<span class="chat-badge" id="chatBadge">1</span></button>
 <div class="chat-win" id="chatWin">
@@ -1338,7 +1377,7 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const RESEND_API_KEY = 're_Bd6AaBkk_Md8ndw2MLJoSbSH1fb8rpzL6';
 const CONTACT_TO = 'kim.hyunjin@jinnhyun.com';
 const ADMIN_EMAILS = ['kim.hyunjin@jinnhyun.com', 'golikorea@naver.com', 'admin@goli.internal'];
-const HARDCODED_ADMIN = {id:'admin.goli', pw:'goli1234', email:'admin@goli.internal', name:'GOLI 관리자'};
+const HARDCODED_ADMIN = {id:'admin.goli', pw:'goli1234', email:'admin@goli.internal', name:'Administrator'};
 const NEWS_PER_PAGE = 6;
 
 /* ── Supabase client ── */
@@ -1609,7 +1648,7 @@ let membersCache=[];
   await loadNewsFromDB();
 
   buildSlides();
-  renderAll();
+  setLang(curLang);   // 감지된 언어로 전체 UI 초기화 (hero, subtitle 등 모두 채움)
 })();
 
 /* ══════════════════════════════════════
@@ -1747,11 +1786,16 @@ function setLang(lang){
   const bcHome = document.querySelector('.bc-in span[data-i="nav_home"]');
   if(bcHome) bcHome.textContent = T[lang].nav_home||'홈';
 
-  // ── Article modal nav labels (if open) ──
-  const prev=document.getElementById('articlePrev');
-  const next=document.getElementById('articleNext');
-  if(prev) prev.textContent = lang==='ko'?'‹ 이전':lang==='zh'?'‹ 上一篇':'‹ Prev';
-  if(next) next.textContent = lang==='ko'?'다음 ›':lang==='zh'?'下一篇 ›':'Next ›';
+  // ── Article page: re-render if currently visible ──
+  if(document.getElementById('page-article')?.classList.contains('active')){
+    openArticle(currentArticleIdx);
+  }
+
+  // ── News page subtitle (항상 현재 언어로) ──
+  const newsSub=document.getElementById('news-page-sub');
+  if(newsSub && T[lang].news_sub) newsSub.textContent=T[lang].news_sub;
+  const newsTitle=document.querySelector('#page-news .sec-ttl');
+  if(newsTitle && T[lang].nav_news) newsTitle.textContent=T[lang].nav_news;
 
   updateCurrency();
   renderAll();
@@ -1771,7 +1815,7 @@ function updateCurrency(){
 /* ══════════════════════════════════════
    PAGE NAV
 ══════════════════════════════════════ */
-const PAGES={home:{p:'page-home',n:'nav-home',bc:'nav_home'},news:{p:'page-news',n:'nav-news',bc:'nav_news'},about:{p:'page-about',n:'nav-about',bc:'nav_about'},activities:{p:'page-activities',n:'nav-activities',bc:'nav_activities'},donate:{p:'page-donate',n:'nav-donate',bc:'nav_donate'},contact:{p:'page-contact',n:'nav-contact',bc:'nav_contact'},mypage:{p:'page-mypage',n:null,bc:'my_donation'},admin:{p:'page-admin',n:null,bc:'nav_home'}};
+const PAGES={home:{p:'page-home',n:'nav-home',bc:'nav_home'},news:{p:'page-news',n:'nav-news',bc:'nav_news'},article:{p:'page-article',n:'nav-news',bc:'nav_news'},about:{p:'page-about',n:'nav-about',bc:'nav_about'},activities:{p:'page-activities',n:'nav-activities',bc:'nav_activities'},donate:{p:'page-donate',n:'nav-donate',bc:'nav_donate'},contact:{p:'page-contact',n:'nav-contact',bc:'nav_contact'},mypage:{p:'page-mypage',n:null,bc:'my_donation'},admin:{p:'page-admin',n:null,bc:'nav_home'}};
 
 function goPage(k){
   if(k==='admin' && !isAdmin()) return;
@@ -1784,7 +1828,11 @@ function goPage(k){
   window.scrollTo({top:0,behavior:'smooth'});
   closeMob();
   if(k==='news') renderNewsPage();
-  if(k==='admin') loadAdminDashboard();
+  if(k==='admin'){
+    loadAdminDashboard();
+    // Pre-load all admin tabs in background
+    setTimeout(()=>{loadAdminNews();loadAdminMembers();loadAdminContacts();loadAdminDonations();},500);
+  }
 }
 function mgo(k){goPage(k);}
 function toggleMob(){document.getElementById('mobWrap').classList.toggle('open');}
@@ -1800,12 +1848,14 @@ function buildSlides(){
   const hero=document.getElementById('heroSlider');
   const dots=document.getElementById('slideDots');
   // Build background slides (pure bg, no inner content — content is in uni-hero-content)
+  // 슬라이드는 hero의 맨 앞에 삽입 (content보다 항상 아래 레이어)
+  const heroContent=hero.querySelector('.uni-hero-content');
   KIDS.forEach((k,i)=>{
     const s=document.createElement('div');
     s.className='slide'+(i===0?' active':'');
     s.id='slide'+i;
     s.innerHTML=`<div class="slide-bg ken" style="background-image:url('${k.img}')"></div><div class="slide-ov"></div>`;
-    hero.insertBefore(s,hero.querySelector('.uni-hero-content'));
+    hero.insertBefore(s, hero.firstChild);  // 항상 맨 앞에
   });
   // Dots
   dots.innerHTML=KIDS.map((_,i)=>
@@ -1871,8 +1921,25 @@ async function submitDonate(e){
   if(document.getElementById('capInput').value.toUpperCase().trim()!==curCap){alert(curLang==='ko'?'보안 코드가 일치하지 않습니다.':'Security code mismatch.');return;}
   const btn=document.getElementById('donateSubmitBtn');btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
   const fd=new FormData(e.target);
-  const payload={name:fd.get('name'),email:fd.get('email'),phone:fd.get('phone'),grade:'supporter',amount:donateAmt||'선택안함',pay_type:donateType,depositor:fd.get('depositor'),pay_date:fd.get('payDate')||null,pay_method:fd.get('payMethod'),status:'pending',lang:curLang};
-  try{ await sb.from('donations').insert([payload]); }catch(err){console.warn('Donation save failed',err);}
+  const payDate = fd.get('payDate');
+  const payload={
+    name: fd.get('name')||'',
+    email: fd.get('email')||'',
+    phone: fd.get('phone')||null,
+    grade: (document.querySelector('input[name="grade"]:checked')?.value)||'champion',
+    amount: donateAmt||fd.get('customAmt')||'미지정',
+    pay_type: donateType||'regular',
+    depositor: fd.get('depositor')||null,
+    pay_date: (payDate && payDate.trim()!=='')?payDate:null,
+    pay_method: fd.get('payMethod')||'transfer',
+    status: 'pending',
+    lang: curLang
+  };
+  try{
+    const {error:dbErr}=await sb.from('donations').insert([payload]);
+    if(dbErr) console.error('Donation DB error:', dbErr.message, dbErr);
+    else console.log('Donation saved OK');
+  }catch(err){console.warn('Donation save exception',err);}
   await new Promise(r=>setTimeout(r,600));
   btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');btn.disabled=false;
   document.getElementById('okBody').textContent=T[curLang].ok_body;
@@ -1947,9 +2014,8 @@ async function doAuth(){
 
   // ── 하드코딩 관리자 로그인 (ID: admin.goli / PW: goli1234) ──
   if((email===HARDCODED_ADMIN.id||email===HARDCODED_ADMIN.email) && pw===HARDCODED_ADMIN.pw){
-    closeLogin();
     const fakeUser={id:'admin-local',email:HARDCODED_ADMIN.email,user_metadata:{name:HARDCODED_ADMIN.name}};
-    onUserLogin(fakeUser);
+    onUserLogin(fakeUser);  // onUserLogin handles closeLogin() + goPage('admin')
     btn.innerHTML='<span id="authBtnTxt">로그인</span>';btn.disabled=false;
     return;
   }
@@ -1957,31 +2023,45 @@ async function doAuth(){
   if(authMode==='login'){
     if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">로그인</span>';btn.disabled=false;return;}
     const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
-    if(error){errEl.textContent=error.message==='Invalid login credentials'?'이메일 또는 비밀번호가 올바르지 않습니다.':error.message;errEl.classList.add('show');}
-    else{closeLogin();}
+    if(error){
+      errEl.textContent=error.message==='Invalid login credentials'?'이메일 또는 비밀번호가 올바르지 않습니다.':error.message;
+      errEl.classList.add('show');
+    } else {
+      // onAuthStateChange will call onUserLogin automatically
+      // But add a fallback in case the event fires before we set the handler
+      if(data?.user) onUserLogin(data.user);
+    }
   }else{
     if(pw.length<6){errEl.textContent='비밀번호는 6자 이상이어야 합니다.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
     const name=document.getElementById('authName').value.trim()||email.split('@')[0];
-    const {data:existing}=await sb.from('members').select('id').eq('email',email).maybeSingle();
+    let existing; try { ({data:existing}=await sb.from('members').select('id').eq('email',email).maybeSingle()); } catch(e) { existing=null; }
     if(existing){errEl.textContent='이미 가입된 이메일입니다. 로그인해 주세요.';errEl.classList.add('show');btn.innerHTML='<span id="authBtnTxt">회원가입</span>';btn.disabled=false;return;}
     const {data,error}=await sb.auth.signUp({email,password:pw});
     if(error){errEl.textContent=error.message;errEl.classList.add('show');}
     else{
-      await sb.from('members').insert([{firebase_uid:data.user.id,name,email,grade:'supporter',lang:curLang}]);
-      closeLogin();
-      alert('회원가입이 완료되었습니다! 이메일 확인 후 로그인해 주세요.');
+      const {error:memberErr}=await sb.from('members').insert([{firebase_uid:data.user.id,name,email,grade:'supporter',lang:curLang}]);
+      if(memberErr) console.warn('Member insert error:', memberErr.message);
+      if(data?.user) onUserLogin(data.user);
+      else { closeLogin(); alert('회원가입이 완료되었습니다! 이메일 확인 후 로그인해 주세요.'); }
     }
   }
   btn.innerHTML=authMode==='login'?'로그인':'회원가입';btn.disabled=false;
 }
 function onUserLogin(user){
   currentUser=user;
-  document.getElementById('btnLogin').textContent='👤 '+(user.user_metadata?.name||user.email.split('@')[0]);
+  const displayName=user.user_metadata?.name||user.email.split('@')[0];
+  document.getElementById('btnLogin').textContent='👤 '+displayName;
   document.getElementById('btnLogin').onclick=goMyPage;
-  document.getElementById('mb-name').textContent=(user.user_metadata?.name||user.email.split('@')[0])+' 님';
+  document.getElementById('mb-name').textContent=displayName+' 님';
   document.getElementById('mb-email').textContent=user.email;
-  if(isAdmin()){document.getElementById('mb-admin-badge').style.display='inline-flex';}
-  loadMyDonations(user.email);
+  closeLogin();
+  if(isAdmin()){
+    document.getElementById('mb-admin-badge').style.display='inline-flex';
+    goPage('admin');           // 어드민이면 바로 관리자 패널로
+  } else {
+    goPage('mypage');
+    loadMyDonations(user.email);
+  }
 }
 function onUserLogout(){
   currentUser=null;
@@ -2010,6 +2090,11 @@ function renderNewsPage(){
   const start=(newsPage-1)*NEWS_PER_PAGE;
   const items=allNews.slice(start,start+NEWS_PER_PAGE);
   const t=T[curLang];
+  // 항상 현재 언어로 subtitle 업데이트
+  const sub=document.getElementById('news-page-sub');
+  if(sub && t.news_sub) sub.textContent=t.news_sub;
+  const ttl=document.querySelector('#page-news .sec-ttl');
+  if(ttl && t.nav_news) ttl.textContent=t.nav_news;
   const grid=document.getElementById('newsGrid');
   if(grid) grid.innerHTML=items.map((n,i)=>{
     const idx=(newsPage-1)*NEWS_PER_PAGE+i;
@@ -2041,50 +2126,57 @@ function setNewsPage(p){
 function switchAdminTab(tab){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('admin-tab-'+tab).classList.add('active');
+  document.getElementById('admin-tab-'+tab)?.classList.add('active');
   const items=document.querySelectorAll('.admin-nav-item');
   const tabMap={'dashboard':0,'news-mgmt':1,'members-mgmt':2,'contacts-mgmt':3,'donations-mgmt':4};
   items[tabMap[tab]]?.classList.add('active');
-
-  if(tab==='news-mgmt') loadAdminNews();
-  if(tab==='members-mgmt') loadAdminMembers();
-  if(tab==='contacts-mgmt') loadAdminContacts();
-  if(tab==='donations-mgmt') loadAdminDonations();
+  const loaders={'news-mgmt':loadAdminNews,'members-mgmt':loadAdminMembers,'contacts-mgmt':loadAdminContacts,'donations-mgmt':loadAdminDonations,'dashboard':loadAdminDashboard};
+  if(loaders[tab]) loaders[tab]();
 }
 
 async function loadAdminDashboard(){
   if(!isAdmin()) return;
-  try{
-    const [mRes,dRes,cRes,nRes]=await Promise.all([
-      sb.from('members').select('*',{count:'exact',head:true}),
-      sb.from('donations').select('*',{count:'exact',head:true}),
-      sb.from('contact_messages').select('*',{count:'exact',head:true}).eq('status','unread'),
-      sb.from('news_posts').select('*',{count:'exact',head:true}),
-    ]);
-    document.getElementById('asc-members').textContent=mRes.count??'—';
-    document.getElementById('asc-donations').textContent=dRes.count??'—';
-    document.getElementById('asc-contacts').textContent=cRes.count??0;
-    document.getElementById('asc-news-cnt').textContent=(nRes.count||0)+DEFAULT_NEWS.length;
-  }catch(e){
-    // Fallback: use data length
-    const [m,d,c,n]=await Promise.all([
-      sb.from('members').select('id'),
-      sb.from('donations').select('id'),
-      sb.from('contact_messages').select('id').eq('status','unread'),
-      sb.from('news_posts').select('id'),
-    ]);
-    document.getElementById('asc-members').textContent=m.data?.length??'—';
-    document.getElementById('asc-donations').textContent=d.data?.length??'—';
-    document.getElementById('asc-contacts').textContent=c.data?.length??0;
-    document.getElementById('asc-news-cnt').textContent=(n.data?.length||0)+DEFAULT_NEWS.length;
+  const dbStatus = document.getElementById('db-status');
+  if(dbStatus) dbStatus.innerHTML = '<span class="spinner dark"></span> DB 연결 확인 중...';
+
+  try {
+    // 순차 await — Promise.all은 Supabase v2에서 DataCloneError 발생
+    const m = await sb.from('members').select('id');
+    const d = await sb.from('donations').select('id, status');
+    const c = await sb.from('contact_messages').select('id, status');
+    const n = await sb.from('news_posts').select('id');
+
+    const hasError = [m,d,c,n].find(r => r.error);
+    if(hasError){
+      if(dbStatus) dbStatus.innerHTML = `<span style="color:var(--red)">⚠️ DB 오류: ${hasError.error.message}</span>`;
+      return;
+    }
+
+    if(dbStatus) dbStatus.innerHTML = `<span style="color:var(--green)">✅ DB 연결 정상 — ${new Date().toLocaleTimeString()}</span>`;
+    document.getElementById('asc-members').textContent = m.data?.length ?? '—';
+    document.getElementById('asc-donations').textContent = d.data?.length ?? '—';
+    const unread = c.data?.filter(x=>x.status!=='read').length ?? 0;
+    document.getElementById('asc-contacts').textContent = unread;
+    document.getElementById('asc-news-cnt').textContent = (n.data?.length||0) + DEFAULT_NEWS.length;
+
+  } catch(e) {
+    if(dbStatus) dbStatus.innerHTML = `<span style="color:var(--red)">❌ 연결 실패: ${e.message}</span>`;
+    console.error('Admin dashboard error:', e);
   }
 }
 
 async function loadAdminNews(){
-  const {data,error}=await sb.from('news_posts').select('*').order('created_at',{ascending:false});
+  let data, error;
+  try {
+    ({data,error}=await sb.from('news_posts').select('*').order('created_at',{ascending:false}));
+  } catch(e) { error={message:e.message}; }
   const tbl=document.getElementById('adminNewsTbl');
+  if(error){
+    tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+    return;
+  }
   document.getElementById('news-count-badge').textContent=`(DB: ${data?.length||0}건 + 기본: ${DEFAULT_NEWS.length}건)`;
-  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">DB에 뉴스가 없습니다. 새 뉴스를 추가하세요.</td></tr>`;return;}
+  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">DB에 뉴스가 없습니다. 새 뉴스를 추가하세요.</td></tr>`;return;}
   tbl.innerHTML=data.map(n=>`<tr>
     <td style="color:var(--muted);font-size:11px">#${n.id}</td>
     <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">${n.title_ko||'-'}</td>
@@ -2099,13 +2191,20 @@ async function loadAdminNews(){
 }
 
 async function loadAdminMembers(){
-  const {data}=await sb.from('members').select('*').order('created_at',{ascending:false});
+  let data, error;
+  try {
+    ({data,error}=await sb.from('members').select('*').order('created_at',{ascending:false}));
+  } catch(e) { error={message:e.message}; }
+  if(error){
+    document.getElementById('adminMembersTbl').innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+    return;
+  }
   membersCache=data||[];
   renderMembersTable(membersCache);
 }
 function renderMembersTable(data){
   const tbl=document.getElementById('adminMembersTbl');
-  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`;return;}
+  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`;return;}
   tbl.innerHTML=data.map(m=>`<tr>
     <td>${m.name||'-'}</td>
     <td style="font-size:12.5px">${m.email||'-'}</td>
@@ -2137,8 +2236,15 @@ function filterMembers(q){
 }
 
 async function loadAdminContacts(){
-  const {data}=await sb.from('contact_messages').select('*').order('created_at',{ascending:false});
+  let data, error;
+  try {
+    ({data,error}=await sb.from('contact_messages').select('*').order('created_at',{ascending:false}));
+  } catch(e) { error={message:e.message}; }
   const tbl=document.getElementById('adminContactsTbl');
+  if(error){
+    tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+    return;
+  }
   if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">문의가 없습니다.</td></tr>`;return;}
   tbl.innerHTML=data.map(c=>`<tr><td>${c.name}</td><td>${c.email}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.subject||'-'}</td><td style="color:var(--muted);font-size:12px">${c.created_at?.slice(0,10)||'-'}</td><td><span class="admin-badge ${c.status==='read'?'read':'unread'}">${c.status==='read'?'확인':'미확인'}</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm blue" onclick="viewContact(${c.id},'${c.name}','${c.email}','${c.phone||''}','${encodeURIComponent(c.subject||'')}','${encodeURIComponent(c.message||'')}','${c.created_at||''}')">👁️ 보기</button>${c.status!=='read'?`<button class="btn-sm green" onclick="markContactRead(${c.id},this)">✓ 확인</button>`:''}</div></td></tr>`).join('');
   // Update dashboard badge
@@ -2160,8 +2266,15 @@ function viewContact(id,name,email,phone,subject,message,date){
 }
 
 async function loadAdminDonations(){
-  const {data}=await sb.from('donations').select('*').order('created_at',{ascending:false});
+  let data, error;
+  try {
+    ({data,error}=await sb.from('donations').select('*').order('created_at',{ascending:false}));
+  } catch(e) { error={message:e.message}; }
   const tbl=document.getElementById('adminDonationsTbl');
+  if(error){
+    tbl.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+    return;
+  }
   if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">후원 내역이 없습니다.</td></tr>`;return;}
   tbl.innerHTML=data.map(d=>`<tr>
     <td>${d.name||'-'}</td>
@@ -2282,51 +2395,81 @@ PAYMENT: Kookmin Bank 123-456-7890 (생명의선물코리아). EVENTS: Charity C
 CONTACT: golikorea@naver.com | 010-9985-5328 | @golikorea
 IMPORTANT: The current UI language is "${curLang}". Always respond in that language unless the user explicitly writes in a different language. Be warm and helpful.`;
 }
-/* ── Article detail modal ── */
+/* ── Article detail PAGE (별도 페이지) ── */
 let currentArticleIdx = 0;
+
 function openArticle(idx){
   const n = allNews[idx];
   if(!n) return;
   currentArticleIdx = idx;
   const L = curLang;
   const t = T[L];
-  document.getElementById('articleImg').src = n.img || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=760&h=320&fit=crop';
-  document.getElementById('articleImg').onerror = function(){ this.src='https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=760&h=320&fit=crop'; };
-  document.getElementById('articleCat').textContent = n.cat[L]||n.cat.ko||'';
-  document.getElementById('articleTitle').textContent = n.title[L]||n.title.ko||'';
-  document.getElementById('articleDesc').textContent = n.desc[L]||n.desc.ko||'';
+
+  // Hero image
+  const apImg = document.getElementById('ap-img');
+  apImg.src = n.img || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&h=480&fit=crop';
+  apImg.onerror = function(){ this.src='https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&h=480&fit=crop'; };
+
+  // Category badge
+  document.getElementById('ap-cat').textContent = n.cat[L]||n.cat.ko||'';
+
+  // Back button text
+  const backTxts = {ko:'뉴스 목록',en:'News List',zh:'新闻列表'};
+  const backAllTxts = {ko:'← 뉴스 & 소식으로 돌아가기',en:'← Back to News',zh:'← 返回新闻列表'};
+  document.getElementById('ap-back-txt').textContent = backTxts[L]||backTxts.ko;
+  document.getElementById('ap-back-all-txt').textContent = backAllTxts[L]||backAllTxts.ko;
+
+  // Title & description
+  document.getElementById('ap-title').textContent = n.title[L]||n.title.ko||'';
+  document.getElementById('ap-desc').textContent = n.desc[L]||n.desc.ko||'';
+
+  // CTA block
+  const ctaH = {ko:'❤️ 이 아이를 도울 수 있습니다',en:'❤️ You Can Help This Child',zh:'❤️ 您可以帮助这名儿童'};
+  const ctaP = {ko:'$1이 모여 한 아이의 심장을 구합니다. 지금 함께해 주세요.',en:'When $1 from 12,000 people comes together, a heart is saved. Join us now.',zh:'12,000人各捐$1，就能拯救一颗心脏。现在就加入我们。'};
+  const ctaBtn = {ko:'❤️ 후원하기',en:'❤️ Donate Now',zh:'❤️ 立即捐款'};
+  document.getElementById('ap-cta-h').textContent = ctaH[L]||ctaH.ko;
+  document.getElementById('ap-cta-p').textContent = ctaP[L]||ctaP.ko;
+  document.getElementById('ap-cta-btn').textContent = ctaBtn[L]||ctaBtn.ko;
+
   // External link
-  const extLink = document.getElementById('articleExtLink');
-  const extTxt = document.getElementById('articleExtTxt');
-  if(n.url){
+  const extLink = document.getElementById('ap-ext-link');
+  const extTxts = {ko:'원문 보기',en:'Read Original Article',zh:'查看原文'};
+  document.getElementById('ap-ext-txt').textContent = extTxts[L]||extTxts.ko;
+  if(n.url && n.url.trim()!==''){
     extLink.href = n.url;
-    extLink.style.display='inline-flex';
-    extTxt.textContent = L==='ko'?'원문 보기':L==='zh'?'查看原文':'Read Original';
+    extLink.style.display = 'inline-flex';
   } else {
-    extLink.style.display='none';
+    extLink.style.display = 'none';
   }
-  // Nav buttons
-  document.getElementById('articlePrev').disabled = idx<=0;
-  document.getElementById('articleNext').disabled = idx>=allNews.length-1;
-  const prevBtn = document.getElementById('articlePrev');
-  const nextBtn = document.getElementById('articleNext');
-  prevBtn.textContent = L==='ko'?'‹ 이전':L==='zh'?'‹ 上一篇':'‹ Prev';
-  nextBtn.textContent = L==='ko'?'다음 ›':L==='zh'?'下一篇 ›':'Next ›';
-  document.getElementById('articleModal').classList.add('open');
-  document.body.style.overflow='hidden';
+
+  // Prev / Next navigation
+  const prevLbls = {ko:'이전 기사',en:'Previous',zh:'上一篇'};
+  const nextLbls = {ko:'다음 기사',en:'Next',zh:'下一篇'};
+  document.getElementById('ap-prev-lbl').textContent = prevLbls[L]||prevLbls.ko;
+  document.getElementById('ap-next-lbl').textContent = nextLbls[L]||nextLbls.ko;
+
+  const prevBtn = document.getElementById('ap-prev');
+  const nextBtn = document.getElementById('ap-next');
+  const prevN = allNews[idx-1];
+  const nextN = allNews[idx+1];
+
+  prevBtn.disabled = !prevN;
+  nextBtn.disabled = !nextN;
+  document.getElementById('ap-prev-title').textContent = prevN ? (prevN.title[L]||prevN.title.ko||'') : '';
+  document.getElementById('ap-next-title').textContent = nextN ? (nextN.title[L]||nextN.title.ko||'') : '';
+
+  // Navigate to article page
+  goPage('article');
 }
+
 function closeArticle(){
-  document.getElementById('articleModal').classList.remove('open');
-  document.body.style.overflow='';
+  goPage('news');
 }
+
 function navigateArticle(dir){
   const next = currentArticleIdx + dir;
-  if(next>=0 && next<allNews.length) openArticle(next);
+  if(next >= 0 && next < allNews.length) openArticle(next);
 }
-// Close on backdrop click
-document.addEventListener('click', function(e){
-  if(e.target.id==='articleModal') closeArticle();
-});
 
 function toggleChat(){
   chatOpen=!chatOpen;
@@ -2440,7 +2583,7 @@ function localReply(text){
   // 관리자 — 보안상 안내하지 않음
   if(has(t,['관리자','admin','어드민','administrator'])){
     return {
-      ko:'🔒 관리자 관련 문의는 golikorea@naver.com으로 직접 연락해 주세요.',
+      ko:'🔒 Administrator 관련 문의는 golikorea@naver.com으로 직접 연락해 주세요.',
       en:'🔒 For admin-related inquiries, please contact golikorea@naver.com directly.',
       zh:'🔒 如有管理相关问题，请直接联系 golikorea@naver.com。'
     }[L];
