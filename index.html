@@ -132,8 +132,8 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .page{display:none}.page.active{display:block;animation:fadeIn .32s ease}
 
 /* HERO */
-.uni-hero{position:relative;min-height:640px;overflow:hidden;background:var(--navy)}
-.uni-hero-content{position:relative;z-index:15;max-width:var(--max);margin:0 auto;padding:90px 24px 70px;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:640px}
+.uni-hero{position:relative;min-height:500px;overflow:hidden;background:var(--navy);display:block}
+.uni-hero-content{position:relative;z-index:15;display:flex;max-width:var(--max);margin:0 auto;padding:90px 24px 70px;display:flex;align-items:center;justify-content:space-between;gap:32px;min-height:640px}
 .uni-hero-left{max-width:600px;flex:1}
 .uni-eyebrow{display:inline-flex;flex-direction:row;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:11px;font-weight:700;padding:6px 16px;border-radius:20px;margin-bottom:22px;backdrop-filter:blur(6px);white-space:nowrap}
 .uni-eyebrow .dot{width:6px;height:6px;min-width:6px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;animation:hb 2s infinite}
@@ -620,10 +620,10 @@ footer{background:#071422}
   .nb-bar{font-size:11.5px;padding:7px 36px 7px 12px}
   .uni-hero{min-height:360px}
   .uni-hero-content{padding:36px 16px 32px;min-height:auto;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0}
-  .uni-hero-left{max-width:100%;width:100%;position:relative;z-index:15}
+  .uni-hero-left{max-width:100%;width:100%;position:relative;z-index:15;display:block;opacity:1;visibility:visible}
   .uni-eyebrow{font-size:9.5px;padding:4px 10px;margin-bottom:12px;white-space:nowrap;flex-direction:row}
-  .uni-hero-h{font-size:clamp(26px,8vw,38px);margin-bottom:12px;color:#fff!important;opacity:1!important;visibility:visible!important}
-  .uni-hero-p{font-size:14px;margin-bottom:20px;line-height:1.7;color:rgba(255,255,255,.9)!important;opacity:1!important;visibility:visible!important}
+  .uni-hero-h{font-size:clamp(26px,8vw,38px);margin-bottom:12px;color:#fff!important;opacity:1!important;visibility:visible!important;animation:none!important}
+  .uni-hero-p{font-size:14px;margin-bottom:20px;line-height:1.7;color:rgba(255,255,255,.9)!important;opacity:1!important;visibility:visible!important;animation:none!important}
   .uni-hero-btns{flex-direction:column;gap:10px;width:100%}
   .uni-btn-primary,.uni-btn-ghost{width:100%;justify-content:center;padding:13px 20px;font-size:14px}
   .amara-card{display:none}
@@ -689,11 +689,12 @@ footer{background:#071422}
 <div class="region-ov" id="regionModal">
   <div class="region-box">
     <div class="rg-heart">❤️</div>
-    <div class="rg-ttl">
-      <div style="font-size:21px;font-weight:700;color:var(--navy);margin-bottom:4px">어느 지역에서 접속하시나요?</div>
+    <div class="rg-ttl" id="rt">
+      <div style="font-size:21px;font-weight:700;color:var(--navy);margin-bottom:4px" id="rg-ko-txt">어느 지역에서 접속하시나요?</div>
       <div style="font-size:17px;font-weight:600;color:var(--navy2);margin-bottom:4px">Where are you from?</div>
       <div style="font-size:17px;font-weight:600;color:var(--navy2)">请选择您的地区</div>
     </div>
+    <div id="rs" style="display:none"></div>
     <div class="rg-cards">
       <div class="rg-card active" id="rc-ko" onclick="selRegion('ko')">
         <div class="flag">🇰🇷</div>
@@ -1174,46 +1175,47 @@ footer{background:#071422}
           <div class="fg"><label class="fl" data-i="fl_phone">연락처<span class="req">*</span></label><input class="fi" name="phone" required/></div>
         </div></div>
         <div class="box"><div class="box-hd" data-i="pay_info">🏦 납부 정보</div><div class="box-bd">
-          <div id="transfer-fields">
-            <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span style="color:var(--red)">입금자명: 이름+후원</span></div>
-            <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input class="fi" name="depositor" id="depositorInp"/></div>
-            <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date" name="payDate" id="payDateFld"/></div>
-          </div>
-          <div id="kakaopay-info" style="display:none;background:#FFF9E6;border:1.5px solid #FFD400;border-radius:var(--r2);padding:16px 18px;margin-bottom:14px">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-              <span style="font-size:24px">💛</span>
-              <div style="font-weight:700;font-size:15px;color:#3A1D1D">카카오페이로 결제합니다</div>
-            </div>
-            <div style="font-size:13px;color:#5C4A00;line-height:1.8">
-              ✅ 결제 즉시 자동 확인<br>
-              ✅ 영수증 자동 발급<br>
-              ✅ 카카오페이 앱 또는 QR코드로 결제
-            </div>
-          </div>
-          <div class="fg" style="margin-bottom:6px"><label class="fl" data-i="fl_method">납부방법</label>
-            <div style="display:flex;gap:10px;padding-top:10px">
+          <!-- ① 납부방법 선택 카드 -->
+          <div class="fg" style="margin-bottom:14px">
+            <label class="fl" data-i="fl_method">납부방법</label>
+            <div style="display:flex;gap:10px;padding-top:8px">
               <label onclick="togglePayMethod('transfer')" style="flex:1;cursor:pointer">
-                <div class="pay-method-card active" id="pm-transfer" style="border:2px solid var(--blue);background:var(--blue-lt);border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:10px;transition:var(--ease)">
+                <div id="pm-transfer" style="border:2px solid var(--blue);background:rgba(26,86,255,.05);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px;transition:.2s">
                   <input type="radio" name="payMethod" value="transfer" checked style="display:none"/>
-                  <span style="font-size:22px">🏦</span>
-                  <div><div style="font-weight:700;font-size:14px;color:var(--navy)" data-i="transfer">계좌이체</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">국민은행 직접이체</div></div>
-                  <span style="margin-left:auto;color:var(--blue);font-size:18px" id="pm-transfer-check">✓</span>
+                  <span style="font-size:20px">🏦</span>
+                  <div>
+                    <div style="font-weight:700;font-size:13px;color:var(--navy)" data-i="transfer">계좌이체</div>
+                    <div style="font-size:10.5px;color:var(--muted);margin-top:1px">국민은행 직접이체</div>
+                  </div>
+                  <span style="margin-left:auto;color:var(--blue);font-weight:700;font-size:16px" id="pm-transfer-check">✓</span>
                 </div>
               </label>
               <label onclick="togglePayMethod('kakaopay')" style="flex:1;cursor:pointer">
-                <div class="pay-method-card" id="pm-kakaopay" style="border:2px solid var(--border);background:#fff;border-radius:var(--r2);padding:14px 16px;display:flex;align-items:center;gap:10px;transition:var(--ease)">
+                <div id="pm-kakaopay" style="border:2px solid var(--border);background:#fff;border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px;transition:.2s">
                   <input type="radio" name="payMethod" value="kakaopay" style="display:none"/>
-                  <span style="font-size:22px">💛</span>
-                  <div><div style="font-weight:700;font-size:14px;color:#3A1D1D">카카오페이</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">간편결제 · 즉시확인</div></div>
-                  <span style="margin-left:auto;color:transparent;font-size:18px" id="pm-kakaopay-check">✓</span>
+                  <span style="font-size:20px">💛</span>
+                  <div>
+                    <div style="font-weight:700;font-size:13px;color:#3A1D1D">카카오페이</div>
+                    <div style="font-size:10.5px;color:var(--muted);margin-top:1px">간편결제 · 즉시확인</div>
+                  </div>
+                  <span style="margin-left:auto;color:transparent;font-weight:700;font-size:16px" id="pm-kakaopay-check">✓</span>
                 </div>
               </label>
             </div>
           </div>
-          <!-- 계좌이체 안내 (transfer 선택 시) -->
-          <div id="transfer-info" style="margin-top:4px">
+          <!-- ② 계좌이체 전용 필드 -->
+          <div id="transfer-fields">
+            <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span style="color:var(--red)">입금자명: 이름+후원</span></div>
+            <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input class="fi" name="depositor" id="depositorInp" required/></div>
+            <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date" name="payDate" id="payDateFld"/></div>
+          </div>
+          <!-- ③ 카카오페이 선택 시 안내 -->
+          <div id="kakaopay-info" style="display:none;background:#FFFBE6;border:1.5px solid #FFD400;border-radius:8px;padding:14px 16px;font-size:13px;color:#5C4A00;line-height:1.9">
+            💛 <b>카카오페이로 결제합니다</b><br>
+            결제 버튼 클릭 시 카카오페이 결제창이 열립니다. 결제 즉시 자동 확인됩니다.
+          </div>
         </div></div>
-        <div class="box"><div class="box-hd" data-i="security">🔒 보안 확인</div><div class="box-bd">
+                <div class="box"><div class="box-hd" data-i="security">🔒 보안 확인</div><div class="box-bd">
           <div class="cap-wrap"><span class="cap-code" id="capCode">GOLI26</span><button type="button" style="background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer" onclick="refreshCap()">🔄</button></div>
           <input class="fi" type="text" name="captcha" id="capInput" placeholder="위 코드 입력" required style="max-width:210px;margin-top:10px"/>
           <div class="agree-row"><input type="checkbox" name="agree" required/><span data-i="agree">개인정보 수집 및 이용에 동의합니다.</span></div>
@@ -1439,6 +1441,40 @@ footer{background:#071422}
 </div>
 
 <!-- OK MODAL -->
+<!-- 카카오페이 QR 결제 모달 -->
+<div class="ok-ov" id="kakaoQrModal" style="z-index:900">
+  <div style="background:#fff;border-radius:16px;max-width:380px;width:90%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <!-- 헤더 -->
+    <div style="background:#FFE000;padding:18px 20px;display:flex;align-items:center;gap:10px">
+      <img src="https://developers.kakao.com/tool/resource/static/img/button/kakaopay/kakaopay_logo.png" alt="카카오페이" style="height:22px" onerror="this.style.display='none'"/>
+      <span style="font-weight:700;font-size:16px;color:#3A1D1D">카카오페이 QR 결제</span>
+    </div>
+    <!-- 바디 -->
+    <div style="padding:24px;text-align:center">
+      <div style="font-size:14px;color:#555;margin-bottom:16px">카카오페이 앱으로 QR코드를 스캔해 주세요</div>
+      <!-- QR 이미지 -->
+      <div id="kakaoQrImg" style="width:200px;height:200px;margin:0 auto 16px;border:2px solid #eee;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f9f9f9">
+        <span class="spinner" style="width:32px;height:32px;border-width:3px"></span>
+      </div>
+      <!-- 금액 -->
+      <div id="kakaoQrAmount" style="font-size:18px;font-weight:700;color:#3A1D1D;margin-bottom:8px"></div>
+      <!-- 상태 -->
+      <div id="kakaoQrStatus" style="font-size:13px;color:#888;margin-bottom:20px">결제 대기 중...</div>
+      <!-- 폴링 인디케이터 -->
+      <div style="display:flex;gap:4px;justify-content:center;margin-bottom:20px" id="kakaoQrDots">
+        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out infinite"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .3s infinite"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .6s infinite"></span>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button onclick="cancelKakaoQr()" style="padding:10px 28px;border:1.5px solid var(--border);border-radius:8px;background:#fff;color:var(--muted);font-size:13px;cursor:pointer">취소</button>
+        <a id="kakaoQrDirectLink" href="#" target="_blank" style="display:none;padding:10px 20px;background:#FFE000;border-radius:8px;font-weight:700;font-size:13px;color:#3A1D1D;text-decoration:none">앱으로 열기</a>
+      </div>
+      <div style="font-size:11px;color:#aaa;margin-top:12px">결제 완료 후 자동으로 확인됩니다</div>
+    </div>
+  </div>
+</div>
+
 <div class="ok-ov" id="okMod">
   <div class="ok-box">
     <div class="ok-ico">✅</div>
@@ -1713,6 +1749,7 @@ hero_h:'每个孩子都拥有<br><span class="accent">治愈心脏</span><br>的
 },
 };
 
+
 /* ══════════════════════════════════════
    STATIC DATA
 ══════════════════════════════════════ */
@@ -1779,38 +1816,43 @@ let membersCache=[];
    INIT
 ══════════════════════════════════════ */
 (async()=>{
-  const _now=new Date();
-  document.getElementById('utilDate').textContent=`${_now.getFullYear()}. ${_now.getMonth()+1}. ${_now.getDate()}.`;
-  document.getElementById('payDateFld').value=_now.toISOString().slice(0,10);
-  document.getElementById('nDate').value=_now.toISOString().slice(0,10);
+  // ① 즉시 DOM 초기화 (동기 - 네트워크 불필요)
+  try {
+    const _now=new Date();
+    const _u=document.getElementById('utilDate'); if(_u) _u.textContent=`${_now.getFullYear()}. ${_now.getMonth()+1}. ${_now.getDate()}.`;
+    const _p=document.getElementById('payDateFld'); if(_p) _p.value=_now.toISOString().slice(0,10);
+    const _n=document.getElementById('nDate'); if(_n) _n.value=_now.toISOString().slice(0,10);
+  } catch(e){}
 
-  // ── Auto-detect browser language ──
-  const browserLang = (navigator.language || navigator.languages?.[0] || 'ko').toLowerCase();
-  let detectedLang = 'ko';
-  if(browserLang.startsWith('zh')) detectedLang = 'zh';
-  else if(!browserLang.startsWith('ko')) detectedLang = 'en'; // any non-ko defaults to en
-  // Only auto-set if not overridden yet; region modal will finalize it
-  selLang = detectedLang;
-  // Pre-set the active card in region modal
-  ['ko','en','zh'].forEach(l=>document.getElementById('rc-'+l)?.classList.toggle('active',l===detectedLang));
-  const lb={ko:'한국어로 계속하기',en:'Continue in English',zh:'以中文继续'};
-  const titles={ko:'어느 지역에서 접속하시나요?',en:'Where are you connecting from?',zh:'请选择您的地区'};
-  const subs={ko:'지역을 선택하시면 해당 언어로 사이트가 표시됩니다.',en:"Select your region and we'll display the site in your language.",zh:'选择您的地区，我们将以您的语言显示网站。'};
-  document.getElementById('regionConfirmBtn').textContent = lb[detectedLang];
-  document.getElementById('rt').textContent = titles[detectedLang];
-  document.getElementById('rs').textContent = subs[detectedLang];
+  // ② 언어 감지
+  try {
+    const browserLang=(navigator.language||navigator.languages?.[0]||'ko').toLowerCase();
+    let detectedLang='ko';
+    if(browserLang.startsWith('zh')) detectedLang='zh';
+    else if(!browserLang.startsWith('ko')) detectedLang='en';
+    selLang=detectedLang;
+    ['ko','en','zh'].forEach(l=>document.getElementById('rc-'+l)?.classList.toggle('active',l===detectedLang));
+    const lb={ko:'한국어로 계속하기',en:'Continue in English',zh:'以中文继续'};
+    const rcb=document.getElementById('regionConfirmBtn'); if(rcb) rcb.textContent=lb[detectedLang];
+  } catch(e){}
 
-  // Supabase auth listener
-  const {data:{session}}=await sb.auth.getSession();
-  if(session?.user) onUserLogin(session.user);
-  sb.auth.onAuthStateChange((_ev,sess)=>{ if(sess?.user) onUserLogin(sess.user); else onUserLogout(); });
-
-  // Load news from Supabase
-  await loadNewsFromDB();
-
+  // ③ 핵심: 네트워크 호출 전에 즉시 페이지 렌더링
   buildSlides();
   setLang(curLang);
-  handleKakaoReturn();  // 카카오페이 리턴 처리   // 감지된 언어로 전체 UI 초기화 (hero, subtitle 등 모두 채움)
+  handleKakaoReturn();
+
+  // ④ 백그라운드 Supabase (실패해도 페이지는 정상 동작)
+  try {
+    const {data:{session}}=await sb.auth.getSession();
+    if(session?.user) onUserLogin(session.user);
+    sb.auth.onAuthStateChange((_ev,sess)=>{ if(sess?.user) onUserLogin(sess.user); else onUserLogout(); });
+  } catch(e){ console.warn('Supabase auth error:', e.message); }
+
+  try {
+    await loadNewsFromDB();
+    renderNews('homeNews',3);
+    renderNews('newsGrid',9);
+  } catch(e){ console.warn('News load error:', e.message); }
 })();
 
 /* ══════════════════════════════════════
@@ -2086,108 +2128,112 @@ function customAmt(inp){donateAmt=inp.value;document.querySelectorAll('.amt-btn'
 const CAPS=['GOLI26','HEART9','LIFE77','GOL123','SAVE01'];let curCap='GOLI26';
 function refreshCap(){curCap=CAPS[Math.floor(Math.random()*CAPS.length)];document.getElementById('capCode').textContent=curCap;document.getElementById('capInput').value='';}
 /* ══════════════════════════════════════
-   PAYMENT METHOD TOGGLE
+   PAYMENT METHOD TOGGLE + KAKAOPAY
 ══════════════════════════════════════ */
 let currentPayMethod = 'transfer';
 
 function togglePayMethod(method){
   currentPayMethod = method;
-  // 카드 UI 업데이트
-  ['transfer','kakaopay'].forEach(m=>{
+  const methods = ['transfer','kakaopay'];
+  methods.forEach(m=>{
     const card = document.getElementById('pm-'+m);
     const check = document.getElementById('pm-'+m+'-check');
-    const radio = card?.querySelector('input[type=radio]');
+    const radio = document.querySelector(`input[name="payMethod"][value="${m}"]`);
     if(m === method){
-      if(card){ card.style.border='2px solid var(--blue)'; card.style.background='var(--blue-lt)'; }
-      if(check) check.style.color='var(--blue)';
+      if(card){ card.style.border='2px solid var(--blue)'; card.style.background='rgba(26,86,255,.05)'; }
+      if(check) check.style.color = (m==='kakaopay') ? '#3A1D1D' : 'var(--blue)';
       if(radio) radio.checked=true;
     } else {
       if(card){ card.style.border='2px solid var(--border)'; card.style.background='#fff'; }
       if(check) check.style.color='transparent';
     }
   });
-  // 필드 표시/숨김
-  const tf = document.getElementById('transfer-fields');
-  const kf = document.getElementById('kakaopay-info');
-  const dep = document.getElementById('depositorInp');
-  if(method === 'kakaopay'){
+  const tf=document.getElementById('transfer-fields');
+  const ki=document.getElementById('kakaopay-info');
+  const dep=document.getElementById('depositorInp');
+  if(method==='kakaopay'){
     if(tf) tf.style.display='none';
-    if(kf) kf.style.display='block';
-    if(dep) dep.required=false;
+    if(ki) ki.style.display='block';
+    if(dep){ dep.required=false; dep.value=''; }
   } else {
     if(tf) tf.style.display='block';
-    if(kf) kf.style.display='none';
+    if(ki) ki.style.display='none';
     if(dep) dep.required=true;
   }
 }
 
+/* ══════════════════════════════════════
+   DONATE FORM SUBMIT
+══════════════════════════════════════ */
 async function submitDonate(e){
   e.preventDefault();
-  if(document.getElementById('capInput').value.toUpperCase().trim()!==curCap){
-    alert(curLang==='ko'?'보안 코드가 일치하지 않습니다.':'Security code mismatch.');return;
+  const capVal = document.getElementById('capInput')?.value.toUpperCase().trim();
+  if(capVal !== curCap){
+    alert(curLang==='ko'?'보안 코드가 일치하지 않습니다.':'Security code mismatch.');
+    return;
   }
-  const btn=document.getElementById('donateSubmitBtn');
-  const fd=new FormData(e.target);
+  const btn = document.getElementById('donateSubmitBtn');
+  const fd = new FormData(e.target);
   const method = currentPayMethod;
 
-  // ── 카카오페이 결제 ──────────────────────────────────────
+  // ── 카카오페이 QR 결제 ─────────────────────────
   if(method === 'kakaopay'){
-    const name=fd.get('name')||'';
-    const email=fd.get('email')||'';
-    const phone=fd.get('phone')||'';
-    if(!name||!email){ alert(curLang==='ko'?'성명과 이메일을 입력해 주세요.':'Please enter name and email.'); return; }
-
-    btn.innerHTML='<span class="spinner"></span> 카카오페이 연결 중...';btn.disabled=true;
-
-    // 금액 파싱 (₩30,000 → 30000 / $20 → 20)
+    const name = fd.get('name')||'';
+    const email = fd.get('email')||'';
+    const phone = fd.get('phone')||'';
+    if(!name||!email){
+      alert(curLang==='ko'?'성명과 이메일을 입력해 주세요.':'Please enter your name and email.');
+      return;
+    }
+    btn.innerHTML='<span class="spinner"></span> 카카오페이 연결 중...';
+    btn.disabled=true;
     const rawAmt = donateAmt || fd.get('customAmt') || '30000';
     const numAmt = parseInt(String(rawAmt).replace(/[^0-9]/g,'')) || 30000;
     const orderId = 'goli_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-
-    // 세션에 주문정보 저장 (결제 완료 후 승인에 사용)
-    sessionStorage.setItem('kakao_order_id', orderId);
-    sessionStorage.setItem('kakao_donor', JSON.stringify({
+    const donorInfo = {
       name, email, phone,
       amount: String(numAmt),
       grade: (document.querySelector('input[name="grade"]:checked')?.value)||'champion',
       pay_type: donateType||'regular',
       lang: curLang
-    }));
-
-    try{
-      // ① Supabase Edge Function: kakaopay-ready 호출
+    };
+    sessionStorage.setItem('kakao_order_id', orderId);
+    sessionStorage.setItem('kakao_donor', JSON.stringify(donorInfo));
+    try {
       const res = await fetch(
         'https://wpeaskqbozozzcqytoyd.supabase.co/functions/v1/kakaopay-ready',
-        {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ amount: numAmt, donor_name: name, donor_email: email, order_id: orderId })
-        }
+        { method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({amount:numAmt, donor_name:name, donor_email:email, order_id:orderId}) }
       );
       const data = await res.json();
-
-      if(!data.next_redirect_pc_url){
-        throw new Error(data.msg || '카카오페이 연결 실패');
+      if(!data || (!data.next_redirect_pc_url && !data.next_redirect_mobile_url)){
+        throw new Error(data?.msg||'카카오페이 준비 실패');
       }
-
-      // tid 저장 (승인 시 필요)
       sessionStorage.setItem('kakao_tid', data.tid);
+      btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+      btn.disabled=false;
 
-      // ② 카카오페이 결제창으로 이동
+      // QR 모달 표시
       const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
-      window.location.href = isMobile ? data.next_redirect_mobile_url : data.next_redirect_pc_url;
+      const redirectUrl = isMobile ? data.next_redirect_mobile_url : data.next_redirect_pc_url;
+
+      // QR 코드 생성 (qrcode.js CDN 사용)
+      showKakaoQrModal(redirectUrl, numAmt, orderId, donorInfo);
 
     } catch(err){
-      btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');btn.disabled=false;
-      alert('카카오페이 연결 오류: ' + err.message);
+      btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+      btn.disabled=false;
+      // Edge Function 미배포 → 안내 모달
+      showKakaoNotReadyModal(numAmt);
     }
     return;
   }
 
-  // ── 계좌이체 ─────────────────────────────────────────────
-  btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
+  // ── 계좌이체 (원래 Supabase 저장 로직 유지) ────
+  btn.innerHTML='<span class="spinner"></span>';
+  btn.disabled=true;
   const payDate = fd.get('payDate');
-  const payload={
+  const payload = {
     name: fd.get('name')||'',
     email: fd.get('email')||'',
     phone: fd.get('phone')||null,
@@ -2195,85 +2241,192 @@ async function submitDonate(e){
     amount: donateAmt||fd.get('customAmt')||'미지정',
     pay_type: donateType||'regular',
     depositor: fd.get('depositor')||null,
-    pay_date: (payDate && payDate.trim()!=='')?payDate:null,
+    pay_date: (payDate&&payDate.trim()!=='')?payDate:null,
     pay_method: 'transfer',
     status: 'pending',
     lang: curLang
   };
   try{
-    const {error:dbErr}=await sb.from('donations').insert([payload]);
-    if(dbErr) console.error('Donation DB error:', dbErr.message);
-  }catch(err){console.warn('Donation save exception',err);}
-  await new Promise(r=>setTimeout(r,500));
-  btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');btn.disabled=false;
-  document.getElementById('okBody').textContent=T[curLang].ok_body;
+    const {error:dbErr} = await sb.from('donations').insert([payload]);
+    if(dbErr) console.error('Donation DB error:', dbErr.message, dbErr);
+    else console.log('Donation saved OK');
+  }catch(err){ console.warn('Donation save exception', err); }
+
+  // Resend 이메일 알림
+  try{
+    await fetch('https://api.resend.com/emails', {
+      method:'POST',
+      headers:{'Authorization':'Bearer '+RESEND_API_KEY,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        from:'GOL Korea <noreply@golikorea.or.kr>',
+        to:[CONTACT_TO],
+        subject:`[GOL] 새 후원 신청: ${payload.name} - ${payload.amount}`,
+        html:`<p>후원자: ${payload.name}<br>이메일: ${payload.email}<br>금액: ${payload.amount}<br>입금자명: ${payload.depositor||'-'}</p>`
+      })
+    });
+  }catch(e){ console.warn('Resend mail error', e); }
+
+  await new Promise(r=>setTimeout(r,400));
+  btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+  btn.disabled=false;
+  document.getElementById('okBody').textContent = T[curLang].ok_body||'후원 신청서가 접수되었습니다.';
   document.getElementById('okMod').classList.add('open');
   e.target.reset();
-  togglePayMethod('transfer');  // 폼 초기화
+  togglePayMethod('transfer');
 }
 
 /* ══════════════════════════════════════
-   카카오페이 결제 완료 처리
-   (결제창에서 approval_url로 리다이렉트 후 호출)
+   카카오페이 QR 결제 모달 & 폴링
 ══════════════════════════════════════ */
-async function handleKakaoReturn(){
-  const params = new URLSearchParams(window.location.search);
-  const pg_token = params.get('pg_token');
-  const order_id_param = params.get('order_id');
-  if(!pg_token) return;
+let _kakaoQrTimer = null;
 
-  // URL 파라미터 제거 (히스토리 클리너)
-  const cleanUrl = window.location.origin + window.location.pathname;
-  window.history.replaceState({}, '', cleanUrl);
+function showKakaoNotReadyModal(amount){
+  // Edge Function 미배포 시 안내
+  const modal = document.getElementById('kakaoQrModal');
+  if(!modal) return;
+  const fmtAmt = curLang==='ko' ? '₩'+Number(amount).toLocaleString() : '$'+Math.round(amount/1300);
+  document.getElementById('kakaoQrImg').innerHTML =
+    '<div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:10px">💛</div><div style="font-size:12px;color:#888;line-height:1.7">카카오페이 서비스<br>준비 중입니다</div></div>';
+  document.getElementById('kakaoQrAmount').textContent = fmtAmt;
+  document.getElementById('kakaoQrStatus').textContent = '잠시 후 계좌이체로 진행해 주세요';
+  document.getElementById('kakaoQrDots').style.display='none';
+  modal.classList.add('open');
+}
 
+async function showKakaoQrModal(redirectUrl, amount, orderId, donorInfo){
+  const modal = document.getElementById('kakaoQrModal');
+  if(!modal) return;
+  const fmtAmt = curLang==='ko' ? '₩'+Number(amount).toLocaleString() : '$'+Math.round(amount/1300);
+  document.getElementById('kakaoQrAmount').textContent = fmtAmt;
+  document.getElementById('kakaoQrStatus').textContent = '결제 대기 중...';
+  document.getElementById('kakaoQrDots').style.display='flex';
+
+  // 앱으로 열기 버튼 (모바일)
+  const directLink = document.getElementById('kakaoQrDirectLink');
+  if(directLink){
+    directLink.href = redirectUrl;
+    directLink.style.display = 'inline-flex';
+  }
+
+  // QR 코드 생성 — qrserver.com API 사용
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(redirectUrl)}`;
+  document.getElementById('kakaoQrImg').innerHTML =
+    `<img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px" alt="카카오페이 QR" onerror="this.parentElement.innerHTML='<div style=\'padding:20px;text-align:center;font-size:12px;color:#888\'>QR 생성 실패<br>앱으로 열기 버튼을 눌러주세요</div>'"/>`;
+
+  modal.classList.add('open');
+
+  // 결제 완료 폴링 (4초 간격, 최대 10분)
+  let pollCount = 0;
+  const maxPolls = 150;
+  _kakaoQrTimer = setInterval(async()=>{
+    pollCount++;
+    if(pollCount > maxPolls){
+      clearInterval(_kakaoQrTimer);
+      document.getElementById('kakaoQrStatus').textContent = '결제 시간이 초과되었습니다. 다시 시도해 주세요.';
+      document.getElementById('kakaoQrDots').style.display='none';
+      return;
+    }
+    // pg_token이 sessionStorage에 들어오면 승인 처리 (리다이렉트 방식)
+    // 또는 approval_url로 리다이렉트 된 경우 handleKakaoReturn 처리
+    const pgToken = sessionStorage.getItem('kakao_pg_token');
+    if(pgToken){
+      clearInterval(_kakaoQrTimer);
+      sessionStorage.removeItem('kakao_pg_token');
+      await approveKakaoPayment(pgToken, orderId, donorInfo);
+    }
+  }, 4000);
+}
+
+function cancelKakaoQr(){
+  if(_kakaoQrTimer) clearInterval(_kakaoQrTimer);
+  document.getElementById('kakaoQrModal').classList.remove('open');
+  sessionStorage.removeItem('kakao_tid');
+  sessionStorage.removeItem('kakao_order_id');
+  sessionStorage.removeItem('kakao_donor');
+  togglePayMethod('transfer');
+}
+
+async function approveKakaoPayment(pg_token, orderId, donorInfo){
+  document.getElementById('kakaoQrStatus').textContent = '결제 승인 중...';
   const tid = sessionStorage.getItem('kakao_tid');
-  const orderId = sessionStorage.getItem('kakao_order_id') || order_id_param;
-  const donorInfo = JSON.parse(sessionStorage.getItem('kakao_donor')||'{}');
-
-  if(!tid || !orderId){ console.warn('카카오페이: tid 또는 orderId 없음'); return; }
-
-  // 로딩 표시
-  goPage('donate');
-  const loadEl = document.createElement('div');
-  loadEl.id = 'kakao-loading';
-  loadEl.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px"><span class="spinner" style="width:40px;height:40px;border-width:4px"></span><div style="color:#fff;font-size:16px;font-weight:600">결제 확인 중...</div></div>';
-  document.body.appendChild(loadEl);
-
   try{
-    // ③ Supabase Edge Function: kakaopay-approve 호출
     const res = await fetch(
       'https://wpeaskqbozozzcqytoyd.supabase.co/functions/v1/kakaopay-approve',
-      {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ pg_token, tid, order_id: orderId, donor_info: donorInfo })
-      }
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({pg_token, tid, order_id:orderId, donor_info:donorInfo}) }
     );
     const result = await res.json();
-    loadEl.remove();
+    document.getElementById('kakaoQrModal').classList.remove('open');
     sessionStorage.removeItem('kakao_tid');
     sessionStorage.removeItem('kakao_order_id');
     sessionStorage.removeItem('kakao_donor');
 
     if(result.success){
-      // 카카오페이용 성공 모달 (즉시확인)
-      document.getElementById('okBody').textContent =
-        curLang==='ko' ? '카카오페이 결제가 완료되었습니다! 즉시 확인되었습니다.' :
-        curLang==='zh' ? '카카오Pay支付完成！已即时确认。' :
-        'KakaoPay payment completed! Immediately confirmed.';
-      // 단계 1을 "결제 완료"로 교체
-      const s1t = document.getElementById('ok-step1-title');
-      const s1b = document.getElementById('ok-step1-body');
-      if(s1t) s1t.textContent = '💛 카카오페이 결제 완료';
-      if(s1b) s1b.textContent = '결제가 즉시 처리되었습니다. 영수증은 카카오페이 앱에서 확인하세요.';
+      // ✅ Supabase donations 테이블에도 직접 저장 (안전장치)
+      try{
+        await sb.from('donations').insert([{
+          name: donorInfo.name||'',
+          email: donorInfo.email||'',
+          phone: donorInfo.phone||null,
+          grade: donorInfo.grade||'champion',
+          amount: donorInfo.amount||'0',
+          pay_type: donorInfo.pay_type||'regular',
+          pay_method: 'kakaopay',
+          payment_id: result.payment?.aid||tid,
+          status: 'confirmed',
+          lang: donorInfo.lang||'ko'
+        }]);
+      } catch(dbErr){ console.warn('DB insert error (already saved by edge fn):', dbErr); }
+
+      // 완료 모달 표시
+      goPage('donate');
+      const okBody = document.getElementById('okBody');
+      if(okBody) okBody.textContent = curLang==='ko'
+        ? '카카오페이 결제가 완료되었습니다! 즉시 확인되었습니다.'
+        : 'KakaoPay payment completed and confirmed!';
+      const s1t=document.getElementById('ok-step1-title');
+      const s1b=document.getElementById('ok-step1-body');
+      if(s1t) s1t.textContent='💛 카카오페이 결제 완료';
+      if(s1b) s1b.textContent='결제가 즉시 처리되었습니다. 영수증은 카카오페이 앱에서 확인하세요.';
+      const s2=document.getElementById('ok-step2-title');
+      const s3=document.getElementById('ok-step3-title');
+      if(s2) s2.style.opacity='0.4';
+      if(s3) s3.style.opacity='0.4';
       document.getElementById('okMod').classList.add('open');
     } else {
-      alert('결제 승인 실패: '+(result.error?.message||'알 수 없는 오류')+' 문의: golikorea@naver.com');
+      alert('결제 승인 실패. 문의: golikorea@naver.com');
     }
-  } catch(err){
-    if(document.getElementById('kakao-loading')) document.getElementById('kakao-loading').remove();
-    alert('결제 처리 오류: '+err.message);
+  }catch(err){
+    document.getElementById('kakaoQrModal').classList.remove('open');
+    alert('결제 처리 오류: '+err.message+'. 문의: golikorea@naver.com');
   }
+}
+
+/* pg_token 리다이렉트 처리 (approval_url로 돌아온 경우) */
+async function handleKakaoReturn(){
+  const params = new URLSearchParams(window.location.search);
+  const pg_token = params.get('pg_token');
+  if(!pg_token) return;
+  window.history.replaceState({}, '', window.location.origin + window.location.pathname);
+
+  const tid = sessionStorage.getItem('kakao_tid');
+  const orderId = sessionStorage.getItem('kakao_order_id') || params.get('order_id');
+  const donorInfo = JSON.parse(sessionStorage.getItem('kakao_donor')||'{}');
+
+  if(!tid||!orderId){
+    // QR 폴링이 진행 중일 수 있음 — sessionStorage에 pg_token 저장
+    sessionStorage.setItem('kakao_pg_token', pg_token);
+    return;
+  }
+
+  // 로딩
+  const loadEl = document.createElement('div');
+  loadEl.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px';
+  loadEl.innerHTML='<div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#FFE000;border-radius:50%;animation:spin .8s linear infinite"></div><div style="color:#fff;font-size:15px;font-weight:600">결제 확인 중...</div>';
+  document.body.appendChild(loadEl);
+
+  await approveKakaoPayment(pg_token, orderId, donorInfo);
+  loadEl.remove();
 }
 
 /* ══════════════════════════════════════
@@ -2408,6 +2561,7 @@ async function doAuth(){
 }
 function onUserLogin(user){
   currentUser=user;
+  window._currentUser=user;
   const displayName=user.user_metadata?.name||user.email.split('@')[0];
   document.getElementById('btnLogin').textContent='👤 '+displayName;
   document.getElementById('btnLogin').onclick=goMyPage;
@@ -2600,6 +2754,8 @@ function filterMembers(q){
   renderMembersTable(f);
 }
 
+let _contactsCache = [];
+
 async function loadAdminContacts(){
   let data, error;
   try {
@@ -2610,11 +2766,35 @@ async function loadAdminContacts(){
     tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
     return;
   }
-  if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">문의가 없습니다.</td></tr>`;return;}
-  tbl.innerHTML=data.map(c=>`<tr><td>${c.name}</td><td>${c.email}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.subject||'-'}</td><td style="color:var(--muted);font-size:12px">${c.created_at?.slice(0,10)||'-'}</td><td><span class="admin-badge ${c.status==='read'?'read':'unread'}">${c.status==='read'?'확인':'미확인'}</span></td><td><div style="display:flex;gap:6px"><button class="btn-sm blue" onclick="viewContact(${c.id},'${c.name}','${c.email}','${c.phone||''}','${encodeURIComponent(c.subject||'')}','${encodeURIComponent(c.message||'')}','${c.created_at||''}')">👁️ 보기</button>${c.status!=='read'?`<button class="btn-sm green" onclick="markContactRead(${c.id},this)">✓ 확인</button>`:''}</div></td></tr>`).join('');
-  // Update dashboard badge
+  if(!data||data.length===0){
+    tbl.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">문의가 없습니다.</td></tr>`;
+    return;
+  }
+  _contactsCache = data;  // 캐시에 저장 — onclick에서 id로만 참조
+  tbl.innerHTML=data.map(c=>`<tr>
+    <td>${escHtml(c.name||'')}</td>
+    <td style="font-size:12px">${escHtml(c.email||'')}</td>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(c.subject||'-')}</td>
+    <td style="color:var(--muted);font-size:12px">${c.created_at?.slice(0,10)||'-'}</td>
+    <td><span class="admin-badge ${c.status==='read'?'read':'unread'}">${c.status==='read'?'확인':'미확인'}</span></td>
+    <td><div style="display:flex;gap:6px">
+      <button class="btn-sm blue" onclick="viewContactById(${c.id})">👁️ 보기</button>
+      ${c.status!=='read'?`<button class="btn-sm green" onclick="markContactRead(${c.id},this)">✓ 확인</button>`:''}
+    </div></td>
+  </tr>`).join('');
   const unread=data.filter(c=>c.status!=='read').length;
-  document.getElementById('asc-contacts').textContent=unread;
+  const asc=document.getElementById('asc-contacts');
+  if(asc) asc.textContent=unread;
+}
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function viewContactById(id){
+  const c = _contactsCache.find(x=>x.id===id);
+  if(!c) return;
+  viewContact(c.id, c.name||'', c.email||'', c.phone||'', c.subject||'', c.message||'', c.created_at||'');
 }
 async function markContactRead(id,btn){
   await sb.from('contact_messages').update({status:'read'}).eq('id',id);
@@ -2625,7 +2805,27 @@ async function markContactRead(id,btn){
   document.getElementById('asc-contacts').textContent=Math.max(0,cur-1);
 }
 function viewContact(id,name,email,phone,subject,message,date){
-  document.getElementById('contactDetailBody').innerHTML=`<div style="margin-bottom:16px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px">이름 / Email</div><div style="font-weight:600">${name} &lt;${email}&gt;</div></div><div style="margin-bottom:16px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px">연락처</div><div>${phone||'-'}</div></div><div style="margin-bottom:16px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px">제목</div><div style="font-weight:600">${decodeURIComponent(subject)}</div></div><div style="margin-bottom:16px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px">내용</div><div style="white-space:pre-wrap;background:var(--bg);padding:14px;border-radius:var(--r);font-size:13.5px;line-height:1.8">${decodeURIComponent(message)}</div></div><div style="font-size:11px;color:var(--muted)">${date?.slice(0,19)||''}</div>`;
+  const body = document.getElementById('contactDetailBody');
+  if(!body) return;
+  body.innerHTML=`
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:3px">이름 / Email</div>
+      <div style="font-weight:600">${escHtml(name)} &lt;${escHtml(email)}&gt;</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:3px">연락처</div>
+      <div>${escHtml(phone)||'-'}</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:3px">제목</div>
+      <div style="font-weight:600">${escHtml(subject)}</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:3px">내용</div>
+      <div style="white-space:pre-wrap;background:var(--bg);padding:14px;border-radius:var(--r);font-size:13.5px;line-height:1.8">${escHtml(message)}</div>
+    </div>
+    <div style="font-size:11px;color:var(--muted)">${String(date).slice(0,19)||''}</div>
+  `;
   document.getElementById('contactDetailModal').classList.add('open');
   markContactRead(id,{remove:()=>{}});
 }
