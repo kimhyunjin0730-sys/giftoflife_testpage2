@@ -1442,35 +1442,52 @@ footer{background:#071422}
 
 <!-- OK MODAL -->
 <!-- 카카오페이 QR 결제 모달 -->
-<div class="ok-ov" id="kakaoQrModal" style="z-index:900">
-  <div style="background:#fff;border-radius:16px;max-width:380px;width:90%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+<div class="ok-ov" id="kakaoQrModal" style="z-index:950;padding:16px">
+  <div style="background:#fff;border-radius:20px;max-width:400px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.35);animation:bounceIn .35s ease">
     <!-- 헤더 -->
-    <div style="background:#FFE000;padding:18px 20px;display:flex;align-items:center;gap:10px">
-      <img src="https://developers.kakao.com/tool/resource/static/img/button/kakaopay/kakaopay_logo.png" alt="카카오페이" style="height:22px" onerror="this.style.display='none'"/>
-      <span style="font-weight:700;font-size:16px;color:#3A1D1D">카카오페이 QR 결제</span>
+    <div style="background:linear-gradient(135deg,#FFE000,#FFD700);padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:22px">💛</span>
+        <span style="font-weight:800;font-size:16px;color:#3A1D1D;letter-spacing:-.3px">카카오페이</span>
+      </div>
+      <button onclick="cancelKakaoQr()" style="background:rgba(0,0,0,.08);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;color:#3A1D1D;display:flex;align-items:center;justify-content:center">✕</button>
     </div>
+
     <!-- 바디 -->
-    <div style="padding:24px;text-align:center">
-      <div style="font-size:14px;color:#555;margin-bottom:16px">카카오페이 앱으로 QR코드를 스캔해 주세요</div>
+    <div style="padding:20px 24px 24px;text-align:center">
+
+      <!-- 안내 문구 -->
+      <p style="font-size:13.5px;color:#444;margin:0 0 16px;line-height:1.6">
+        카카오페이 앱으로 QR코드를 스캔하거나<br>아래 버튼으로 직접 결제해 주세요
+      </p>
+
       <!-- QR 이미지 -->
-      <div id="kakaoQrImg" style="width:200px;height:200px;margin:0 auto 16px;border:2px solid #eee;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f9f9f9">
+      <div id="kakaoQrImg" style="width:210px;height:210px;margin:0 auto 14px;border:2px solid #f0f0f0;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa;padding:4px">
         <span class="spinner" style="width:32px;height:32px;border-width:3px"></span>
       </div>
+
       <!-- 금액 -->
-      <div id="kakaoQrAmount" style="font-size:18px;font-weight:700;color:#3A1D1D;margin-bottom:8px"></div>
-      <!-- 상태 -->
-      <div id="kakaoQrStatus" style="font-size:13px;color:#888;margin-bottom:20px">결제 대기 중...</div>
-      <!-- 폴링 인디케이터 -->
-      <div style="display:flex;gap:4px;justify-content:center;margin-bottom:20px" id="kakaoQrDots">
-        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out infinite"></span>
-        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .3s infinite"></span>
-        <span style="width:8px;height:8px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .6s infinite"></span>
+      <div id="kakaoQrAmount" style="font-size:22px;font-weight:800;color:#3A1D1D;margin-bottom:6px;font-family:'Playfair Display',serif"></div>
+
+      <!-- 상태 / 타이머 -->
+      <div id="kakaoQrStatus" style="font-size:12.5px;color:#999;margin-bottom:16px;min-height:18px">결제 대기 중...</div>
+
+      <!-- 폴링 점 -->
+      <div style="display:flex;gap:5px;justify-content:center;margin-bottom:18px" id="kakaoQrDots">
+        <span style="width:7px;height:7px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out infinite;display:inline-block"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .3s infinite;display:inline-block"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#FFE000;animation:dotBlink .9s ease-in-out .6s infinite;display:inline-block"></span>
       </div>
-      <div style="display:flex;gap:10px;justify-content:center">
-        <button onclick="cancelKakaoQr()" style="padding:10px 28px;border:1.5px solid var(--border);border-radius:8px;background:#fff;color:var(--muted);font-size:13px;cursor:pointer">취소</button>
-        <a id="kakaoQrDirectLink" href="#" target="_blank" style="display:none;padding:10px 20px;background:#FFE000;border-radius:8px;font-weight:700;font-size:13px;color:#3A1D1D;text-decoration:none">앱으로 열기</a>
-      </div>
-      <div style="font-size:11px;color:#aaa;margin-top:12px">결제 완료 후 자동으로 확인됩니다</div>
+
+      <!-- 앱으로 열기 버튼 -->
+      <a id="kakaoQrDirectLink" href="#" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:#FFE000;border-radius:12px;font-weight:700;font-size:14px;color:#3A1D1D;text-decoration:none;margin-bottom:12px;box-shadow:0 4px 14px rgba(255,224,0,.5)">
+        💛 카카오페이 앱으로 결제
+      </a>
+
+      <div style="font-size:11px;color:#bbb;margin-bottom:8px">결제 완료 후 자동으로 확인됩니다</div>
+
+      <button onclick="cancelKakaoQr()" style="background:none;border:none;color:#bbb;font-size:12px;cursor:pointer;padding:4px 12px;text-decoration:underline">취소</button>
     </div>
   </div>
 </div>
@@ -2200,10 +2217,23 @@ async function submitDonate(e){
     sessionStorage.setItem('kakao_order_id', orderId);
     sessionStorage.setItem('kakao_donor', JSON.stringify(donorInfo));
     try {
+      // approval_url: 카카오페이 결제 완료 후 pg_token을 붙여 이 페이지로 돌아옴
+      const SITE_BASE = 'https://kimhyunjin0730-sys.github.io/giftoflife_testpage2/';
+      const approvalUrl = SITE_BASE + '?pg_token={PAYMENT_TOKEN}&order_id=' + orderId;
+
       const res = await fetch(
         'https://wpeaskqbozozzcqytoyd.supabase.co/functions/v1/kakaopay-ready',
         { method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({amount:numAmt, donor_name:name, donor_email:email, order_id:orderId}) }
+          body: JSON.stringify({
+            amount: numAmt,
+            donor_name: name,
+            donor_email: email,
+            order_id: orderId,
+            approval_url: approvalUrl,
+            fail_url: SITE_BASE + '?kakao_fail=1',
+            cancel_url: SITE_BASE + '?kakao_cancel=1'
+          })
+        }
       );
       const data = await res.json();
       if(!data || (!data.next_redirect_pc_url && !data.next_redirect_mobile_url)){
@@ -2223,8 +2253,9 @@ async function submitDonate(e){
     } catch(err){
       btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
       btn.disabled=false;
-      // Edge Function 미배포 → 안내 모달
-      showKakaoNotReadyModal(numAmt);
+      console.error('KakaoPay ready error:', err);
+      alert('카카오페이 연결 실패: ' + err.message + ' — 계좌이체를 이용해 주세요.');
+      togglePayMethod('transfer');
     }
     return;
   }
@@ -2273,6 +2304,8 @@ async function submitDonate(e){
   document.getElementById('okMod').classList.add('open');
   e.target.reset();
   togglePayMethod('transfer');
+  // 마이페이지 후원 내역 갱신
+  if(currentUser?.email) loadMyDonations(currentUser.email);
 }
 
 /* ══════════════════════════════════════
@@ -2295,50 +2328,88 @@ function showKakaoNotReadyModal(amount){
 
 async function showKakaoQrModal(redirectUrl, amount, orderId, donorInfo){
   const modal = document.getElementById('kakaoQrModal');
-  if(!modal) return;
-  const fmtAmt = curLang==='ko' ? '₩'+Number(amount).toLocaleString() : '$'+Math.round(amount/1300);
-  document.getElementById('kakaoQrAmount').textContent = fmtAmt;
-  document.getElementById('kakaoQrStatus').textContent = '결제 대기 중...';
-  document.getElementById('kakaoQrDots').style.display='flex';
+  if(!modal){ console.error('kakaoQrModal not found'); return; }
 
-  // 앱으로 열기 버튼 (모바일)
-  const directLink = document.getElementById('kakaoQrDirectLink');
-  if(directLink){
-    directLink.href = redirectUrl;
-    directLink.style.display = 'inline-flex';
+  const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+  const fmtAmt = curLang==='ko' ? '₩'+Number(amount).toLocaleString()
+               : curLang==='zh' ? '₩'+Number(amount).toLocaleString()
+               : '$'+Math.round(amount/1300);
+
+  // 금액 · 상태
+  const amtEl = document.getElementById('kakaoQrAmount');
+  const statEl = document.getElementById('kakaoQrStatus');
+  const dotsEl = document.getElementById('kakaoQrDots');
+  const imgEl  = document.getElementById('kakaoQrImg');
+  const linkEl = document.getElementById('kakaoQrDirectLink');
+
+  if(amtEl) amtEl.textContent = fmtAmt;
+  if(statEl) statEl.textContent = curLang==='ko' ? '결제 대기 중...' : 'Waiting for payment...';
+  if(dotsEl) dotsEl.style.display = 'flex';
+
+  // 앱 직접 열기 링크 (모바일에서 강조, PC에서도 보조)
+  if(linkEl){
+    linkEl.href = redirectUrl;
+    linkEl.style.display = 'inline-flex';
+    linkEl.textContent = isMobile
+      ? (curLang==='ko' ? '💛 카카오페이 앱으로 결제' : '💛 Pay with KakaoPay App')
+      : (curLang==='ko' ? '앱으로 열기' : 'Open in App');
   }
 
-  // QR 코드 생성 — qrserver.com API 사용
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(redirectUrl)}`;
-  document.getElementById('kakaoQrImg').innerHTML =
-    `<img src="${qrUrl}" style="width:180px;height:180px;border-radius:8px" alt="카카오페이 QR" onerror="this.parentElement.innerHTML='<div style=\'padding:20px;text-align:center;font-size:12px;color:#888\'>QR 생성 실패<br>앱으로 열기 버튼을 눌러주세요</div>'"/>`;
+  // QR 코드 (PC 메인, 모바일 보조)
+  const qrSize = isMobile ? 160 : 200;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&margin=10&data=${encodeURIComponent(redirectUrl)}`;
+  if(imgEl){
+    imgEl.innerHTML = `
+      <img src="${qrUrl}"
+           style="width:${qrSize}px;height:${qrSize}px;border-radius:8px;display:block"
+           alt="카카오페이 QR"
+           onload="this.style.opacity=1"
+           onerror="this.parentElement.innerHTML='<div style=\'padding:16px;text-align:center;font-size:12px;color:#888;line-height:1.7\'>QR 코드 로드 실패<br>아래 버튼으로 결제해 주세요</div>'"
+           style="opacity:0;transition:opacity .3s"/>`;
+  }
 
   modal.classList.add('open');
 
-  // 결제 완료 폴링 (4초 간격, 최대 10분)
-  let pollCount = 0;
-  const maxPolls = 150;
-  _kakaoQrTimer = setInterval(async()=>{
-    pollCount++;
-    if(pollCount > maxPolls){
-      clearInterval(_kakaoQrTimer);
-      document.getElementById('kakaoQrStatus').textContent = '결제 시간이 초과되었습니다. 다시 시도해 주세요.';
-      document.getElementById('kakaoQrDots').style.display='none';
-      return;
+  // 타이머: 남은 시간 표시 (10분)
+  let remaining = 600;
+  const timerInterval = setInterval(()=>{
+    remaining--;
+    const m = Math.floor(remaining/60);
+    const s = remaining%60;
+    if(statEl && document.getElementById('kakaoQrModal').classList.contains('open')){
+      statEl.textContent = curLang==='ko'
+        ? `결제 대기 중... (남은 시간 ${m}:${String(s).padStart(2,'0')})`
+        : `Waiting... (${m}:${String(s).padStart(2,'0')} left)`;
     }
-    // pg_token이 sessionStorage에 들어오면 승인 처리 (리다이렉트 방식)
-    // 또는 approval_url로 리다이렉트 된 경우 handleKakaoReturn 처리
+    if(remaining <= 0){
+      clearInterval(timerInterval);
+      if(_kakaoQrTimer) clearInterval(_kakaoQrTimer);
+      if(statEl) statEl.textContent = curLang==='ko' ? '⏰ 결제 시간이 초과되었습니다.' : '⏰ Payment timed out.';
+      if(dotsEl) dotsEl.style.display = 'none';
+    }
+  }, 1000);
+
+  // pg_token 폴링 (3초 간격 — approval_url 리다이렉트 후 sessionStorage에 저장됨)
+  _kakaoQrTimer = setInterval(async()=>{
+    if(remaining <= 0){ clearInterval(_kakaoQrTimer); clearInterval(timerInterval); return; }
     const pgToken = sessionStorage.getItem('kakao_pg_token');
     if(pgToken){
       clearInterval(_kakaoQrTimer);
+      clearInterval(timerInterval);
       sessionStorage.removeItem('kakao_pg_token');
+      if(statEl) statEl.textContent = curLang==='ko' ? '✅ 결제 확인 중...' : '✅ Verifying payment...';
+      if(dotsEl) dotsEl.style.display = 'none';
       await approveKakaoPayment(pgToken, orderId, donorInfo);
     }
-  }, 4000);
+  }, 3000);
+
+  // 모달 닫힐 때 타이머 정리
+  window._kakaoCleanup = ()=>{ clearInterval(timerInterval); clearInterval(_kakaoQrTimer); };
 }
 
 function cancelKakaoQr(){
   if(_kakaoQrTimer) clearInterval(_kakaoQrTimer);
+  if(window._kakaoCleanup){ window._kakaoCleanup(); window._kakaoCleanup=null; }
   document.getElementById('kakaoQrModal').classList.remove('open');
   sessionStorage.removeItem('kakao_tid');
   sessionStorage.removeItem('kakao_order_id');
@@ -2405,6 +2476,19 @@ async function approveKakaoPayment(pg_token, orderId, donorInfo){
 /* pg_token 리다이렉트 처리 (approval_url로 돌아온 경우) */
 async function handleKakaoReturn(){
   const params = new URLSearchParams(window.location.search);
+
+  // 결제 실패/취소 처리
+  if(params.get('kakao_fail') || params.get('kakao_cancel')){
+    window.history.replaceState({}, '', window.location.origin + window.location.pathname);
+    setTimeout(()=>{
+      goPage('donate');
+      alert(curLang==='ko'
+        ? '카카오페이 결제가 취소되었습니다. 다시 시도하거나 계좌이체를 이용해 주세요.'
+        : 'KakaoPay payment was cancelled. Please try again or use bank transfer.');
+    }, 300);
+    return;
+  }
+
   const pg_token = params.get('pg_token');
   if(!pg_token) return;
   window.history.replaceState({}, '', window.location.origin + window.location.pathname);
@@ -2588,12 +2672,73 @@ function onUserLogout(){
 async function doLogout(){await sb.auth.signOut();goPage('home');}
 
 async function loadMyDonations(email){
-  const {data}=await sb.from('donations').select('*').eq('email',email).order('created_at',{ascending:false});
-  if(!data||data.length===0) return;
-  document.getElementById('myTotalAmt').textContent=data.length+'건';
-  document.getElementById('myMonths').textContent=data.length+'건';
-  const t2=T[curLang];
-  document.getElementById('myDonations').innerHTML=`<table class="ntbl"><thead><tr><th>${t2.my_history_date}</th><th>${t2.my_history_name}</th><th>${t2.my_history_amt}</th><th>${t2.my_history_type}</th><th>${t2.my_history_status}</th></tr></thead><tbody>${data.map(d=>`<tr><td class="dt">${d.pay_date||d.created_at?.slice(0,10)||'-'}</td><td>${d.name||'-'}</td><td style="font-weight:600;color:var(--blue)">${d.amount||'-'}</td><td class="dt">${d.pay_type==='regular'?t2.regular_txt:t2.once_txt}</td><td><span class="admin-badge ${d.status==='confirmed'?'confirmed':'pending'}">${d.status==='confirmed'?t2.confirmed_txt:t2.pending_txt}</span></td></tr>`).join('')}</tbody></table>`;
+  if(!email){ console.warn('loadMyDonations: email 없음'); return; }
+  const {data, error} = await sb.from('donations')
+    .select('*').eq('email', email)
+    .order('created_at', {ascending:false});
+
+  const container = document.getElementById('myDonations');
+  if(!container) return;
+
+  if(error){
+    container.innerHTML='<p style="text-align:center;padding:24px;color:var(--red)">⚠️ 로드 실패: '+error.message+'</p>';
+    return;
+  }
+
+  if(!data || data.length===0){
+    container.innerHTML='<p style="text-align:center;padding:40px;color:var(--muted);font-size:14px">아직 후원 내역이 없습니다.</p>';
+    document.getElementById('myTotalAmt').textContent='₩0';
+    document.getElementById('myMonths').textContent='0건';
+    return;
+  }
+
+  const t2 = T[curLang];
+
+  // 총 후원액 계산
+  const totalAmt = data.reduce((sum, d) => {
+    const n = parseInt(String(d.amount||'0').replace(/[^0-9]/g,'')) || 0;
+    return sum + n;
+  }, 0);
+  const amtEl = document.getElementById('myTotalAmt');
+  if(amtEl) amtEl.textContent = totalAmt>0 ? '₩'+totalAmt.toLocaleString() : data.length+'건';
+  const monthEl = document.getElementById('myMonths');
+  if(monthEl) monthEl.textContent = data.length+'건';
+
+  // 상태 뱃지 스타일
+  const statusBadge = (d) => {
+    if(d.status==='confirmed')  return '<span class="admin-badge confirmed">✅ '+(t2.confirmed_txt||'확인완료')+'</span>';
+    if(d.status==='cancelled') return '<span class="admin-badge" style="background:#fee2e2;color:#dc2626">❌ 취소</span>';
+    return '<span class="admin-badge pending">⏳ '+(t2.pending_txt||'확인중')+'</span>';
+  };
+
+  const payMethodLabel = (d) => {
+    if(d.pay_method==='kakaopay') return '💛 카카오페이';
+    return '🏦 '+(t2.transfer||'계좌이체');
+  };
+
+  container.innerHTML = `
+    <table class="ntbl" style="width:100%">
+      <thead><tr>
+        <th>${t2.my_history_date||'날짜'}</th>
+        <th>납부방법</th>
+        <th>${t2.my_history_amt||'금액'}</th>
+        <th>${t2.my_history_type||'구분'}</th>
+        <th>${t2.my_history_status||'상태'}</th>
+      </tr></thead>
+      <tbody>
+        ${data.map(d=>`<tr>
+          <td class="dt">${d.pay_date||d.created_at?.slice(0,10)||'-'}</td>
+          <td style="font-size:12px">${payMethodLabel(d)}</td>
+          <td style="font-weight:700;color:var(--blue)">${d.amount||'-'}</td>
+          <td class="dt">${d.pay_type==='regular'?(t2.regular_txt||'정기'):(t2.once_txt||'일시')}</td>
+          <td>${statusBadge(d)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px;padding:0 4px">
+      ⏳ 확인중: 계좌이체 후 영업일 1~2일 내 사무국 확인 → ✅ 확인완료로 변경됩니다.
+    </p>
+  `;
 }
 
 /* ══════════════════════════════════════
@@ -2841,28 +2986,47 @@ async function loadAdminDonations(){
     return;
   }
   if(!data||data.length===0){tbl.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">후원 내역이 없습니다.</td></tr>`;return;}
-  tbl.innerHTML=data.map(d=>`<tr>
-    <td>${d.name||'-'}</td>
-    <td style="font-size:12px;color:var(--muted)">${d.email||'-'}</td>
-    <td style="font-size:12px">${d.phone||'-'}</td>
-    <td style="font-weight:600;color:var(--blue)">${d.amount||'-'}</td>
-    <td>${d.pay_type==='regular'?'정기':'일시'}</td>
-    <td style="font-size:12px">${d.pay_method||'-'}</td>
-    <td style="font-size:12px;color:var(--muted)">${d.pay_date||d.created_at?.slice(0,10)||'-'}</td>
-    <td><span class="admin-badge ${d.status==='confirmed'?'confirmed':'pending'}">${d.status==='confirmed'?'✅ 확인':'⏳ 대기'}</span></td>
-    <td><div style="display:flex;gap:4px">
-      ${d.status!=='confirmed'?`<button class="btn-sm green" onclick="confirmDonation('${d.id}',this)">✓</button>`:''}
-      <button class="btn-sm red" onclick="deleteDonation('${d.id}',this)">✕</button>
-    </div></td>
-  </tr>`).join('');
+  const payMethod = m => m==='kakaopay'?'💛 카카오페이':'🏦 계좌이체';
+  tbl.innerHTML=data.map(d=>{
+    const isConfirmed = d.status==='confirmed';
+    return `<tr>
+      <td>${escHtml(d.name||'-')}</td>
+      <td style="font-size:11.5px;color:var(--muted)">${escHtml(d.email||'-')}</td>
+      <td style="font-size:11.5px">${d.phone||'-'}</td>
+      <td style="font-weight:700;color:var(--blue)">${d.amount||'-'}</td>
+      <td style="font-size:12px">${d.pay_type==='regular'?'정기':'일시'}</td>
+      <td style="font-size:11.5px">${payMethod(d.pay_method)}</td>
+      <td style="font-size:11px;color:var(--muted)">${d.pay_date||d.created_at?.slice(0,10)||'-'}</td>
+      <td><span class="admin-badge ${isConfirmed?'confirmed':'pending'}">${isConfirmed?'✅ 확인완료':'⏳ 대기'}</span></td>
+      <td class="action-cell"><div style="display:flex;gap:4px">
+        ${!isConfirmed?`<button class="btn-sm green" onclick="confirmDonation('${d.id}',this,'confirmed')" title="확인 완료">✅</button>`:''}
+        ${isConfirmed?`<button class="btn-sm" style="background:#f59e0b;color:#fff;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:12px" onclick="confirmDonation('${d.id}',this,'pending')" title="대기로 되돌리기">↩️</button>`:''}
+        <button class="btn-sm red" onclick="deleteDonation('${d.id}',this)" title="삭제">✕</button>
+      </div></td>
+    </tr>`;
+  }).join('');
   document.getElementById('asc-donations').textContent=data.length;
 }
-async function confirmDonation(id,btn){
-  await sb.from('donations').update({status:'confirmed'}).eq('id',id);
-  const tr=btn.closest('tr');
-  tr.querySelector('.admin-badge').className='admin-badge confirmed';
-  tr.querySelector('.admin-badge').textContent='✅ 확인';
-  btn.remove();
+async function confirmDonation(id, btn, newStatus='confirmed'){
+  const {error} = await sb.from('donations').update({status: newStatus}).eq('id', id);
+  if(error){ alert('상태 변경 실패: '+error.message); return; }
+  const tr = btn.closest('tr');
+  const badge = tr.querySelector('.admin-badge');
+  const actionCell = tr.querySelector('.action-cell') || tr.lastElementChild;
+  if(badge){
+    if(newStatus==='confirmed'){
+      badge.className='admin-badge confirmed'; badge.textContent='✅ 확인완료';
+    } else if(newStatus==='pending'){
+      badge.className='admin-badge pending'; badge.textContent='⏳ 대기';
+    }
+  }
+  // 버튼 갱신
+  const donId = id;
+  actionCell.innerHTML = `<div style="display:flex;gap:4px">
+    ${newStatus!=='confirmed'?`<button class="btn-sm green" onclick="confirmDonation('${donId}',this,'confirmed')">✅</button>`:''}
+    ${newStatus==='confirmed'?`<button class="btn-sm" style="background:#f59e0b;color:#fff" onclick="confirmDonation('${donId}',this,'pending')">↩️</button>`:''}
+    <button class="btn-sm red" onclick="deleteDonation('${donId}',this)">✕</button>
+  </div>`;
 }
 async function deleteDonation(id,btn){
   if(!confirm('삭제하시겠습니까?')) return;
