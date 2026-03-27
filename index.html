@@ -1155,12 +1155,13 @@ footer{background:#071422}
         <div class="dpb-pct">70%</div>
         <div class="dpb-track-wrap"><div style="font-size:12px;color:var(--muted);margin-bottom:5px">모금 현황</div><div class="dpb-track"><div class="dpb-fill" style="width:70%"></div></div></div>
       </div>
+      <!-- ① 후원 유형 + 금액 -->
       <div class="box">
         <div class="box-hd" data-i="donate_type">💝 후원 유형 선택</div>
         <div class="box-bd">
           <div class="dt-tabs">
-            <button class="dt-tab on" id="dt-regular" onclick="setDonateType('regular')" data-i="monthly">정기 후원</button>
-            <button class="dt-tab" id="dt-once" onclick="setDonateType('once')" data-i="once">일시 후원</button>
+            <button class="dt-tab on" id="dt-regular" onclick="setDonateType('regular')" data-i="monthly">🔄 정기 후원</button>
+            <button class="dt-tab" id="dt-once" onclick="setDonateType('once')" data-i="once">💝 일시 후원</button>
           </div>
           <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:12px" data-i="amt_select">💰 후원 금액</div>
           <div class="amt-grid" id="donateAmtGrid"></div>
@@ -1168,58 +1169,211 @@ footer{background:#071422}
           <div class="nbox blue">💡 <span data-i="amt_note">월 20,000원 = 연 240,000원 | 연말 세액공제 혜택 가능</span></div>
         </div>
       </div>
+
       <form id="donateForm" onsubmit="submitDonate(event)">
-        <div class="box"><div class="box-hd" data-i="donor_info">👤 후원자 정보</div><div class="box-bd">
-          <div class="fg"><label class="fl" data-i="fl_name">성명<span class="req">*</span></label><input class="fi" name="name" required/></div>
-          <div class="fg"><label class="fl" data-i="fl_email">이메일<span class="req">*</span></label><input class="fi" type="email" name="email" required/></div>
-          <div class="fg"><label class="fl" data-i="fl_phone">연락처<span class="req">*</span></label><input class="fi" name="phone" required/></div>
-        </div></div>
-        <div class="box"><div class="box-hd" data-i="pay_info">🏦 납부 정보</div><div class="box-bd">
-          <!-- ① 납부방법 선택 카드 -->
-          <div class="fg" style="margin-bottom:14px">
-            <label class="fl" data-i="fl_method">납부방법</label>
-            <div style="display:flex;gap:10px;padding-top:8px">
-              <label onclick="togglePayMethod('transfer')" style="flex:1;cursor:pointer">
-                <div id="pm-transfer" style="border:2px solid var(--blue);background:rgba(26,86,255,.05);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px;transition:.2s">
-                  <input type="radio" name="payMethod" value="transfer" checked style="display:none"/>
-                  <span style="font-size:20px">🏦</span>
-                  <div>
-                    <div style="font-weight:700;font-size:13px;color:var(--navy)" data-i="transfer">계좌이체</div>
-                    <div style="font-size:10.5px;color:var(--muted);margin-top:1px">국민은행 직접이체</div>
-                  </div>
-                  <span style="margin-left:auto;color:var(--blue);font-weight:700;font-size:16px" id="pm-transfer-check">✓</span>
-                </div>
-              </label>
-              <label onclick="togglePayMethod('kakaopay')" style="flex:1;cursor:pointer">
-                <div id="pm-kakaopay" style="border:2px solid var(--border);background:#fff;border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px;transition:.2s">
-                  <input type="radio" name="payMethod" value="kakaopay" style="display:none"/>
-                  <span style="font-size:20px">💛</span>
-                  <div>
-                    <div style="font-weight:700;font-size:13px;color:#3A1D1D">카카오페이</div>
-                    <div style="font-size:10.5px;color:var(--muted);margin-top:1px">간편결제 · 즉시확인</div>
-                  </div>
-                  <span style="margin-left:auto;color:transparent;font-weight:700;font-size:16px" id="pm-kakaopay-check">✓</span>
-                </div>
-              </label>
+
+        <!-- ② 기본정보: 개인 / 기업·단체 -->
+        <div class="box">
+          <div class="box-hd">👤 기본정보</div>
+          <div class="box-bd">
+            <!-- 개인/기업 탭 -->
+            <div style="display:flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:18px">
+              <button type="button" id="donor-personal-tab"
+                onclick="setDonorType('personal')"
+                style="flex:1;padding:11px;border:none;background:var(--blue);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;transition:.2s">
+                개인
+              </button>
+              <button type="button" id="donor-org-tab"
+                onclick="setDonorType('org')"
+                style="flex:1;padding:11px;border:none;background:#fff;color:var(--muted);font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s;border-left:1.5px solid var(--border)">
+                기업/단체
+              </button>
             </div>
+
+            <!-- 개인 필드 -->
+            <div id="donor-personal-fields">
+              <div class="fg"><label class="fl" data-i="fl_name">성명<span class="req">*</span></label><input class="fi" name="name" id="donorName" required/></div>
+              <div class="fg"><label class="fl" data-i="fl_email">이메일<span class="req">*</span></label><input class="fi" type="email" name="email" id="donorEmail" required/></div>
+              <div class="fg"><label class="fl" data-i="fl_phone">연락처<span class="req">*</span></label><input class="fi" name="phone" id="donorPhone" required/></div>
+            </div>
+
+            <!-- 기업/단체 필드 (기본 숨김) -->
+            <div id="donor-org-fields" style="display:none">
+              <div class="fg"><label class="fl">기업/단체명<span class="req">*</span></label><input class="fi" name="org_name" id="orgName"/></div>
+              <div class="fg"><label class="fl">담당자명<span class="req">*</span></label><input class="fi" name="name" id="donorName" required/></div>
+              <div class="fg"><label class="fl">담당자 연락처<span class="req">*</span></label><input class="fi" name="phone" id="donorPhone" required/></div>
+              <div class="fg"><label class="fl">담당자 이메일<span class="req">*</span></label><input class="fi" type="email" name="email" id="donorEmail" required/></div>
+            </div>
+
+            <!-- 숨김 필드: 개인/기업 구분 -->
+            <input type="hidden" name="donor_type" id="donorTypeHidden" value="personal"/>
           </div>
-          <!-- ② 계좌이체 전용 필드 -->
-          <div id="transfer-fields">
-            <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span style="color:var(--red)">입금자명: 이름+후원</span></div>
-            <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input class="fi" name="depositor" id="depositorInp" required/></div>
-            <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date" name="payDate" id="payDateFld"/></div>
+        </div>
+
+        <!-- ③ 납부 정보: 정기/일시에 따라 결제수단 변경 -->
+        <div class="box">
+          <div class="box-hd">🏦 납부 정보</div>
+          <div class="box-bd">
+
+            <!-- ─── 정기후원 결제수단 ─── -->
+            <div id="pay-methods-regular">
+              <div style="font-size:13px;color:var(--muted);margin-bottom:12px">
+                📋 정기 후원은 매월 자동으로 납부되는 방식을 선택해 주세요.
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <label onclick="togglePayMethod('cms')" style="cursor:pointer">
+                  <div id="pm-cms" class="pay-card active-card">
+                    <input type="radio" name="payMethod" value="cms" checked style="display:none"/>
+                    <span style="font-size:20px">🏦</span>
+                    <div>
+                      <div style="font-weight:700;font-size:13px;color:var(--navy)">CMS 자동이체</div>
+                      <div style="font-size:10.5px;color:var(--muted)">계좌에서 매월 자동출금</div>
+                    </div>
+                    <span class="pm-check active-check" id="pm-cms-check">✓</span>
+                  </div>
+                </label>
+                <label onclick="togglePayMethod('card_regular')" style="cursor:pointer">
+                  <div id="pm-card_regular" class="pay-card">
+                    <input type="radio" name="payMethod" value="card_regular" style="display:none"/>
+                    <span style="font-size:20px">💳</span>
+                    <div>
+                      <div style="font-weight:700;font-size:13px;color:var(--navy)">신용카드</div>
+                      <div style="font-size:10.5px;color:var(--muted)">카드 자동결제</div>
+                    </div>
+                    <span class="pm-check" id="pm-card_regular-check">✓</span>
+                  </div>
+                </label>
+              </div>
+              <!-- CMS 안내 -->
+              <div id="cms-fields" style="margin-top:14px">
+                <div class="acct-box" style="background:#f0f7ff">
+                  📋 <b>CMS 자동이체 신청</b><br>
+                  <span style="font-size:12px;line-height:1.9">매월 지정일에 등록 계좌에서 자동 출금됩니다.<br>신청 후 사무국에서 CMS 신청서를 이메일로 발송해 드립니다.</span>
+                </div>
+                <div class="fg" style="margin-top:12px"><label class="fl">출금 은행</label><input class="fi" name="cms_bank" id="cmsBankInp" placeholder="예: 국민은행"/></div>
+                <div class="fg"><label class="fl">계좌번호</label><input class="fi" name="cms_account" id="cmsAccountInp" placeholder="000-000-000000"/></div>
+                <div class="fg"><label class="fl">예금주</label><input class="fi" name="cms_holder" id="cmsHolderInp"/></div>
+                <div class="fg"><label class="fl">출금일</label>
+                  <select class="fi" name="cms_date" id="cmsDateSel" style="-webkit-appearance:none">
+                    <option value="5">매월 5일</option>
+                    <option value="10">매월 10일</option>
+                    <option value="15" selected>매월 15일</option>
+                    <option value="20">매월 20일</option>
+                    <option value="25">매월 25일</option>
+                  </select>
+                </div>
+              </div>
+              <!-- 신용카드(정기) 안내 -->
+              <div id="card_regular-fields" style="display:none;margin-top:14px">
+                <div class="acct-box" style="background:#f0f7ff">
+                  💳 <b>신용카드 정기결제</b><br>
+                  <span style="font-size:12px;line-height:1.9">신청 후 사무국에서 카드 등록 링크를 이메일로 발송해 드립니다.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── 일시후원 결제수단 ─── -->
+            <div id="pay-methods-once" style="display:none">
+              <div style="font-size:13px;color:var(--muted);margin-bottom:12px">
+                원하시는 결제 방법을 선택해 주세요.
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <label onclick="togglePayMethod('nicepay')" style="cursor:pointer">
+                  <div id="pm-nicepay" class="pay-card active-card">
+                    <input type="radio" name="payMethod" value="nicepay" checked style="display:none"/>
+                    <span style="font-size:18px">🏦</span>
+                    <div>
+                      <div style="font-weight:700;font-size:12.5px;color:var(--navy)">실시간 계좌이체</div>
+                      <div style="font-size:10px;color:var(--muted)">NicePay 연동</div>
+                    </div>
+                    <span class="pm-check active-check" id="pm-nicepay-check">✓</span>
+                  </div>
+                </label>
+                <label onclick="togglePayMethod('vbank')" style="cursor:pointer">
+                  <div id="pm-vbank" class="pay-card">
+                    <input type="radio" name="payMethod" value="vbank" style="display:none"/>
+                    <span style="font-size:18px">🏧</span>
+                    <div>
+                      <div style="font-weight:700;font-size:12.5px;color:var(--navy)">가상계좌</div>
+                      <div style="font-size:10px;color:var(--muted)">입금 후 자동확인</div>
+                    </div>
+                    <span class="pm-check" id="pm-vbank-check">✓</span>
+                  </div>
+                </label>
+                <label onclick="togglePayMethod('card')" style="cursor:pointer">
+                  <div id="pm-card" class="pay-card">
+                    <input type="radio" name="payMethod" value="card" style="display:none"/>
+                    <span style="font-size:18px">💳</span>
+                    <div>
+                      <div style="font-weight:700;font-size:12.5px;color:var(--navy)">신용카드</div>
+                      <div style="font-size:10px;color:var(--muted)">즉시결제</div>
+                    </div>
+                    <span class="pm-check" id="pm-card-check">✓</span>
+                  </div>
+                </label>
+                <label onclick="togglePayMethod('kakaopay')" style="cursor:pointer">
+                  <div id="pm-kakaopay" class="pay-card">
+                    <input type="radio" name="payMethod" value="kakaopay" style="display:none"/>
+                    <span style="font-size:18px">💛</span>
+                    <div>
+                      <div style="font-weight:700;font-size:12.5px;color:#3A1D1D">카카오페이</div>
+                      <div style="font-size:10px;color:var(--muted)">간편결제</div>
+                    </div>
+                    <span class="pm-check" id="pm-kakaopay-check">✓</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- NicePay 실시간계좌이체 안내 -->
+              <div id="nicepay-fields" style="margin-top:14px">
+                <div class="acct-box" style="background:#f0f7ff">
+                  🏦 <b>실시간 계좌이체 (NicePay)</b><br>
+                  <span style="font-size:12px;line-height:1.9">"결제하기" 클릭 시 NicePay 결제창이 열립니다.<br>모든 은행의 인터넷뱅킹으로 즉시 이체 가능합니다.</span>
+                </div>
+              </div>
+
+              <!-- 가상계좌 -->
+              <div id="vbank-fields" style="display:none;margin-top:14px">
+                <div class="acct-box" style="background:#f0f7ff">
+                  🏧 <b>가상계좌 입금</b><br>
+                  <span style="font-size:12px;line-height:1.9">신청 후 전용 가상계좌 번호가 발급됩니다.<br>24시간 내 입금하시면 자동으로 확인됩니다.</span>
+                </div>
+              </div>
+
+              <!-- 신용카드(일시) -->
+              <div id="card-fields" style="display:none;margin-top:14px">
+                <div class="acct-box" style="background:#f0f7ff">
+                  💳 <b>신용카드 결제</b><br>
+                  <span style="font-size:12px;line-height:1.9">"결제하기" 클릭 시 NicePay 신용카드 결제창이 열립니다.</span>
+                </div>
+              </div>
+
+              <!-- 카카오페이 -->
+              <div id="kakaopay-info" style="display:none;margin-top:14px">
+                <div style="background:#FFFBE6;border:1.5px solid #FFD400;border-radius:8px;padding:14px 16px;font-size:13px;color:#5C4A00;line-height:1.9">
+                  💛 <b>카카오페이 QR 결제</b><br>
+                  결제 버튼 클릭 시 QR코드가 팝업됩니다. 카카오페이 앱으로 스캔하세요.
+                </div>
+              </div>
+            </div>
+
+            <!-- 계좌이체(수기) — 정기후원 CMS 아닌 경우 공통 표시 -->
+            <div id="transfer-fields" style="display:none;margin-top:14px">
+              <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span style="color:var(--red)">입금자명: 이름+후원</span></div>
+              <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input class="fi" name="depositor" id="depositorInp"/></div>
+              <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date" name="payDate" id="payDateFld"/></div>
+            </div>
+
           </div>
-          <!-- ③ 카카오페이 선택 시 안내 -->
-          <div id="kakaopay-info" style="display:none;background:#FFFBE6;border:1.5px solid #FFD400;border-radius:8px;padding:14px 16px;font-size:13px;color:#5C4A00;line-height:1.9">
-            💛 <b>카카오페이로 결제합니다</b><br>
-            결제 버튼 클릭 시 카카오페이 결제창이 열립니다. 결제 즉시 자동 확인됩니다.
-          </div>
-        </div></div>
-                <div class="box"><div class="box-hd" data-i="security">🔒 보안 확인</div><div class="box-bd">
+        </div>
+
+        <!-- ④ 보안 확인 -->
+        <div class="box"><div class="box-hd" data-i="security">🔒 보안 확인</div><div class="box-bd">
           <div class="cap-wrap"><span class="cap-code" id="capCode">GOLI26</span><button type="button" style="background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer" onclick="refreshCap()">🔄</button></div>
           <input class="fi" type="text" name="captcha" id="capInput" placeholder="위 코드 입력" required style="max-width:210px;margin-top:10px"/>
           <div class="agree-row"><input type="checkbox" name="agree" required/><span data-i="agree">개인정보 수집 및 이용에 동의합니다.</span></div>
         </div></div>
+
         <button type="submit" class="donate-submit-btn" id="donateSubmitBtn"><span>❤️</span> <span data-i="submit_btn">지금 후원하기</span></button>
       </form>
     </div>
@@ -1856,6 +2010,8 @@ let membersCache=[];
   // ③ 핵심: 네트워크 호출 전에 즉시 페이지 렌더링
   buildSlides();
   setLang(curLang);
+  // 후원 폼 초기 상태
+  try{ setDonateType('regular'); setDonorType('personal'); }catch(e){}
   handleKakaoReturn();
 
   // ④ 백그라운드 Supabase (실패해도 페이지는 정상 동작)
@@ -2139,7 +2295,35 @@ function resetTimer(){clearTimeout(slideTimer);if(!slidePaused)startSlideTimer()
    DONATE
 ══════════════════════════════════════ */
 function setDwType(t){dwType=t;['regular','once'].forEach(x=>document.getElementById('dwtab-'+x).classList.toggle('on',x===t));}
-function setDonateType(t){donateType=t;['regular','once'].forEach(x=>document.getElementById('dt-'+x).classList.toggle('on',x===t));}
+function setDonateType(t){
+  donateType=t;
+  ['regular','once'].forEach(x=>document.getElementById('dt-'+x).classList.toggle('on',x===t));
+  // 결제수단 섹션 전환
+  const regPay=document.getElementById('pay-methods-regular');
+  const oncePay=document.getElementById('pay-methods-once');
+  if(regPay) regPay.style.display = t==='regular' ? 'block' : 'none';
+  if(oncePay) oncePay.style.display = t==='once' ? 'block' : 'none';
+  // 정기: CMS 기본 선택 / 일시: nicepay 기본 선택
+  if(t==='regular') togglePayMethod('cms');
+  else togglePayMethod('nicepay');
+}
+
+function setDonorType(type){
+  const isOrg = type==='org';
+  document.getElementById('donorTypeHidden').value=type;
+  document.getElementById('donor-personal-tab').style.background = isOrg ? '#fff' : 'var(--blue)';
+  document.getElementById('donor-personal-tab').style.color = isOrg ? 'var(--muted)' : '#fff';
+  document.getElementById('donor-org-tab').style.background = isOrg ? 'var(--blue)' : '#fff';
+  document.getElementById('donor-org-tab').style.color = isOrg ? '#fff' : 'var(--muted)';
+  document.getElementById('donor-personal-fields').style.display = isOrg ? 'none' : 'block';
+  document.getElementById('donor-org-fields').style.display = isOrg ? 'block' : 'none';
+  // required 속성 토글
+  const orgFields = ['orgName'];
+  orgFields.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.required = isOrg;
+  });
+}
 function pickAmt(btn,a){document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('customAmtInp').value='';donateAmt=a;}
 function customAmt(inp){donateAmt=inp.value;document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));}
 const CAPS=['GOLI26','HEART9','LIFE77','GOL123','SAVE01'];let curCap='GOLI26';
@@ -2149,34 +2333,49 @@ function refreshCap(){curCap=CAPS[Math.floor(Math.random()*CAPS.length)];documen
 ══════════════════════════════════════ */
 let currentPayMethod = 'transfer';
 
+// 모든 결제수단 목록
+const ALL_PAY_METHODS = ['cms','card_regular','nicepay','vbank','card','kakaopay','transfer'];
+
 function togglePayMethod(method){
   currentPayMethod = method;
-  const methods = ['transfer','kakaopay'];
-  methods.forEach(m=>{
-    const card = document.getElementById('pm-'+m);
+
+  // 모든 카드 비활성화
+  ALL_PAY_METHODS.forEach(m=>{
+    const card  = document.getElementById('pm-'+m);
     const check = document.getElementById('pm-'+m+'-check');
     const radio = document.querySelector(`input[name="payMethod"][value="${m}"]`);
-    if(m === method){
-      if(card){ card.style.border='2px solid var(--blue)'; card.style.background='rgba(26,86,255,.05)'; }
-      if(check) check.style.color = (m==='kakaopay') ? '#3A1D1D' : 'var(--blue)';
-      if(radio) radio.checked=true;
-    } else {
-      if(card){ card.style.border='2px solid var(--border)'; card.style.background='#fff'; }
-      if(check) check.style.color='transparent';
-    }
+    if(card){ card.classList.remove('active-card'); }
+    if(check){ check.classList.remove('active-check'); }
+    if(radio) radio.checked=false;
   });
-  const tf=document.getElementById('transfer-fields');
-  const ki=document.getElementById('kakaopay-info');
-  const dep=document.getElementById('depositorInp');
-  if(method==='kakaopay'){
-    if(tf) tf.style.display='none';
-    if(ki) ki.style.display='block';
-    if(dep){ dep.required=false; dep.value=''; }
-  } else {
-    if(tf) tf.style.display='block';
-    if(ki) ki.style.display='none';
-    if(dep) dep.required=true;
-  }
+
+  // 선택한 카드 활성화
+  const selCard  = document.getElementById('pm-'+method);
+  const selCheck = document.getElementById('pm-'+method+'-check');
+  const selRadio = document.querySelector(`input[name="payMethod"][value="${method}"]`);
+  if(selCard)  selCard.classList.add('active-card');
+  if(selCheck) selCheck.classList.add('active-check');
+  if(selRadio) selRadio.checked=true;
+
+  // 각 결제수단별 상세 필드 표시
+  const fieldIds = ['cms-fields','card_regular-fields','nicepay-fields','vbank-fields','card-fields','kakaopay-info','transfer-fields'];
+  fieldIds.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+
+  const showMap = {
+    'cms':          'cms-fields',
+    'card_regular': 'card_regular-fields',
+    'nicepay':      'nicepay-fields',
+    'vbank':        'vbank-fields',
+    'card':         'card-fields',
+    'kakaopay':     'kakaopay-info',
+    'transfer':     'transfer-fields',
+  };
+  const target = showMap[method];
+  if(target){ const el=document.getElementById(target); if(el) el.style.display='block'; }
+
+  // depositor required 처리 (계좌이체류만 필요)
+  const dep = document.getElementById('depositorInp');
+  if(dep) dep.required = (method==='transfer');
 }
 
 /* ══════════════════════════════════════
@@ -2260,6 +2459,62 @@ async function submitDonate(e){
     return;
   }
 
+  // ── NicePay 실시간계좌이체 ──────────────────────
+  if(method === 'nicepay' || method === 'card' || method === 'vbank'){
+    btn.innerHTML='<span class="spinner"></span> 결제창 연결 중...';
+    btn.disabled=true;
+    const name=fd.get('name')||'';
+    const email=fd.get('email')||'';
+    if(!name||!email){ alert('성명과 이메일을 입력해 주세요.'); btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기'); btn.disabled=false; return; }
+
+    // NicePay 결제창 호출
+    // ※ NicePay API 키 발급 후 NICEPAY_CLIENT_ID 설정 필요
+    // 현재는 안내 모달로 대체
+    await new Promise(r=>setTimeout(r,500));
+    btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+    btn.disabled=false;
+    alert('NicePay 결제창은 API 키 발급 후 연동됩니다. 현재는 계좌이체를 이용해 주세요: 국민은행 123-456-7890 / 예금주: 생명의선물코리아');
+    return;
+  }
+
+  // ── CMS/카드정기 ─────────────────────────────────
+  if(method === 'cms' || method === 'card_regular'){
+    btn.innerHTML='<span class="spinner"></span>';
+    btn.disabled=true;
+    const payDate = fd.get('payDate');
+    const payload = {
+      name: fd.get('name')||'',
+      email: fd.get('email')||'',
+      phone: fd.get('phone')||null,
+      grade: (document.querySelector('input[name="grade"]:checked')?.value)||'champion',
+      amount: donateAmt||fd.get('customAmt')||'미지정',
+      pay_type: 'regular',
+      depositor: fd.get('depositor')||null,
+      pay_date: payDate||null,
+      pay_method: method,
+      status: 'pending',
+      lang: curLang,
+      org_name: fd.get('org_name')||null,
+      donor_type: fd.get('donor_type')||'personal',
+    };
+    if(method==='cms'){
+      payload.cms_bank = fd.get('cms_bank')||null;
+      payload.cms_account = fd.get('cms_account')||null;
+      payload.cms_holder = fd.get('cms_holder')||null;
+      payload.cms_date = fd.get('cms_date')||'15';
+    }
+    try{ await sb.from('donations').insert([payload]); }
+    catch(e){ console.warn('DB error', e); }
+    await new Promise(r=>setTimeout(r,400));
+    btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+    btn.disabled=false;
+    document.getElementById('okBody').textContent = T[curLang].ok_body||'후원 신청서가 접수되었습니다.';
+    document.getElementById('okMod').classList.add('open');
+    e.target.reset(); setDonateType(donateType); setDonorType('personal');
+    if(currentUser?.email) loadMyDonations(currentUser.email);
+    return;
+  }
+
   // ── 계좌이체 (원래 Supabase 저장 로직 유지) ────
   btn.innerHTML='<span class="spinner"></span>';
   btn.disabled=true;
@@ -2273,9 +2528,11 @@ async function submitDonate(e){
     pay_type: donateType||'regular',
     depositor: fd.get('depositor')||null,
     pay_date: (payDate&&payDate.trim()!=='')?payDate:null,
-    pay_method: 'transfer',
+    pay_method: currentPayMethod||'transfer',
     status: 'pending',
-    lang: curLang
+    lang: curLang,
+    org_name: fd.get('org_name')||null,
+    donor_type: fd.get('donor_type')||'personal',
   };
   try{
     const {error:dbErr} = await sb.from('donations').insert([payload]);
@@ -2303,7 +2560,8 @@ async function submitDonate(e){
   document.getElementById('okBody').textContent = T[curLang].ok_body||'후원 신청서가 접수되었습니다.';
   document.getElementById('okMod').classList.add('open');
   e.target.reset();
-  togglePayMethod('transfer');
+  togglePayMethod(donateType==='regular' ? 'cms' : 'nicepay');
+  setDonorType('personal');
   // 마이페이지 후원 내역 갱신
   if(currentUser?.email) loadMyDonations(currentUser.email);
 }
