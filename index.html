@@ -574,17 +574,37 @@ footer{background:#071422}
 .ft-logo-row{display:flex;align-items:center;gap:11px;margin-bottom:14px}
 .ft-logo-txt{color:#fff;font-family:'Playfair Display',serif;font-size:18px;font-weight:700}
 .ft-logo-txt em{color:var(--blue);font-style:normal}
-.ft-desc{color:#2d4a6a;font-size:12.5px;line-height:1.95;font-style:italic;max-width:230px}
-.ft-ct{color:#2d4a6a;font-size:12.5px;line-height:2.3;margin-top:14px}
+.ft-desc{color:rgba(255,255,255,.82);font-size:12.5px;line-height:1.95;font-style:italic;max-width:230px}
+.ft-ct{color:rgba(255,255,255,.74);font-size:12.5px;line-height:2.3;margin-top:14px}
 .ft-links{list-style:none}
-.ft-links li a{color:#2d4a6a;font-size:13px;display:block;padding:3px 0;transition:var(--ease)}
+.ft-links li a{color:rgba(255,255,255,.78);font-size:13px;display:block;padding:3px 0;transition:var(--ease)}
 .ft-links li a:hover{color:#fff;padding-left:5px}
 .ft-links li a::before{content:'›';margin-right:5px;color:var(--blue)}
 .ft-social{display:flex;gap:8px;margin-bottom:14px}
 .ft-sc{width:36px;height:36px;background:rgba(255,255,255,.06);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:1px solid rgba(255,255,255,.07);transition:var(--ease)}
 .ft-sc:hover{background:rgba(255,255,255,.14)}
 .ft-bot{max-width:var(--max);margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
-.ft-bot .cp{color:#1e3a60;font-size:12px}
+.ft-bot .cp{color:rgba(255,255,255,.62);font-size:12px}
+
+/* OUR CHILDREN */
+.ch-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:62px 24px 50px;text-align:center}
+.ch-hero-in{position:relative;z-index:1;max-width:760px;margin:0 auto}
+.ch-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:6px 18px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:18px}
+.ch-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,40px);font-weight:900;color:#fff;line-height:1.25;margin-bottom:16px}
+.ch-sub{font-size:15px;color:rgba(255,255,255,.84);line-height:1.9;max-width:640px;margin:0 auto}
+.ch-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.ch-stat{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:26px 20px;text-align:center;box-shadow:var(--sh);transition:var(--ease)}
+.ch-stat:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.ch-stat-v{font-family:'Playfair Display',serif;font-size:34px;color:var(--blue);font-weight:800;line-height:1.1;margin-bottom:8px}
+.ch-stat-l{font-size:13.5px;color:var(--muted);line-height:1.7}
+.ch-box{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:22px;box-shadow:var(--sh);margin-bottom:28px}
+.ch-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.ch-h3{font-family:'Playfair Display',serif;font-size:21px;color:var(--navy);margin:0}
+.ch-yt-links{display:flex;flex-wrap:wrap;gap:8px}
+.ch-yt-btn{display:inline-flex;align-items:center;gap:6px;background:#ff0000;color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:700;transition:var(--ease)}
+.ch-yt-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.ch-country-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 14px}
+.ch-country-item{font-size:14px;color:var(--text)}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -657,6 +677,9 @@ footer{background:#071422}
   #about-intro [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
   #about-intro [style*="grid-template-columns:1fr auto 1fr auto 1fr"]{grid-template-columns:1fr 1fr!important}
   #about-intro [style*="grid-template-columns:1fr auto 1fr auto 1fr"] [style*="width:1px"]{display:none!important}
+  .ch-stats{grid-template-columns:1fr}
+  .ch-country-grid{grid-template-columns:1fr 1fr}
+  .ch-box{padding:16px}
   .off-grid{grid-template-columns:1fr 1fr}
   .impact{grid-template-columns:1fr}
   .my-stats{grid-template-columns:1fr}
@@ -859,7 +882,7 @@ footer{background:#071422}
       <div class="dw-form">
         <div class="dw-tabs"><button class="dw-tab on" id="dwtab-regular" onclick="setDwType('regular')" data-i="monthly">정기후원</button><button class="dw-tab" id="dwtab-once" onclick="setDwType('once')" data-i="once">일시후원</button></div>
         <div class="dw-amounts" id="dwAmounts"></div>
-        <input class="dw-custom" id="dwCustom" type="number" placeholder="직접 입력" min="1"/>
+        <input class="dw-custom" id="dwCustom" type="number" data-i-ph="ph_dw_custom" placeholder="직접 입력" min="1"/>
         <button class="dw-go" onclick="goPage('donate')">❤️ <span data-i="donate_btn">후원하기</span></button>
       </div>
     </div>
@@ -1331,6 +1354,51 @@ footer{background:#071422}
   </div>
 </div>
 
+<!-- ════ OUR CHILDREN ════ -->
+<div class="page" id="page-children">
+  <div class="ch-hero">
+    <div class="ch-hero-in">
+      <div class="ch-eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 2s infinite"></span><span data-i="ch_eyebrow">About Our Children</span></div>
+      <h1 class="ch-title" data-i="ch_title">우리 아이들</h1>
+      <p class="ch-sub" data-i="ch_sub">우리는 아이의 생명을 구하는 것을 도울 수 있을 때 가장 큰 행복을 느끼고 항상 감사함을 느낍니다.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="wrap" style="max-width:1080px">
+      <div class="ch-stats">
+        <div class="ch-stat">
+          <div class="ch-stat-v" data-i="ch_stat1_v">130만명</div>
+          <div class="ch-stat-l" data-i-html="ch_stat1_l">매년 심장 결함을 가지고<br>태어나는 어린이 수</div>
+        </div>
+        <div class="ch-stat">
+          <div class="ch-stat-v" data-i="ch_stat2_v">93%</div>
+          <div class="ch-stat-l" data-i-html="ch_stat2_l">심장 치료를 받지 못하는<br>어린이의 비율</div>
+        </div>
+        <div class="ch-stat">
+          <div class="ch-stat-v" data-i="ch_stat3_v">40년+</div>
+          <div class="ch-stat-l" data-i-html="ch_stat3_l">로타리, 의료 전문가, 자원자들과<br>함께한 희망의 역사</div>
+        </div>
+      </div>
+
+      <div class="ch-box">
+        <div class="ch-row">
+          <h3 class="ch-h3" data-i="ch_youtube_title">YouTube 채널 구독하기</h3>
+          <div class="ch-yt-links">
+            <a class="ch-yt-btn" href="https://www.youtube.com/watch?v=UsutqN82VBg" target="_blank" rel="noopener" data-i="ch_video1">▶ 영상 1 보기</a>
+            <a class="ch-yt-btn" href="https://www.youtube.com/watch?v=qqIswfPDBFY" target="_blank" rel="noopener" data-i="ch_video2">▶ 영상 2 보기</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ch-box">
+        <h3 class="ch-h3" style="margin-bottom:16px" data-i="ch_country_title">🌍 우리 아이들이 지내는 나라</h3>
+        <div class="ch-country-grid" id="chCountryGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ════ PARTNERS ════ -->
 <div class="page" id="page-partners">
 
@@ -1719,7 +1787,7 @@ footer{background:#071422}
                   📋 <b>CMS 자동이체 신청</b><br>
                   <span style="font-size:12px;line-height:1.9">매월 지정일에 등록 계좌에서 자동 출금됩니다.<br>신청 후 사무국에서 CMS 신청서를 이메일로 발송해 드립니다.</span>
                 </div>
-                <div class="fg" style="margin-top:12px"><label class="fl">출금 은행</label><input class="fi" name="cms_bank" id="cmsBankInp" placeholder="예: 국민은행"/></div>
+                <div class="fg" style="margin-top:12px"><label class="fl">출금 은행</label><input class="fi" name="cms_bank" id="cmsBankInp" data-i-ph="ph_cms_bank" placeholder="예: 국민은행"/></div>
                 <div class="fg"><label class="fl">계좌번호</label><input class="fi" name="cms_account" id="cmsAccountInp" placeholder="000-000-000000"/></div>
                 <div class="fg"><label class="fl">예금주</label><input class="fi" name="cms_holder" id="cmsHolderInp"/></div>
                 <div class="fg"><label class="fl">출금일</label>
@@ -1839,7 +1907,7 @@ footer{background:#071422}
         <!-- ④ 보안 확인 -->
         <div class="box"><div class="box-hd" data-i="security">🔒 보안 확인</div><div class="box-bd">
           <div class="cap-wrap"><span class="cap-code" id="capCode">GOLI26</span><button type="button" style="background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer" onclick="refreshCap()">🔄</button></div>
-          <input class="fi" type="text" name="captcha" id="capInput" placeholder="위 코드 입력" required style="max-width:210px;margin-top:10px"/>
+          <input class="fi" type="text" name="captcha" id="capInput" data-i-ph="ph_captcha" placeholder="위 코드 입력" required style="max-width:210px;margin-top:10px"/>
           <div class="agree-row"><input type="checkbox" name="agree" required/><span data-i="agree">개인정보 수집 및 이용에 동의합니다.</span></div>
         </div></div>
 
@@ -1971,7 +2039,7 @@ footer{background:#071422}
         <div class="admin-hd">회원 관리</div>
         <div class="admin-sub">가입 회원 및 후원자 현황</div>
         <div class="admin-table-wrap">
-          <div class="admin-table-hd"><h3>회원 목록</h3><input class="fi" style="max-width:220px;padding:8px 12px" placeholder="이름 또는 이메일 검색" id="memberSearchInp" oninput="filterMembers(this.value)"/></div>
+          <div class="admin-table-hd"><h3>회원 목록</h3><input class="fi" style="max-width:220px;padding:8px 12px" data-i-ph="ph_member_search" placeholder="이름 또는 이메일 검색" id="memberSearchInp" oninput="filterMembers(this.value)"/></div>
           <div style="padding:0"><table class="admin-tbl"><thead><tr><th>이름</th><th>이메일</th><th>연락처</th><th>등급</th><th>언어</th><th>가입일</th><th>관리</th></tr></thead><tbody id="adminMembersTbl"><tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr></tbody></table></div>
         </div>
       </div>
@@ -2008,8 +2076,8 @@ footer{background:#071422}
       <div class="login-tabs"><button class="ltab on" id="lt-login" onclick="setAuthMode('login')">로그인</button><button class="ltab" id="lt-signup" onclick="setAuthMode('signup')">회원가입</button></div>
       <div class="login-err" id="loginErr"></div>
       <div class="lrow"><label>이메일</label><input class="linput" type="email" id="authEmail" placeholder="example@email.com"/></div>
-      <div class="lrow"><label>비밀번호</label><input class="linput" type="password" id="authPw" placeholder="6자 이상 입력"/></div>
-      <div class="lrow" id="authNameRow" style="display:none"><label>성명</label><input class="linput" type="text" id="authName" placeholder="홍길동"/></div>
+      <div class="lrow"><label>비밀번호</label><input class="linput" type="password" id="authPw" data-i-ph="ph_auth_pw" placeholder="6자 이상 입력"/></div>
+      <div class="lrow" id="authNameRow" style="display:none"><label>성명</label><input class="linput" type="text" id="authName" data-i-ph="ph_auth_name" placeholder="홍길동"/></div>
       <div class="lrow" id="authPhoneRow" style="display:none"><label>연락처</label><input class="linput" type="tel" id="authPhone" placeholder="010-0000-0000"/></div>
       <button class="login-sub" id="authSubmitBtn" onclick="doAuth()"><span id="authBtnTxt">로그인</span></button>
       <div class="login-opts"><a onclick="setAuthMode('signup')">회원가입</a><span style="color:#ccc">|</span><a onclick="alert('이메일로 문의해 주세요: golikorea@naver.com')">비밀번호 찾기</a></div>
@@ -2026,7 +2094,7 @@ footer{background:#071422}
     </div>
     <div class="modal-bd">
       <input type="hidden" id="editNewsId"/>
-      <div class="mfg"><label>카테고리 (한국어)</label><input class="mfi" id="nCatKo" placeholder="글로벌 활동"/></div>
+      <div class="mfg"><label>카테고리 (한국어)</label><input class="mfi" id="nCatKo" data-i-ph="ph_n_cat_ko" placeholder="글로벌 활동"/></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="mfg"><label>카테고리 (English)</label><input class="mfi" id="nCatEn" placeholder="Global"/></div>
         <div class="mfg"><label>카테고리 (中文)</label><input class="mfi" id="nCatZh" placeholder="全球"/></div>
@@ -2036,8 +2104,8 @@ footer{background:#071422}
       <div class="mfg"><label>외부 링크 URL (선택)</label><input class="mfi" id="nUrl" placeholder="https://..."/></div>
       <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)"/>
       <div style="font-weight:700;font-size:14px;color:var(--navy);margin-bottom:14px">🇰🇷 한국어</div>
-      <div class="mfg"><label>제목</label><input class="mfi" id="nTitleKo" placeholder="제목 입력"/></div>
-      <div class="mfg"><label>내용 요약</label><textarea class="mfi ta" id="nDescKo" placeholder="내용 요약 (2~3줄)"></textarea></div>
+      <div class="mfg"><label>제목</label><input class="mfi" id="nTitleKo" data-i-ph="ph_n_title_ko" placeholder="제목 입력"/></div>
+      <div class="mfg"><label>내용 요약</label><textarea class="mfi ta" id="nDescKo" data-i-ph="ph_n_desc_ko" placeholder="내용 요약 (2~3줄)"></textarea></div>
       <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)"/>
       <div style="font-weight:700;font-size:14px;color:var(--navy);margin-bottom:14px">🌏 English</div>
       <div class="mfg"><label>Title</label><input class="mfi" id="nTitleEn" placeholder="Enter title"/></div>
@@ -2136,19 +2204,19 @@ footer{background:#071422}
   <div class="chat-chips" id="chatChips"></div>
   <div class="chat-msgs" id="chatMsgs"></div>
   <div class="chat-inp-row">
-    <textarea class="chat-inp" id="chatInp" placeholder="질문을 입력하세요..." rows="1" onkeydown="chatKey(event)"></textarea>
+    <textarea class="chat-inp" id="chatInp" data-i-ph="chat_placeholder" placeholder="질문을 입력하세요..." rows="1" onkeydown="chatKey(event)"></textarea>
     <button class="chat-send" id="chatSendBtn" onclick="sendChat()">➤</button>
   </div>
 </div>
 
-<button class="fab-donate" onclick="goPage('donate')"><span class="fab-heart">❤️</span><span style="font-size:10px;margin-top:2px">후원</span></button>
+<button class="fab-donate" onclick="goPage('donate')"><span class="fab-heart">❤️</span><span style="font-size:10px;margin-top:2px" data-i="fab_donate">후원</span></button>
 
 <footer>
   <div class="ft-top">
     <div>
       <div class="ft-logo-row"><span style="font-size:22px">❤️</span><span class="ft-logo-txt" id="ft-logo-txt">생명의 <em>선물</em> 코리아</span></div>
       <p class="ft-desc" data-i="footer_tagline">"우리는 아이의 심장을 고치기 위해 필요한 모든 것을 수행합니다."</p>
-      <div class="ft-ct">📧 golikorea@naver.com<br>📱 010-9985-5328<br>🌐 www.golikorea.or.kr<br>📍 서울 영등포구 선유로3길 10, 2층</div>
+      <div class="ft-ct">📧 golikorea@naver.com<br>📱 010-9985-5328<br>🌐 www.golikorea.or.kr<br>📍 <span data-i="footer_contact_address">서울 영등포구 선유로3길 10, 2층</span></div>
     </div>
     <div><div class="ft-ttl" data-i="ft_links">바로가기</div><ul class="ft-links"><li><a href="#" onclick="goPage('home');return false" data-i="nav_home">홈</a></li><li><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스</a></li><li><a href="#" onclick="goPage('about');return false" data-i="nav_about">클럽 소개</a></li><li><a href="#" onclick="goPage('donate');return false" data-i="nav_donate">후원하기</a></li><li><a href="#" onclick="goPage('contact');return false" data-i="nav_contact">문의하기</a></li></ul></div>
     <div><div class="ft-ttl" data-i="ft_related">관련 기관</div><ul class="ft-links"><li><a href="https://giftoflifeinternational.org" target="_blank">Gift of Life International</a></li><li><a href="#">Rotary International</a></li><li><a href="#" data-i="ft_rotary">로타리 3640지구</a></li></ul></div>
@@ -2158,7 +2226,7 @@ footer{background:#071422}
   <a class="ft-sc" href="https://www.youtube.com/user/giftoflifeint" target="_blank" rel="noopener" title="YouTube" style="background:#ff0000"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
   <a class="ft-sc" href="https://facebook.com/giftoflifekorea/" target="_blank" rel="noopener" title="Facebook" style="background:#1877f2"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
 </div>  </div>
-  <div class="ft-bot"><div class="cp" id="ft-cp">© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640</div></div>
+  <div class="ft-bot"><div class="cp" id="ft-cp" data-i="ft_cp">© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640</div></div>
 </footer>
 
 <script>
@@ -2224,6 +2292,32 @@ ko:{
   news_sub:'최신 활동 소식을 전해드립니다.',
   ft_links:'바로가기',ft_related:'관련 기관',ft_social:'소셜 미디어',
   ft_rotary:'로타리 3640지구',
+  fab_donate:'후원',
+  chat_placeholder:'질문을 입력하세요...',
+  ph_dw_custom:'직접 입력',
+  ph_cms_bank:'예: 국민은행',
+  ph_captcha:'위 코드 입력',
+  ph_member_search:'이름 또는 이메일 검색',
+  ph_auth_pw:'6자 이상 입력',
+  ph_auth_name:'홍길동',
+  ph_n_cat_ko:'글로벌 활동',
+  ph_n_title_ko:'제목 입력',
+  ph_n_desc_ko:'내용 요약 (2~3줄)',
+  ch_eyebrow:'About Our Children',
+  ch_title:'우리 아이들',
+  ch_sub:'우리는 아이의 생명을 구하는 것을 도울 수 있을 때 가장 큰 행복을 느끼고 항상 감사함을 느낍니다.',
+  ch_stat1_v:'130만명',
+  ch_stat1_l:'매년 심장 결함을 가지고<br>태어나는 어린이 수',
+  ch_stat2_v:'93%',
+  ch_stat2_l:'심장 치료를 받지 못하는<br>어린이의 비율',
+  ch_stat3_v:'40년+',
+  ch_stat3_l:'로타리, 의료 전문가, 자원자들과<br>함께한 희망의 역사',
+  ch_youtube_title:'YouTube 채널 구독하기',
+  ch_video1:'▶ 영상 1 보기',
+  ch_video2:'▶ 영상 2 보기',
+  ch_country_title:'🌍 우리 아이들이 지내는 나라',
+  footer_contact_address:'서울 영등포구 선유로3길 10, 2층',
+  ft_cp:'© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640',
   read_more:'자세히 보기',
   date_label:'날짜',
   my_history_date:'날짜',my_history_name:'성명',my_history_amt:'금액',my_history_type:'구분',my_history_status:'상태',
@@ -2296,6 +2390,32 @@ en:{
   earth_desc:'Global environmental protection campaign platform — Coming soon.',
   news_sub:'Latest news and stories from our global mission.',
   ft_links:'Quick Links',ft_related:'Related',ft_social:'Social Media',ft_rotary:'Rotary District 3640',
+  fab_donate:'Donate',
+  chat_placeholder:'Type your question...',
+  ph_dw_custom:'Custom amount',
+  ph_cms_bank:'e.g. Kookmin Bank',
+  ph_captcha:'Enter the code above',
+  ph_member_search:'Search by name or email',
+  ph_auth_pw:'Enter at least 6 characters',
+  ph_auth_name:'Your full name',
+  ph_n_cat_ko:'Global activities',
+  ph_n_title_ko:'Enter title',
+  ph_n_desc_ko:'Summary (2-3 lines)',
+  ch_eyebrow:'About Our Children',
+  ch_title:'Our Children',
+  ch_sub:'We are happiest and most grateful when we can help save a child\'s life.',
+  ch_stat1_v:'1.3M',
+  ch_stat1_l:'Children born with<br>heart defects each year',
+  ch_stat2_v:'93%',
+  ch_stat2_l:'Children who do not receive<br>proper heart treatment',
+  ch_stat3_v:'40+ Years',
+  ch_stat3_l:'A history of hope with Rotary,<br>medical experts, and volunteers',
+  ch_youtube_title:'Subscribe to Our YouTube Channel',
+  ch_video1:'▶ Watch Video 1',
+  ch_video2:'▶ Watch Video 2',
+  ch_country_title:'🌍 Countries Where Our Children Live',
+  footer_contact_address:'2F, 10 Seonyu-ro 3-gil, Yeongdeungpo-gu, Seoul, Korea',
+  ft_cp:'© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640',
   read_more:'Read More',date_label:'Date',
   my_history_date:'Date',my_history_name:'Name',my_history_amt:'Amount',my_history_type:'Type',my_history_status:'Status',
   confirmed_txt:'Confirmed',pending_txt:'Processing',regular_txt:'Monthly',once_txt:'One-time',
@@ -2366,6 +2486,32 @@ zh:{
   news_sub:'Latest news and stories from our global mission.',
   ft_links:'Quick Links',ft_related:'Related',ft_social:'Social Media',
   ft_rotary:'Rotary District 3640',
+  fab_donate:'捐款',
+  chat_placeholder:'请输入您的问题...',
+  ph_dw_custom:'自定义金额',
+  ph_cms_bank:'例如：国民银行',
+  ph_captcha:'请输入上方验证码',
+  ph_member_search:'按姓名或邮箱搜索',
+  ph_auth_pw:'请输入至少6个字符',
+  ph_auth_name:'请输入姓名',
+  ph_n_cat_ko:'全球活动',
+  ph_n_title_ko:'请输入标题',
+  ph_n_desc_ko:'内容摘要（2-3行）',
+  ch_eyebrow:'About Our Children',
+  ch_title:'我们的孩子们',
+  ch_sub:'当我们能够帮助挽救孩子的生命时，我们感到最幸福，也始终心怀感恩。',
+  ch_stat1_v:'130万',
+  ch_stat1_l:'每年出生并患有<br>心脏缺陷的儿童人数',
+  ch_stat2_v:'93%',
+  ch_stat2_l:'无法接受适当<br>心脏治疗的儿童比例',
+  ch_stat3_v:'40年以上',
+  ch_stat3_l:'与扶轮社、医疗专家和志愿者<br>共同走过的希望历程',
+  ch_youtube_title:'订阅我们的 YouTube 频道',
+  ch_video1:'▶ 观看视频 1',
+  ch_video2:'▶ 观看视频 2',
+  ch_country_title:'🌍 我们孩子所在的国家',
+  footer_contact_address:'韩国首尔永登浦区仙游路3街10号 2层',
+  ft_cp:'© 2026 Gift of Life International Korea. All rights reserved. | Rotary District 3640',
   read_more:'Read More',
   date_label:'Date',
   my_history_date:'Date',my_history_name:'Name',my_history_amt:'Amount',my_history_type:'Type',my_history_status:'Status',
@@ -2447,6 +2593,28 @@ const OFFICERS=[
 ];
 
 const IG_IMGS=['https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&h=200&fit=crop','https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=200&h=200&fit=crop','https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=200&h=200&fit=crop','https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=200&h=200&fit=crop','https://images.unsplash.com/photo-1575793033139-745b2ee9daf3?w=200&h=200&fit=crop','https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop'];
+const CHILD_COUNTRIES=[
+  {f:'🇬🇭',ko:'가나',en:'Ghana',zh:'加纳'},{f:'🌎',ko:'가이아나',en:'Guyana',zh:'圭亚那'},{f:'🌊',ko:'갈라파고스제도',en:'Galapagos Islands',zh:'加拉帕戈斯群岛'},{f:'🇬🇲',ko:'감비아',en:'Gambia',zh:'冈比亚'},
+  {f:'🇬🇹',ko:'과테말라',en:'Guatemala',zh:'危地马拉'},{f:'🇬🇷',ko:'그리스',en:'Greece',zh:'希腊'},{f:'🇬🇳',ko:'기니',en:'Guinea',zh:'几内亚'},{f:'🇳🇬',ko:'나이지리아',en:'Nigeria',zh:'尼日利亚'},
+  {f:'🇿🇦',ko:'남아프리카 공화국',en:'South Africa',zh:'南非'},{f:'🇳🇮',ko:'니카라과',en:'Nicaragua',zh:'尼加拉瓜'},{f:'🇰🇷',ko:'대한민국',en:'Korea',zh:'韩国'},{f:'🇩🇴',ko:'도미니카 공화국',en:'Dominican Republic',zh:'多米尼加共和国'},
+  {f:'🇹🇱',ko:'동티모르 민주공화국',en:'Timor-Leste',zh:'东帝汶'},{f:'🇷🇺',ko:'러시아',en:'Russia',zh:'俄罗斯'},{f:'🇱🇧',ko:'레바논',en:'Lebanon',zh:'黎巴嫩'},{f:'🇷🇴',ko:'루마니아',en:'Romania',zh:'罗马尼亚'},
+  {f:'🇱🇾',ko:'리비아',en:'Libya',zh:'利比亚'},{f:'🇲🇾',ko:'말레이시아',en:'Malaysia',zh:'马来西亚'},{f:'🇲🇽',ko:'멕시코',en:'Mexico',zh:'墨西哥'},{f:'🇲🇦',ko:'모로코',en:'Morocco',zh:'摩洛哥'},
+  {f:'🇲🇳',ko:'몽골',en:'Mongolia',zh:'蒙古'},{f:'🇲🇲',ko:'미얀마',en:'Myanmar',zh:'缅甸'},{f:'🇧🇩',ko:'방글라데시',en:'Bangladesh',zh:'孟加拉国'},{f:'🇻🇪',ko:'베네수엘라',en:'Venezuela',zh:'委内瑞拉'},
+  {f:'🇻🇳',ko:'베트남',en:'Vietnam',zh:'越南'},{f:'🇧🇿',ko:'벨리즈',en:'Belize',zh:'伯利兹'},{f:'🇧🇴',ko:'볼리비아',en:'Bolivia',zh:'玻利维亚'},{f:'🇧🇫',ko:'부르키나파소',en:'Burkina Faso',zh:'布基纳法索'},
+  {f:'🇰🇵',ko:'북한',en:'North Korea',zh:'朝鲜'},{f:'🇧🇷',ko:'브라질',en:'Brazil',zh:'巴西'},{f:'🇷🇸',ko:'세르비아',en:'Serbia',zh:'塞尔维亚'},{f:'🌴',ko:'세인트 키츠 섬',en:'Saint Kitts',zh:'圣基茨岛'},
+  {f:'🌍',ko:'소말릴랜드',en:'Somaliland',zh:'索马里兰'},{f:'🇱🇰',ko:'스리랑카',en:'Sri Lanka',zh:'斯里兰卡'},{f:'🇸🇾',ko:'시리아',en:'Syria',zh:'叙利亚'},{f:'🇸🇱',ko:'시에라리온',en:'Sierra Leone',zh:'塞拉利昂'},
+  {f:'🇭🇹',ko:'아이티',en:'Haiti',zh:'海地'},{f:'🇮🇪',ko:'아일랜드',en:'Ireland',zh:'爱尔兰'},{f:'🇦🇿',ko:'아제르바이잔',en:'Azerbaijan',zh:'阿塞拜疆'},{f:'🇦🇫',ko:'아프가니스탄',en:'Afghanistan',zh:'阿富汗'},
+  {f:'🇦🇲',ko:'아르메니아',en:'Armenia',zh:'亚美尼亚'},{f:'🇦🇱',ko:'알바니아',en:'Albania',zh:'阿尔巴尼亚'},{f:'🇪🇨',ko:'에콰도르',en:'Ecuador',zh:'厄瓜多尔'},{f:'🇪🇹',ko:'에티오피아',en:'Ethiopia',zh:'埃塞俄比亚'},
+  {f:'🇸🇻',ko:'엘살바도르',en:'El Salvador',zh:'萨尔瓦多'},{f:'🇭🇳',ko:'온두라스',en:'Honduras',zh:'洪都拉斯'},{f:'🇯🇴',ko:'요르단',en:'Jordan',zh:'约旦'},{f:'🇺🇬',ko:'우간다',en:'Uganda',zh:'乌干达'},
+  {f:'🇺🇿',ko:'우즈베키스탄',en:'Uzbekistan',zh:'乌兹别克斯坦'},{f:'🇺🇦',ko:'우크라이나',en:'Ukraine',zh:'乌克兰'},{f:'🌍',ko:'유고슬라비아',en:'Yugoslavia',zh:'南斯拉夫'},{f:'🇮🇶',ko:'이라크',en:'Iraq',zh:'伊拉克'},
+  {f:'🇪🇬',ko:'이집트',en:'Egypt',zh:'埃及'},{f:'🇮🇹',ko:'이탈리아',en:'Italy',zh:'意大利'},{f:'🇮🇳',ko:'인도',en:'India',zh:'印度'},{f:'🇮🇩',ko:'인도네시아',en:'Indonesia',zh:'印度尼西亚'},
+  {f:'🇯🇲',ko:'자메이카',en:'Jamaica',zh:'牙买加'},{f:'🌍',ko:'잔지바르',en:'Zanzibar',zh:'桑给巴尔'},{f:'🇿🇲',ko:'잠비아',en:'Zambia',zh:'赞比亚'},{f:'🇬🇪',ko:'조지아',en:'Georgia',zh:'格鲁吉亚'},
+  {f:'🇨🇳',ko:'중국',en:'China',zh:'中国'},{f:'🇿🇼',ko:'짐바브웨이',en:'Zimbabwe',zh:'津巴布韦'},{f:'🇰🇿',ko:'카자흐스탄',en:'Kazakhstan',zh:'哈萨克斯坦'},{f:'🇰🇭',ko:'캄보디아',en:'Cambodia',zh:'柬埔寨'},
+  {f:'🇰🇪',ko:'케냐',en:'Kenya',zh:'肯尼亚'},{f:'🌍',ko:'코소보',en:'Kosovo',zh:'科索沃'},{f:'🇨🇮',ko:'코트디부아르',en:"Cote d'Ivoire",zh:'科特迪瓦'},{f:'🇨🇴',ko:'콜롬비아',en:'Colombia',zh:'哥伦比亚'},
+  {f:'🇨🇬',ko:'콩고 공화국',en:'Republic of the Congo',zh:'刚果共和国'},{f:'🇹🇯',ko:'타지키스탄',en:'Tajikistan',zh:'塔吉克斯坦'},{f:'🇹🇿',ko:'탄자니아',en:'Tanzania',zh:'坦桑尼亚'},{f:'🇹🇹',ko:'트리니다드 토바고',en:'Trinidad and Tobago',zh:'特立尼达和多巴哥'},
+  {f:'🇵🇦',ko:'파나마',en:'Panama',zh:'巴拿马'},{f:'🇵🇰',ko:'파키스탄',en:'Pakistan',zh:'巴基斯坦'},{f:'🇵🇸',ko:'팔레스타인',en:'Palestine',zh:'巴勒斯坦'},{f:'🇵🇪',ko:'페루',en:'Peru',zh:'秘鲁'},
+  {f:'🇵🇹',ko:'포르투갈',en:'Portugal',zh:'葡萄牙'},{f:'🇵🇱',ko:'폴란드',en:'Poland',zh:'波兰'},{f:'🇵🇭',ko:'필리핀',en:'Philippines',zh:'菲律宾'},{f:'🇭🇺',ko:'헝가리',en:'Hungary',zh:'匈牙利'},
+];
 
 /* ══════════════════════════════════════
    STATE
@@ -2585,6 +2753,15 @@ function selRegion(l){
 }
 function confirmRegion(){setLang(selLang);document.getElementById('regionModal').style.display='none';}
 
+function renderChildrenCountries(lang){
+  const grid=document.getElementById('chCountryGrid');
+  if(!grid) return;
+  const key=lang==='ko'?'ko':lang==='zh'?'zh':'en';
+  grid.innerHTML=CHILD_COUNTRIES
+    .map(c=>`<div class="ch-country-item">${c.f} ${c[key]||c.en}</div>`)
+    .join('');
+}
+
 /* ══════════════════════════════════════
    LANG
 ══════════════════════════════════════ */
@@ -2594,8 +2771,27 @@ function setLang(lang){
   ['ko','en','zh'].forEach(l=>{document.getElementById('lb-'+l).classList.toggle('on',l===lang);document.getElementById('rc-'+l)?.classList.toggle('active',l===lang);});
   const t=T[lang];
 
-  // ── data-i elements ──
-  document.querySelectorAll('[data-i]').forEach(el=>{const k=el.getAttribute('data-i');if(t[k]!==undefined)el.textContent=t[k];});
+  // ── data-i based i18n binding (text/html/placeholder/value/title) ──
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(t[k]!==undefined) el.textContent=t[k];
+  });
+  document.querySelectorAll('[data-i-html]').forEach(el=>{
+    const k=el.getAttribute('data-i-html');
+    if(t[k]!==undefined) el.innerHTML=t[k];
+  });
+  document.querySelectorAll('[data-i-ph]').forEach(el=>{
+    const k=el.getAttribute('data-i-ph');
+    if(t[k]!==undefined) el.setAttribute('placeholder',t[k]);
+  });
+  document.querySelectorAll('[data-i-title]').forEach(el=>{
+    const k=el.getAttribute('data-i-title');
+    if(t[k]!==undefined) el.setAttribute('title',t[k]);
+  });
+  document.querySelectorAll('[data-i-value]').forEach(el=>{
+    const k=el.getAttribute('data-i-value');
+    if(t[k]!==undefined) el.value=t[k];
+  });
 
   // ── Logo ──
   const logoMap={ko:'생명의 <em>선물</em> 코리아',zh:'生命 <em>礼物</em> 国际',en:'Gift of <em>Life</em> International'};
@@ -2645,6 +2841,7 @@ function setLang(lang){
   const newsTitle=document.querySelector('#page-news .sec-ttl');
   if(newsTitle && T[lang].nav_news) newsTitle.textContent=T[lang].nav_news;
 
+  renderChildrenCountries(lang);
   updateCurrency();
   renderAll();
   // OK 모달 언어 업데이트
