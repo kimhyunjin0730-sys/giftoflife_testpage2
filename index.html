@@ -1705,7 +1705,11 @@ footer{background:#071422}
               <div style="font-size:13px;color:var(--text);line-height:1.8" data-i="donation_dest_us_b">미국 후원자는 동일 페이지에서 국제 결제 옵션을 선택해 진행합니다.</div>
             </div>
           </div>
-          <a href="https://online.mrm.or.kr/oytvcb5" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:11px 14px;background:var(--navy);color:#fff;border-radius:9px;text-decoration:none;font-size:13px;font-weight:700" data-i="donation_dest_btn">🔗 공식 납부 페이지 열기</a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" id="donRegionKrBtn" onclick="setDonationRegion('kr')" style="padding:10px 14px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer" data-i="donation_region_kr_btn">🇰🇷 한국 납부</button>
+            <button type="button" id="donRegionUsBtn" onclick="setDonationRegion('us')" style="padding:10px 14px;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:9px;font-size:13px;font-weight:700;cursor:pointer" data-i="donation_region_us_btn">🇺🇸 미국 납부</button>
+          </div>
+          <div id="donationRegionHint" style="margin-top:10px;font-size:12px;color:var(--muted)" data-i="donation_region_hint_kr">현재 한국 납부 모드입니다. 결제 시 국내 API로 연결됩니다.</div>
         </div>
       </div>
       <!-- ① 후원 유형 + 금액 -->
@@ -2256,6 +2260,10 @@ const CONTACT_TO = 'kim.hyunjin@jinnhyun.com';
 const ADMIN_EMAILS = ['kim.hyunjin@jinnhyun.com', 'golikorea@naver.com', 'admin@goli.internal'];
 const HARDCODED_ADMIN = {id:'admin.goli', pw:'goli1234', email:'admin@goli.internal', name:'Administrator'};
 const NEWS_PER_PAGE = 6;
+const DONATION_API_ENDPOINTS = {
+  kr: `${SUPABASE_URL}/functions/v1/donation-kr-checkout`,
+  us: `${SUPABASE_URL}/functions/v1/donation-us-checkout`,
+};
 
 /* ── Supabase client ── */
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
@@ -2361,6 +2369,10 @@ ko:{
   donation_dest_us_h:'미국 기부금 납부처',
   donation_dest_us_b:'미국 후원자는 동일 페이지에서 국제 결제 옵션을 선택해 진행합니다.',
   donation_dest_btn:'🔗 공식 납부 페이지 열기',
+  donation_region_kr_btn:'🇰🇷 한국 납부',
+  donation_region_us_btn:'🇺🇸 미국 납부',
+  donation_region_hint_kr:'현재 한국 납부 모드입니다. 결제 시 국내 API로 연결됩니다.',
+  donation_region_hint_us:'현재 미국 납부 모드입니다. 결제 시 미국 API로 연결됩니다.',
   login_modal_sub:'회원 로그인 / 가입',
   signup:'회원가입',
   find_password:'비밀번호 찾기',
@@ -2492,6 +2504,10 @@ en:{
   donation_dest_us_h:'US Donation Destination',
   donation_dest_us_b:'US donors can use the same page and select international payment options.',
   donation_dest_btn:'🔗 Open Official Donation Page',
+  donation_region_kr_btn:'🇰🇷 Korea Payment',
+  donation_region_us_btn:'🇺🇸 US Payment',
+  donation_region_hint_kr:'Korea payment mode is active. Checkout will use the KR API.',
+  donation_region_hint_us:'US payment mode is active. Checkout will use the US API.',
   login_modal_sub:'Member Login / Sign Up',
   signup:'Sign Up',
   find_password:'Forgot Password',
@@ -2621,6 +2637,10 @@ zh:{
   donation_dest_us_h:'美国捐款缴纳入口',
   donation_dest_us_b:'美国捐款者可在同一页面选择国际支付方式进行捐款。',
   donation_dest_btn:'🔗 打开官方捐款页面',
+  donation_region_kr_btn:'🇰🇷 韩国支付',
+  donation_region_us_btn:'🇺🇸 美国支付',
+  donation_region_hint_kr:'当前为韩国支付模式，结账将连接韩国 API。',
+  donation_region_hint_us:'当前为美国支付模式，结账将连接美国 API。',
   login_modal_sub:'会员登录 / 注册',
   signup:'注册',
   find_password:'找回密码',
@@ -2730,11 +2750,61 @@ const CHILD_COUNTRIES=[
   {f:'🇵🇦',ko:'파나마',en:'Panama',zh:'巴拿马'},{f:'🇵🇰',ko:'파키스탄',en:'Pakistan',zh:'巴基斯坦'},{f:'🇵🇸',ko:'팔레스타인',en:'Palestine',zh:'巴勒斯坦'},{f:'🇵🇪',ko:'페루',en:'Peru',zh:'秘鲁'},
   {f:'🇵🇹',ko:'포르투갈',en:'Portugal',zh:'葡萄牙'},{f:'🇵🇱',ko:'폴란드',en:'Poland',zh:'波兰'},{f:'🇵🇭',ko:'필리핀',en:'Philippines',zh:'菲律宾'},{f:'🇭🇺',ko:'헝가리',en:'Hungary',zh:'匈牙利'},
 ];
+const STATIC_TEXT_MAP={
+  '뉴스 목록':{en:'News List',zh:'新闻列表'},
+  '뉴스 & 소식으로 돌아가기':{en:'Back to News & Stories',zh:'返回新闻与故事'},
+  '이전 기사':{en:'Previous Article',zh:'上一篇'},
+  '다음 기사':{en:'Next Article',zh:'下一篇'},
+  '원문 보기':{en:'View Original',zh:'查看原文'},
+  '❤️ 이 아이를 도울 수 있습니다':{en:'❤️ You can help this child',zh:'❤️ 你可以帮助这个孩子'},
+  '$1이 모여 한 아이의 심장을 구합니다. 지금 함께해 주세요.':{en:'$1 from each of us can save one child\'s heart. Join now.',zh:'每人捐出 $1，就能拯救一颗童心。现在就加入我们。'},
+  '❤️ 후원하기':{en:'❤️ Donate',zh:'❤️ 捐款'},
+  '문의 양식':{en:'Contact Form',zh:'联系表单'},
+  '회원님':{en:'Member',zh:'会员'},
+  '후원 내역':{en:'Donation History',zh:'捐款记录'},
+  '💳 후원 내역':{en:'💳 Donation History',zh:'💳 捐款记录'},
+  '로그인':{en:'Login',zh:'登录'},
+  '회원가입':{en:'Sign Up',zh:'注册'},
+  '비밀번호 찾기':{en:'Forgot Password',zh:'找回密码'},
+  '회원 로그인 / 가입':{en:'Member Login / Sign Up',zh:'会员登录 / 注册'},
+  '👤 기본정보':{en:'👤 Basic Information',zh:'👤 基本信息'},
+  '개인':{en:'Individual',zh:'个人'},
+  '기업/단체':{en:'Organization',zh:'企业/团体'},
+  '🏦 납부 정보':{en:'🏦 Payment Information',zh:'🏦 付款信息'},
+  '출금 은행':{en:'Bank Name',zh:'开户银行'},
+  '계좌번호':{en:'Account Number',zh:'账号'},
+  '예금주':{en:'Account Holder',zh:'户名'},
+  '출금일':{en:'Withdrawal Date',zh:'扣款日'},
+  '매월 5일':{en:'Every month on 5th',zh:'每月5日'},
+  '매월 10일':{en:'Every month on 10th',zh:'每月10日'},
+  '매월 15일':{en:'Every month on 15th',zh:'每月15日'},
+  '매월 20일':{en:'Every month on 20th',zh:'每月20日'},
+  '매월 25일':{en:'Every month on 25th',zh:'每月25日'},
+  '이름':{en:'Name',zh:'姓名'},
+  '이메일':{en:'Email',zh:'邮箱'},
+  '연락처':{en:'Phone',zh:'电话'},
+  '문의 제목':{en:'Subject',zh:'咨询标题'},
+  '문의 내용':{en:'Message',zh:'咨询内容'},
+  '전화':{en:'Phone',zh:'电话'},
+  '주소':{en:'Address',zh:'地址'},
+  'Administrator':{en:'Administrator',zh:'管理员'},
+  '대시보드':{en:'Dashboard',zh:'仪表盘'},
+  '뉴스 관리':{en:'News Management',zh:'新闻管理'},
+  '회원 관리':{en:'Member Management',zh:'会员管理'},
+  '문의 관리':{en:'Contact Management',zh:'咨询管理'},
+  '후원 관리':{en:'Donation Management',zh:'捐款管理'},
+};
+const STATIC_PLACEHOLDER_MAP={
+  'example@email.com':{en:'example@email.com',zh:'example@email.com'},
+  '010-0000-0000':{en:'010-0000-0000',zh:'010-0000-0000'},
+  '000-000-000000':{en:'000-000-000000',zh:'000-000-000000'},
+};
 
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
 let curLang='ko', selLang='ko';
+let donationRegion='kr';
 let curSlide=0, slideCount=KIDS.length, slidePaused=false, slideTimer=null;
 let chatOpen=false, chatHist=[], isSending=false;
 let authMode='login', currentUser=null;
@@ -2769,6 +2839,7 @@ let membersCache=[];
   // ③ 핵심: 네트워크 호출 전에 즉시 페이지 렌더링
   buildSlides();
   setLang(curLang);
+  setDonationRegion('kr');
   // 후원 폼 초기 상태
   try{ setDonateType('regular'); setDonorType('personal'); }catch(e){}
   handleKakaoReturn();
@@ -2876,6 +2947,30 @@ function renderChildrenCountries(lang){
     .map(c=>`<div class="ch-country-item">${c.f} ${c[key]||c.en}</div>`)
     .join('');
 }
+function applyStaticTranslations(lang){
+  const pages=document.querySelectorAll('#page-about,#page-partners,#page-rotary,#page-donate,#page-contact,#page-mypage,#page-article,#page-admin,#loginModal');
+  pages.forEach(root=>{
+    root.querySelectorAll('*').forEach(el=>{
+      if(el.children.length===0){
+        const txt=(el.textContent||'').trim();
+        if(!txt) return;
+        const mapped=STATIC_TEXT_MAP[txt];
+        if(!mapped) return;
+        el.textContent=lang==='ko'?txt:(mapped[lang]||mapped.en||txt);
+      }
+      if((el.tagName==='INPUT' || el.tagName==='TEXTAREA') && el.placeholder){
+        const ph=el.getAttribute('placeholder')||'';
+        const mappedPh=STATIC_PLACEHOLDER_MAP[ph];
+        if(mappedPh) el.setAttribute('placeholder',lang==='ko'?ph:(mappedPh[lang]||mappedPh.en||ph));
+      }
+      if(el.tagName==='OPTION'){
+        const ov=(el.textContent||'').trim();
+        const mappedOpt=STATIC_TEXT_MAP[ov];
+        if(mappedOpt) el.textContent=lang==='ko'?ov:(mappedOpt[lang]||mappedOpt.en||ov);
+      }
+    });
+  });
+}
 
 /* ══════════════════════════════════════
    LANG
@@ -2959,6 +3054,7 @@ function setLang(lang){
   renderChildrenCountries(lang);
   updateCurrency();
   renderAll();
+  applyStaticTranslations(lang);
   // OK 모달 언어 업데이트
   const t2=T[lang];
   const okEl=id=>document.getElementById(id);
@@ -3137,6 +3233,52 @@ function pickAmt(btn,a){document.querySelectorAll('.amt-btn').forEach(b=>b.class
 function customAmt(inp){donateAmt=inp.value;document.querySelectorAll('.amt-btn').forEach(b=>b.classList.remove('on'));}
 const CAPS=['GOLI26','HEART9','LIFE77','GOL123','SAVE01'];let curCap='GOLI26';
 function refreshCap(){curCap=CAPS[Math.floor(Math.random()*CAPS.length)];document.getElementById('capCode').textContent=curCap;document.getElementById('capInput').value='';}
+function setDonationRegion(region){
+  donationRegion = region==='us' ? 'us' : 'kr';
+  const krBtn=document.getElementById('donRegionKrBtn');
+  const usBtn=document.getElementById('donRegionUsBtn');
+  const hint=document.getElementById('donationRegionHint');
+  if(krBtn){
+    krBtn.style.background=donationRegion==='kr'?'var(--blue)':'#fff';
+    krBtn.style.color=donationRegion==='kr'?'#fff':'var(--text)';
+    krBtn.style.borderColor='var(--blue)';
+  }
+  if(usBtn){
+    usBtn.style.background=donationRegion==='us'?'var(--blue)':'#fff';
+    usBtn.style.color=donationRegion==='us'?'#fff':'var(--text)';
+    usBtn.style.borderColor=donationRegion==='us'?'var(--blue)':'var(--border)';
+  }
+  if(hint){
+    const key = donationRegion==='us' ? 'donation_region_hint_us' : 'donation_region_hint_kr';
+    hint.textContent = T[curLang][key] || '';
+  }
+}
+async function createDonationCheckout(fd, method){
+  const endpoint = DONATION_API_ENDPOINTS[donationRegion];
+  if(!endpoint) return null;
+  const rawAmt = donateAmt || fd.get('customAmt') || '30000';
+  const amount = parseInt(String(rawAmt).replace(/[^0-9]/g,''),10) || 30000;
+  const payload = {
+    region: donationRegion,
+    method,
+    amount,
+    currency: donationRegion==='us' ? 'USD' : 'KRW',
+    donor: {
+      name: fd.get('name')||'',
+      email: fd.get('email')||'',
+      phone: fd.get('phone')||'',
+    },
+    lang: curLang,
+    pay_type: donateType||'regular',
+  };
+  const res = await fetch(endpoint,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload),
+  });
+  if(!res.ok) throw new Error('checkout api '+res.status);
+  return await res.json();
+}
 /* ══════════════════════════════════════
    PAYMENT METHOD TOGGLE + KAKAOPAY
 ══════════════════════════════════════ */
@@ -3200,6 +3342,23 @@ async function submitDonate(e){
   const btn = document.getElementById('donateSubmitBtn');
   const fd = new FormData(e.target);
   const method = currentPayMethod;
+
+  // 미국 납부는 결제 API 우선 연결(카드/계좌/가상계좌)
+  if(donationRegion==='us' && ['nicepay','card','vbank','transfer'].includes(method)){
+    try{
+      btn.innerHTML='<span class="spinner"></span>';
+      btn.disabled=true;
+      const out = await createDonationCheckout(fd, method);
+      if(out?.redirect_url){ window.location.href = out.redirect_url; return; }
+      throw new Error('missing redirect_url');
+    }catch(apiErr){
+      console.warn('US checkout api failed:', apiErr.message);
+      alert(curLang==='ko'?'미국 결제 API 연결에 실패했습니다. 관리자에게 문의해 주세요.':'US payment API connection failed. Please contact support.');
+      btn.innerHTML='❤️ '+(T[curLang].submit_btn||'후원하기');
+      btn.disabled=false;
+      return;
+    }
+  }
 
   // ── 카카오페이 QR 결제 ─────────────────────────
   if(method === 'kakaopay'){
