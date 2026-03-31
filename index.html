@@ -2552,6 +2552,7 @@ function goPage(k){
   window.scrollTo({top:0,behavior:'smooth'});
   closeMob();
   if(k==='news') renderNewsPage();
+  if(k==='about') goAboutTab('intro');
   if(k==='admin'){
     loadAdminDashboard();
     // Pre-load all admin tabs in background
@@ -2562,6 +2563,26 @@ function mgo(k){goPage(k);}
 function toggleMob(){document.getElementById('mobWrap').classList.toggle('open');}
 function closeMob(){document.getElementById('mobWrap').classList.remove('open');}
 function goMyPage(){if(currentUser)goPage('mypage');else openLogin();}
+
+function goAboutTab(tab){
+  // 모든 about-content 숨기기
+  document.querySelectorAll('.about-content').forEach(el=>{el.style.display='none';});
+  // 선택한 탭 보이기
+  const target=document.getElementById('about-'+tab);
+  if(target) target.style.display='block';
+  // 탭 버튼 활성화 상태
+  document.querySelectorAll('.about-tab-btn').forEach(btn=>{
+    btn.style.color='var(--muted)';
+    btn.style.borderBottomColor='transparent';
+    btn.classList.remove('active');
+  });
+  const activeBtn=document.getElementById('abtab-'+tab);
+  if(activeBtn){
+    activeBtn.style.color='var(--blue)';
+    activeBtn.style.borderBottomColor='var(--blue)';
+    activeBtn.classList.add('active');
+  }
+}
 function isAdmin(){return currentUser && ADMIN_EMAILS.includes(currentUser.email);}
 
 /* ══════════════════════════════════════
