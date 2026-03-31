@@ -822,7 +822,12 @@ footer{background:#071422}
           </div>
         </li>
         <li id="nav-children"><a href="#" onclick="goPage('children');return false" data-i="nav_children">우리 아이들</a></li>
-        <li id="nav-news"><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스 &amp; 소식</a></li>
+        <li id="nav-news"><a href="#" onclick="goPage('news');return false" data-i="nav_news">뉴스 &amp; 소식</a>
+          <div class="nav-drop">
+            <a href="#" onclick="goPage('news');return false" data-i="nav_stories">소식</a>
+            <a href="#" onclick="goPage('notices');return false" data-i="nav_notices">공지사항</a>
+          </div>
+        </li>
         <li id="nav-activities"><a href="#" onclick="goPage('activities');return false" data-i="nav_activities">우리의 활동</a>
           <div class="nav-drop">
             <a href="#" onclick="goPage('activities');return false" data-i="dd_heart">심장병 어린이 구호</a>
@@ -852,7 +857,8 @@ footer{background:#071422}
     <div class="mob-item" onclick="mgo('partners')"><span>🤝</span><span data-i="nav_partners">파트너스</span></div>
     <div class="mob-item" onclick="mgo('rotary')" style="padding-left:32px;font-size:13px"><span>🔵</span><span data-i="nav_rotary">로타리</span></div>
     <div class="mob-item" onclick="mgo('children')"><span>👶</span><span data-i="nav_children">우리 아이들</span></div>
-    <div class="mob-item" onclick="mgo('news')"><span>📰</span><span data-i="nav_news">뉴스 &amp; 소식</span></div>
+    <div class="mob-item" onclick="mgo('news')"><span>📰</span><span data-i="nav_stories">소식</span></div>
+    <div class="mob-item" onclick="mgo('notices')"><span>📋</span><span data-i="nav_notices">공지사항</span></div>
     <div class="mob-item" onclick="mgo('activities')"><span>💝</span><span data-i="nav_activities">우리의 활동</span></div>
     <div class="mob-item" onclick="mgo('donate')"><span>💳</span><span data-i="nav_donate">후원하기</span></div>
     <div class="mob-item" onclick="mgo('contact')"><span>✉️</span><span data-i="nav_contact">문의하기</span></div>
@@ -977,6 +983,86 @@ footer{background:#071422}
       <div class="pagination" id="newsPagination"></div>
     </div>
   </div></div>
+</div>
+
+<!-- ════ NOTICES PAGE ════ -->
+<div class="page" id="page-notices">
+  <div class="section"><div class="wrap">
+
+    <!-- 페이지 헤더 -->
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;padding-bottom:20px;border-bottom:3px solid var(--blue);width:fit-content;min-width:220px">
+      <div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="nav_notices">공지사항</h2>
+        <p style="font-size:14px;color:var(--muted)" data-i="notices_sub">클럽의 주요 공지사항을 확인하세요.</p>
+      </div>
+    </div>
+
+    <!-- 검색 + 작성 버튼 -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px">
+        <input id="noticeSearchInp" class="fi" type="search" placeholder="검색..." style="width:220px;padding:9px 14px;font-size:13px" oninput="filterNoticesPage(this.value)"/>
+      </div>
+      <button id="noticesWriteBtn" style="display:none;padding:9px 20px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;transition:var(--ease)" onclick="openNoticeModal()" data-i="notices_write_btn">+ 공지 작성</button>
+    </div>
+
+    <!-- 공지사항 테이블 -->
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
+      <table class="ntbl" id="noticesPageTable">
+        <thead>
+          <tr>
+            <th style="width:64px" data-i="tbl_no">번호</th>
+            <th style="text-align:left" data-i="tbl_title">제목</th>
+            <th style="width:100px" data-i="tbl_author">작성자</th>
+            <th style="width:110px" data-i="tbl_date">날짜</th>
+            <th style="width:70px" data-i="tbl_views">조회</th>
+          </tr>
+        </thead>
+        <tbody id="noticesPageBody">
+          <tr><td colspan="5" style="text-align:center;padding:48px;color:var(--muted);font-size:14px">로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination" id="noticesPagination" style="margin-top:20px"></div>
+  </div></div>
+</div>
+
+<!-- 공지사항 작성/수정 모달 -->
+<div id="noticeModal" style="display:none;position:fixed;inset:0;z-index:2500;background:rgba(7,26,47,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:var(--r2);padding:32px;max-width:560px;width:94%;max-height:90vh;overflow-y:auto;box-shadow:var(--sh2);position:relative">
+    <button onclick="closeNoticeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer">✕</button>
+    <h3 style="font-size:18px;font-weight:700;color:var(--navy);margin-bottom:24px" id="noticeModalTitle">공지사항 작성</h3>
+    <input type="hidden" id="noticeEditId"/>
+    <div class="fg"><label class="fl">유형 <span class="req">*</span></label>
+      <select class="fi" id="noticeCategory" style="-webkit-appearance:none">
+        <option value="notice">📌 공지 (상단 고정)</option>
+        <option value="general">일반 게시글</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">제목 (한국어) <span class="req">*</span></label><input class="fi" id="noticeTitleKo" placeholder="한국어 제목"/></div>
+    <div class="fg"><label class="fl">제목 (English)</label><input class="fi" id="noticeTitleEn" placeholder="English title"/></div>
+    <div class="fg"><label class="fl">제목 (中文)</label><input class="fi" id="noticeTitleZh" placeholder="中文标题"/></div>
+    <div class="fg"><label class="fl">내용 (한국어)</label><textarea class="fi" id="noticeContentKo" rows="5" style="resize:vertical" placeholder="공지 내용을 입력하세요..."></textarea></div>
+    <div class="fg"><label class="fl">내용 (English)</label><textarea class="fi" id="noticeContentEn" rows="3" style="resize:vertical" placeholder="English content..."></textarea></div>
+    <div class="fg"><label class="fl">내용 (中文)</label><textarea class="fi" id="noticeContentZh" rows="3" style="resize:vertical" placeholder="中文内容..."></textarea></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
+      <input type="checkbox" id="noticeIsNew" style="width:16px;height:16px;cursor:pointer"/>
+      <label for="noticeIsNew" style="font-size:13.5px;font-weight:600;cursor:pointer">NEW 배지 표시</label>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button onclick="closeNoticeModal()" style="padding:11px 24px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);font-size:13.5px;font-weight:600;cursor:pointer">취소</button>
+      <button onclick="saveNotice()" style="padding:11px 28px;background:var(--blue);color:#fff;border:none;border-radius:var(--r);font-size:13.5px;font-weight:700;cursor:pointer" id="noticeSaveBtn">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 공지 상세 모달 -->
+<div id="noticeDetailModal" style="display:none;position:fixed;inset:0;z-index:2500;background:rgba(7,26,47,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:var(--r2);padding:36px;max-width:640px;width:94%;max-height:88vh;overflow-y:auto;box-shadow:var(--sh2);position:relative">
+    <button onclick="closeNoticeDetail()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer">✕</button>
+    <div id="noticeDetailInner"></div>
+  </div>
 </div>
 
 <!-- ════ ARTICLE DETAIL PAGE ════ -->
@@ -2041,6 +2127,7 @@ footer{background:#071422}
     <div class="admin-sidebar">
       <div class="admin-sidebar-ttl">Administrator</div>
       <div class="admin-nav-item active" onclick="switchAdminTab('dashboard')">📊 대시보드</div>
+      <div class="admin-nav-item" onclick="switchAdminTab('notices-mgmt');loadAdminNotices()">📋 공지사항 관리</div>
       <div class="admin-nav-item" onclick="switchAdminTab('news-mgmt')">📰 뉴스 관리</div>
       <div class="admin-nav-item" onclick="switchAdminTab('members-mgmt')">👥 회원 관리</div>
       <div class="admin-nav-item" onclick="switchAdminTab('contacts-mgmt')">✉️ 문의 관리</div>
@@ -2071,6 +2158,24 @@ footer{background:#071422}
             <button class="btn-primary" style="background:var(--navy)" onclick="switchAdminTab('members-mgmt');loadAdminMembers()">👥 회원 목록</button>
             <button class="btn-primary" style="background:#7c3aed" onclick="exportCSV('members')">📥 회원 CSV</button>
             <button class="btn-primary" style="background:#0891b2" onclick="exportCSV('donations')">📥 후원 CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTICES MGMT -->
+      <div class="admin-tab" id="admin-tab-notices-mgmt">
+        <div class="admin-hd">공지사항 관리</div>
+        <div class="admin-sub">홈 및 공지사항 페이지에 표시되는 공지 게시물 관리</div>
+        <div class="admin-table-wrap">
+          <div class="admin-table-hd">
+            <h3>공지 목록 <span id="notices-count-badge" style="font-size:12px;color:var(--muted);font-weight:400"></span></h3>
+            <button class="btn-primary" onclick="openNoticeModal()">+ 새 공지 작성</button>
+          </div>
+          <div style="padding:0">
+            <table class="admin-tbl">
+              <thead><tr><th>유형</th><th>제목 (KO)</th><th>날짜</th><th>NEW</th><th>조회</th><th>관리</th></tr></thead>
+              <tbody id="adminNoticesTbl"><tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr></tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -2309,6 +2414,8 @@ const T = {
 ko:{
   nav_home:'홈',nav_about:'소개',nav_news:'뉴스 & 소식',nav_activities:'우리의 활동',
   nav_donate:'후원하기',nav_contact:'문의하기',
+  nav_stories:'소식',nav_notices:'공지사항',
+  notices_sub:'클럽의 주요 공지사항을 확인하세요.',notices_write_btn:'+ 공지 작성',
   nav_partners:'파트너스',nav_partners_corp:'파트너',nav_rotary:'로타리',nav_children:'우리 아이들',
   login:'로그인',donate_btn:'후원하기',
   my_donation:'나의 후원',
@@ -2464,6 +2571,8 @@ hero_h:'모든 아이는<br><span class=\"accent\">심장을 고칠</span><br>�
 en:{
   nav_home:'Home',nav_about:'About',nav_news:'News & Stories',nav_activities:'Our Work',
   nav_donate:'Donate',nav_contact:'Contact',
+  nav_stories:'Stories',nav_notices:'Notices',
+  notices_sub:'Stay up to date with our club announcements.',notices_write_btn:'+ Write Notice',
   nav_partners:'Partners',nav_partners_corp:'Partners',nav_rotary:'Rotary',nav_children:'Our Children',
   login:'Login',donate_btn:'Donate',my_donation:'My Donations',
   shortcut:'📌 Quick Links',acct_title:'Bank Account',acct_holder:'Account:',
@@ -2614,6 +2723,8 @@ en:{
 zh:{
   nav_home:'首页',nav_about:'关于我们',nav_news:'新闻与故事',nav_activities:'我们的活动',
   nav_donate:'捐款',nav_contact:'联系我们',
+  nav_stories:'故事',nav_notices:'公告',
+  notices_sub:'查看俱乐部重要公告。',notices_write_btn:'+ 发布公告',
   nav_partners:'合作伙伴',nav_partners_corp:'合作伙伴',nav_rotary:'扶轮社',nav_children:'我们的孩子们',
   login:'登录',donate_btn:'捐款',my_donation:'我的捐款',
   shortcut:'📌 快速入口',acct_title:'汇款账户',acct_holder:'账户名:',
@@ -2949,6 +3060,10 @@ let membersCache=[];
     renderNews('homeNews',3);
     renderNews('newsGrid',9);
   } catch(e){ console.warn('News load error:', e.message); }
+
+  try {
+    await loadNoticesFromDB();
+  } catch(e){ console.warn('Notices load error:', e.message); }
 })();
 
 /* ══════════════════════════════════════
@@ -3176,7 +3291,7 @@ function updateCurrency(){
 /* ══════════════════════════════════════
    PAGE NAV
 ══════════════════════════════════════ */
-const PAGES={home:{p:'page-home',n:'nav-home',bc:'nav_home'},news:{p:'page-news',n:'nav-news',bc:'nav_news'},article:{p:'page-article',n:'nav-news',bc:'nav_news'},about:{p:'page-about',n:'nav-about',bc:'nav_about'},partners:{p:'page-partners',n:'nav-partners',bc:'nav_partners'},rotary:{p:'page-rotary',n:'nav-partners',bc:'nav_rotary'},children:{p:'page-children',n:'nav-children',bc:'nav_children'},activities:{p:'page-activities',n:'nav-activities',bc:'nav_activities'},donate:{p:'page-donate',n:'nav-donate',bc:'nav_donate'},contact:{p:'page-contact',n:'nav-contact',bc:'nav_contact'},mypage:{p:'page-mypage',n:null,bc:'my_donation'},admin:{p:'page-admin',n:null,bc:'nav_home'}};
+const PAGES={home:{p:'page-home',n:'nav-home',bc:'nav_home'},news:{p:'page-news',n:'nav-news',bc:'nav_news'},notices:{p:'page-notices',n:'nav-news',bc:'nav_notices'},article:{p:'page-article',n:'nav-news',bc:'nav_news'},about:{p:'page-about',n:'nav-about',bc:'nav_about'},partners:{p:'page-partners',n:'nav-partners',bc:'nav_partners'},rotary:{p:'page-rotary',n:'nav-partners',bc:'nav_rotary'},children:{p:'page-children',n:'nav-children',bc:'nav_children'},activities:{p:'page-activities',n:'nav-activities',bc:'nav_activities'},donate:{p:'page-donate',n:'nav-donate',bc:'nav_donate'},contact:{p:'page-contact',n:'nav-contact',bc:'nav_contact'},mypage:{p:'page-mypage',n:null,bc:'my_donation'},admin:{p:'page-admin',n:null,bc:'nav_home'}};
 
 function goPage(k){
   if(k==='admin' && !isAdmin()) return;
@@ -3189,6 +3304,7 @@ function goPage(k){
   window.scrollTo({top:0,behavior:'smooth'});
   closeMob();
   if(k==='news') renderNewsPage();
+  if(k==='notices') renderNoticesPage();
   if(k==='about') goAboutTab('intro');
   if(k==='admin'){
     loadAdminDashboard();
@@ -4022,6 +4138,7 @@ function onUserLogin(user){
   closeLogin();
   if(isAdmin()){
     document.getElementById('mb-admin-badge').style.display='inline-flex';
+    showAdminNoticesBtn();
     goPage('admin');
   } else {
     goPage('mypage');
@@ -4810,10 +4927,281 @@ function renderNews(id,limit){
   const el=document.getElementById(id);if(!el)return;const t=T[curLang];
   el.innerHTML=allNews.slice(0,limit).map((n,i)=>`<div class="nc" onclick="openArticle(${i})"><div class="nc-img"><img src="${n.img}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=400&h=240&fit=crop'"/><span class="nc-cat">${n.cat[curLang]||n.cat.ko}</span></div><div class="nc-body"><div class="nc-ttl">${n.title[curLang]||n.title.ko}</div><div class="nc-desc">${n.desc[curLang]||n.desc.ko}</div><div class="nc-more">${t.read_more||t.more} →</div></div></div>`).join('');
 }
-function renderNotices(){
-  const el=document.getElementById('noticeBody');if(!el)return;const t=T[curLang];const nl={ko:'공지',en:'N',zh:'公'};
-  el.innerHTML=NOTICES.map(n=>`<tr><td class="num">${n.isNotice?nl[curLang]:n.no}</td><td><span class="nb-tag ${n.isNotice?'n':'g'}">${n.isNotice?(nl[curLang][0]):'G'}</span>${n.title[curLang]}${n.isNew?'<span class="new-t">NEW</span>':''}</td><td class="dt">${n.author[curLang]}</td><td class="dt">${n.date}</td><td class="cnt">${n.views}</td></tr>`).join('');
+// ── 공지사항 공통 데이터 ──────────────────────────────────────────
+let allNoticesData = [...NOTICES]; // 기본값: 정적 배열, Supabase 로드 후 교체
+
+// Supabase notices 테이블에서 로드 (옵션)
+async function loadNoticesFromDB(){
+  try {
+    const { data, error } = await sb.from('notices')
+      .select('*')
+      .eq('published', true)
+      .order('is_notice', { ascending: false })
+      .order('date', { ascending: false });
+    if(error || !data?.length) return;
+    // Supabase 행 → 내부 형식 변환
+    const dbRows = data.map((r, i) => ({
+      no: String(data.filter(x=>!x.is_notice).indexOf(r)+1||'공지'),
+      title:{ ko: r.title_ko||r.title_en||'', en: r.title_en||r.title_ko||'', zh: r.title_zh||r.title_ko||'' },
+      content:{ ko: r.content_ko||'', en: r.content_en||'', zh: r.content_zh||'' },
+      author:{ ko: r.author_ko||'운영사무국', en: r.author_en||'Admin', zh: r.author_zh||'运营办公室' },
+      date: r.date||r.created_at?.slice(0,10)||'',
+      views: r.views||0,
+      isNew: r.is_new||false,
+      isNotice: r.is_notice||false,
+      id: r.id,
+      category: r.category||'general',
+    }));
+    allNoticesData = dbRows;
+    renderNotices();
+    renderNoticesPage();
+  } catch(e){ console.warn('notices load error:', e.message); }
 }
+
+// 홈 공지사항 테이블 (기존 위치)
+function renderNotices(){
+  const el=document.getElementById('noticeBody');if(!el)return;
+  const nl={ko:'공지',en:'N',zh:'公'};
+  el.innerHTML=allNoticesData.map(n=>`
+    <tr style="cursor:pointer" onclick="openNoticeDetailHome(${allNoticesData.indexOf(n)})">
+      <td class="num">${n.isNotice?nl[curLang]:n.no}</td>
+      <td><span class="nb-tag ${n.isNotice?'n':'g'}">${n.isNotice?nl[curLang][0]:'G'}</span>${n.title[curLang]}${n.isNew?'<span class="new-t">NEW</span>':''}</td>
+      <td class="dt">${n.author[curLang]}</td>
+      <td class="dt">${n.date}</td>
+      <td class="cnt">${n.views}</td>
+    </tr>`).join('');
+}
+
+// ── 공지사항 페이지 렌더 ────────────────────────────────────────────
+let noticesPageCurrent = 1;
+const NOTICES_PER_PAGE = 10;
+let noticesFiltered = [];
+
+function renderNoticesPage(){
+  noticesFiltered = [...allNoticesData];
+  renderNoticesTable();
+}
+
+function filterNoticesPage(q){
+  const kw = q.toLowerCase().trim();
+  noticesFiltered = kw
+    ? allNoticesData.filter(n=>
+        n.title.ko.toLowerCase().includes(kw)||
+        n.title.en.toLowerCase().includes(kw)||
+        (n.author?.ko||'').toLowerCase().includes(kw))
+    : [...allNoticesData];
+  noticesPageCurrent = 1;
+  renderNoticesTable();
+}
+
+function renderNoticesTable(){
+  const tbody = document.getElementById('noticesPageBody');
+  if(!tbody) return;
+  const nl = { ko:'공지', en:'N', zh:'公' };
+  const total = noticesFiltered.length;
+  const totalPages = Math.max(1, Math.ceil(total/NOTICES_PER_PAGE));
+  noticesPageCurrent = Math.min(noticesPageCurrent, totalPages);
+  const start = (noticesPageCurrent-1)*NOTICES_PER_PAGE;
+  const rows = noticesFiltered.slice(start, start+NOTICES_PER_PAGE);
+
+  if(!rows.length){
+    tbody.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:48px;color:var(--muted);font-size:14px">공지사항이 없습니다.</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((n,i)=>`
+      <tr style="cursor:pointer;transition:var(--ease)" onclick="openNoticeDetailHome(${allNoticesData.indexOf(n)})"
+          onmouseover="this.style.background='var(--blue-lt)'" onmouseout="this.style.background=''">
+        <td class="num" style="font-weight:${n.isNotice?'700':'400'};color:${n.isNotice?'var(--blue)':'var(--muted)'}">
+          ${n.isNotice?`<span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--blue);color:#fff;font-size:10px;font-weight:800">${nl[curLang][0]}</span>`:`${start+i+1}`}
+        </td>
+        <td>
+          <span class="nb-tag ${n.isNotice?'n':'g'}">${n.isNotice?nl[curLang][0]:'G'}</span>
+          <span style="font-weight:${n.isNotice?'600':'400'}">${n.title[curLang]}</span>
+          ${n.isNew?'<span class="new-t">NEW</span>':''}
+        </td>
+        <td class="dt">${n.author?.[curLang]||''}</td>
+        <td class="dt">${n.date}</td>
+        <td class="cnt">${n.views}</td>
+      </tr>`).join('');
+  }
+
+  // 페이지네이션
+  const pg = document.getElementById('noticesPagination');
+  if(!pg) return;
+  if(totalPages<=1){ pg.innerHTML=''; return; }
+  let btns='';
+  for(let p=1;p<=totalPages;p++){
+    btns+=`<button class="pg-btn${p===noticesPageCurrent?' on':''}" onclick="noticesGotoPage(${p})">${p}</button>`;
+  }
+  pg.innerHTML=`
+    <button class="pg-btn" onclick="noticesGotoPage(${noticesPageCurrent-1})" ${noticesPageCurrent<=1?'disabled':''}>‹</button>
+    ${btns}
+    <button class="pg-btn" onclick="noticesGotoPage(${noticesPageCurrent+1})" ${noticesPageCurrent>=totalPages?'disabled':''}>›</button>`;
+}
+
+function noticesGotoPage(p){
+  const total=Math.max(1,Math.ceil(noticesFiltered.length/NOTICES_PER_PAGE));
+  if(p<1||p>total) return;
+  noticesPageCurrent=p;
+  renderNoticesTable();
+}
+
+// ── 공지 상세 보기 ──────────────────────────────────────────────────
+function openNoticeDetailHome(idx){
+  const n = allNoticesData[idx];
+  if(!n) return;
+  n.views = (n.views||0) + 1;
+  // Supabase 조회수 업데이트 (비동기, 실패해도 무방)
+  if(n.id) sb.from('notices').update({views:n.views}).eq('id',n.id).then(()=>{});
+  renderNotices();
+  renderNoticesTable();
+
+  const inner = document.getElementById('noticeDetailInner');
+  if(!inner) return;
+  const nl = { ko:'공지', en:'Notice', zh:'公告' };
+  inner.innerHTML=`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+      <span class="nb-tag ${n.isNotice?'n':'g'}">${n.isNotice?nl[curLang]:'G'}</span>
+      ${n.isNew?'<span class="new-t">NEW</span>':''}
+    </div>
+    <h2 style="font-size:20px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.5">${n.title[curLang]}</h2>
+    <div style="display:flex;gap:20px;font-size:12.5px;color:var(--muted);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <span>✍️ ${n.author?.[curLang]||''}</span>
+      <span>📅 ${n.date}</span>
+      <span>👁 ${n.views}</span>
+    </div>
+    <div style="font-size:14.5px;color:var(--text);line-height:2;white-space:pre-wrap">${(n.content?.[curLang])||'(내용 없음)'}</div>`;
+  const modal = document.getElementById('noticeDetailModal');
+  if(modal){ modal.style.display='flex'; }
+}
+function closeNoticeDetail(){
+  const m=document.getElementById('noticeDetailModal'); if(m) m.style.display='none';
+}
+
+// ── 공지 작성/수정 모달 ────────────────────────────────────────────
+function openNoticeModal(id){
+  const modal=document.getElementById('noticeModal');
+  if(!modal) return;
+  document.getElementById('noticeEditId').value = id||'';
+  document.getElementById('noticeModalTitle').textContent = id ? '공지사항 수정' : '공지사항 작성';
+  document.getElementById('noticeCategory').value='notice';
+  document.getElementById('noticeTitleKo').value='';
+  document.getElementById('noticeTitleEn').value='';
+  document.getElementById('noticeTitleZh').value='';
+  document.getElementById('noticeContentKo').value='';
+  document.getElementById('noticeContentEn').value='';
+  document.getElementById('noticeContentZh').value='';
+  document.getElementById('noticeIsNew').checked=true;
+
+  if(id){
+    const n = allNoticesData.find(x=>String(x.id)===String(id));
+    if(n){
+      document.getElementById('noticeCategory').value = n.isNotice?'notice':'general';
+      document.getElementById('noticeTitleKo').value = n.title?.ko||'';
+      document.getElementById('noticeTitleEn').value = n.title?.en||'';
+      document.getElementById('noticeTitleZh').value = n.title?.zh||'';
+      document.getElementById('noticeContentKo').value = n.content?.ko||'';
+      document.getElementById('noticeContentEn').value = n.content?.en||'';
+      document.getElementById('noticeContentZh').value = n.content?.zh||'';
+      document.getElementById('noticeIsNew').checked = n.isNew||false;
+    }
+  }
+  modal.style.display='flex';
+}
+function closeNoticeModal(){
+  const m=document.getElementById('noticeModal'); if(m) m.style.display='none';
+}
+
+async function saveNotice(){
+  const titleKo = document.getElementById('noticeTitleKo').value.trim();
+  if(!titleKo){ alert('한국어 제목을 입력해 주세요.'); return; }
+  const btn = document.getElementById('noticeSaveBtn');
+  btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
+
+  const payload = {
+    title_ko: titleKo,
+    title_en: document.getElementById('noticeTitleEn').value.trim()||titleKo,
+    title_zh: document.getElementById('noticeTitleZh').value.trim()||titleKo,
+    content_ko: document.getElementById('noticeContentKo').value.trim(),
+    content_en: document.getElementById('noticeContentEn').value.trim(),
+    content_zh: document.getElementById('noticeContentZh').value.trim(),
+    author_ko: '운영사무국', author_en: 'Admin', author_zh: '运营办公室',
+    category: document.getElementById('noticeCategory').value,
+    is_notice: document.getElementById('noticeCategory').value==='notice',
+    is_new: document.getElementById('noticeIsNew').checked,
+    views: 0,
+    date: new Date().toISOString().slice(0,10),
+    published: true,
+  };
+
+  try {
+    const editId = document.getElementById('noticeEditId').value;
+    if(editId){
+      await sb.from('notices').update(payload).eq('id', editId);
+    } else {
+      await sb.from('notices').insert([payload]);
+    }
+    await loadNoticesFromDB();
+    loadAdminNotices();
+    closeNoticeModal();
+    alert('저장되었습니다.');
+  } catch(e){
+    alert('저장 실패: '+(e.message||'오류'));
+  } finally {
+    btn.innerHTML='저장'; btn.disabled=false;
+  }
+}
+
+// ── 어드민: 공지사항 목록 ──────────────────────────────────────────
+async function loadAdminNotices(){
+  const tbody=document.getElementById('adminNoticesTbl');
+  if(!tbody) return;
+  tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr>`;
+  try {
+    const { data, error } = await sb.from('notices')
+      .select('*')
+      .order('is_notice', { ascending: false })
+      .order('date', { ascending: false });
+    if(error) throw error;
+    const badge=document.getElementById('notices-count-badge');
+    if(badge) badge.textContent=`(${(data||[]).length}개)`;
+    if(!data?.length){
+      tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--muted)">공지사항이 없습니다.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.map(r=>`
+      <tr>
+        <td><span class="nb-tag ${r.is_notice?'n':'g'}">${r.is_notice?'공지':'일반'}</span></td>
+        <td style="max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.title_ko||''}</td>
+        <td style="font-size:12px;color:var(--muted)">${r.date||''}</td>
+        <td style="text-align:center">${r.is_new?'<span class="new-t">NEW</span>':'—'}</td>
+        <td style="text-align:center;color:var(--muted);font-size:12px">${r.views||0}</td>
+        <td>
+          <div style="display:flex;gap:6px">
+            <button onclick="openNoticeModal('${r.id}')" style="padding:5px 12px;background:var(--blue);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">수정</button>
+            <button onclick="deleteNotice('${r.id}')" style="padding:5px 12px;background:var(--red);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">삭제</button>
+          </div>
+        </td>
+      </tr>`).join('');
+  } catch(e){
+    tbody.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--red)">로드 실패: ${e.message}</td></tr>`;
+  }
+}
+
+async function deleteNotice(id){
+  if(!confirm('이 공지를 삭제하시겠습니까?')) return;
+  try {
+    await sb.from('notices').delete().eq('id', id);
+    await loadNoticesFromDB();
+    loadAdminNotices();
+  } catch(e){ alert('삭제 실패: '+e.message); }
+}
+
+// 어드민에서 공지사항 작성 버튼 표시 (로그인 상태)
+function showAdminNoticesBtn(){
+  const btn=document.getElementById('noticesWriteBtn');
+  if(btn && isAdmin()) btn.style.display='';
+}
+
 function renderEvents(){
   const el=document.getElementById('evtList');if(!el)return;
   el.innerHTML=EVENTS.map(e=>`<div class="evt-i"><span class="evt-date">${typeof e.date==='object'?e.date[curLang]:e.date}</span><span class="evt-name">${e.title[curLang]}</span><span class="evt-place">📍 ${e.place[curLang]}</span></div>`).join('');
