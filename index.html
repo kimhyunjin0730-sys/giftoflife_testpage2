@@ -653,6 +653,10 @@ footer{background:#071422}
   .about-hero-img{display:none}
   .about-stats{grid-template-columns:1fr 1fr}
   .mission-grid{grid-template-columns:1fr}
+  #about-intro [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  #about-intro [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+  #about-intro [style*="grid-template-columns:1fr auto 1fr auto 1fr"]{grid-template-columns:1fr 1fr!important}
+  #about-intro [style*="grid-template-columns:1fr auto 1fr auto 1fr"] [style*="width:1px"]{display:none!important}
   .off-grid{grid-template-columns:1fr 1fr}
   .impact{grid-template-columns:1fr}
   .my-stats{grid-template-columns:1fr}
@@ -960,27 +964,250 @@ footer{background:#071422}
 
   <!-- TAB 1: 단체소개 -->
   <div class="about-content" id="about-intro">
-  <div class="section"><div class="wrap">
-    <div class="about-hero-banner" style="margin-bottom:32px">
-      <div class="about-hero-copy">
-        <div class="about-hero-eyebrow">Our Story · Since 1975</div>
-        <h2 data-i="about_h2">Gift of Life International Korea</h2>
-        <p data-i="about_sub">로타리 125년 역사상 최초로 국경 없는 글로벌 온라인 위성클럽을 설립하여, 전 세계 회원과 함께 선천성 심장병 어린이를 구합니다.</p>
+
+  <!-- ① HERO BANNER -->
+  <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:72px 24px 60px;text-align:center">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&h=600&fit=crop&q=80') center/cover;opacity:.15;pointer-events:none"></div>
+    <div style="position:relative;z-index:1;max-width:720px;margin:0 auto">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:6px 18px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:22px">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 2s infinite"></span>단체 소개
       </div>
-      <div class="about-hero-img"></div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,46px);font-weight:900;color:#fff;line-height:1.22;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.45)">심장 질환을 앓고 있는 아이들에게<br><span style="color:var(--gold);font-style:italic">희망을 심어줍니다.</span></h1>
+      <p style="font-size:15.5px;color:rgba(255,255,255,.82);line-height:1.95;max-width:620px;margin:0 auto">질환을 앓고 있는 아이들과 가족들에게 희망을 주고 스스로 아이들을 치료할 수 있는 능력을 의사와 간호사에게 제공하며, 뜻을 같이 하는 단체와 협업하여 지속적으로 개발도상국에 소아 심장 치료 프로그램을 제공하고 있습니다.</p>
     </div>
-    <div class="about-stats" style="margin-bottom:32px">
-      <div class="about-stat"><span class="as-v">47,599</span><span class="as-l" data-i="imp1">수술 성공 · 30+개국</span></div>
-      <div class="about-stat"><span class="as-v">₩1.86억</span><span class="as-l" data-i="imp0">총 누적 모금 (2003~)</span></div>
-      <div class="about-stat"><span class="as-v">50+</span><span class="as-l" data-i="about_years">설립 주년 (2025)</span></div>
+  </div>
+
+  <!-- ② BLUE IMAGE + GOL NETWORK DESCRIPTION -->
+  <div style="background:var(--navy2);padding:56px 0">
+    <div class="wrap" style="max-width:1100px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center">
+        <div style="position:relative;border-radius:var(--r2);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4)">
+          <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=700&h=480&fit=crop&q=85" style="width:100%;display:block;border-radius:var(--r2)" alt="Gift of Life"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,86,255,.3),rgba(7,26,47,.2));border-radius:var(--r2)"></div>
+          <div style="position:absolute;bottom:18px;left:18px;right:18px;background:rgba(7,26,47,.88);backdrop-filter:blur(8px);border-radius:var(--r);padding:13px 18px;border:1px solid rgba(255,255,255,.1)">
+            <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.6;margin:0">5개 대륙 &nbsp;·&nbsp; 81개 국가 &nbsp;·&nbsp; 84개 자율 프로그램</p>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:13px">Gift of Life International</div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:clamp(20px,2.6vw,30px);font-weight:700;color:#fff;line-height:1.35;margin-bottom:18px">전 세계 네트워크로<br>소아 심장 치료를 돕습니다</h2>
+          <p style="font-size:14.5px;color:rgba(255,255,255,.72);line-height:2;margin-bottom:18px">Gift of Life는 5개 대륙 81개 국가들에 포함되어 있는 84개 자율적 Gift of Life 프로그램들, 로타리 클럽과 비슷한 성향을 가진 단체들의 후원으로 지속적인 소아 심장 치료를 돕고 있습니다.</p>
+          <p style="font-size:14.5px;color:rgba(255,255,255,.72);line-height:2">수술 전 진단 및 수술 후 관리 프로그램들로 아이들과 가족들의 삶을 전환하고 있습니다.</p>
+        </div>
+      </div>
     </div>
-    <div class="mission-grid" style="margin-bottom:32px">
-      <div class="mission-card blue"><div class="mc-icon">🎯</div><h3 data-i="dd_mission">미션</h3><p data-i="mission_txt">선천성 심장병 어린이들이 태어난 나라나 경제적 여건에 관계없이 삶을 구하는 수술을 받을 수 있도록 지원합니다.</p></div>
-      <div class="mission-card gold"><div class="mc-icon">🌍</div><h3 data-i="vision_title">비전</h3><p data-i="vision_txt">로타리 125년 역사상 최초로 국경을 초월한 글로벌 온라인 위성클럽을 통해 3,000명 이상의 세계 시민이 함께하는 심장병 구호 네트워크를 구축합니다.</p></div>
+  </div>
+
+  <!-- ③ KEY STATS -->
+  <div class="section" style="padding-top:44px;padding-bottom:44px">
+    <div class="wrap">
+      <div class="about-stats">
+        <div class="about-stat"><span class="as-v">33,000+</span><span class="as-l">치료받은 아이들</span></div>
+        <div class="about-stat"><span class="as-v">81개국</span><span class="as-l">5개 대륙</span></div>
+        <div class="about-stat"><span class="as-v">50+</span><span class="as-l">설립 주년 (2025)</span></div>
+      </div>
     </div>
-    <div class="box"><div class="box-hd">📜 클럽 연혁</div><div class="box-bd"><div class="tl-wrap" id="aboutTimeline"></div></div></div>
-    <div class="box"><div class="box-hd">👥 주요 임원진</div><div class="box-bd"><div class="off-grid" id="officerGrid"></div></div></div>
-  </div></div>
+  </div>
+
+  <!-- ④ THREE PROGRAM CARDS -->
+  <div style="background:var(--bg2);padding:56px 0">
+    <div class="wrap">
+      <div style="text-align:center;margin-bottom:40px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">Our Programs</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--navy);margin-bottom:14px">우리가 하는 일</h2>
+        <div style="width:50px;height:3px;background:var(--blue);margin:0 auto"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+
+        <!-- 지속 가능한 소아 심장 센터 -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
+          <div style="height:5px;background:linear-gradient(90deg,var(--blue),var(--blue2))"></div>
+          <div style="padding:28px 24px">
+            <div style="width:52px;height:52px;border-radius:var(--r);background:var(--blue-lt);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px">🏥</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--blue);text-transform:uppercase;margin-bottom:8px">Sustainable Pediatric</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.35">지속 가능한 소아 심장 센터</h3>
+            <p style="font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:14px">우리는 현지의 지속 가능한 우수한 소아 심장 센터의 개발과 의사와 간호사가 그들의 나라나 출생 지역의 아이들을 치료할 수 있는 능력을 함양하는 것에 초점을 맞추고 있습니다.</p>
+            <div style="font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:8px;padding-top:12px;border-top:1px solid var(--border)">
+              <span style="color:var(--blue);flex-shrink:0;margin-top:1px">▶</span><span>우간다와 엘살바도르에 심장 센터를 설립하고 동아프리카, 중앙아메리카, 카리브해, 동유럽, 아시아 어린이들을 돕습니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 글로벌 네트워크 -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
+          <div style="height:5px;background:linear-gradient(90deg,var(--gold),#f7c948)"></div>
+          <div style="padding:28px 24px">
+            <div style="width:52px;height:52px;border-radius:var(--r);background:var(--gold-lt);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px">🌐</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Network</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.35">글로벌 네트워크</h3>
+            <p style="font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:14px">지난 40년 동안 5개 대륙에 걸쳐 81개국에서 온 33,000명 이상의 어린이들이 심장병으로 치료를 받도록 도운 로타리 재단에 기반을 둔 조직입니다.</p>
+            <div style="font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:8px;padding-top:12px;border-top:1px solid var(--border)">
+              <span style="color:var(--gold);flex-shrink:0;margin-top:1px">▶</span><span>전 세계 84개의 생명 제휴 프로그램들로 구성된 보살핌 네트워크로 치료받지 못하는 작은 심장들을 치유합니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 영양 지원 -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
+          <div style="height:5px;background:linear-gradient(90deg,var(--green),#22c55e)"></div>
+          <div style="padding:28px 24px">
+            <div style="width:52px;height:52px;border-radius:var(--r);background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px">🍎</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--green);text-transform:uppercase;margin-bottom:8px">Nutritional Assistance</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.35">영양 지원</h3>
+            <p style="font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:14px">아이들이 건강한 미래가 보장되도록 노력하고 있습니다. 심장병에 걸린 아이들은 수술뿐만 아니라 건강한 미래를 보장하는 지원이 필요합니다.</p>
+            <div style="font-size:12.5px;color:var(--muted);display:flex;align-items:flex-start;gap:8px;padding-top:12px;border-top:1px solid var(--border)">
+              <span style="color:var(--green);flex-shrink:0;margin-top:1px">▶</span><span>영양 지원 프로그램을 통해 치료받는 아이들의 회복과 건강한 성장을 지원합니다.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ OUR CHILDREN -->
+  <div class="section">
+    <div class="wrap">
+      <div style="text-align:center;margin-bottom:40px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:10px">About Our Children</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--navy);margin-bottom:14px">우리 아이들</h2>
+        <div style="width:50px;height:3px;background:var(--blue);margin:0 auto 20px"></div>
+        <p style="font-size:15px;color:var(--text);line-height:1.9;max-width:720px;margin:0 auto">우리는 아이의 생명을 구하는 것을 도울 수 있을 때 가장 큰 행복을 느끼고 항상 감사함을 느낍니다.</p>
+      </div>
+
+      <!-- Children Stats Banner -->
+      <div style="background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:var(--r2);padding:40px;margin-bottom:36px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:20px;align-items:center">
+        <div style="text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px">130만명</div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6">매년 심장 결함을 가지고<br>태어나는 어린이 수</p>
+        </div>
+        <div style="width:1px;height:60px;background:rgba(255,255,255,.12)"></div>
+        <div style="text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px">93%</div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6">심장 치료를 받지 못하는<br>어린이의 비율</p>
+        </div>
+        <div style="width:1px;height:60px;background:rgba(255,255,255,.12)"></div>
+        <div style="text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:8px">40년+</div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6">로타리, 의료 전문가, 자원자들과<br>함께한 희망의 역사</p>
+        </div>
+      </div>
+
+      <!-- YouTube Video -->
+      <div style="max-width:760px;margin:0 auto 36px">
+        <div style="position:relative;padding-bottom:56.25%;border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh2)">
+          <iframe src="https://www.youtube.com/embed/qqIswfPDBFY" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen title="Gift of Life 영상"></iframe>
+        </div>
+        <div style="text-align:center;margin-top:14px">
+          <a href="https://www.youtube.com/channel/UCGbMj-sNiWKaL_5vMn_tPeg" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:13.5px;font-weight:600">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            YouTube 채널 구독하기
+          </a>
+        </div>
+      </div>
+
+      <!-- Country Grid -->
+      <div class="box">
+        <div class="box-hd">🌍 우리 아이들이 지내는 나라</div>
+        <div class="box-bd">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:8px">
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇭 가나</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌎 가이아나</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌊 갈라파고스제도</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇲 감비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇹 과테말라</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇷 그리스</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇳 기니</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇳🇬 나이지리아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇿🇦 남아프리카 공화국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇳🇮 니카라과</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇰🇷 대한민국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇩🇴 도미니카 공화국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇹🇱 동티모르 민주공화국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇷🇺 러시아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇱🇧 레바논</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇷🇴 루마니아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇱🇾 리비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇲🇾 말레이시아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇲🇽 멕시코</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇲🇦 모로코</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇲🇳 몽골</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇲🇲 미얀마</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇧🇩 방글라데시</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇻🇪 베네수엘라</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇻🇳 베트남</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇧🇿 벨리즈</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇧🇴 볼리비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇧🇫 부르키나파소</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇰🇵 북한</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇧🇷 브라질</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇷🇸 세르비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌴 세인트 키츠 섬</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌍 소말릴랜드</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇱🇰 스리랑카</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇸🇾 시리아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇸🇱 시에라리온</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇭🇹 아이티</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇮🇪 아일랜드</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇦🇿 아제르바이잔</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇦🇫 아프가니스탄</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇦🇲 아르메니아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇦🇱 알바니아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇪🇨 에콰도르</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇪🇹 에티오피아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇸🇻 엘살바도르</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇭🇳 온두라스</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇯🇴 요르단</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇺🇬 우간다</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇺🇿 우즈베키스탄</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇺🇦 우크라이나</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌍 유고슬라비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇮🇶 이라크</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇪🇬 이집트</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇮🇹 이탈리아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇮🇳 인도</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇮🇩 인도네시아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇯🇲 자메이카</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌍 잔지바르</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇿🇲 잠비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇬🇪 조지아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇨🇳 중국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇿🇼 짐바브웨이</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇰🇿 카자흐스탄</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇰🇭 캄보디아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇰🇪 케냐</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🌍 코소보</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇨🇮 코트디부아르</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇨🇴 콜롬비아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇨🇬 콩고 공화국</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇹🇯 타지키스탄</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇹🇿 탄자니아</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇹🇹 트리니다드 토바고</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇦 파나마</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇰 파키스탄</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇸 팔레스타인</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇪 페루</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇹 포르투갈</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇱 폴란드</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇵🇭 필리핀</div>
+            <div style="padding:7px 12px;background:var(--blue-lt);border-radius:var(--r);font-size:12.5px;color:var(--navy);font-weight:500">🇭🇺 헝가리</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⑥ DONATE CTA -->
+      <div style="background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:var(--r2);padding:48px 40px;margin-top:36px;text-align:center;box-shadow:0 8px 32px rgba(26,86,255,.3)">
+        <div style="font-size:36px;animation:hb 2s infinite;display:inline-block;margin-bottom:14px">❤️</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#fff;margin-bottom:12px">지금 아이의 심장을 치료하는 데 동참하세요</h3>
+        <p style="font-size:15px;color:rgba(255,255,255,.82);line-height:1.85;max-width:540px;margin:0 auto 28px">여러분의 후원이 심장 질환을 앓고 있는 아이들에게 새로운 삶을 선물합니다.</p>
+        <button onclick="goPage('donate')" style="display:inline-flex;align-items:center;gap:10px;padding:16px 44px;background:#fff;color:var(--blue);border:none;border-radius:var(--r2);font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.15);transition:var(--ease)">
+          ❤️ 후원하기
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   </div>
 
   <!-- TAB 2: 인사말 -->
