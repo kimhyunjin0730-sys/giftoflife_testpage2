@@ -718,6 +718,19 @@ footer{background:#071422}
   .off-grid{grid-template-columns:1fr}
   .rg-cards{grid-template-columns:1fr}
 }
+
+/* Respect users who request reduced motion */
+@media(prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001s!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001s!important;
+    scroll-behavior:auto!important;
+  }
+  .tk-track{animation:none!important}
+  .rg-heart{animation:none!important}
+  .slide-bg.ken{animation:none!important}
+}
 </style>
 
 </head>
