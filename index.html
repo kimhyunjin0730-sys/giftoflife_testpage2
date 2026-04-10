@@ -221,7 +221,7 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .section{padding:56px 0}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 .sec-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:10px}
-.sec-ttl{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);padding-bottom:10px;border-bottom:3px solid var(--blue);display:inline-block}
+.sec-ttl{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);padding-bottom:10px;border-bottom:3px solid var(--blue);display:inline-block;margin:0}
 .sec-sub{font-size:13.5px;color:var(--muted);margin-top:6px}
 .sec-more{font-size:13px;font-weight:600;color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:4px;padding-bottom:6px}
 .sec-more:hover{text-decoration:underline}
@@ -938,7 +938,7 @@ footer{background:#071422}
       <div class="layout2">
         <div class="main-col">
           <div class="sec-hd">
-            <div><div class="sec-ttl" data-i="children_title">어린이 사례</div><div class="sec-sub" data-i="children_sub">지금 우리의 도움을 기다리는 아이들</div></div>
+            <div><h2 class="sec-ttl" data-i="children_title">어린이 사례</h2><div class="sec-sub" data-i="children_sub">지금 우리의 도움을 기다리는 아이들</div></div>
             <span class="sec-more" onclick="goPage('activities')"><span data-i="more">더보기</span> →</span>
           </div>
           <div class="cg" id="homeKids" style="margin-bottom:40px"></div>
@@ -948,11 +948,11 @@ footer{background:#071422}
             <div class="imp-i"><span class="imp-v" id="imp-v2">$12,000</span><span class="imp-l" data-i="imp2">아동 1인 수술 비용</span></div>
           </div>
           <div class="sec-hd">
-            <div><div class="sec-ttl" data-i="latest_news">최신 뉴스</div></div>
+            <div><h2 class="sec-ttl" data-i="latest_news">최신 뉴스</h2></div>
             <span class="sec-more" onclick="goPage('news')"><span data-i="more">더보기</span> →</span>
           </div>
           <div class="ng" id="homeNews" style="margin-bottom:40px"></div>
-          <div class="sec-hd"><div><div class="sec-ttl" data-i="notices">공지사항</div></div></div>
+          <div class="sec-hd"><div><h2 class="sec-ttl" data-i="notices">공지사항</h2></div></div>
           <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh)">
             <table class="ntbl"><thead><tr><th data-i="tbl_no">번호</th><th data-i="tbl_title">제목</th><th data-i="tbl_author">작성자</th><th data-i="tbl_date">날짜</th><th data-i="tbl_views">조회</th></tr></thead><tbody id="noticeBody"></tbody></table>
           </div>
@@ -977,7 +977,7 @@ footer{background:#071422}
 <!-- ════ NEWS PAGE (with pagination) ════ -->
 <div class="page" id="page-news">
   <div class="section"><div class="wrap">
-    <div class="sec-hd"><div><div class="sec-ttl" data-i="nav_news">뉴스 &amp; 소식</div><div class="sec-sub" id="news-page-sub" data-i="news_sub">최신 활동 소식을 전해드립니다.</div></div></div>
+    <div class="sec-hd"><div><h2 class="sec-ttl" data-i="nav_news">뉴스 &amp; 소식</h2><div class="sec-sub" id="news-page-sub" data-i="news_sub">최신 활동 소식을 전해드립니다.</div></div></div>
     <div id="newsPageContent">
       <div class="ng" id="newsGrid"></div>
       <div class="pagination" id="newsPagination"></div>
@@ -1788,10 +1788,10 @@ footer{background:#071422}
 <div class="page" id="page-activities">
   <div class="section"><div class="wrap"><div class="layout2">
     <div class="main-col">
-      <div class="sec-hd"><div><div class="sec-ttl" data-i="dd_heart">💝 심장병 어린이 구호</div></div></div>
+      <div class="sec-hd"><div><h2 class="sec-ttl" data-i="dd_heart">💝 심장병 어린이 구호</h2></div></div>
       <div class="cg" id="actKids"></div>
       <div style="margin-top:48px">
-        <div class="sec-hd"><div><div class="sec-ttl" data-i="dd_earth">🌍 지구 살리기</div></div></div>
+        <div class="sec-hd"><div><h2 class="sec-ttl" data-i="dd_earth">🌍 지구 살리기</h2></div></div>
         <div class="nbox gold">🌱 <span data-i="earth_desc">전 지구적 환경 보호 캠페인 플랫폼 — 준비 중입니다.</span></div>
       </div>
     </div>
