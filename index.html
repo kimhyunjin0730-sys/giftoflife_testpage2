@@ -3018,16 +3018,21 @@ let membersCache=[];
     const _n=document.getElementById('nDate'); if(_n) _n.value=_now.toISOString().slice(0,10);
   } catch(e){}
 
-  // ② 언어 감지
+  // ② 언어 감지 — auto-detect & skip modal on first visit
   try {
+    const savedLang=localStorage.getItem('gol_lang');
     const browserLang=(navigator.language||navigator.languages?.[0]||'ko').toLowerCase();
     let detectedLang='ko';
     if(browserLang.startsWith('zh')) detectedLang='zh';
     else if(!browserLang.startsWith('ko')) detectedLang='en';
-    selLang=detectedLang;
-    ['ko','en','zh'].forEach(l=>document.getElementById('rc-'+l)?.classList.toggle('active',l===detectedLang));
+    const chosenLang=savedLang||detectedLang;
+    selLang=chosenLang; curLang=chosenLang;
+    ['ko','en','zh'].forEach(l=>document.getElementById('rc-'+l)?.classList.toggle('active',l===chosenLang));
     const lb={ko:'한국어로 계속하기',en:'Continue in English',zh:'以中文继续'};
-    const rcb=document.getElementById('regionConfirmBtn'); if(rcb) rcb.textContent=lb[detectedLang];
+    const rcb=document.getElementById('regionConfirmBtn'); if(rcb) rcb.textContent=lb[chosenLang];
+    // Auto-dismiss the region/language gate — users can still change via lang-bar toggle
+    const _rm=document.getElementById('regionModal'); if(_rm) _rm.style.display='none';
+    try{ localStorage.setItem('gol_lang',chosenLang); }catch(e){}
   } catch(e){}
 
   // ③ 핵심: 네트워크 호출 전에 즉시 페이지 렌더링
