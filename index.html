@@ -929,10 +929,10 @@
       animation: fadeIn .32s ease
     }
 
-    /* HERO — Figma: 90vh, rose tint, gradient text */
+    /* HERO — centered text, floating Amara card */
     .uni-hero {
       position: relative;
-      min-height: 90vh;
+      min-height: 70vh;
       overflow: hidden;
       background: var(--navy);
       display: block
@@ -941,20 +941,21 @@
     .uni-hero-content {
       position: relative;
       z-index: 15;
-      display: flex;
       max-width: var(--max);
       margin: 0 auto;
-      padding: 100px 24px 80px;
+      padding: 72px 24px 60px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      gap: 48px;
-      min-height: 90vh
+      justify-content: center;
+      gap: 40px;
+      min-height: 70vh;
+      text-align: center
     }
 
     .uni-hero-left {
-      max-width: 600px;
-      flex: 1
+      max-width: 680px;
+      flex: none
     }
 
     .uni-eyebrow {
@@ -986,11 +987,11 @@
 
     .uni-hero-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: clamp(28px, 4.5vw, 56px);
-      font-weight: 800;
+      font-size: clamp(26px, 4vw, 48px);
+      font-weight: 700;
       color: #fff;
-      line-height: 1.2;
-      margin-bottom: 24px;
+      line-height: 1.25;
+      margin-bottom: 20px;
       animation: fadeUp .6s ease both;
       letter-spacing: -.02em;
       word-break: keep-all
@@ -1004,11 +1005,13 @@
     }
 
     .uni-hero-p {
-      font-size: 17px;
+      font-size: 16px;
       color: rgba(255, 255, 255, .7);
       line-height: 1.9;
-      margin-bottom: 36px;
-      max-width: 480px;
+      margin-bottom: 32px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
       animation: fadeUp .6s .1s ease both;
       font-weight: 300
     }
@@ -1017,6 +1020,7 @@
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
+      justify-content: center;
       animation: fadeUp .6s .18s ease both
     }
 
@@ -1062,20 +1066,24 @@
       background: rgba(255, 255, 255, .18)
     }
 
-    /* Amara card */
+    /* Amara card — floating popup style */
     .amara-card {
-      background: rgba(255, 255, 255, .97);
-      border-radius: var(--r2);
+      position: absolute;
+      right: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, .98);
+      border-radius: var(--r3);
       overflow: hidden;
-      width: 320px;
-      flex-shrink: 0;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, .15);
-      animation: fadeUp .6s .2s ease both;
-      backdrop-filter: blur(4px)
+      width: 300px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255,255,255,.1);
+      animation: fadeUp .7s .3s ease both;
+      backdrop-filter: blur(8px);
+      z-index: 20
     }
 
     .ac-img {
-      height: 200px;
+      height: 170px;
       overflow: hidden;
       position: relative
     }
@@ -4278,6 +4286,8 @@
       }
 
       .amara-card {
+        position: static;
+        transform: none;
         width: 100%;
         max-width: 520px;
         margin-top: 28px
@@ -4448,6 +4458,8 @@
       }
 
       .amara-card {
+        position: static;
+        transform: none;
         width: 100%;
         max-width: 100%;
         margin-top: 24px
