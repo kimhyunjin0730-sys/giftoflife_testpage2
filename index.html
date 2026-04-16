@@ -13,17 +13,17 @@
 <!-- PortOne (구 아임포트) 결제 SDK V1 -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <style>
-/* ═══ DESIGN TOKENS — Figma Rose Humanitarian ════════════════════════ */
+/* ═══ DESIGN TOKENS — figma/ (slate + rose) ══════════════════════════ */
 :root{
-  --navy:#111827;--navy2:#1f2937;
+  --navy:#0f172a;--navy2:#1e293b;
   --blue:#f43b5e;--blue2:#be185d;--blue-lt:#fff1f2;--blue-mid:#fecdd3;
-  --white:#FFFFFF;--bg:#FFFFFF;--bg2:#f9fafb;
-  --border:#e5e7eb;--text:#111827;--muted:#6b7280;
+  --white:#FFFFFF;--bg:#FFFFFF;--bg2:#f8fafc;
+  --border:#e2e8f0;--text:#0f172a;--muted:#64748b;
   --gold:#f43b5e;--gold-lt:#fff1f2;
   --red:#dc2626;--green:#059669;
   --r:16px;--r2:2rem;--r3:3rem;
-  --sh:0 8px 30px rgba(0,0,0,.04);
-  --sh2:0 8px 40px rgba(244,63,94,.08);
+  --sh:0 8px 24px rgba(15,23,42,.06),0 0 0 1px rgba(15,23,42,.04);
+  --sh2:0 12px 40px rgba(244,63,94,.10);
   --ease:.3s cubic-bezier(.4,0,.2,1);--max:1152px;
   --cyan:#f43b5e;--cyan2:#be185d;
   --rose:244,63,94;
@@ -84,7 +84,7 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .nb-x{position:absolute;right:16px;background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer}
 
 /* LANG BAR */
-.lang-bar{background:var(--navy);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.lang-bar{background:#1e293b;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.1)}
 .lang-in{max-width:var(--max);margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
 .lb-badge{font-size:12px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.8px;text-transform:uppercase}
 .lb-date{color:rgba(255,255,255,.22);font-size:11px}
@@ -213,8 +213,8 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .dw-go:hover{background:var(--blue2);transform:translateY(-1px)}
 
 /* STATS BAR — Figma: card grid on gray-50 */
-.stats-bar{background:var(--bg2);display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:48px 24px;max-width:var(--max);margin:-32px auto 0;position:relative;z-index:20;border-bottom:1px solid var(--border)}
-.stat-i{padding:32px 20px;text-align:center;background:#fff;border-radius:var(--r2);box-shadow:var(--sh);transition:var(--ease)}
+.stats-bar{background:#f8fafc;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:48px 24px;max-width:var(--max);margin:-64px auto 0;position:relative;z-index:20;border-bottom:1px solid #e2e8f0}
+.stat-i{padding:32px 20px;text-align:center;background:#fff;border-radius:var(--r2);box-shadow:0 8px 24px rgba(15,23,42,.05);border:1px solid var(--border);transition:var(--ease)}
 .stat-i:hover{box-shadow:var(--sh2)}
 .stat-v{font-size:clamp(24px,3vw,36px);font-weight:800;color:var(--text);line-height:1;display:block;letter-spacing:-.02em}
 .stat-l{font-size:13px;color:var(--muted);margin-top:10px;display:block}
@@ -241,8 +241,8 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 
 /* CHILD CARDS */
 .cg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.cc{background:#fff;border:none;border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .4s ease;box-shadow:var(--sh)}
-.cc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(var(--rose),.12)}
+.cc{background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .5s ease;box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.cc:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(var(--rose),.10)}
 .cc-img{height:166px;overflow:hidden;position:relative}
 .cc-img img{width:100%;height:100%;object-fit:cover;transition:transform .55s}
 .cc:hover .cc-img img{transform:scale(1.07)}
@@ -263,8 +263,8 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 
 /* NEWS CARDS */
 .ng{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.nc{background:#fff;border:none;border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .4s ease;box-shadow:var(--sh)}
-.nc:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(var(--rose),.12)}
+.nc{background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .5s ease;box-shadow:0 4px 16px rgba(15,23,42,.04)}
+.nc:hover{transform:translateY(-1px);box-shadow:0 16px 40px rgba(var(--rose),.08)}
 .nc-img{aspect-ratio:4/3;overflow:hidden;position:relative;background:var(--bg2)}
 .nc-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
 .nc:hover .nc-img img{transform:scale(1.05)}
@@ -301,7 +301,7 @@ input,select,textarea{font-family:'Pretendard Variable',Pretendard,sans-serif;ou
 .imp-l{color:rgba(255,255,255,.5);font-size:12.5px;display:block;margin-top:6px}
 
 /* EVENTS */
-.evt-sec{background:var(--bg2);padding:64px 0;border-top:1px solid var(--border)}
+.evt-sec{background:#f8fafc;padding:64px 0;border-top:1px solid #e2e8f0}
 .evt-hd{font-size:12px;font-weight:700;letter-spacing:1.4px;color:var(--blue);text-transform:uppercase;margin-bottom:20px}
 .evt-list{display:flex;flex-direction:column;gap:10px}
 .evt-i{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px 22px;display:grid;grid-template-columns:165px 1fr auto;gap:16px;align-items:center;transition:var(--ease)}
@@ -539,8 +539,8 @@ textarea.fi{resize:vertical;min-height:120px}
 .btn-rst{background:#fff;color:var(--muted);border:1.5px solid var(--border);padding:10px 22px;font-size:13.5px;border-radius:var(--r2);cursor:pointer}
 
 /* CHATBOT */
-.chat-fab{position:fixed;bottom:90px;right:24px;z-index:600;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#f43b5e,#be185d);color:#fff;border:none;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(var(--rose),.4);cursor:pointer;transition:all .3s ease}
-.chat-fab:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(var(--rose),.5)}
+.chat-fab{position:fixed;bottom:90px;right:24px;z-index:600;width:56px;height:56px;border-radius:50%;background:#fff;color:var(--blue);border:2px solid var(--blue-mid);font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,.12);cursor:pointer;transition:all .3s ease}
+.chat-fab:hover{transform:scale(1.08);box-shadow:0 12px 40px rgba(0,0,0,.18)}
 .chat-badge{position:absolute;top:-3px;right:-3px;width:18px;height:18px;background:var(--red);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
 .chat-win{position:fixed;bottom:158px;right:20px;z-index:620;width:380px;max-height:540px;background:#fff;border-radius:var(--r2);box-shadow:0 16px 56px rgba(0,0,0,.18);display:none;flex-direction:column;overflow:hidden}
 .chat-win.open{display:flex;animation:fadeIn .2s ease}
@@ -580,8 +580,8 @@ textarea.fi{resize:vertical;min-height:120px}
 .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px}
 .spinner.dark{border:2.5px solid rgba(26,86,255,.2);border-top-color:var(--blue)}
 
-/* FOOTER — Figma: gray-900 */
-footer{background:#111827}
+/* FOOTER — figma/: slate-900 */
+footer{background:#0f172a}
 .ft-top{max-width:var(--max);margin:0 auto;padding:50px 24px 38px;display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:36px;border-bottom:1px solid rgba(255,255,255,.05)}
 .ft-ttl{color:rgba(255,255,255,.7);font-weight:700;font-size:11px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);letter-spacing:.3px;text-transform:uppercase}
 .ft-logo-row{display:flex;align-items:center;gap:11px;margin-bottom:14px}
