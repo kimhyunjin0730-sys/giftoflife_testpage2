@@ -1440,7 +1440,7 @@
       gap: 16px;
       padding: 48px 24px;
       max-width: var(--max);
-      margin: -64px auto 0;
+      margin: 0 auto;
       position: relative;
       z-index: 20;
       border-bottom: 1px solid #e2e8f0
@@ -6412,34 +6412,30 @@
                 </div>
               </div>
             </div>
-            <div class="box">
-              <div class="box-hd" data-i="donation_dest_title">기부금 납부처 안내</div>
-              <div class="box-bd">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-                  <div style="border:1px solid var(--border);border-radius:var(--r);padding:12px;background:#f8fbff">
-                    <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px"
-                      data-i="donation_dest_kr_h">한국 기부금 납부처</div>
-                    <div style="font-size:13px;color:var(--text);line-height:1.8" data-i="donation_dest_kr_b">국내 후원자 전용
-                      납부 안내 페이지로 이동해 신청/결제를 진행합니다.</div>
-                  </div>
-                  <div style="border:1px solid var(--border);border-radius:var(--r);padding:12px;background:#fffaf0">
-                    <div style="font-size:12px;font-weight:700;color:#ad7a00;margin-bottom:6px"
-                      data-i="donation_dest_us_h">미국 기부금 납부처</div>
-                    <div style="font-size:13px;color:var(--text);line-height:1.8" data-i="donation_dest_us_b">미국 후원자는 동일
-                      페이지에서 국제 결제 옵션을 선택해 진행합니다.</div>
-                  </div>
+            <!-- 외부 결제 사이트 바로가기 CTA -->
+            <div style="background:linear-gradient(135deg,#fff5f5,#fff);border:2px solid var(--blue-mid);border-radius:var(--r2);padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
+              <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(var(--rose),.08),transparent 70%);pointer-events:none"></div>
+              <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+                <div style="width:48px;height:48px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(var(--rose),.3)">❤️</div>
+                <div>
+                  <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2px">온라인 후원 결제</div>
+                  <div style="font-size:12.5px;color:var(--muted)">생명나눔본부 공식 결제 페이지에서 안전하게 후원하세요</div>
                 </div>
-                <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button type="button" id="donRegionKrBtn" onclick="setDonationRegion('kr')"
-                    style="padding:10px 14px;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer"
-                    data-i="donation_region_kr_btn">🇰🇷 한국 납부</button>
-                  <button type="button" id="donRegionUsBtn" onclick="setDonationRegion('us')"
-                    style="padding:10px 14px;border:1px solid var(--border);background:#fff;color:var(--text);border-radius:9px;font-size:13px;font-weight:700;cursor:pointer"
-                    data-i="donation_region_us_btn">🇺🇸 미국 납부</button>
-                </div>
-                <div id="donationRegionHint" style="margin-top:10px;font-size:12px;color:var(--muted)"
-                  data-i="donation_region_hint_kr">현재 한국 납부 모드입니다. 결제 시 국내 API로 연결됩니다.</div>
               </div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">💳 신용카드</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">🏦 계좌이체</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">📱 간편결제</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">🔄 정기후원</span>
+              </div>
+              <a href="https://online.mrm.or.kr/oytvcb5" target="_blank" rel="noopener"
+                style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 24px;background:var(--blue);color:#fff;border:none;border-radius:var(--r2);font-size:15px;font-weight:700;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 16px rgba(var(--rose),.3);text-decoration:none"
+                onmouseover="this.style.background='var(--blue2)';this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 24px rgba(244,63,94,.4)'"
+                onmouseout="this.style.background='var(--blue)';this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(244,63,94,.3)'">
+                🔗 공식 결제 페이지에서 후원하기
+                <span style="font-size:18px">→</span>
+              </a>
+              <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:10px">생명나눔본부 공인 결제 시스템 · SSL 보안 · 세액공제 영수증 자동발급</p>
             </div>
             <!-- ① 후원 유형 + 금액 -->
             <div class="box">
@@ -6454,7 +6450,7 @@
                   금액</div>
                 <div class="amt-grid" id="donateAmtGrid"></div>
                 <div class="amt-row"><input class="amt-inp" type="number" id="customAmtInp" min="1"
-                    onchange="customAmt(this)" /><span class="amt-unit" id="currUnit">원</span></div>
+                    oninput="customAmt(this)" onfocus="customAmt(this)" placeholder="직접 입력" /><span class="amt-unit" id="currUnit">원</span></div>
                 <div class="nbox blue">💡 <span data-i="amt_note">월 20,000원 = 연 240,000원 | 연말 세액공제 혜택 가능</span></div>
               </div>
             </div>
