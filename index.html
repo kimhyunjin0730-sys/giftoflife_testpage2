@@ -4035,6 +4035,81 @@
       font-size: 18px
     }
 
+    /* 플로팅 언어 토글 */
+    .fab-lang {
+      position: fixed;
+      right: 24px;
+      bottom: 92px;
+      z-index: 600;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--ease)
+    }
+
+    .fab-lang:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,.18);
+      transform: translateY(-1px)
+    }
+
+    .fab-lang-cur {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy)
+    }
+
+    .fab-lang-popup {
+      position: fixed;
+      right: 24px;
+      bottom: 142px;
+      z-index: 601;
+      background: #fff;
+      border-radius: var(--r2);
+      box-shadow: 0 12px 40px rgba(0,0,0,.18);
+      border: 1px solid var(--border);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      animation: fadeUp .2s ease
+    }
+
+    .fab-lang-popup.open {
+      display: flex
+    }
+
+    .flp-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: var(--r);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--ease);
+      white-space: nowrap
+    }
+
+    .flp-btn:hover {
+      background: var(--bg2)
+    }
+
+    .flp-btn.on {
+      background: var(--blue-lt);
+      color: var(--blue)
+    }
+
     .ig-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -4636,16 +4711,38 @@
       }
 
       .ft-top {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 32px 16px 24px
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 24px 16px 18px
+      }
+
+      .ft-top > div:first-child {
+        grid-column: 1 / -1
+      }
+
+      .ft-desc {
+        display: none
+      }
+
+      .ft-ct {
+        font-size: 11px !important;
+        line-height: 1.6 !important
+      }
+
+      .ft-social {
+        grid-column: 1 / -1;
+        justify-content: center
       }
 
       .ft-bot {
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
         text-align: center;
-        padding: 14px 16px
+        padding: 10px 16px
+      }
+
+      .ft-bot .cp {
+        font-size: 10px
       }
 
       .about-hero-banner {
@@ -4960,11 +5057,6 @@
         </ul>
       </nav>
       <div class="hdr-btns">
-        <div class="lang-toggle" id="hdrLangToggle">
-          <button class="lang-btn on" id="hlb-ko" onclick="setLang('ko')">KO</button>
-          <button class="lang-btn" id="hlb-en" onclick="setLang('en')">EN</button>
-          <button class="lang-btn" id="hlb-zh" onclick="setLang('zh')">中</button>
-        </div>
         <button class="btn-hdr-outline" id="btnMy" onclick="goMyPage()" data-i="my_donation">나의 후원</button>
         <button class="btn-hdr-fill" id="btnLogin" onclick="openLogin()" data-i="login">로그인</button>
       </div>
@@ -7366,6 +7458,16 @@
     </div>
   </div>
 
+  <!-- 플로팅 언어 토글 -->
+  <div class="fab-lang" id="fabLang" onclick="toggleLangPopup()">
+    <span class="fab-lang-cur" id="fabLangCur">KO</span>
+  </div>
+  <div class="fab-lang-popup" id="fabLangPopup">
+    <button class="flp-btn on" id="hlb-ko" onclick="setLang('ko');closeLangPopup()">🇰🇷 KO</button>
+    <button class="flp-btn" id="hlb-en" onclick="setLang('en');closeLangPopup()">🌏 EN</button>
+    <button class="flp-btn" id="hlb-zh" onclick="setLang('zh');closeLangPopup()">🇨🇳 中</button>
+  </div>
+
   <button class="fab-donate" onclick="goPage('donate')"><span class="fab-heart">❤️</span><span
       style="font-size:10px;margin-top:2px" data-i="fab_donate">후원</span></button>
 
@@ -8250,6 +8352,11 @@
         document.getElementById('mlb-' + l)?.classList.toggle('on', l === lang);
         document.getElementById('rc-' + l)?.classList.toggle('active', l === lang);
       });
+      // 플로팅 언어 FAB 표시 업데이트
+      const fabCur = document.getElementById('fabLangCur');
+      if (fabCur) fabCur.textContent = { ko: 'KO', en: 'EN', zh: '中' }[lang] || 'KO';
+      document.querySelectorAll('.flp-btn').forEach(b => b.classList.remove('on'));
+      document.getElementById('hlb-' + lang)?.classList.add('on');
       try { localStorage.setItem('gol_lang', lang); } catch (e) { }
       const t = T[lang];
 
@@ -8356,6 +8463,17 @@
        PAGE NAV
     ══════════════════════════════════════ */
     const PAGES = { home: { p: 'page-home', n: 'nav-home', bc: 'nav_home' }, news: { p: 'page-news', n: 'nav-news', bc: 'nav_news' }, notices: { p: 'page-notices', n: 'nav-news', bc: 'nav_notices' }, article: { p: 'page-article', n: 'nav-news', bc: 'nav_news' }, about: { p: 'page-about', n: 'nav-about', bc: 'nav_about' }, partners: { p: 'page-partners', n: 'nav-partners', bc: 'nav_partners' }, rotary: { p: 'page-rotary', n: 'nav-partners', bc: 'nav_rotary' }, children: { p: 'page-children', n: 'nav-children', bc: 'nav_children' }, activities: { p: 'page-activities', n: 'nav-activities', bc: 'nav_activities' }, donate: { p: 'page-donate', n: 'nav-donate', bc: 'nav_donate' }, contact: { p: 'page-contact', n: 'nav-contact', bc: 'nav_contact' }, mypage: { p: 'page-mypage', n: null, bc: 'my_donation' }, admin: { p: 'page-admin', n: null, bc: 'nav_home' } };
+
+    /* 플로팅 언어 토글 */
+    function toggleLangPopup() {
+      document.getElementById('fabLangPopup')?.classList.toggle('open');
+    }
+    function closeLangPopup() {
+      document.getElementById('fabLangPopup')?.classList.remove('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.fab-lang') && !e.target.closest('.fab-lang-popup')) closeLangPopup();
+    });
 
     /* Nav dropdown: click-to-toggle for touch + desktop */
     document.querySelectorAll('.nav-ul > li').forEach(li => {
