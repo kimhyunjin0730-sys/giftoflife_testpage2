@@ -589,9 +589,10 @@
     }
 
     .site-nav {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%)
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      min-width: 0
     }
 
     .nav-ul {
@@ -611,8 +612,8 @@
       display: flex;
       align-items: center;
       height: 100%;
-      padding: 0 16px;
-      font-size: 14.5px;
+      padding: 0 12px;
+      font-size: 13.5px;
       font-weight: 600;
       color: var(--text);
       transition: var(--ease);
@@ -687,7 +688,9 @@
       gap: 8px;
       margin-left: auto;
       flex-shrink: 0;
-      align-items: center
+      align-items: center;
+      position: relative;
+      z-index: 10
     }
 
     .btn-hdr-outline {
@@ -8651,6 +8654,22 @@
       if (!e.target.closest('.nav-ul')) document.querySelectorAll('.nav-ul > li').forEach(l => l.classList.remove('nav-open'));
     });
 
+    function switchHeader(isHome, titleText) {
+      const mainHdr = document.querySelector('.site-hdr');
+      const subHdr = document.getElementById('subHdr');
+      const nbBar = document.getElementById('nbBar');
+      const bcEl = document.querySelector('.bc');
+      if (isHome) {
+        if (mainHdr) mainHdr.style.display = '';
+        if (subHdr) subHdr.classList.remove('visible');
+        if (bcEl) bcEl.style.display = '';
+      } else {
+        if (mainHdr) mainHdr.style.display = 'none';
+        if (subHdr) { subHdr.classList.add('visible'); if (titleText) document.getElementById('subHdrTitle').textContent = titleText; }
+        if (nbBar) nbBar.style.display = 'none';
+        if (bcEl) bcEl.style.display = 'none';
+      }
+    }
     function goPage(k) {
       if (k === 'admin' && !isAdmin()) return;
       const d = PAGES[k]; if (!d) return;
@@ -8659,21 +8678,7 @@
       document.getElementById(d.p).classList.add('active');
       if (d.n) { const ni = document.getElementById(d.n); if (ni) ni.classList.add('act'); }
       document.getElementById('bcTxt').textContent = T[curLang][d.bc] || d.bc;
-      // 홈이면 메인 헤더, 서브페이지면 심플 헤더
-      const mainHdr = document.querySelector('.site-hdr');
-      const subHdr = document.getElementById('subHdr');
-      const nbBar = document.getElementById('nbBar');
-      const bcEl = document.querySelector('.bc');
-      if (k === 'home') {
-        if (mainHdr) mainHdr.style.display = '';
-        if (subHdr) subHdr.classList.remove('visible');
-        if (bcEl) bcEl.style.display = '';
-      } else {
-        if (mainHdr) mainHdr.style.display = 'none';
-        if (subHdr) { subHdr.classList.add('visible'); document.getElementById('subHdrTitle').textContent = T[curLang][d.bc] || d.bc; }
-        if (nbBar) { nbBar.style.display = 'none'; }
-        if (bcEl) bcEl.style.display = 'none';
-      }
+      switchHeader(k === 'home', T[curLang][d.bc] || d.bc);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       closeMob();
       if (k === 'news') renderNewsPage();
@@ -8700,6 +8705,7 @@
         const ni = document.getElementById('nav-about'); if (ni) ni.classList.add('act');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+      switchHeader(false, T[curLang].nav_about || '소개');
       // 모든 about-content 숨기기
       document.querySelectorAll('.about-content').forEach(el => { el.style.display = 'none'; });
       // 선택한 탭 보이기
