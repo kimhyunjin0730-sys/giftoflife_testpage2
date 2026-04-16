@@ -5574,25 +5574,15 @@
     <!-- TAB 1: 단체소개 -->
     <div class="about-content" id="about-intro">
 
-      <!-- ① HERO BANNER -->
-      <div
-        style="position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:48px 24px 40px;text-align:center">
-        <div
-          style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&h=600&fit=crop&q=80') center/cover;opacity:.15;pointer-events:none">
-        </div>
-        <div style="position:relative;z-index:1;max-width:720px;margin:0 auto">
-          <div
-            style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:6px 18px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:22px">
-            <span
-              style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 2s infinite"></span>단체
-            소개
+      <!-- ① 단체소개 타이틀 -->
+      <div class="section">
+        <div class="wrap" style="max-width:900px">
+          <div style="text-align:center;margin-bottom:44px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:10px" data-i="tab_intro_full">단체 소개</div>
+            <h2 style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:14px" data-i="ab_intro_h">심장 질환을 앓고 있는 아이들에게<br>희망을 심어줍니다</h2>
+            <div style="width:50px;height:3px;background:var(--blue);margin:0 auto 20px"></div>
+            <p style="font-size:15px;color:var(--text);line-height:1.9;max-width:760px;margin:0 auto" data-i="ab_intro_sub">질환을 앓고 있는 아이들과 가족들에게 희망을 주고 스스로 아이들을 치료할 수 있는 능력을 의사와 간호사에게 제공하며, 뜻을 같이 하는 단체와 협업하여 지속적으로 개발도상국에 소아 심장 치료 프로그램을 제공하고 있습니다.</p>
           </div>
-          <h1
-            style="font-family:'Libre Bodoni',serif;font-size:clamp(26px,4vw,46px);font-weight:900;color:#fff;line-height:1.22;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.45)">
-            심장 질환을 앓고 있는 아이들에게<br><span style="color:var(--gold);font-style:italic">희망을 심어줍니다.</span></h1>
-          <p style="font-size:15.5px;color:rgba(255,255,255,.82);line-height:1.95;max-width:620px;margin:0 auto">질환을 앓고
-            있는 아이들과 가족들에게 희망을 주고 스스로 아이들을 치료할 수 있는 능력을 의사와 간호사에게 제공하며, 뜻을 같이 하는 단체와 협업하여 지속적으로 개발도상국에 소아 심장 치료 프로그램을
-            제공하고 있습니다.</p>
         </div>
       </div>
 
@@ -5608,8 +5598,7 @@
               </div>
               <div
                 style="position:absolute;bottom:18px;left:18px;right:18px;background:rgba(7,26,47,.88);backdrop-filter:blur(8px);border-radius:var(--r);padding:13px 18px;border:1px solid rgba(255,255,255,.1)">
-                <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.6;margin:0">5개 대륙 &nbsp;·&nbsp; 81개
-                  국가 &nbsp;·&nbsp; 84개 자율 프로그램</p>
+                <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.6;margin:0" data-i="ab_network_badge">5개 대륙 · 81개 국가 · 84개 자율 프로그램</p>
               </div>
             </div>
             <div>
@@ -6971,8 +6960,8 @@
 
                   <!-- 계좌이체(수기) — 정기후원 CMS 아닌 경우 공통 표시 -->
                   <div id="transfer-fields" style="display:none;margin-top:14px">
-                    <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> 국민은행 123-456-7890 / 예금주: 생명의선물코리아 / <span
-                        style="color:var(--red)">입금자명: 이름+후원</span></div>
+                    <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> Kookmin Bank 123-456-7890 / <span data-i="acct_holder">예금주:</span> GOL Korea / <span
+                        style="color:var(--red)" id="transferNote">입금자명: 이름+후원</span></div>
                     <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input
                         class="fi" name="depositor" id="depositorInp" /></div>
                     <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date"
@@ -7001,9 +6990,9 @@
             </form>
           </div>
           <aside class="sidebar">
-            <div class="sb-box" style="padding:16px"><b style="font-size:13px;color:var(--navy)">🏦 납부 계좌</b>
+            <div class="sb-box" style="padding:16px"><b style="font-size:13px;color:var(--navy)" data-i="acct_title">납부 계좌</b>
               <div style="font-size:13px;line-height:2.2;color:#444;margin-top:9px">
-                <b>국민은행</b><br>123-456-7890<br>생명의선물코리아</div>
+                <b>Kookmin Bank</b><br>123-456-7890<br><span>GOL Korea</span></div>
             </div>
           </aside>
         </div>
@@ -7769,8 +7758,8 @@
         ah_cta1: 'Amara 후원하기',
         prog_label: '모금 현황',
         tab_intro: '단체소개', tab_greeting: '인사말', tab_growth: '단체발전', tab_mission: '방문교육과 임무', tab_intro_full: '단체 소개', tab_greeting_full: '인사말', tab_growth_full: '단체발전', tab_mission_full: '방문교육과 임무',  // About 페이지 텍스트
-        ab_intro_h: 'Gift of Life International Korea',
-        ab_intro_sub: '로타리 125년 역사상 최초로 국경 없는 글로벌 온라인 위성클럽을 설립하여, 전 세계 회원과 함께 선천성 심장병 어린이를 구합니다.',
+        ab_intro_h: '심장 질환을 앓고 있는 아이들에게 희망을 심어줍니다',
+        ab_intro_sub: '질환을 앓고 있는 아이들과 가족들에게 희망을 주고 스스로 아이들을 치료할 수 있는 능력을 의사와 간호사에게 제공하며, 뜻을 같이 하는 단체와 협업하여 지속적으로 개발도상국에 소아 심장 치료 프로그램을 제공하고 있습니다.',
         ab_greeting_quote1: '"저는 세상의 모든 아이들이 건강하게 살 기회가 있어야 한다고 믿습니다."',
         ab_greeting_quote2: '"I believe that every child, no matter where they are born, deserves a chance to live."',
         ab_greeting_h: '인사말',
@@ -7780,6 +7769,7 @@
         ab_growth_stats_sub: '44년 동안 심장 질환을 앓고 있는 아이들에게 희망과 전세계 아이들 심장을 치유하고 있습니다.',
         ab_mission_h: '방문 교육과 임무',
         ab_mission_intro: 'GIFT OF LIFE는 매년 발전하면서 도움을 주는 분야의 개념이 점차 바뀌어 왔습니다. 의료 전문가들이 현장에 가서 치료를 할 수 있는 것이 더 중요하다는 것을 깨달았기 때문입니다.',
+        ab_network_badge: '5개 대륙 · 81개 국가 · 84개 자율 프로그램',
         ab_screening_h: 'Screening Missions 진단',
         ab_screening_txt: '이러한 유형의 임무는 심장병 치료가 필요한 특정 국가의 어린이를 찾기 위해 고안되었습니다. 선별 팀은 주당 최대 100 명의 어린이를 평가하고 진단합니다. 치료가 필요한 것으로 확인된 아동은 국가 소아 심장 대기자 명단에 올라 최종적으로 우리의 전세계 네트워크를 통해 우선적으로 치료합니다.',
         ab_surgical_h: 'Surgical Missions 치료',
@@ -7922,8 +7912,8 @@
         hero_p: '1.35 million children are born with congenital heart disease every year. 93% never receive surgery. Your $1 changes that number.',
         hero_more: "Children's Stories",
         ah_cta1: 'Support Amara', prog_label: 'Funding Progress',
-        tab_intro: 'About Us', tab_greeting: 'Message from President', tab_growth: 'Our Growth', tab_mission: 'Missions & Education', tab_intro_full: 'About Gift of Life', tab_greeting_full: 'Message from President', tab_growth_full: 'Our Growth', tab_mission_full: 'Missions & Education', ab_intro_h: 'Gift of Life International Korea',
-        ab_intro_sub: 'Establishing the first borderless global online satellite club in Rotary\'s 125-year history to save children\'s hearts worldwide.',
+        tab_intro: 'About Us', tab_greeting: 'Message from President', tab_growth: 'Our Growth', tab_mission: 'Missions & Education', tab_intro_full: 'About Gift of Life', tab_greeting_full: 'Message from President', tab_growth_full: 'Our Growth', tab_mission_full: 'Missions & Education', ab_intro_h: 'Planting Hope for Children with Heart Disease',
+        ab_intro_sub: 'We bring hope to children and families affected by heart disease, empower doctors and nurses with the skills to treat children, and collaborate with like-minded organizations to provide sustainable pediatric cardiac care programs in developing countries.',
         ab_greeting_quote1: '"I believe that every child, no matter where they are born, deserves a chance to live."',
         ab_greeting_quote2: '"A chance of life for every child in the world."',
         ab_greeting_h: 'Message from President',
@@ -7933,6 +7923,7 @@
         ab_growth_stats_sub: 'For 44 years, giving hope to children with heart disease and healing hearts worldwide.',
         ab_mission_h: 'Missions & Education',
         ab_mission_intro: 'GIFT OF LIFE has evolved each year, gradually changing our concept of how to deliver help. We realized it is more important to send medical professionals to the field.',
+        ab_network_badge: '5 Continents · 81 Countries · 84 Autonomous Programs',
         ab_screening_h: 'Screening Missions',
         ab_screening_txt: 'This type of mission is designed to find children in specific countries who need cardiac surgery. Screening teams evaluate up to 100 children per week. Children identified as needing treatment are placed on national pediatric cardiac waiting lists and prioritized for treatment through our global network.',
         ab_surgical_h: 'Surgical Missions',
@@ -8077,8 +8068,8 @@
         hero_p: '每年有135万名儿童患有先天性心脏病。93%未能获得手术。您的$1能改变这一切。',
         hero_more: '儿童故事',
         ah_cta1: '资助Amara', prog_label: '筹款进度',
-        tab_intro: '关于我们', tab_greeting: '欢迎辞', tab_growth: '发展历程', tab_mission: '服务使命', tab_intro_full: '关于生命礼物', tab_greeting_full: '主席欢迎辞', tab_growth_full: '发展历程', tab_mission_full: '服务使命与教育', ab_intro_h: '生命礼物国际韩国',
-        ab_intro_sub: '建立扶轮社125年历史上首个无国界全球在线卫星社，与全球会员共同拯救先天性心脏病儿童。',
+        tab_intro: '关于我们', tab_greeting: '欢迎辞', tab_growth: '发展历程', tab_mission: '服务使命', tab_intro_full: '关于生命礼物', tab_greeting_full: '主席欢迎辞', tab_growth_full: '发展历程', tab_mission_full: '服务使命与教育', ab_intro_h: '为患心脏病的孩子们播种希望',
+        ab_intro_sub: '我们为患病的孩子和家庭带来希望，为医生和护士提供治疗能力，与志同道合的组织合作，持续为发展中国家提供小儿心脏治疗项目。',
         ab_greeting_quote1: '"我相信，世界上每一个孩子，无论在哪里出生，都应该有活下去的机会。"',
         ab_greeting_quote2: '"I believe that every child deserves a chance to live."',
         ab_greeting_h: '主席欢迎辞',
@@ -8088,6 +8079,7 @@
         ab_growth_stats_sub: '44年来，为患有心脏病的儿童带来希望，治愈全球儿童的心脏。',
         ab_mission_h: '服务使命与教育',
         ab_mission_intro: 'GIFT OF LIFE每年都在发展，逐渐改变着我们提供帮助的概念。我们意识到，让医疗专业人员前往现场进行治疗更为重要。',
+        ab_network_badge: '5大洲 · 81个国家 · 84个自主项目',
         ab_screening_h: '筛查任务',
         ab_screening_txt: '这类任务旨在寻找特定国家中需要心脏手术的儿童。筛查团队每周最多评估100名儿童。确认需要治疗的儿童将被列入国家小儿心脏等待名单，并通过我们的全球网络优先接受治疗。',
         ab_surgical_h: '外科手术任务',
@@ -8263,6 +8255,40 @@
       '회원 관리': { en: 'Member Management', zh: '会员管理' },
       '문의 관리': { en: 'Contact Management', zh: '咨询管理' },
       '후원 관리': { en: 'Donation Management', zh: '捐款管理' },
+      // donate 페이지
+      '온라인 후원 결제': { en: 'Online Donation Payment', zh: '在线捐款支付' },
+      '생명나눔본부 공식 결제 페이지에서 안전하게 후원하세요': { en: 'Donate securely through the official payment page', zh: '通过官方支付页面安全捐款' },
+      '💳 신용카드': { en: '💳 Credit Card', zh: '💳 信用卡' },
+      '🏦 계좌이체': { en: '🏦 Bank Transfer', zh: '🏦 银行转账' },
+      '📱 간편결제': { en: '📱 Easy Pay', zh: '📱 便捷支付' },
+      '🔄 정기후원': { en: '🔄 Monthly', zh: '🔄 定期捐款' },
+      '🔗 공식 결제 페이지에서 후원하기': { en: '🔗 Donate via Official Payment Page', zh: '🔗 通过官方支付页面捐款' },
+      '생명나눔본부 공인 결제 시스템 · SSL 보안 · 세액공제 영수증 자동발급': { en: 'Certified payment system · SSL secured · Tax receipt issued automatically', zh: '认证支付系统 · SSL安全 · 自动开具税务收据' },
+      '위 코드 입력': { en: 'Enter the code above', zh: '请输入上方验证码' },
+      '개인정보 수집 및 이용에 동의합니다.': { en: 'I agree to the collection and use of personal information.', zh: '我同意收集和使用个人信息。' },
+      // contact 페이지 사이드바
+      '🏦 납부 계좌': { en: '🏦 Bank Account', zh: '🏦 汇款账户' },
+      '국민은행': { en: 'Kookmin Bank', zh: '国民银行' },
+      '생명의선물코리아': { en: 'GOL Korea', zh: '生命礼物韩国' },
+      '📍 찾아오는 길': { en: '📍 Location', zh: '📍 地图导航' },
+      // about 페이지
+      '5개 대륙': { en: '5 Continents', zh: '5大洲' },
+      '치료받은 아이들': { en: 'Children Treated', zh: '接受治疗的儿童' },
+      '81개국': { en: '81 Countries', zh: '81个国家' },
+      '설립 주년 (2025)': { en: 'Anniversary (2025)', zh: '成立周年 (2025)' },
+      '전 세계 네트워크로': { en: 'With our global network,', zh: '通过全球网络' },
+      '소아 심장 치료를 돕습니다': { en: 'we support pediatric cardiac care', zh: '支持小儿心脏治疗' },
+      '우리가 하는 일': { en: 'What We Do', zh: '我们的工作' },
+      '지속 가능한 소아 심장 센터': { en: 'Sustainable Pediatric Cardiac Centers', zh: '可持续小儿心脏中心' },
+      '글로벌 네트워크': { en: 'Global Network', zh: '全球网络' },
+      '아이들의 이야기': { en: "Children's Stories", zh: '孩子们的故事' },
+      // 카카오페이
+      '카카오페이 QR 결제': { en: 'KakaoPay QR Payment', zh: 'KakaoPay二维码支付' },
+      '결제 버튼 클릭 시 QR코드가 팝업됩니다. 카카오페이 앱으로 스캔하세요.': { en: 'A QR code will pop up when you click the payment button. Scan it with KakaoPay app.', zh: '点击支付按钮后将弹出二维码。请使用KakaoPay应用扫描。' },
+      '입금자명: 이름+후원': { en: 'Transfer note: Name+Donation', zh: '汇款人: 姓名+捐款' },
+      '납부 계좌': { en: 'Bank Account', zh: '汇款账户' },
+      '직접 입력': { en: 'Custom amount', zh: '自定义金额' },
+      '직접 입력 (원)': { en: 'Custom amount', zh: '自定义金额' },
     };
     const STATIC_PLACEHOLDER_MAP = {
       'example@email.com': { en: 'example@email.com', zh: 'example@email.com' },
