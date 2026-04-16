@@ -1768,10 +1768,11 @@
     }
 
     .nc-img {
-      aspect-ratio: 4/3;
+      aspect-ratio: 16/9;
       overflow: hidden;
       position: relative;
-      background: var(--bg2)
+      background: var(--bg2);
+      max-height: 180px
     }
 
     .nc-img img {
@@ -2183,6 +2184,48 @@
 
     .pmt-toggle:not(.active):hover {
       border-color: var(--muted)
+    }
+
+    /* 결제수단 선택 카드 */
+    .pay-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      background: #fff;
+      transition: var(--ease);
+      position: relative
+    }
+
+    .pay-card.active-card {
+      border-color: var(--blue);
+      background: var(--blue-lt);
+      box-shadow: 0 0 0 3px rgba(var(--rose), .12)
+    }
+
+    .pm-check {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: transparent;
+      background: #fff;
+      transition: var(--ease)
+    }
+
+    .pm-check.active-check {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff
     }
 
     .sub-area {
@@ -5044,10 +5087,10 @@
       </div>
     </div>
     <div class="stats-bar">
-      <div class="stat-i"><span class="stat-v">₩18.6억</span><span class="stat-l" data-i="s0">누적 모금액</span></div>
-      <div class="stat-i"><span class="stat-v">130만</span><span class="stat-l" data-i="s1">매년 CHD 출생아</span></div>
-      <div class="stat-i"><span class="stat-v">93%</span><span class="stat-l" data-i="s2">치료 못 받는 비율</span></div>
-      <div class="stat-i"><span class="stat-v">47,599</span><span class="stat-l" data-i="s3">누적 수술 성공</span></div>
+      <div class="stat-i"><span class="stat-v" data-i="sv0">₩18.6억</span><span class="stat-l" data-i="s0">누적 모금액</span></div>
+      <div class="stat-i"><span class="stat-v" data-i="sv1">130만</span><span class="stat-l" data-i="s1">매년 CHD 출생아</span></div>
+      <div class="stat-i"><span class="stat-v" data-i="sv2">93%</span><span class="stat-l" data-i="s2">치료 못 받는 비율</span></div>
+      <div class="stat-i"><span class="stat-v" data-i="sv3">47,599</span><span class="stat-l" data-i="s3">누적 수술 성공</span></div>
     </div>
     <!-- ═══ CHILDREN — figma/ 풀와이드 ═══ -->
     <div class="section" style="padding:80px 0;background:#fff">
@@ -7417,6 +7460,7 @@
         shortcut: '📌 바로가기', acct_title: '납부 계좌', acct_holder: '예금주:',
         more: '더보기', notices: '공지사항', children_title: '어린이 사례', children_sub: '지금 우리의 도움을 기다리는 아이들',
         waiting: '수술 대기', recovered: '회복 완료', prog_label: '모금 현황',
+        sv0: '₩18.6억', sv1: '130만', sv2: '93%', sv3: '47,599',
         s0: '누적 모금액', s1: '매년 CHD 출생아', s2: '치료 못 받는 비율', s3: '목표 회원 수',
         imp0: '총 누적 모금액 (2003~)', imp1: '수술 성공 · 30+개국', imp2: '아동 1인 수술 비용',
         events_ttl: '주요 일정',
@@ -7573,6 +7617,7 @@
         shortcut: '📌 Quick Links', acct_title: 'Bank Account', acct_holder: 'Account:',
         more: 'More', notices: 'Notices', children_title: "Children's Stories", children_sub: 'Children waiting for life-saving surgery',
         waiting: 'Awaiting Surgery', recovered: 'Fully Recovered', prog_label: 'Funding Progress',
+        sv0: '$1.4M', sv1: '1.3M', sv2: '93%', sv3: '47,599',
         s0: 'Total Raised', s1: 'CHD Births Annually', s2: 'Without Treatment', s3: 'Member Goal',
         imp0: 'Total Raised (2003~)', imp1: 'Children Saved · 30+ Countries', imp2: 'Surgery Cost Per Child',
         events_ttl: 'Upcoming Events',
@@ -7725,6 +7770,7 @@
         shortcut: '📌 快速入口', acct_title: '汇款账户', acct_holder: '账户名:',
         more: '更多', notices: '公告', children_title: '儿童故事', children_sub: '正在等待救命手术的孩子们',
         waiting: '等待手术', recovered: '完全康复', prog_label: '筹款进度',
+        sv0: '¥1,860万', sv1: '130万', sv2: '93%', sv3: '47,599',
         s0: '累计筹款', s1: '每年CHD出生', s2: '未获治疗', s3: '会员目标',
         imp0: '总累计筹款(2003~)', imp1: '获救儿童 · 30+国家', imp2: '单个儿童手术费用',
         events_ttl: '即将举行的活动',
