@@ -4038,8 +4038,9 @@
     /* 플로팅 언어 토글 */
     .fab-lang {
       position: fixed;
-      right: 24px;
-      bottom: 92px;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 600;
       width: 42px;
       height: 42px;
@@ -4056,7 +4057,7 @@
 
     .fab-lang:hover {
       box-shadow: 0 6px 20px rgba(0,0,0,.18);
-      transform: translateY(-1px)
+      transform: translateY(-50%) scale(1.05)
     }
 
     .fab-lang-cur {
@@ -4067,8 +4068,9 @@
 
     .fab-lang-popup {
       position: fixed;
-      right: 24px;
-      bottom: 142px;
+      right: 68px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 601;
       background: #fff;
       border-radius: var(--r2);
@@ -6068,20 +6070,13 @@
   <!-- ════ PARTNERS ════ -->
   <div class="page" id="page-partners">
 
-    <!-- 파트너스 히어로 -->
-    <div
-      style="position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:60px 24px 48px;text-align:center">
-      <div style="position:relative;z-index:1;max-width:680px;margin:0 auto">
-        <div
-          style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:6px 18px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:18px">
-          <span
-            style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 2s infinite"></span>Partners
+    <!-- 파트너스 헤더 (뉴스 페이지 스타일) -->
+    <div class="section" style="padding-bottom:0">
+      <div class="wrap">
+        <div style="margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid var(--blue);width:fit-content;min-width:220px">
+          <h2 style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="partners_h1">함께하는 파트너들</h2>
+          <p style="font-size:14px;color:var(--muted)" data-i="partners_sub">기업, 단체, 병원 파트너들과 함께 전 세계 심장병 어린이들에게 희망을 전합니다.</p>
         </div>
-        <h1
-          style="font-family:'Libre Bodoni',serif;font-size:clamp(24px,4vw,40px);font-weight:900;color:#fff;line-height:1.25;margin-bottom:16px"
-          data-i="partners_h1">함께하는 파트너들</h1>
-        <p style="font-size:15px;color:rgba(255,255,255,.82);line-height:1.9;max-width:560px;margin:0 auto"
-          data-i="partners_sub">기업, 단체, 병원 파트너들과 함께 전 세계 심장병 어린이들에게 희망을 전합니다.</p>
       </div>
     </div>
 
@@ -6567,15 +6562,9 @@
       <div class="wrap">
         <div class="layout2">
           <div class="main-col">
-            <div class="donate-hero">
-              <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1200&h=300&fit=crop&q=85"
-                alt="" />
-              <div class="donate-hero-ov">
-                <div>
-                  <h2 data-i="donate_h2">작은 후원, 큰 기적</h2>
-                  <p data-i="donate_sub">여러분의 정기 후원이 모여 한 아이의 심장이 다시 뜁니다.</p>
-                </div>
-              </div>
+            <div style="margin-bottom:20px;padding-bottom:16px;border-bottom:3px solid var(--blue);width:fit-content;min-width:220px">
+              <h2 style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="donate_h2">작은 후원, 큰 기적</h2>
+              <p style="font-size:14px;color:var(--muted)" data-i="donate_sub">여러분의 정기 후원이 모여 한 아이의 심장이 다시 뜁니다.</p>
             </div>
             <div class="dpb">
               <div>
@@ -6927,12 +6916,9 @@
       <div class="wrap">
         <div class="layout2">
           <div class="main-col">
-            <div class="contact-hero">
-              <div style="font-size:52px">✉️</div>
-              <div>
-                <h2 data-i="nav_contact">문의하기</h2>
-                <p data-i="contact_sub">궁금한 사항이 있으시면 언제든지 연락해 주세요. 빠른 시일 내에 답변 드리겠습니다.</p>
-              </div>
+            <div style="margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid var(--blue);width:fit-content;min-width:220px">
+              <h2 style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="nav_contact">문의하기</h2>
+              <p style="font-size:14px;color:var(--muted)" data-i="contact_sub">궁금한 사항이 있으시면 언제든지 연락해 주세요.</p>
             </div>
             <div class="contact-info-grid">
               <div class="ci-card">
@@ -6986,6 +6972,16 @@
                     <span>✉️</span> <span data-i="contact_send">문의 보내기</span>
                   </button>
                 </div>
+              </div>
+            </div>
+            <!-- 찾아오는 길 -->
+            <div class="box" style="margin-top:20px">
+              <div class="box-hd">📍 찾아오는 길</div>
+              <div class="box-bd" style="padding:0;overflow:hidden;border-radius:0 0 var(--r2) var(--r2)">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.2!2d126.8965!3d37.5275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9f!2z7ISc7Jq4IOyYgeuTse2PrOq1rCDshKDsnKDroZwz6ri4IDEwLCAy7Li1!5e0!3m2!1sko!2skr!4v1700000000000!5m2!1sko!2skr"
+                  width="100%" height="280" style="border:0;display:block" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
             </div>
           </div>
