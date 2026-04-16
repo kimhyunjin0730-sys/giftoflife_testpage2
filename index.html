@@ -428,7 +428,7 @@
     }
 
     .rg-btn {
-      display: none;
+      display: block;
       width: 100%;
       padding: 15px;
       background: linear-gradient(90deg, var(--blue), var(--blue2));
@@ -474,12 +474,20 @@
     .nb-x {
       position: absolute;
       right: 16px;
-      background: none;
+      background: rgba(0,0,0,.06);
       border: none;
-      color: var(--muted);
-      font-size: 18px;
-      cursor: pointer
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s
     }
+    .nb-x:hover { background: rgba(0,0,0,.12) }
 
     /* LANG BAR — 슬림 화이트 */
     .lang-bar {
@@ -805,6 +813,26 @@
       padding: 7px 0
     }
 
+    /* 세부 페이지 공통 타이틀 블록 */
+    .page-title-block {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 3px solid var(--blue);
+      width: fit-content;
+      min-width: 220px
+    }
+    .page-title-block h2 {
+      font-family: 'Libre Bodoni', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px
+    }
+    .page-title-block p {
+      font-size: 14px;
+      color: var(--muted)
+    }
+
     .bc-in {
       max-width: var(--max);
       margin: 0 auto;
@@ -824,6 +852,56 @@
       color: var(--blue);
       font-weight: 600
     }
+
+    /* SUB-PAGE SIMPLE HEADER (no full nav) */
+    .sub-hdr {
+      display: none;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04)
+    }
+    .sub-hdr.visible { display: block }
+    .sub-hdr-in {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      height: 52px;
+      gap: 12px
+    }
+    .sub-hdr-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: var(--ease)
+    }
+    .sub-hdr-back:hover { background: var(--bg2); color: var(--text) }
+    .sub-hdr-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      flex: 1
+    }
+    .sub-hdr-lang {
+      display: flex;
+      background: var(--bg2);
+      border-radius: 20px;
+      padding: 2px;
+      border: 1px solid var(--border)
+    }
+    .sub-hdr-lang .lang-btn { padding: 3px 10px; font-size: 11px }
 
     /* MOBILE DRAWER */
     .mob-wrap {
@@ -1489,7 +1567,7 @@
 
     /* LAYOUT — Figma: generous whitespace, rose accents */
     .section {
-      padding: 80px 0
+      padding: 32px 0
     }
 
     .wrap {
@@ -1502,9 +1580,9 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 28px;
       flex-wrap: wrap;
-      gap: 16px
+      gap: 12px
     }
 
     .sec-ttl {
@@ -4674,7 +4752,7 @@
       }
 
       .section {
-        padding: 32px 0
+        padding: 24px 0
       }
 
       .wrap {
@@ -4998,7 +5076,7 @@
   <div class="nb-bar" id="nbBar">
     <span>❤️ <span id="nb_txt">5월 2일 자선 음악회 — 국립극장 오후 5시</span> &nbsp;|&nbsp; <a href="#"
         onclick="goPage('donate');return false" id="nb_link">지금 후원하기 →</a></span>
-    <button class="nb-x" onclick="this.parentNode.style.display='none'">✕</button>
+    <button class="nb-x" onclick="const bar=this.parentNode;bar.style.transition='all .3s ease';bar.style.maxHeight='0';bar.style.padding='0';bar.style.opacity='0';bar.style.overflow='hidden';setTimeout(()=>bar.style.display='none',300)">✕</button>
   </div>
 
   <!-- LANG BAR -->
@@ -5007,9 +5085,9 @@
       <div style="display:flex;align-items:center;gap:14px"><span class="lb-badge">Rotary International · District
           3640</span><span class="lb-date" id="utilDate"></span></div>
       <div class="lang-toggle">
-        <button class="lang-btn on" id="lb-ko" onclick="setLang('ko')">KO</button>
-        <button class="lang-btn" id="lb-en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" id="lb-zh" onclick="setLang('zh')">中</button>
+        <button class="lang-btn on" id="lb-ko" onclick="chooseLang('ko')">KO</button>
+        <button class="lang-btn" id="lb-en" onclick="chooseLang('en')">EN</button>
+        <button class="lang-btn" id="lb-zh" onclick="chooseLang('zh')">中</button>
       </div>
     </div>
   </div>
@@ -5071,6 +5149,19 @@
     </div>
   </header>
 
+  <!-- SUB-PAGE SIMPLE HEADER -->
+  <div class="sub-hdr" id="subHdr">
+    <div class="sub-hdr-in">
+      <button class="sub-hdr-back" onclick="goPage('home')">← <span data-i="nav_home">홈</span></button>
+      <div class="sub-hdr-title" id="subHdrTitle"></div>
+      <div class="sub-hdr-lang">
+        <button class="lang-btn on" id="slb-ko" onclick="chooseLang('ko')">KO</button>
+        <button class="lang-btn" id="slb-en" onclick="chooseLang('en')">EN</button>
+        <button class="lang-btn" id="slb-zh" onclick="chooseLang('zh')">中</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE DRAWER -->
   <div class="mob-wrap" id="mobWrap">
     <div class="mob-bg" onclick="toggleMob()"></div>
@@ -5097,9 +5188,9 @@
       <div class="mob-item" onclick="openLogin()"><span>🔑</span><span data-i="login">로그인</span></div>
       <div style="display:flex;justify-content:center;padding:12px 16px 4px">
         <div class="lang-toggle" id="mobLangToggle">
-          <button class="lang-btn on" id="mlb-ko" onclick="setLang('ko')">KO</button>
-          <button class="lang-btn" id="mlb-en" onclick="setLang('en')">EN</button>
-          <button class="lang-btn" id="mlb-zh" onclick="setLang('zh')">中</button>
+          <button class="lang-btn on" id="mlb-ko" onclick="chooseLang('ko')">KO</button>
+          <button class="lang-btn" id="mlb-en" onclick="chooseLang('en')">EN</button>
+          <button class="lang-btn" id="mlb-zh" onclick="chooseLang('zh')">中</button>
         </div>
       </div>
       <div class="mob-cta" onclick="mgo('donate')"><span data-i="donate_btn">후원하기</span></div>
@@ -5138,7 +5229,8 @@
           </div>
         </div>
         <!-- Amara spotlight card -->
-        <div class="amara-card">
+        <div class="amara-card" id="amaraCard">
+          <button onclick="this.parentNode.style.transition='all .3s ease';this.parentNode.style.opacity='0';this.parentNode.style.transform='scale(.9)';setTimeout(()=>this.parentNode.style.display='none',300)" style="position:absolute;top:8px;right:8px;z-index:30;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.45);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s" onmouseover="this.style.background='rgba(0,0,0,.7)'" onmouseout="this.style.background='rgba(0,0,0,.45)'">✕</button>
           <div class="ac-img">
             <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop&q=85"
               alt="Amara" id="ac-img" />
@@ -5180,7 +5272,7 @@
               data-i="monthly">정기후원</button><button class="dw-tab" id="dwtab-once" onclick="setDwType('once')"
               data-i="once">일시후원</button></div>
           <div class="dw-amounts" id="dwAmounts"></div>
-          <input class="dw-custom" id="dwCustom" type="number" data-i-ph="ph_dw_custom" placeholder="직접 입력" min="1" />
+          <input class="dw-custom" id="dwCustom" type="number" data-i-ph="ph_dw_custom" placeholder="직접 입력" min="1" oninput="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'));donateAmt=parseInt(this.value)||0" onfocus="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'))" onclick="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'))" />
           <button class="dw-go" onclick="applyDwAndGo()"><span data-i="donate_btn">후원하기</span></button>
         </div>
       </div>
@@ -5192,7 +5284,7 @@
       <div class="stat-i"><span class="stat-v" data-i="sv3">47,599</span><span class="stat-l" data-i="s3">누적 수술 성공</span></div>
     </div>
     <!-- ═══ CHILDREN — figma/ 풀와이드 ═══ -->
-    <div class="section" style="padding:80px 0;background:#fff">
+    <div class="section" style="padding:32px 0;background:#fff">
       <div class="wrap">
         <div class="sec-hd">
           <div>
@@ -5211,7 +5303,7 @@
     </div>
 
     <!-- ═══ NEWS + EVENTS — figma/ slate-50 배경 ═══ -->
-    <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:80px 0">
+    <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:32px 0">
       <div class="wrap">
         <div class="sec-hd">
           <div>
@@ -5224,7 +5316,7 @@
           </div>
           <span class="sec-more" onclick="goPage('news')"><span data-i="more">더보기</span> →</span>
         </div>
-        <div class="ng" id="homeNews" style="margin-bottom:48px"></div>
+        <div class="ng" id="homeNews" style="margin-bottom:32px"></div>
 
         <!-- 공지사항 -->
         <div class="sec-hd">
@@ -5257,10 +5349,10 @@
     </div>
 
     <!-- ═══ CTA — figma/ rose gradient 대형 배너 ═══ -->
-    <div style="background:#fff;padding:80px 0">
+    <div style="background:#fff;padding:32px 0">
       <div class="wrap">
         <div
-          style="background:linear-gradient(135deg,#f43b5e,#be185d);border-radius:var(--r3);padding:64px 48px;text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(244,63,94,.2)">
+          style="background:linear-gradient(135deg,#f43b5e,#be185d);border-radius:var(--r3);padding:40px 36px;text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(244,63,94,.2)">
           <div
             style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22><rect width=%224%22 height=%224%22 fill=%22rgba(255,255,255,0.05)%22/><rect width=%221%22 height=%221%22 fill=%22rgba(255,255,255,0.05)%22/></svg>');opacity:.5">
           </div>
@@ -5292,14 +5384,16 @@
 
   <!-- ════ NEWS PAGE (with pagination) ════ -->
   <div class="page" id="page-news">
+    <div class="section" style="padding-bottom:0">
+      <div class="wrap">
+        <div class="page-title-block">
+          <h2 data-i="nav_news">뉴스 &amp; 소식</h2>
+          <p id="news-page-sub" data-i="news_sub">최신 활동 소식을 전해드립니다.</p>
+        </div>
+      </div>
+    </div>
     <div class="section">
       <div class="wrap">
-        <div class="sec-hd">
-          <div>
-            <h2 class="sec-ttl" data-i="nav_news">뉴스 &amp; 소식</h2>
-            <div class="sec-sub" id="news-page-sub" data-i="news_sub">최신 활동 소식을 전해드립니다.</div>
-          </div>
-        </div>
         <div id="newsPageContent">
           <div class="ng" id="newsGrid"></div>
           <div class="pagination" id="newsPagination"></div>
@@ -5455,7 +5549,7 @@
   <!-- ════ ABOUT ════ -->
   <div class="page" id="page-about">
     <!-- About Sub-nav tabs -->
-    <div style="background:#fff;border-bottom:1px solid var(--border);position:sticky;top:68px;z-index:200">
+    <div style="background:#fff;border-bottom:1px solid var(--border);position:sticky;top:52px;z-index:200">
       <div class="wrap" style="padding-top:0;padding-bottom:0">
         <div style="display:flex;gap:0;overflow-x:auto">
           <button class="about-tab-btn active" id="abtab-intro" onclick="goAboutTab('intro')"
@@ -5479,7 +5573,7 @@
 
       <!-- ① HERO BANNER -->
       <div
-        style="position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:72px 24px 60px;text-align:center">
+        style="position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);padding:48px 24px 40px;text-align:center">
         <div
           style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1400&h=600&fit=crop&q=80') center/cover;opacity:.15;pointer-events:none">
         </div>
@@ -6025,13 +6119,12 @@
 
   <!-- ════ OUR CHILDREN ════ -->
   <div class="page" id="page-children">
-    <div class="ch-hero">
-      <div class="ch-hero-in">
-        <div class="ch-eyebrow"><span
-            style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:hb 2s infinite"></span><span
-            data-i="ch_eyebrow">About Our Children</span></div>
-        <h1 class="ch-title" data-i="ch_title">우리 아이들</h1>
-        <p class="ch-sub" data-i="ch_sub">우리는 아이의 생명을 구하는 것을 도울 수 있을 때 가장 큰 행복을 느끼고 항상 감사함을 느낍니다.</p>
+    <div class="section" style="padding-bottom:0">
+      <div class="wrap">
+        <div class="page-title-block">
+          <h2 data-i="ch_title">우리 아이들</h2>
+          <p data-i="ch_sub">우리는 아이의 생명을 구하는 것을 도울 수 있을 때 가장 큰 행복을 느끼고 항상 감사함을 느낍니다.</p>
+        </div>
       </div>
     </div>
 
@@ -6406,7 +6499,7 @@
 
     <!-- 로타리 히어로 -->
     <div
-      style="position:relative;overflow:hidden;background:linear-gradient(135deg,#003087 0%,#0066CC 100%);padding:60px 24px 48px;text-align:center">
+      style="position:relative;overflow:hidden;background:linear-gradient(135deg,#003087 0%,#0066CC 100%);padding:40px 24px 32px;text-align:center">
       <div style="position:relative;z-index:1;max-width:680px;margin:0 auto">
         <div
           style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:6px 18px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:1.1px;text-transform:uppercase;margin-bottom:18px">
@@ -6983,7 +7076,7 @@
             <div class="box" style="margin-top:20px">
               <div class="box-hd">📍 찾아오는 길</div>
               <div class="box-bd" style="padding:0;overflow:hidden;border-radius:0 0 var(--r2) var(--r2)">
-                <iframe
+                <iframe id="contactMapIframe"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.2!2d126.8965!3d37.5275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9f!2z7ISc7Jq4IOyYgeuTse2PrOq1rCDshKDsnKDroZwz6ri4IDEwLCAy7Li1!5e0!3m2!1sko!2skr!4v1700000000000!5m2!1sko!2skr"
                   width="100%" height="280" style="border:0;display:block" allowfullscreen="" loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -7464,9 +7557,9 @@
     <span class="fab-lang-cur" id="fabLangCur">KO</span>
   </div>
   <div class="fab-lang-popup" id="fabLangPopup">
-    <button class="flp-btn on" id="hlb-ko" onclick="setLang('ko');closeLangPopup()">🇰🇷 KO</button>
-    <button class="flp-btn" id="hlb-en" onclick="setLang('en');closeLangPopup()">🌏 EN</button>
-    <button class="flp-btn" id="hlb-zh" onclick="setLang('zh');closeLangPopup()">🇨🇳 中</button>
+    <button class="flp-btn on" id="hlb-ko" onclick="chooseLang('ko');closeLangPopup()">🇰🇷 KO</button>
+    <button class="flp-btn" id="hlb-en" onclick="chooseLang('en');closeLangPopup()">🌏 EN</button>
+    <button class="flp-btn" id="hlb-zh" onclick="chooseLang('zh');closeLangPopup()">🇨🇳 中</button>
   </div>
 
   <button class="fab-donate" onclick="goPage('donate')"><span class="fab-heart">❤️</span><span
@@ -8326,10 +8419,15 @@
       ['ko', 'en', 'zh'].forEach(k => document.getElementById('rc-' + k)?.classList.toggle('active', k === l));
       const lb = { ko: '한국어로 계속하기', en: 'Continue in English', zh: '以中文继续' };
       const rcb = document.getElementById('regionConfirmBtn'); if (rcb) rcb.textContent = lb[l];
+      // 카드 클릭 시 바로 언어 적용 (확인 버튼 없이도 미리보기)
+      chooseLang(l);
+    }
+    function chooseLang(lang) {
+      setLang(lang);
+      try { localStorage.setItem('gol_lang', lang); } catch (e) { }
     }
     function confirmRegion() {
-      setLang(selLang);
-      try { localStorage.setItem('gol_lang', selLang); } catch (e) { }
+      chooseLang(selLang);
       const modal = document.getElementById('regionModal');
       if (modal) modal.style.display = 'none';
     }
@@ -8347,21 +8445,31 @@
       pages.forEach(root => {
         root.querySelectorAll('*').forEach(el => {
           if (el.children.length === 0) {
-            const txt = (el.textContent || '').trim();
+            const origKey = el.getAttribute('data-orig-ko');
+            const txt = origKey || (el.textContent || '').trim();
             if (!txt) return;
             const mapped = STATIC_TEXT_MAP[txt];
             if (!mapped) return;
+            if (!origKey) el.setAttribute('data-orig-ko', txt);
             el.textContent = lang === 'ko' ? txt : (mapped[lang] || mapped.en || txt);
           }
           if ((el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') && el.placeholder) {
-            const ph = el.getAttribute('placeholder') || '';
+            const origPh = el.getAttribute('data-orig-ph');
+            const ph = origPh || el.getAttribute('placeholder') || '';
             const mappedPh = STATIC_PLACEHOLDER_MAP[ph];
-            if (mappedPh) el.setAttribute('placeholder', lang === 'ko' ? ph : (mappedPh[lang] || mappedPh.en || ph));
+            if (mappedPh) {
+              if (!origPh) el.setAttribute('data-orig-ph', ph);
+              el.setAttribute('placeholder', lang === 'ko' ? ph : (mappedPh[lang] || mappedPh.en || ph));
+            }
           }
           if (el.tagName === 'OPTION') {
-            const ov = (el.textContent || '').trim();
+            const origOpt = el.getAttribute('data-orig-ko');
+            const ov = origOpt || (el.textContent || '').trim();
             const mappedOpt = STATIC_TEXT_MAP[ov];
-            if (mappedOpt) el.textContent = lang === 'ko' ? ov : (mappedOpt[lang] || mappedOpt.en || ov);
+            if (mappedOpt) {
+              if (!origOpt) el.setAttribute('data-orig-ko', ov);
+              el.textContent = lang === 'ko' ? ov : (mappedOpt[lang] || mappedOpt.en || ov);
+            }
           }
         });
       });
@@ -8377,6 +8485,7 @@
         document.getElementById('lb-' + l)?.classList.toggle('on', l === lang);
         document.getElementById('hlb-' + l)?.classList.toggle('on', l === lang);
         document.getElementById('mlb-' + l)?.classList.toggle('on', l === lang);
+        document.getElementById('slb-' + l)?.classList.toggle('on', l === lang);
         document.getElementById('rc-' + l)?.classList.toggle('active', l === lang);
       });
       // 플로팅 언어 FAB 표시 업데이트
@@ -8384,7 +8493,6 @@
       if (fabCur) fabCur.textContent = { ko: 'KO', en: 'EN', zh: '中' }[lang] || 'KO';
       document.querySelectorAll('.flp-btn').forEach(b => b.classList.remove('on'));
       document.getElementById('hlb-' + lang)?.classList.add('on');
-      try { localStorage.setItem('gol_lang', lang); } catch (e) { }
       const t = T[lang];
 
       // ── data-i based i18n binding (text/html/placeholder/value/title) ──
@@ -8446,6 +8554,17 @@
       const bcHome = document.querySelector('.bc-in span[data-i="nav_home"]');
       if (bcHome) bcHome.textContent = T[lang].nav_home || '홈';
 
+      // ── Sub-header title update ──
+      const activeP = document.querySelector('.page.active');
+      if (activeP) {
+        const pid = activeP.id.replace('page-','');
+        const pd = PAGES[pid];
+        if (pd) {
+          const sht = document.getElementById('subHdrTitle');
+          if (sht) sht.textContent = T[lang][pd.bc] || pd.bc;
+        }
+      }
+
       // ── Article page: re-render if currently visible ──
       if (document.getElementById('page-article')?.classList.contains('active')) {
         openArticle(currentArticleIdx);
@@ -8456,6 +8575,15 @@
       if (newsSub && T[lang].news_sub) newsSub.textContent = T[lang].news_sub;
       const newsTitle = document.querySelector('#page-news .sec-ttl');
       if (newsTitle && T[lang].nav_news) newsTitle.textContent = T[lang].nav_news;
+
+      // ── Google Maps language update ──
+      const mapIframe = document.getElementById('contactMapIframe');
+      if (mapIframe) {
+        const mapLang = lang === 'zh' ? 'zh-CN' : lang;
+        const oldSrc = mapIframe.getAttribute('src');
+        const newSrc = oldSrc.replace(/!5m2!1s[a-z-]+!2s[a-z]+/, '!5m2!1s' + mapLang + '!2s' + (lang === 'ko' ? 'kr' : lang === 'zh' ? 'cn' : 'us'));
+        if (oldSrc !== newSrc) mapIframe.setAttribute('src', newSrc);
+      }
 
       renderChildrenCountries(lang);
       updateCurrency();
@@ -8531,6 +8659,21 @@
       document.getElementById(d.p).classList.add('active');
       if (d.n) { const ni = document.getElementById(d.n); if (ni) ni.classList.add('act'); }
       document.getElementById('bcTxt').textContent = T[curLang][d.bc] || d.bc;
+      // 홈이면 메인 헤더, 서브페이지면 심플 헤더
+      const mainHdr = document.querySelector('.site-hdr');
+      const subHdr = document.getElementById('subHdr');
+      const nbBar = document.getElementById('nbBar');
+      const bcEl = document.querySelector('.bc');
+      if (k === 'home') {
+        if (mainHdr) mainHdr.style.display = '';
+        if (subHdr) subHdr.classList.remove('visible');
+        if (bcEl) bcEl.style.display = '';
+      } else {
+        if (mainHdr) mainHdr.style.display = 'none';
+        if (subHdr) { subHdr.classList.add('visible'); document.getElementById('subHdrTitle').textContent = T[curLang][d.bc] || d.bc; }
+        if (nbBar) { nbBar.style.display = 'none'; }
+        if (bcEl) bcEl.style.display = 'none';
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
       closeMob();
       if (k === 'news') renderNewsPage();
@@ -8698,8 +8841,8 @@
         if (el) el.required = isOrg;
       });
     }
-    function pickAmt(btn, a) { document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); document.getElementById('customAmtInp').value = ''; donateAmt = a; }
-    function customAmt(inp) { donateAmt = inp.value; document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on')); }
+    function pickAmt(btn, a) { document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on')); btn.classList.add('on'); document.getElementById('customAmtInp').value = ''; donateAmt = parseInt(String(a).replace(/[^0-9]/g,''),10)||0; }
+    function customAmt(inp) { donateAmt = parseInt(inp.value)||0; document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on')); }
     const CAPS = ['GOLI26', 'HEART9', 'LIFE77', 'GOL123', 'SAVE01']; let curCap = 'GOLI26';
     function refreshCap() { curCap = CAPS[Math.floor(Math.random() * CAPS.length)]; document.getElementById('capCode').textContent = curCap; document.getElementById('capInput').value = ''; }
     function setDonationRegion(region) {
