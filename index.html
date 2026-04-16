@@ -5152,18 +5152,7 @@
     </div>
   </header>
 
-  <!-- SUB-PAGE SIMPLE HEADER -->
-  <div class="sub-hdr" id="subHdr">
-    <div class="sub-hdr-in">
-      <button class="sub-hdr-back" onclick="goPage('home')">← <span data-i="nav_home">홈</span></button>
-      <div class="sub-hdr-title" id="subHdrTitle"></div>
-      <div class="sub-hdr-lang">
-        <button class="lang-btn on" id="slb-ko" onclick="chooseLang('ko')">KO</button>
-        <button class="lang-btn" id="slb-en" onclick="chooseLang('en')">EN</button>
-        <button class="lang-btn" id="slb-zh" onclick="chooseLang('zh')">中</button>
-      </div>
-    </div>
-  </div>
+  <!-- SUB-PAGE HEADER (disabled — main header always visible) -->
 
   <!-- MOBILE DRAWER -->
   <div class="mob-wrap" id="mobWrap">
@@ -5552,7 +5541,7 @@
   <!-- ════ ABOUT ════ -->
   <div class="page" id="page-about">
     <!-- About Sub-nav tabs -->
-    <div style="background:#fff;border-bottom:1px solid var(--border);position:sticky;top:52px;z-index:200">
+    <div style="background:#fff;border-bottom:1px solid var(--border);position:sticky;top:68px;z-index:200">
       <div class="wrap" style="padding-top:0;padding-bottom:0">
         <div style="display:flex;gap:0;overflow-x:auto">
           <button class="about-tab-btn active" id="abtab-intro" onclick="goAboutTab('intro')"
@@ -8681,20 +8670,7 @@
     });
 
     function switchHeader(isHome, titleText) {
-      const mainHdr = document.querySelector('.site-hdr');
-      const subHdr = document.getElementById('subHdr');
-      const nbBar = document.getElementById('nbBar');
-      const bcEl = document.querySelector('.bc');
-      if (isHome) {
-        if (mainHdr) mainHdr.style.display = '';
-        if (subHdr) subHdr.classList.remove('visible');
-        if (bcEl) bcEl.style.display = '';
-      } else {
-        if (mainHdr) mainHdr.style.display = 'none';
-        if (subHdr) { subHdr.classList.add('visible'); if (titleText) document.getElementById('subHdrTitle').textContent = titleText; }
-        if (nbBar) nbBar.style.display = 'none';
-        if (bcEl) bcEl.style.display = 'none';
-      }
+      // 메인 헤더는 항상 표시 — 모든 페이지에서 동일한 내비게이션
     }
     function goPage(k) {
       if (k === 'admin' && !isAdmin()) return;
