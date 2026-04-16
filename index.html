@@ -2162,6 +2162,29 @@
       border-radius: var(--r)
     }
 
+    .pmt-toggle {
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      background: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--ease);
+      text-align: center
+    }
+
+    .pmt-toggle.active {
+      background: #1ABCB7;
+      color: #fff;
+      border-color: #1ABCB7
+    }
+
+    .pmt-toggle:not(.active):hover {
+      border-color: var(--muted)
+    }
+
     .sub-area {
       display: flex;
       justify-content: center;
@@ -6555,35 +6578,80 @@
                         </div>
                       </label>
                     </div>
-                    <!-- CMS 안내 -->
+                    <!-- CMS 자동이체 상세 필드 -->
                     <div id="cms-fields" style="margin-top:14px">
-                      <div class="acct-box" style="background:#f0f7ff">
-                        📋 <b>CMS 자동이체 신청</b><br>
-                        <span style="font-size:12px;line-height:1.9">매월 지정일에 등록 계좌에서 자동 출금됩니다.<br>신청 후 사무국에서 CMS 신청서를
-                          이메일로 발송해 드립니다.</span>
+                      <div class="box-hd" style="margin-bottom:14px">결제정보</div>
+
+                      <div class="fg"><label class="fl">결제수단</label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                          <button type="button" id="pmt-cms-btn" class="pmt-toggle active" onclick="switchPayDetail('cms')">CMS자동이체</button>
+                          <button type="button" id="pmt-card-btn" class="pmt-toggle" onclick="switchPayDetail('card_regular')">신용카드</button>
+                        </div>
                       </div>
-                      <div class="fg" style="margin-top:12px"><label class="fl">출금 은행</label><input class="fi"
-                          name="cms_bank" id="cmsBankInp" data-i-ph="ph_cms_bank" placeholder="예: 국민은행" /></div>
-                      <div class="fg"><label class="fl">계좌번호</label><input class="fi" name="cms_account"
-                          id="cmsAccountInp" placeholder="000-000-000000" /></div>
-                      <div class="fg"><label class="fl">예금주</label><input class="fi" name="cms_holder"
-                          id="cmsHolderInp" /></div>
-                      <div class="fg"><label class="fl">출금일</label>
-                        <select class="fi" name="cms_date" id="cmsDateSel" style="-webkit-appearance:none">
-                          <option value="5">매월 5일</option>
+
+                      <div id="cms-detail-fields">
+                        <div class="fg"><label class="fl">은행명</label>
+                          <select class="fi" name="cms_bank" id="cmsBankSel">
+                            <option value="">은행을 선택해 주세요</option>
+                            <option>국민</option><option>농협</option><option>기업</option><option>신한</option>
+                            <option>우리</option><option>씨티</option><option>하나</option><option>SC제일</option>
+                            <option>우체국</option><option>축협</option><option>수협</option><option>수협중앙회</option>
+                            <option>신협</option><option>새마을금고</option><option>산림조합</option><option>서울</option>
+                            <option>부산</option><option>대구</option><option>광주</option><option>제주</option>
+                            <option>전북</option><option>경남</option><option>카카오뱅크</option><option>토스뱅크</option>
+                            <option>케이뱅크</option>
+                          </select>
+                        </div>
+                        <div class="fg"><label class="fl">계좌번호</label><input class="fi" name="cms_account"
+                            id="cmsAccountInp" placeholder="휴대폰번호 형식의 계좌번호 사용불가" /></div>
+                        <div class="fg"><label class="fl">예금주구분</label>
+                          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                            <button type="button" id="cms-owner-personal" class="pmt-toggle active" onclick="setCmsOwnerType('personal')">개인(개인사업자)</button>
+                            <button type="button" id="cms-owner-corp" class="pmt-toggle" onclick="setCmsOwnerType('corp')">법인/단체</button>
+                          </div>
+                        </div>
+                        <div class="fg"><label class="fl">출금일</label>
+                          <select class="fi" name="cms_date" id="cmsDateSel">
+                            <option value="5" selected>매월 5일</option>
+                            <option value="10">매월 10일</option>
+                            <option value="15">매월 15일</option>
+                            <option value="20">매월 20일</option>
+                            <option value="25">매월 25일</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 신용카드(정기) 상세 필드 -->
+                    <div id="card_regular-fields" style="display:none;margin-top:14px">
+                      <div class="box-hd" style="margin-bottom:14px">결제정보</div>
+
+                      <div class="fg"><label class="fl">결제수단</label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                          <button type="button" id="pmt-cms-btn2" class="pmt-toggle" onclick="switchPayDetail('cms')">CMS자동이체</button>
+                          <button type="button" id="pmt-card-btn2" class="pmt-toggle active" onclick="switchPayDetail('card_regular')">신용카드</button>
+                        </div>
+                      </div>
+
+                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                        <input type="checkbox" id="cardSameInfo" onchange="fillCardFromBasic()" />
+                        <label for="cardSameInfo" style="font-size:13px;color:var(--text);cursor:pointer">기본정보와 동일</label>
+                      </div>
+
+                      <div class="fg"><label class="fl">카드주명</label><input class="fi" name="card_name" id="cardNameInp" /></div>
+                      <div class="fg"><label class="fl">카드주 생년월일</label><input class="fi" name="card_birth" id="cardBirthInp" placeholder="개인은 생년월일 6자리(법인은 사업자번호 10자리)" /></div>
+                      <div class="fg"><label class="fl">카드번호</label><input class="fi" name="card_number" id="cardNumInp" placeholder="0000-0000-0000-0000" /></div>
+                      <div class="fg"><label class="fl">유효기간</label><input class="fi" name="card_expiry" id="cardExpInp" placeholder="MMYY" maxlength="4" /></div>
+                      <div class="fg"><label class="fl">카드비밀번호</label><input class="fi" type="password" name="card_pin" id="cardPinInp" placeholder="앞 2자리" maxlength="2" /></div>
+                      <div class="fg"><label class="fl">카드주 휴대폰</label><input class="fi" name="card_phone" id="cardPhoneInp" placeholder="010-0000-0000" /></div>
+                      <div class="fg"><label class="fl">결제일</label>
+                        <select class="fi" name="card_date" id="cardDateSel">
+                          <option value="5" selected>매월 5일</option>
                           <option value="10">매월 10일</option>
-                          <option value="15" selected>매월 15일</option>
+                          <option value="15">매월 15일</option>
                           <option value="20">매월 20일</option>
                           <option value="25">매월 25일</option>
                         </select>
-                      </div>
-                    </div>
-                    <!-- 신용카드(정기) 안내 -->
-                    <div id="card_regular-fields" style="display:none;margin-top:14px">
-                      <div class="acct-box" style="background:#f0f7ff">
-                        💳 <b>신용카드 정기결제 (PortOne 빌링키)</b><br>
-                        <span style="font-size:12px;line-height:1.9">"후원하기" 클릭 시 카드 등록 창이 열립니다.<br>카드 등록 완료 후 매월 지정 금액이
-                          자동 결제됩니다.</span>
                       </div>
                     </div>
                   </div>
@@ -8456,6 +8524,39 @@
        PAYMENT METHOD TOGGLE + KAKAOPAY
     ══════════════════════════════════════ */
     let currentPayMethod = 'transfer';
+
+    /* 결제정보 CMS ↔ 신용카드 전환 */
+    function switchPayDetail(type) {
+      const cmsF = document.getElementById('cms-fields');
+      const cardF = document.getElementById('card_regular-fields');
+      if (type === 'cms') {
+        if (cmsF) cmsF.style.display = '';
+        if (cardF) cardF.style.display = 'none';
+        togglePayMethod('cms');
+      } else {
+        if (cmsF) cmsF.style.display = 'none';
+        if (cardF) cardF.style.display = '';
+        togglePayMethod('card_regular');
+      }
+      // 토글 버튼 상태 동기화
+      ['pmt-cms-btn', 'pmt-cms-btn2'].forEach(id => { const b = document.getElementById(id); if (b) b.classList.toggle('active', type === 'cms'); });
+      ['pmt-card-btn', 'pmt-card-btn2'].forEach(id => { const b = document.getElementById(id); if (b) b.classList.toggle('active', type === 'card_regular'); });
+    }
+    function setCmsOwnerType(t) {
+      document.getElementById('cms-owner-personal')?.classList.toggle('active', t === 'personal');
+      document.getElementById('cms-owner-corp')?.classList.toggle('active', t === 'corp');
+    }
+    function fillCardFromBasic() {
+      const checked = document.getElementById('cardSameInfo')?.checked;
+      if (checked) {
+        const name = document.querySelector('#donateForm input[name="name"]')?.value || '';
+        const phone = document.querySelector('#donateForm input[name="phone"]')?.value || '';
+        const cardName = document.getElementById('cardNameInp');
+        const cardPhone = document.getElementById('cardPhoneInp');
+        if (cardName) cardName.value = name;
+        if (cardPhone) cardPhone.value = phone;
+      }
+    }
 
     // 모든 결제수단 목록
     const ALL_PAY_METHODS = ['cms', 'card_regular', 'nicepay', 'vbank', 'card', 'kakaopay', 'transfer'];
