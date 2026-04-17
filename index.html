@@ -1153,25 +1153,16 @@
       background: rgba(255, 255, 255, .18)
     }
 
-    /* Amara card — floating popup style */
+    /* Amara card — popup modal style */
     .amara-card {
       position: relative;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, .99);
-      border-radius: var(--r3);
+      background: #fff;
+      border-radius: 18px;
       overflow: hidden;
-      width: 320px;
-      max-width: 100%;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, .30), 0 8px 24px rgba(0,0,0,.12), 0 0 0 1px rgba(255,255,255,.15);
-      animation: popupFloat .7s .3s ease both;
-      backdrop-filter: blur(12px);
-      z-index: 20;
-      border: 1.5px solid rgba(255,255,255,.2)
-    }
-
-    @keyframes popupFloat {
-      from { opacity: 0; transform: translateY(24px) scale(.96) }
-      to { opacity: 1; transform: translateY(0) scale(1) }
+      width: 340px;
+      max-width: calc(100vw - 40px);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .35), 0 8px 24px rgba(0,0,0,.15);
+      z-index: 20
     }
 
     .ac-img {
@@ -1195,23 +1186,18 @@
       position: absolute;
       top: 12px;
       left: 12px;
-      background: var(--blue);
+      background: #f4516c;
       color: #fff;
       font-size: 10px;
       font-weight: 700;
-      padding: 4px 10px;
+      padding: 5px 12px;
       border-radius: 12px;
-      letter-spacing: .3px;
+      letter-spacing: .5px;
       text-transform: uppercase
     }
 
     .ac-body {
       padding: 18px
-    }
-
-    .ac-flag {
-      font-size: 20px;
-      margin-bottom: 6px
     }
 
     .ac-name {
@@ -1265,20 +1251,20 @@
 
     .ac-cta {
       width: 100%;
-      margin-top: 13px;
-      padding: 11px;
-      background: var(--blue);
+      margin-top: 16px;
+      padding: 13px;
+      background: #f4516c;
       color: #fff;
       border: none;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 700;
-      border-radius: var(--r);
+      border-radius: 24px;
       cursor: pointer;
       transition: var(--ease)
     }
 
     .ac-cta:hover {
-      background: var(--blue2)
+      background: #e03e5a
     }
 
     /* Slide controls */
@@ -5220,26 +5206,7 @@
             <button class="uni-btn-ghost" onclick="goPage('activities')"><span data-i="more">어린이 이야기</span> →</button>
           </div>
         </div>
-        <!-- Amara spotlight card -->
-        <div class="amara-card" id="amaraCard">
-          <button onclick="this.parentNode.style.transition='all .3s ease';this.parentNode.style.opacity='0';this.parentNode.style.transform='scale(.9)';setTimeout(()=>this.parentNode.style.display='none',300)" style="position:absolute;top:8px;right:8px;z-index:30;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,.45);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s" onmouseover="this.style.background='rgba(0,0,0,.7)'" onmouseout="this.style.background='rgba(0,0,0,.45)'">✕</button>
-          <div class="ac-img">
-            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop&q=85"
-              alt="Amara" id="ac-img" />
-            <div class="ac-status waiting-status" data-i="waiting">수술 대기</div>
-          </div>
-          <div class="ac-body">
-            <div class="ac-flag">🇲🇼</div>
-            <div class="ac-name">Amara</div>
-            <div class="ac-meta" id="ac-meta">말라위 · 4세 · 선천성 심장 기형</div>
-            <p class="ac-story" id="ac-story">말라위에는 심장 수술 역량이 전무합니다. 생명의 선물 코리아가 Amara를 한국으로 초청, 수술을 준비하고 있습니다.</p>
-            <div class="ac-prog-row"><span data-i="prog_label">모금 현황</span><strong>$8,400 / $12,000</strong></div>
-            <div class="ac-track">
-              <div class="ac-fill" style="width:70%" id="acFill"></div>
-            </div>
-            <button class="ac-cta" onclick="goPage('donate')"><span data-i="ah_cta1">Amara 후원하기</span></button>
-          </div>
-        </div>
+        <!-- Amara card moved to popup modal below -->
       </div>
       <!-- dots + timer -->
       <div class="uni-dots" id="slideDots"></div>
@@ -6312,7 +6279,7 @@
               <a href="https://www.gilhospital.com/" target="_blank" rel="noopener"
                 style="display:flex;align-items:center;justify-content:center;padding:20px 24px;transition:var(--ease)"
                 onmouseover="this.style.background='var(--blue-lt)'" onmouseout="this.style.background='transparent'">
-                <img src="가천대길병원logo.png" alt="가천대 길병원 Gachon University Gil Medical Center"
+                <img src="가천대길병원logo.svg" alt="가천대 길병원 Gachon University Gil Medical Center"
                   style="max-height:72px;max-width:100%;object-fit:contain" />
               </a>
 
@@ -10591,6 +10558,46 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
       const el = document.getElementById('sbInsta'); if (!el) return;
       el.innerHTML = IG_IMGS.slice(0, 6).map(u => `<a href="https://www.instagram.com/golikorea/" target="_blank" style="aspect-ratio:1;overflow:hidden;display:block;border-radius:3px"><img src="${u}" style="width:100%;height:100%;object-fit:cover" loading="lazy"/></a>`).join('');
     }
+  </script>
+
+  <!-- ═══ AMARA POPUP MODAL ═══ -->
+  <div id="amaraModal" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease">
+    <div class="amara-card" id="amaraCard" style="margin:0;animation:none;transform:scale(.92);transition:transform .35s ease">
+      <button onclick="closeAmaraModal()" style="position:absolute;top:10px;right:10px;z-index:30;width:30px;height:30px;border-radius:50%;border:none;background:rgba(0,0,0,.45);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s" onmouseover="this.style.background='rgba(0,0,0,.7)'" onmouseout="this.style.background='rgba(0,0,0,.45)'">✕</button>
+      <div class="ac-img">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop&q=85"
+          alt="Amara" id="ac-img" />
+        <div class="ac-status waiting-status" data-i="waiting">수술 대기</div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-name">Amara</div>
+        <div class="ac-meta" id="ac-meta">말라위 · 4세 · 선천성 심장 기형</div>
+        <p class="ac-story" id="ac-story">말라위에는 심장 수술 역량이 전무합니다. 생명의 선물 코리아가 Amara를 한국으로 초청, 수술을 준비하고 있습니다.</p>
+        <div class="ac-prog-row"><span data-i="prog_label">모금 현황</span><strong>$8,400 / $12,000</strong></div>
+        <div class="ac-track">
+          <div class="ac-fill" style="width:70%" id="acFill"></div>
+        </div>
+        <button class="ac-cta" onclick="goPage('donate');closeAmaraModal()"><span data-i="ah_cta1">Amara 후원하기</span></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openAmaraModal(){
+      var m=document.getElementById('amaraModal');
+      m.style.visibility='visible';m.style.opacity='1';
+      m.querySelector('.amara-card').style.transform='scale(1)';
+      document.body.style.overflow='hidden';
+    }
+    function closeAmaraModal(){
+      var m=document.getElementById('amaraModal');
+      m.style.opacity='0';m.querySelector('.amara-card').style.transform='scale(.92)';
+      setTimeout(function(){m.style.visibility='hidden';document.body.style.overflow='';},350);
+    }
+    document.getElementById('amaraModal').addEventListener('click',function(e){
+      if(e.target===this) closeAmaraModal();
+    });
+    // 페이지 로드 2초 후 자동으로 팝업 표시
+    setTimeout(function(){ openAmaraModal(); },2000);
   </script>
 </body>
 
