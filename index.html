@@ -1073,22 +1073,19 @@
 
     .uni-hero-h {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: clamp(22px, 3.2vw, 38px);
-      font-weight: 400;
+      font-size: clamp(24px, 3.5vw, 42px);
+      font-weight: 700;
       color: #fff;
-      line-height: 1.35;
+      line-height: 1.3;
       margin-bottom: 20px;
       animation: fadeUp .6s ease both;
-      letter-spacing: -.01em;
+      letter-spacing: -.02em;
       word-break: keep-all
     }
 
     .uni-hero-h .accent {
-      background: linear-gradient(to right, #fecdd3, #fb7185);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 500
+      color: #fff;
+      font-weight: 800
     }
 
     .uni-hero-p {
@@ -3843,22 +3840,21 @@
 
     .chat-win {
       position: fixed;
-      bottom: 158px;
-      right: 20px;
+      top: 0;
+      right: -380px;
       z-index: 620;
       width: 380px;
-      max-height: 540px;
+      height: 100vh;
       background: #fff;
-      border-radius: var(--r2);
-      box-shadow: 0 16px 56px rgba(0, 0, 0, .18);
-      display: none;
+      border-left: 1px solid var(--border);
+      box-shadow: -4px 0 24px rgba(0, 0, 0, .08);
+      display: flex;
       flex-direction: column;
-      overflow: hidden
+      transition: right .3s ease
     }
 
     .chat-win.open {
-      display: flex;
-      animation: fadeIn .2s ease
+      right: 0
     }
 
     .chat-hdr {
@@ -4888,10 +4884,12 @@
       }
 
       .chat-win {
-        width: calc(100vw - 16px);
-        right: 8px;
-        bottom: 148px;
-        max-height: 420px
+        width: 100vw;
+        right: -100vw
+      }
+
+      .chat-win.open {
+        right: 0
       }
 
       .chat-fab {
