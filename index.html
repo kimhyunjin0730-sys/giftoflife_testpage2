@@ -5456,16 +5456,7 @@
     </div>
   </div>
 
-  <!-- 공지 상세 모달 -->
-  <div id="noticeDetailModal"
-    style="display:none;position:fixed;inset:0;z-index:2500;background:rgba(7,26,47,.7);backdrop-filter:blur(8px);align-items:center;justify-content:center">
-    <div
-      style="background:#fff;border-radius:var(--r2);padding:36px;max-width:640px;width:94%;max-height:88vh;overflow-y:auto;box-shadow:var(--sh2);position:relative">
-      <button onclick="closeNoticeDetail()"
-        style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer">✕</button>
-      <div id="noticeDetailInner"></div>
-    </div>
-  </div>
+  <!-- 공지 상세: 페이지 방식으로 전환됨 (모달 제거) -->
 
   <!-- ════ ARTICLE DETAIL PAGE ════ -->
   <div class="page" id="page-article">
@@ -10384,31 +10375,44 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
       const n = allNoticesData[idx];
       if (!n) return;
       n.views = (n.views || 0) + 1;
-      // Supabase 조회수 업데이트 (비동기, 실패해도 무방)
       if (n.id) sb.from('notices').update({ views: n.views }).eq('id', n.id).then(() => { });
       renderNotices();
       renderNoticesTable();
 
-      const inner = document.getElementById('noticeDetailInner');
-      if (!inner) return;
+      // 공지사항 페이지로 이동 후 상세 표시
+      goPage('notices');
+      const wrap = document.querySelector('#page-notices .wrap');
+      if (!wrap) return;
       const nl = { ko: '공지', en: 'Notice', zh: '公告' };
-      inner.innerHTML = `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
-      <span class="nb-tag ${n.isNotice ? 'n' : 'g'}">${n.isNotice ? nl[curLang] : 'G'}</span>
-      ${n.isNew ? '<span class="new-t">NEW</span>' : ''}
+      const backTxt = { ko: '← 목록으로', en: '← Back to list', zh: '← 返回列表' };
+      // 기존 내용 숨기고 상세 표시
+      wrap.dataset.prevHtml = wrap.innerHTML;
+      wrap.innerHTML = `
+    <div style="margin-bottom:24px">
+      <button onclick="closeNoticeDetail()" style="background:none;border:none;color:var(--blue);font-size:14px;font-weight:600;cursor:pointer;padding:0">${backTxt[curLang] || backTxt.ko}</button>
     </div>
-    <h2 style="font-size:20px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.5">${n.title[curLang]}</h2>
-    <div style="display:flex;gap:20px;font-size:12.5px;color:var(--muted);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-      <span>✍️ ${n.author?.[curLang] || ''}</span>
-      <span>📅 ${n.date}</span>
-      <span>👁 ${n.views}</span>
-    </div>
-    <div style="font-size:14.5px;color:var(--text);line-height:2;white-space:pre-wrap">${(n.content?.[curLang]) || '(내용 없음)'}</div>`;
-      const modal = document.getElementById('noticeDetailModal');
-      if (modal) { modal.style.display = 'flex'; }
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:40px;box-shadow:var(--sh)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+        <span class="nb-tag ${n.isNotice ? 'n' : 'g'}">${n.isNotice ? nl[curLang] : 'G'}</span>
+        ${n.isNew ? '<span class="new-t">NEW</span>' : ''}
+      </div>
+      <h2 style="font-size:22px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.5">${n.title[curLang]}</h2>
+      <div style="display:flex;gap:20px;font-size:12.5px;color:var(--muted);margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+        <span>${n.author?.[curLang] || ''}</span>
+        <span>${n.date}</span>
+        <span>${T[curLang]?.tbl_views || '조회'} ${n.views}</span>
+      </div>
+      <div style="font-size:15px;color:var(--text);line-height:2.1;white-space:pre-wrap">${(n.content?.[curLang]) || '(내용 없음)'}</div>
+    </div>`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     function closeNoticeDetail() {
-      const m = document.getElementById('noticeDetailModal'); if (m) m.style.display = 'none';
+      const wrap = document.querySelector('#page-notices .wrap');
+      if (wrap && wrap.dataset.prevHtml) {
+        wrap.innerHTML = wrap.dataset.prevHtml;
+        delete wrap.dataset.prevHtml;
+        renderNoticesTable();
+      }
     }
 
     // ── 공지 작성/수정 모달 ────────────────────────────────────────────
