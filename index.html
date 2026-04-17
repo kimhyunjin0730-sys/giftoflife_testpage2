@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
   <title id="pageTitle">Gift of Life International Korea</title>
   <!-- Plus Jakarta Sans (PPN Neue Montreal 대안) + Libre Bodoni (PPN Editorial New 대안) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -4473,6 +4473,18 @@
       color: var(--text)
     }
 
+    /* ═══ 아이패드 태블릿 (768~1024px) ═══ */
+    @media(min-width:681px) and (max-width:1024px) {
+      .cg, .ng { grid-template-columns: repeat(2, 1fr) !important }
+      .hiw-grid { grid-template-columns: repeat(4,1fr) !important }
+      .testi-grid { grid-template-columns: repeat(2,1fr) !important }
+      .impact-grid { grid-template-columns: repeat(4,1fr) !important }
+      .ft-top { grid-template-columns: 1.5fr 1fr 1fr !important }
+      #page-partners [style*="grid-template-columns:repeat(4"] { grid-template-columns: repeat(3,1fr) !important }
+      .about-stats { grid-template-columns: repeat(3,1fr) !important }
+      .contact-info-grid { grid-template-columns: repeat(2,1fr) !important }
+    }
+
     /* RESPONSIVE */
     @media(max-width:1024px) {
 
@@ -4955,18 +4967,93 @@
         max-width: 100%
       }
 
-      /* 모바일 앱 밀도 */
-      .hiw-grid { grid-template-columns: repeat(2,1fr) !important; gap: 10px !important }
-      .impact-grid { grid-template-columns: repeat(2,1fr) !important }
-      .impact-grid > div:nth-child(2) { border-right: none !important }
-      .testi-grid { grid-template-columns: 1fr !important; gap: 10px !important }
-      #homeHowItWorks, #homeTestimonials { padding: 24px 0 !important }
-      #homeFaq summary { padding: 12px 16px !important; font-size: 13px !important }
-      #homeFaq div[style*="padding:0"] { padding: 0 16px 12px !important; font-size: 13px !important }
+      /* ═══ 모바일 앱 밀도 (iOS/Android 최적화) ═══ */
+
+      /* iOS Safari 폰트 크기 자동확대 방지 */
+      html { -webkit-text-size-adjust: 100% }
+
+      /* iOS safe area (노치/홈인디케이터) */
+      .site-hdr { padding-top: env(safe-area-inset-top, 0) }
+      footer { padding-bottom: env(safe-area-inset-bottom, 0) }
+      .fab-donate, .chat-fab { bottom: calc(22px + env(safe-area-inset-bottom, 0)) }
+      .chat-fab { bottom: calc(84px + env(safe-area-inset-bottom, 0)) }
+
+      /* 전체 간격 압축 */
       .section { padding: 20px 0 !important }
       .wrap { padding-left: 16px !important; padding-right: 16px !important }
-      .sec-ttl { font-size: 22px !important }
-      .ft-top { grid-template-columns: 1fr !important; gap: 20px !important; padding: 28px 16px !important }
+      .sec-ttl { font-size: 20px !important }
+      .sec-sub { font-size: 13px !important }
+      .sec-hd { margin-bottom: 16px !important }
+
+      /* 히어로 모바일 밀도 */
+      .uni-hero-content { padding: 28px 16px 24px !important }
+      .uni-hero-h { font-size: clamp(20px, 5.5vw, 28px) !important; font-weight: 700 !important; margin-bottom: 10px !important }
+      .uni-hero-p { font-size: 13px !important; margin-bottom: 16px !important; line-height: 1.65 !important }
+      .uni-eyebrow { font-size: 10px !important; margin-bottom: 10px !important }
+      .uni-btn-primary, .uni-btn-ghost { padding: 12px 18px !important; font-size: 13.5px !important }
+
+      /* 홈 새 섹션 */
+      .hiw-grid { grid-template-columns: repeat(2,1fr) !important; gap: 8px !important }
+      .hiw-grid > div { padding: 16px 12px !important }
+      .hiw-grid h4 { font-size: 13px !important }
+      .hiw-grid p { font-size: 11.5px !important }
+      .impact-grid { grid-template-columns: repeat(2,1fr) !important }
+      .impact-grid > div { padding: 14px 6px !important }
+      .impact-grid > div:nth-child(2) { border-right: none !important }
+      .impact-grid > div:nth-child(2n) { border-right: none !important }
+      .impact-grid [style*="font-size:30px"] { font-size: 24px !important }
+      .testi-grid { grid-template-columns: 1fr !important; gap: 10px !important }
+      .testi-grid > div { padding: 18px !important }
+      #homeHowItWorks, #homeTestimonials { padding: 20px 0 !important }
+      #homeHowItWorks h2, #homeTestimonials h2 { font-size: 20px !important }
+
+      /* FAQ */
+      #homeFaq summary { padding: 12px 14px !important; font-size: 13px !important }
+      #homeFaq summary span[data-i] { flex: 1 }
+      #homeFaq div[style*="padding:0"] { padding: 0 14px 12px !important; font-size: 12.5px !important }
+      #page-home [style*="font-size:26px"] { font-size: 20px !important }
+
+      /* CTA 배너 모바일 */
+      #page-home [style*="padding:40px 36px"] { padding: 28px 20px !important }
+      #page-home [style*="clamp(26px"] { font-size: 20px !important }
+
+      /* 카드/뉴스 터치 타겟 */
+      .cc, .nc { border-radius: 12px !important }
+      .cc-btn { min-height: 44px; font-size: 13px !important }
+
+      /* 공지사항 테이블 모바일 */
+      .ntbl td, .ntbl th { padding: 10px 8px !important; font-size: 12px !important }
+
+      /* 파트너 로고 그리드 */
+      #page-partners [style*="grid-template-columns:repeat(4"] { grid-template-columns: repeat(2,1fr) !important }
+      #page-partners [style*="grid-template-columns:repeat(3"] { grid-template-columns: 1fr !important; gap: 12px !important }
+
+      /* 후원 페이지 */
+      .donate-box { padding: 20px !important }
+      .amt-btn { min-height: 44px; font-size: 14px !important }
+
+      /* 연락처 */
+      .ci-card { padding: 14px !important }
+
+      /* 푸터 모바일 */
+      .ft-top { grid-template-columns: 1fr !important; gap: 16px !important; padding: 24px 16px !important }
+      .ft-links li a { padding: 6px 0 !important; min-height: 36px; display: flex !important; align-items: center }
+      .ft-sc { width: 36px; height: 36px }
+
+      /* 터치 스크롤 부드럽게 */
+      * { -webkit-overflow-scrolling: touch }
+
+      /* 탭/버튼 최소 터치 영역 44px (iOS HIG) */
+      button, a, .mob-item { min-height: 44px }
+      .mob-item { padding: 14px 20px !important; font-size: 15px !important; border-bottom: 1px solid var(--border) }
+
+      /* 모바일 about 페이지 */
+      .about-tab-btns { gap: 0 !important; overflow-x: auto; -webkit-overflow-scrolling: touch }
+      .about-tab-btns button { white-space: nowrap; padding: 12px 16px !important; font-size: 13px !important }
+
+      /* 한수로타리 박스 모바일 */
+      #page-rotary [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important }
+      #page-rotary [style*="padding:40px"] { padding: 24px 18px !important }
     }
 
     @media(max-width:380px) {
