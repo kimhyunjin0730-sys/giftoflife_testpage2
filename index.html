@@ -20,8 +20,8 @@
     :root {
       --navy: #0f172a;
       --navy2: #1e293b;
-      --blue: #f43b5e;
-      --blue2: #be185d;
+      --blue: #e8728a;
+      --blue2: #d4607a;
       --blue-lt: #fff1f2;
       --blue-mid: #fecdd3;
       --white: #FFFFFF;
@@ -30,7 +30,7 @@
       --border: #e2e8f0;
       --text: #0f172a;
       --muted: #64748b;
-      --gold: #f43b5e;
+      --gold: #e8728a;
       --gold-lt: #fff1f2;
       --red: #dc2626;
       --green: #059669;
@@ -38,10 +38,10 @@
       --r2: 16px;
       --r3: 24px;
       --sh: 0 8px 24px rgba(15, 23, 42, .06), 0 0 0 1px rgba(15, 23, 42, .04);
-      --sh2: 0 12px 40px rgba(244, 63, 94, .10);
+      --sh2: 0 12px 40px rgba(232, 114, 138, .10);
       --ease: .3s cubic-bezier(.4, 0, .2, 1);
       --max: 1152px;
-      --cyan: #f43b5e;
+      --cyan: #e8728a;
       --cyan2: #be185d;
       --rose: 244, 63, 94;
     }
@@ -1186,7 +1186,7 @@
       position: absolute;
       top: 12px;
       left: 12px;
-      background: #f4516c;
+      background: #e8728a;
       color: #fff;
       font-size: 10px;
       font-weight: 700;
@@ -1253,7 +1253,7 @@
       width: 100%;
       margin-top: 16px;
       padding: 13px;
-      background: #f4516c;
+      background: #e8728a;
       color: #fff;
       border: none;
       font-size: 14px;
@@ -1264,7 +1264,7 @@
     }
 
     .ac-cta:hover {
-      background: #e03e5a
+      background: #d4607a
     }
 
     /* Slide controls */
@@ -4210,7 +4210,7 @@
 
     /* FOOTER — figma/: slate-900 */
     footer {
-      background: #0f172a
+      background: #f1f5f9
     }
 
     .ft-top {
@@ -4220,16 +4220,16 @@
       display: grid;
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
       gap: 36px;
-      border-bottom: 1px solid rgba(255, 255, 255, .05)
+      border-bottom: 1px solid #e2e8f0
     }
 
     .ft-ttl {
-      color: rgba(255, 255, 255, .7);
+      color: #64748b;
       font-weight: 700;
       font-size: 11px;
       margin-bottom: 16px;
       padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      border-bottom: 1px solid #e2e8f0;
       letter-spacing: .3px;
       text-transform: uppercase
     }
@@ -4242,7 +4242,7 @@
     }
 
     .ft-logo-txt {
-      color: #fff;
+      color: var(--navy);
       font-family: 'Libre Bodoni', serif;
       font-size: 18px;
       font-weight: 700
@@ -4254,7 +4254,7 @@
     }
 
     .ft-desc {
-      color: rgba(255, 255, 255, .82);
+      color: #475569;
       font-size: 12.5px;
       line-height: 1.95;
       font-style: italic;
@@ -4262,7 +4262,7 @@
     }
 
     .ft-ct {
-      color: rgba(255, 255, 255, .74);
+      color: #64748b;
       font-size: 12.5px;
       line-height: 2.3;
       margin-top: 14px
@@ -4273,7 +4273,7 @@
     }
 
     .ft-links li a {
-      color: rgba(255, 255, 255, .78);
+      color: #475569;
       font-size: 13px;
       display: block;
       padding: 3px 0;
@@ -4281,7 +4281,7 @@
     }
 
     .ft-links li a:hover {
-      color: #fff;
+      color: var(--navy);
       padding-left: 5px
     }
 
@@ -4300,7 +4300,7 @@
     .ft-sc {
       width: 40px;
       height: 40px;
-      background: rgba(255, 255, 255, .06);
+      background: #e2e8f0;
       border-radius: 9999px;
       display: flex;
       align-items: center;
@@ -4312,7 +4312,7 @@
     }
 
     .ft-sc:hover {
-      background: #f43b5e
+      background: #e8728a
     }
 
     .ft-bot {
@@ -4325,7 +4325,7 @@
     }
 
     .ft-bot .cp {
-      color: rgba(255, 255, 255, .62);
+      color: #94a3b8;
       font-size: 12px
     }
 
@@ -5806,94 +5806,94 @@
 
           <!-- 통계 대형 배너 -->
           <div
-            style="background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:var(--r2);padding:44px 36px;margin-bottom:36px">
-            <h3 style="font-family:'Libre Bodoni',serif;font-size:26px;color:#fff;text-align:center;margin-bottom:10px">
+            style="background:#f1f5f9;border:1px solid var(--border);border-radius:var(--r2);padding:44px 36px;margin-bottom:36px">
+            <h3 style="font-family:'Libre Bodoni',serif;font-size:26px;color:var(--navy);text-align:center;margin-bottom:10px">
               우리의 발전</h3>
-            <p style="color:rgba(255,255,255,.6);text-align:center;margin-bottom:36px;font-size:14px">44년 동안 심장 질환을 앓고
+            <p style="color:var(--muted);text-align:center;margin-bottom:36px;font-size:14px">44년 동안 심장 질환을 앓고
               있는 아이들에게 희망과 전 세계 아이들 심장을 치유하고 있습니다.</p>
             <div
-              style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden">
+              style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
 
               <!-- 열 1 -->
-              <div style="padding:28px 20px;border-right:1px solid rgba(255,255,255,.1)">
+              <div style="padding:28px 20px;border-right:1px solid var(--border)">
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:30px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     1,310,000명</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">매년 선천적으로 심장병을 가지고 태어나는 어린이 수
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">매년 선천적으로 심장병을 가지고 태어나는 어린이 수
                   </p>
                 </div>
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     2009</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">Gift of Life International이 개발
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">Gift of Life International이 개발
                     도상국 초점 소아 심장 프로그램을 시작한 해</p>
                 </div>
                 <div style="text-align:center">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     3,000 이상</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">매년 Gift of Life를 통해 세계적으로 치료받는
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">매년 Gift of Life를 통해 세계적으로 치료받는
                     아이들 수</p>
                 </div>
               </div>
 
               <!-- 열 2 -->
-              <div style="padding:28px 20px;border-right:1px solid rgba(255,255,255,.1)">
+              <div style="padding:28px 20px;border-right:1px solid var(--border)">
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     1975년</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">첫 번째 아이가 치료를 받은 해</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">첫 번째 아이가 치료를 받은 해</p>
                 </div>
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     33,000 이상</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">5대륙 81개국에서 치료받은 아이들</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">5대륙 81개국에서 치료받은 아이들</p>
                 </div>
                 <div style="text-align:center">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     10,000</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">2008년에 치료받은 10,000번째 아이</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">2008년에 치료받은 10,000번째 아이</p>
                 </div>
               </div>
 
               <!-- 열 3 -->
               <div style="padding:28px 20px">
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     93%</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">제대로 된 치료가 불가능한 국가에서 태어나는 소아
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">제대로 된 치료가 불가능한 국가에서 태어나는 소아
                     심장질환 아이들 비율</p>
                 </div>
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     274</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">로타리 클럽</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">로타리 클럽</p>
                 </div>
                 <div
-                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  style="text-align:center;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--border)">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     61</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">로타리 지구</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">로타리 지구</p>
                 </div>
                 <div style="text-align:center">
                   <div
                     style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px">
                     84</div>
-                  <p style="color:rgba(255,255,255,.6);font-size:12.5px;line-height:1.6">자주적인 Gift of Life 프로그램</p>
+                  <p style="color:var(--muted);font-size:12.5px;line-height:1.6">자주적인 Gift of Life 프로그램</p>
                 </div>
               </div>
 
@@ -6401,42 +6401,42 @@
 
         <!-- 한수로타리 위성클럽 소개 -->
         <div
-          style="background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:var(--r2);padding:40px;margin-bottom:32px">
+          style="background:#f1f5f9;border:1px solid var(--border);border-radius:var(--r2);padding:40px;margin-bottom:32px">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
             <div style="width:4px;height:32px;background:#F7A823;border-radius:2px;flex-shrink:0"></div>
-            <h2 style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:#fff"
+            <h2 style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:var(--navy)"
               data-i="rotary_club_h">한수로타리 위성클럽</h2>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
             <div>
-              <p style="font-size:14.5px;color:rgba(255,255,255,.82);line-height:2;margin-bottom:16px"
+              <p style="font-size:14.5px;color:var(--text);line-height:2;margin-bottom:16px"
                 data-i="rotary_club_p1">한수로타리 위성클럽은 로타리 125년 역사상 최초로 설립된 국경 없는 글로벌 온라인 위성클럽입니다. 전 세계 어디서나 참여할 수 있으며, 한국을
                 기반으로 전 세계 회원들이 함께 선천성 심장병 어린이 구호 활동을 펼치고 있습니다.</p>
-              <p style="font-size:14.5px;color:rgba(255,255,255,.82);line-height:2" data-i="rotary_club_p2">2026년 6월 공식
+              <p style="font-size:14.5px;color:var(--text);line-height:2" data-i="rotary_club_p2">2026년 6월 공식
                 발족을 목표로 하며, 3,000명 이상의 세계 시민이 함께하는 심장병 구호 네트워크 구축을 비전으로 합니다.</p>
             </div>
             <div style="display:flex;flex-direction:column;gap:16px">
               <div
-                style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:18px">
+                style="background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)">
                 <div
-                  style="font-size:11px;font-weight:700;color:#F7A823;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
+                  style="font-size:11px;font-weight:700;color:#d97706;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
                   data-i="rotary_founded">설립 연도</div>
-                <div style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:#fff">2026</div>
+                <div style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:var(--navy)">2026</div>
               </div>
               <div
-                style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:18px">
+                style="background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)">
                 <div
-                  style="font-size:11px;font-weight:700;color:#F7A823;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
+                  style="font-size:11px;font-weight:700;color:#d97706;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
                   data-i="rotary_feature">특징</div>
-                <div style="font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.6" data-i="rotary_feature_txt">
+                <div style="font-size:13.5px;color:var(--text);line-height:1.6" data-i="rotary_feature_txt">
                   로타리 최초 글로벌 온라인 위성클럽</div>
               </div>
               <div
-                style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:18px">
+                style="background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--sh)">
                 <div
-                  style="font-size:11px;font-weight:700;color:#F7A823;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
+                  style="font-size:11px;font-weight:700;color:#d97706;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px"
                   data-i="rotary_goal_label">목표</div>
-                <div style="font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.6" data-i="rotary_goal_txt">
+                <div style="font-size:13.5px;color:var(--text);line-height:1.6" data-i="rotary_goal_txt">
                   3,000명+ 회원 네트워크 구축</div>
               </div>
             </div>
