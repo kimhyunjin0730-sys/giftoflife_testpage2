@@ -6387,10 +6387,15 @@
 
               <!-- 서울대학교병원 -->
               <a href="https://www.snuh.org/main.do" target="_blank" rel="noopener"
-                style="display:flex;align-items:center;justify-content:center;padding:20px 24px;border-right:1px solid var(--border);transition:var(--ease)"
+                style="display:flex;align-items:center;justify-content:center;padding:20px 24px;border-right:1px solid var(--border);transition:var(--ease);text-decoration:none"
                 onmouseover="this.style.background='var(--blue-lt)'" onmouseout="this.style.background='transparent'">
-                <img src="서울대학병원_logo.png" alt="서울대학교병원 SNUH"
-                  style="max-height:72px;max-width:100%;object-fit:contain" />
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-family:'Arial Black',Arial,sans-serif;font-size:28px;font-weight:900;color:#003876;letter-spacing:-1px">SNUH</span>
+                  <div style="display:flex;flex-direction:column;gap:0">
+                    <span style="font-size:14px;font-weight:800;color:#003876;letter-spacing:1px">서울대학교병원</span>
+                    <span style="font-size:8px;color:#003876;letter-spacing:.5px;opacity:.7">SEOUL NATIONAL UNIVERSITY HOSPITAL</span>
+                  </div>
+                </div>
               </a>
 
               <!-- 가천대 길병원 -->
@@ -8618,8 +8623,10 @@
       const mapIframe = document.getElementById('contactMapIframe');
       if (mapIframe) {
         const mapLang = lang === 'zh' ? 'zh-CN' : lang;
+        const mapRegion = lang === 'ko' ? 'kr' : lang === 'zh' ? 'cn' : 'us';
         const oldSrc = mapIframe.getAttribute('src');
-        const newSrc = oldSrc.replace(/!5m2!1s[a-z-]+!2s[a-z]+/, '!5m2!1s' + mapLang + '!2s' + (lang === 'ko' ? 'kr' : lang === 'zh' ? 'cn' : 'us'));
+        const newSrc = oldSrc.replace(/!5m2!1s[a-zA-Z-]+!2s[a-zA-Z]+/g, '!5m2!1s' + mapLang + '!2s' + mapRegion)
+                             .replace(/!3m2!1s[a-zA-Z-]+!2s[a-zA-Z]+/g, '!3m2!1s' + mapLang + '!2s' + mapRegion);
         if (oldSrc !== newSrc) mapIframe.setAttribute('src', newSrc);
       }
 
