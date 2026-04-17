@@ -9032,7 +9032,7 @@
         } catch (apiErr) {
           console.warn('US checkout api failed:', apiErr.message);
           alert(curLang === 'ko' ? '미국 결제 API 연결에 실패했습니다. 관리자에게 문의해 주세요.' : 'US payment API connection failed. Please contact support.');
-          btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+          btn.innerHTML = T[curLang].submit_btn || '후원하기';
           btn.disabled = false;
           return;
         }
@@ -9099,7 +9099,7 @@
                 lang: curLang,
               }]);
             } catch (dbErr) { console.warn('DB insert error', dbErr); }
-            btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+            btn.innerHTML = T[curLang].submit_btn || '후원하기';
             btn.disabled = false;
             const msg = payMethod === 'vbank'
               ? '가상계좌가 발급되었습니다.\n' + rsp.vbank_name + ' ' + rsp.vbank_num + '\n입금 기한: ' + rsp.vbank_date
@@ -9109,7 +9109,7 @@
             e.target.reset(); setDonateType(donateType); setDonorType('personal');
             if (currentUser?.email) loadMyDonations(currentUser.email);
           } else {
-            btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+            btn.innerHTML = T[curLang].submit_btn || '후원하기';
             btn.disabled = false;
             // error_code F0000 = 사용자 취소 (alert 불필요)
             if (rsp.error_code !== 'F0000') {
@@ -9160,14 +9160,14 @@
                 lang: curLang,
               }]);
             } catch (dbErr) { console.warn('DB error', dbErr); }
-            btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+            btn.innerHTML = T[curLang].submit_btn || '후원하기';
             btn.disabled = false;
             document.getElementById('okBody').textContent = '카드 등록이 완료되었습니다. 매월 지정 금액이 자동 결제됩니다.';
             document.getElementById('okMod').classList.add('open');
             e.target.reset(); setDonateType(donateType); setDonorType('personal');
             if (currentUser?.email) loadMyDonations(currentUser.email);
           } else {
-            btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+            btn.innerHTML = T[curLang].submit_btn || '후원하기';
             btn.disabled = false;
             if (rsp.error_code !== 'F0000') {
               alert('카드 등록 실패: ' + (rsp.error_msg || '알 수 없는 오류'));
@@ -9201,7 +9201,7 @@
         try { await sb.from('donations').insert([payload]); }
         catch (e) { console.warn('DB error', e); }
         await new Promise(r => setTimeout(r, 400));
-        btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+        btn.innerHTML = T[curLang].submit_btn || '후원하기';
         btn.disabled = false;
         document.getElementById('okBody').textContent = T[curLang].ok_body || '후원 신청서가 접수되었습니다.';
         document.getElementById('okMod').classList.add('open');
@@ -9253,7 +9253,7 @@
       } catch (e) { console.warn('Resend mail error', e); }
 
       await new Promise(r => setTimeout(r, 400));
-      btn.innerHTML = '' + (T[curLang].submit_btn || '후원하기');
+      btn.innerHTML = T[curLang].submit_btn || '후원하기';
       btn.disabled = false;
       document.getElementById('okBody').textContent = T[curLang].ok_body || '후원 신청서가 접수되었습니다.';
       document.getElementById('okMod').classList.add('open');
@@ -10335,16 +10335,23 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
        RENDER
     ══════════════════════════════════════ */
     function renderAll() {
-      updateSlideText();
-      updateHeroText(curSlide || 0);
-      renderKids('homeKids', 3); renderKids('actKids', KIDS.length);
-      renderNews('homeNews', 3);
-      if (document.getElementById('page-news').classList.contains('active')) renderNewsPage();
-      renderNotices(); renderEvents(); renderTimeline(); renderOfficers();
-      renderChatChips(); renderTicker(); renderSbInsta();
-      updateCurrency();
-      renderAboutLang();
+      try { updateSlideText(); } catch(e){}
+      try { updateHeroText(curSlide || 0); } catch(e){}
+      try { renderKids('homeKids', 3); renderKids('actKids', KIDS.length); } catch(e){ console.warn('renderKids error:', e); }
+      try { renderNews('homeNews', 3); } catch(e){ console.warn('renderNews error:', e); }
+      try { if (document.getElementById('page-news')?.classList.contains('active')) renderNewsPage(); } catch(e){}
+      try { renderNotices(); } catch(e){}
+      try { renderEvents(); } catch(e){}
+      try { renderTimeline(); } catch(e){}
+      try { renderOfficers(); } catch(e){}
+      try { renderChatChips(); } catch(e){}
+      try { renderTicker(); } catch(e){}
+      try { renderSbInsta(); } catch(e){}
+      try { updateCurrency(); } catch(e){}
+      try { renderAboutLang(); } catch(e){}
     }
+    // 안전장치: 페이지 완전 로드 후 렌더링 재실행
+    window.addEventListener('load', function() { setTimeout(renderAll, 500); });
 
     function renderAboutLang() {
       const t = T[curLang];
