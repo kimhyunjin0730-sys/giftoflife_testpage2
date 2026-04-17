@@ -2768,23 +2768,25 @@
     }
 
     .about-stat {
-      background: linear-gradient(135deg, var(--navy), var(--navy2));
+      background: #fff;
+      border: 1px solid var(--border);
       border-radius: var(--r2);
       padding: 22px;
-      text-align: center
+      text-align: center;
+      box-shadow: var(--sh)
     }
 
     .as-v {
       font-family: 'Libre Bodoni', serif;
       font-size: clamp(22px, 3vw, 32px);
       font-weight: 700;
-      color: var(--gold);
+      color: var(--blue);
       display: block;
       line-height: 1
     }
 
     .as-l {
-      color: rgba(255, 255, 255, .5);
+      color: var(--muted);
       font-size: 12px;
       display: block;
       margin-top: 6px
@@ -5660,31 +5662,28 @@
         </div>
       </div>
 
-      <!-- ② BLUE IMAGE + GOL NETWORK DESCRIPTION -->
-      <div style="background:var(--navy2);padding:56px 0">
+      <!-- ② GOL NETWORK DESCRIPTION -->
+      <div style="background:#f1f5f9;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:56px 0">
         <div class="wrap" style="max-width:1100px">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center">
             <div
-              style="position:relative;border-radius:var(--r2);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4)">
+              style="position:relative;border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
               <img src="소개-이미지블루.png" style="width:100%;display:block;border-radius:var(--r2)" alt="Gift of Life" />
               <div
-                style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,86,255,.3),rgba(7,26,47,.2));border-radius:var(--r2)">
-              </div>
-              <div
-                style="position:absolute;bottom:18px;left:18px;right:18px;background:rgba(7,26,47,.88);backdrop-filter:blur(8px);border-radius:var(--r);padding:13px 18px;border:1px solid rgba(255,255,255,.1)">
-                <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.6;margin:0" data-i="ab_network_badge">5개 대륙 · 81개 국가 · 84개 자율 프로그램</p>
+                style="position:absolute;bottom:18px;left:18px;right:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:var(--r);padding:13px 18px;border:1px solid var(--border)">
+                <p style="font-size:12.5px;color:var(--navy);line-height:1.6;margin:0;font-weight:600" data-i="ab_network_badge">5개 대륙 · 81개 국가 · 84개 자율 프로그램</p>
               </div>
             </div>
             <div>
               <div
-                style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:13px">
+                style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:13px">
                 Gift of Life International</div>
               <h2
-                style="font-family:'Libre Bodoni',serif;font-size:clamp(20px,2.6vw,30px);font-weight:700;color:#fff;line-height:1.35;margin-bottom:18px">
+                style="font-family:'Libre Bodoni',serif;font-size:clamp(20px,2.6vw,30px);font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:18px">
                 전 세계 네트워크로<br>소아 심장 치료를 돕습니다</h2>
-              <p style="font-size:14.5px;color:rgba(255,255,255,.72);line-height:2;margin-bottom:18px">Gift of Life는 5개
+              <p style="font-size:14.5px;color:var(--text);line-height:2;margin-bottom:18px">Gift of Life는 5개
                 대륙 81개 국가들에 포함되어 있는 84개 자율적 Gift of Life 프로그램들, 로타리 클럽과 비슷한 성향을 가진 단체들의 후원으로 지속적인 소아 심장 치료를 돕고 있습니다.</p>
-              <p style="font-size:14.5px;color:rgba(255,255,255,.72);line-height:2">수술 전 진단 및 수술 후 관리 프로그램들로 아이들과 가족들의
+              <p style="font-size:14.5px;color:var(--text);line-height:2">수술 전 진단 및 수술 후 관리 프로그램들로 아이들과 가족들의
                 삶을 전환하고 있습니다.</p>
             </div>
           </div>
