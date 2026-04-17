@@ -4954,6 +4954,14 @@
       .ap-nav-btn {
         max-width: 100%
       }
+
+      #page-home [style*="grid-template-columns:repeat(4"] {
+        grid-template-columns: repeat(2, 1fr) !important
+      }
+
+      #page-home [style*="grid-template-columns:repeat(3"] {
+        grid-template-columns: 1fr !important
+      }
     }
 
     @media(max-width:380px) {
@@ -5311,31 +5319,166 @@
     <div style="background:#fff;padding:32px 0">
       <div class="wrap">
         <div
-          style="background:linear-gradient(135deg,#f43b5e,#be185d);border-radius:var(--r3);padding:40px 36px;text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(244,63,94,.2)">
-          <div
-            style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22><rect width=%224%22 height=%224%22 fill=%22rgba(255,255,255,0.05)%22/><rect width=%221%22 height=%221%22 fill=%22rgba(255,255,255,0.05)%22/></svg>');opacity:.5">
-          </div>
+          style="background:linear-gradient(135deg,#f2a0b0,#e8728a);border-radius:var(--r3);padding:40px 36px;text-align:center;color:#fff;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(232,114,138,.15)">
           <div style="position:relative;z-index:1">
-            <div
-              style="width:80px;height:80px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:var(--r2);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 28px">
-              ❤️</div>
             <h2
-              style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.2;word-break:keep-all">
+              style="font-size:clamp(26px,3.5vw,42px);font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.3;word-break:keep-all">
               여러분의 참여로<br>누군가의 내일이 시작됩니다</h2>
             <p
-              style="font-size:17px;color:rgba(255,255,255,.8);max-width:560px;margin:0 auto 36px;line-height:1.8;font-weight:300">
+              style="font-size:16px;color:rgba(255,255,255,.85);max-width:560px;margin:0 auto 32px;line-height:1.8;font-weight:300">
               작은 후원이 모여 선천성 심장병 어린이에게 새로운 생명을 선물합니다. 가장 아름다운 선물, '생명'을 나누어 주세요.</p>
             <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
               <button onclick="goPage('donate')"
-                style="padding:16px 40px;background:#fff;color:#f43b5e;border:none;border-radius:9999px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.12);transition:all .3s ease"
+                style="padding:14px 36px;background:#fff;color:#d4607a;border:none;border-radius:9999px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.08);transition:all .3s ease"
                 onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'"
                 data-i="monthly">정기 후원하기</button>
               <button onclick="goPage('donate')"
-                style="padding:16px 40px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:9999px;font-size:16px;font-weight:600;cursor:pointer;transition:all .3s ease"
-                onmouseover="this.style.background='rgba(255,255,255,.25)'"
-                onmouseout="this.style.background='rgba(255,255,255,.15)'" data-i="once">일시 후원하기</button>
+                style="padding:14px 36px;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:9999px;font-size:15px;font-weight:600;cursor:pointer;transition:all .3s ease"
+                onmouseover="this.style.background='rgba(255,255,255,.3)'"
+                onmouseout="this.style.background='rgba(255,255,255,.2)'" data-i="once">일시 후원하기</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 후원 과정 안내 ═══ -->
+    <div style="background:#fff;padding:48px 0">
+      <div class="wrap">
+        <div style="text-align:center;margin-bottom:36px">
+          <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px">
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+            HOW IT WORKS
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+          </div>
+          <h2 style="font-family:'Libre Bodoni',serif;font-size:30px;font-weight:700;color:var(--navy)">후원이 생명이 되기까지</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+          <div style="text-align:center;padding:28px 20px;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border);position:relative">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 16px;font-weight:700;color:#d4607a">1</div>
+            <h4 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">후원 신청</h4>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7">정기 또는 일시 후원을<br>간편하게 신청합니다</p>
+          </div>
+          <div style="text-align:center;padding:28px 20px;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border)">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 16px;font-weight:700;color:#d4607a">2</div>
+            <h4 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">아동 선정</h4>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7">수술이 시급한 아이를<br>의료팀이 선정합니다</p>
+          </div>
+          <div style="text-align:center;padding:28px 20px;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border)">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 16px;font-weight:700;color:#d4607a">3</div>
+            <h4 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">심장 수술</h4>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7">파트너 병원에서<br>전문의가 수술합니다</p>
+          </div>
+          <div style="text-align:center;padding:28px 20px;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border)">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 16px;font-weight:700;color:#d4607a">4</div>
+            <h4 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">건강한 미래</h4>
+            <p style="font-size:13px;color:var(--muted);line-height:1.7">회복 후 건강한 삶을<br>되찾습니다</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 임팩트 숫자 하이라이트 ═══ -->
+    <div style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px 0">
+      <div class="wrap">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;text-align:center">
+          <div style="padding:20px;border-right:1px solid var(--border)">
+            <div style="font-family:'Libre Bodoni',serif;font-size:36px;font-weight:700;color:var(--blue);margin-bottom:6px">50</div>
+            <div style="font-size:13px;color:var(--muted);font-weight:500">년의 역사</div>
+          </div>
+          <div style="padding:20px;border-right:1px solid var(--border)">
+            <div style="font-family:'Libre Bodoni',serif;font-size:36px;font-weight:700;color:var(--blue);margin-bottom:6px">33,000+</div>
+            <div style="font-size:13px;color:var(--muted);font-weight:500">치료받은 아이들</div>
+          </div>
+          <div style="padding:20px;border-right:1px solid var(--border)">
+            <div style="font-family:'Libre Bodoni',serif;font-size:36px;font-weight:700;color:var(--blue);margin-bottom:6px">81</div>
+            <div style="font-size:13px;color:var(--muted);font-weight:500">개국 활동</div>
+          </div>
+          <div style="padding:20px">
+            <div style="font-family:'Libre Bodoni',serif;font-size:36px;font-weight:700;color:var(--blue);margin-bottom:6px">97%</div>
+            <div style="font-size:13px;color:var(--muted);font-weight:500">수술 성공률</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 후원자 한마디 ═══ -->
+    <div style="background:#fff;padding:48px 0">
+      <div class="wrap">
+        <div style="text-align:center;margin-bottom:36px">
+          <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px">
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+            TESTIMONIALS
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+          </div>
+          <h2 style="font-family:'Libre Bodoni',serif;font-size:30px;font-weight:700;color:var(--navy)">후원자 이야기</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:28px;position:relative">
+            <div style="font-size:32px;color:var(--blue);opacity:.3;font-family:Georgia,serif;line-height:1;margin-bottom:12px">"</div>
+            <p style="font-size:14px;color:var(--text);line-height:1.85;margin-bottom:18px">매달 커피 한 잔 값으로 아이의 심장을 고칠 수 있다는 걸 알고 망설임 없이 시작했습니다. 작은 금액이지만 큰 변화를 만들 수 있어 감사합니다.</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;background:linear-gradient(135deg,#e8728a,#f2a0b0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700">김</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">김서연</div>
+                <div style="font-size:11px;color:var(--muted)">정기 후원 2년차</div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:28px;position:relative">
+            <div style="font-size:32px;color:var(--blue);opacity:.3;font-family:Georgia,serif;line-height:1;margin-bottom:12px">"</div>
+            <p style="font-size:14px;color:var(--text);line-height:1.85;margin-bottom:18px">수술 후 건강해진 아이의 사진을 받았을 때의 감동은 말로 표현할 수 없었습니다. 생명을 선물한다는 것이 이런 의미인지 깨달았습니다.</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;background:linear-gradient(135deg,#e8728a,#f2a0b0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700">박</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">박지훈</div>
+                <div style="font-size:11px;color:var(--muted)">일시 후원자</div>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:28px;position:relative">
+            <div style="font-size:32px;color:var(--blue);opacity:.3;font-family:Georgia,serif;line-height:1;margin-bottom:12px">"</div>
+            <p style="font-size:14px;color:var(--text);line-height:1.85;margin-bottom:18px">회사 동료들과 함께 단체 후원을 시작했는데, 팀빌딩에도 큰 도움이 되었습니다. 의미 있는 일을 함께 한다는 자부심이 생겼습니다.</p>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:36px;height:36px;background:linear-gradient(135deg,#e8728a,#f2a0b0);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700">이</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--navy)">이하은</div>
+                <div style="font-size:11px;color:var(--muted)">기업 파트너</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FAQ 간략 ═══ -->
+    <div style="background:var(--bg2);border-top:1px solid var(--border);padding:48px 0">
+      <div class="wrap">
+        <div style="text-align:center;margin-bottom:36px">
+          <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px">
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+            FAQ
+            <span style="width:32px;height:2px;background:rgba(232,114,138,.3);border-radius:9px"></span>
+          </div>
+          <h2 style="font-family:'Libre Bodoni',serif;font-size:30px;font-weight:700;color:var(--navy)">자주 묻는 질문</h2>
+        </div>
+        <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px" id="homeFaq">
+          <details style="background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+            <summary style="padding:18px 24px;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">후원금은 어떻게 사용되나요?<span style="color:var(--muted);font-size:18px;transition:transform .2s">+</span></summary>
+            <div style="padding:0 24px 18px;font-size:14px;color:var(--text);line-height:1.9">후원금의 95% 이상이 소아 심장 수술비, 항공료, 체류비 등 아동 치료에 직접 사용됩니다. 나머지는 운영비로 사용되며, 연간 사용 내역을 투명하게 공개합니다.</div>
+          </details>
+          <details style="background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+            <summary style="padding:18px 24px;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">정기 후원은 언제든 해지할 수 있나요?<span style="color:var(--muted);font-size:18px;transition:transform .2s">+</span></summary>
+            <div style="padding:0 24px 18px;font-size:14px;color:var(--text);line-height:1.9">네, 정기 후원은 언제든지 자유롭게 중단하거나 금액을 변경하실 수 있습니다. 마이페이지에서 직접 관리하시거나 문의하시면 즉시 처리해 드립니다.</div>
+          </details>
+          <details style="background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+            <summary style="padding:18px 24px;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">기부금 영수증이 발급되나요?<span style="color:var(--muted);font-size:18px;transition:transform .2s">+</span></summary>
+            <div style="padding:0 24px 18px;font-size:14px;color:var(--text);line-height:1.9">네, 기프트오브라이프 코리아는 공익법인으로 지정되어 있어 연말정산 시 기부금 세액공제를 받으실 수 있습니다. 기부금 영수증은 매년 1월에 발급됩니다.</div>
+          </details>
+          <details style="background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
+            <summary style="padding:18px 24px;font-size:15px;font-weight:600;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">수술 한 건에 비용이 얼마나 드나요?<span style="color:var(--muted);font-size:18px;transition:transform .2s">+</span></summary>
+            <div style="padding:0 24px 18px;font-size:14px;color:var(--text);line-height:1.9">아동 한 명의 심장 수술에 약 $12,000(약 1,500만원)이 필요합니다. 이 비용에는 수술비, 항공료, 숙박비, 사후관리 등이 포함됩니다.</div>
+          </details>
         </div>
       </div>
     </div>
