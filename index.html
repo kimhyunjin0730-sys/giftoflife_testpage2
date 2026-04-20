@@ -10379,6 +10379,119 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
       if (next >= 0 && next < allNews.length) openArticle(next);
     }
 
+    /* ══════════════════════════════════════
+       FAQ 네비게이터 (챗봇 교체)
+    ══════════════════════════════════════ */
+    let faqStep = 'categories';      // 'categories' | 'questions' | 'answer'
+    let faqCurrentCategory = null;   // category id
+    let faqCurrentQuestion = null;   // question id
+
+    function renderFaq() {
+      const body = document.getElementById('faqBody');
+      if (!body) return;
+      const L = curLang || 'ko';
+
+      const titleEl = document.getElementById('faqTitle');
+      if (titleEl) titleEl.textContent = FAQ_DATA.ui.title[L] || FAQ_DATA.ui.title.ko;
+      const backBtn = document.getElementById('faqBack');
+      if (backBtn) backBtn.style.display = (faqStep === 'categories') ? 'none' : 'inline-flex';
+      if (backBtn) backBtn.textContent = FAQ_DATA.ui.back[L] || FAQ_DATA.ui.back.ko;
+
+      if (faqStep === 'categories') {
+        const welcome = FAQ_DATA.ui.welcome[L] || FAQ_DATA.ui.welcome.ko;
+        const btns = FAQ_DATA.categories.map(c => {
+          const label = c.label[L] || c.label.ko;
+          return `<button class="faq-item" onclick="faqOpenCategory('${c.id}')"><span class="faq-icon">${c.icon}</span><span class="faq-item-label">${label}</span><span class="faq-item-arrow">›</span></button>`;
+        }).join('');
+        body.innerHTML = `<div class="faq-welcome">${welcome}</div>${btns}`;
+        body.scrollTop = 0;
+        return;
+      }
+
+      if (faqStep === 'questions') {
+        const cat = FAQ_DATA.categories.find(c => c.id === faqCurrentCategory);
+        if (!cat) { faqStep = 'categories'; renderFaq(); return; }
+        const catLabel = cat.label[L] || cat.label.ko;
+        const btns = cat.questions.map(qid => {
+          const q = FAQ_DATA.questions[qid];
+          if (!q) return '';
+          const label = q.label[L] || q.label.ko;
+          return `<button class="faq-item" onclick="faqOpenQuestion('${qid}')"><span class="faq-item-label">${label}</span><span class="faq-item-arrow">›</span></button>`;
+        }).join('');
+        body.innerHTML = `<div class="faq-category-label">${cat.icon} ${catLabel}</div>${btns}`;
+        body.scrollTop = 0;
+        return;
+      }
+
+      if (faqStep === 'answer') {
+        const q = FAQ_DATA.questions[faqCurrentQuestion];
+        if (!q) { faqStep = 'categories'; renderFaq(); return; }
+        const answer = q.answer[L] || q.answer.ko;
+        const ctaLabel = q.cta.label[L] || q.cta.label.ko;
+        const hint = FAQ_DATA.ui.answerHint[L] || FAQ_DATA.ui.answerHint.ko;
+        body.innerHTML = `<div class="faq-answer">${answer}</div><button class="faq-cta" onclick="faqDoCta('${faqCurrentQuestion}')">${ctaLabel}</button><div class="faq-answer-hint">${hint}</div>`;
+        body.scrollTop = 0;
+        return;
+      }
+    }
+
+    function faqOpenCategory(id) {
+      const cat = FAQ_DATA.categories.find(c => c.id === id);
+      if (!cat) return;
+      faqCurrentCategory = id;
+      if (cat.questions.length === 1) {
+        faqCurrentQuestion = cat.questions[0];
+        faqStep = 'answer';
+      } else {
+        faqStep = 'questions';
+      }
+      renderFaq();
+    }
+
+    function faqOpenQuestion(qid) {
+      if (!FAQ_DATA.questions[qid]) return;
+      faqCurrentQuestion = qid;
+      faqStep = 'answer';
+      renderFaq();
+    }
+
+    function faqGoBack() {
+      if (faqStep === 'answer') {
+        const cat = FAQ_DATA.categories.find(c => c.id === faqCurrentCategory);
+        if (cat && cat.questions.length === 1) {
+          faqStep = 'categories';
+          faqCurrentCategory = null;
+          faqCurrentQuestion = null;
+        } else {
+          faqStep = 'questions';
+          faqCurrentQuestion = null;
+        }
+      } else if (faqStep === 'questions') {
+        faqStep = 'categories';
+        faqCurrentCategory = null;
+      }
+      renderFaq();
+    }
+
+    function faqDoCta(qid) {
+      const q = FAQ_DATA.questions[qid];
+      if (!q || !q.cta) return;
+      const action = q.cta.action;
+      const target = q.cta.target;
+      try { if (typeof toggleChat === 'function' && chatOpen) toggleChat(); } catch(e){}
+      if (action === 'page' && target && typeof goPage === 'function') {
+        goPage(target);
+      } else if (action === 'login' && typeof openLogin === 'function') {
+        openLogin();
+      }
+    }
+
+    function faqReset() {
+      faqStep = 'categories';
+      faqCurrentCategory = null;
+      faqCurrentQuestion = null;
+    }
+
     function toggleChat() {
       chatOpen = !chatOpen;
       document.getElementById('chatWin').classList.toggle('open', chatOpen);
