@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 
 serve(async (req) => {
-  // Handle CORS preflight
+  // CORS 처리
   if (req.method === 'OPTIONS') {
     return new Response('ok', {
       headers: {
@@ -16,6 +16,10 @@ serve(async (req) => {
 
   try {
     const { to, subject, html, reply_to } = await req.json()
+    console.log(`발송 시도: to=${to}, subject=${subject}`);
+    
+    // 샌드박스 환경에서는 'from' 주소를 단순하게 유지합니다.
+    const fromAddress = 'onboarding@resend.dev'
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -24,7 +28,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'GOL Korea <onboarding@resend.dev>',
+        from: fromAddress,
         to,
         reply_to,
         subject,
@@ -33,21 +37,25 @@ serve(async (req) => {
     })
 
     const data = await res.json()
+    
+    if (!res.ok) {
+      console.error("Resend API 에러 세부내용:", JSON.stringify(data));
+      return new Response(JSON.stringify({ error: data }), {
+        status: res.status,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      })
+    }
 
+    console.log("메일 발송 성공!");
     return new Response(JSON.stringify(data), {
-      status: res.status,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+      status: 200,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     })
   } catch (error) {
+    console.error("함수 실행 중 예외 발생:", error.message);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     })
   }
 })
