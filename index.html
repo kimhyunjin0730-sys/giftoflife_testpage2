@@ -7717,23 +7717,14 @@
 
   <!-- CHATBOT -->
 
-  <button class="chat-fab" onclick="toggleChat()" style="font-size:18px">Q<span class="chat-badge" id="chatBadge">1</span></button>
+  <button class="chat-fab" id="faqFab" onclick="toggleChat()" title="자주 묻는 질문" style="font-size:14px;font-weight:700;letter-spacing:.5px">FAQ</button>
   <div class="chat-win" id="chatWin">
     <div class="chat-hdr">
-      <div class="ch-ava" style="font-size:14px;font-weight:700">G</div>
-      <div style="flex:1">
-        <div class="ch-nm" data-i="bot_name">Gift of Life</div>
-        <div class="ch-st" data-i="bot_status">상담 가능</div>
-      </div>
+      <button class="faq-back" id="faqBack" onclick="faqGoBack()" style="display:none">← 이전으로</button>
+      <div class="faq-title" id="faqTitle">자주 묻는 질문</div>
       <button class="chat-x" onclick="toggleChat()">✕</button>
     </div>
-    <div class="chat-chips" id="chatChips"></div>
-    <div class="chat-msgs" id="chatMsgs"></div>
-    <div class="chat-inp-row">
-      <textarea class="chat-inp" id="chatInp" data-i-ph="chat_placeholder" placeholder="질문을 입력하세요..." rows="1"
-        onkeydown="chatKey(event)"></textarea>
-      <button class="chat-send" id="chatSendBtn" onclick="sendChat()">➤</button>
-    </div>
+    <div class="faq-body" id="faqBody"></div>
   </div>
 
   <!-- 플로팅 언어 토글 -->
@@ -8779,16 +8770,12 @@
       const heroP = document.getElementById('uni-hero-p');
       if (heroP && t.hero_p) heroP.textContent = t.hero_p;
 
-      // ── Chatbot chips ──
-      const chips = document.getElementById('chatChips');
-      if (chips && t.chip_amara) {
-        chips.innerHTML = [t.chip_amara, t.chip_how, t.chip_join, t.chip_cost]
-          .map(c => `<button class="chat-chip" onclick="quickAsk('${c}')">${c}</button>`).join('');
+      // ── FAQ 위젯 (챗봇 교체) ──
+      try { renderFaq(); } catch(e) {}
+      const fabEl = document.getElementById('faqFab');
+      if (fabEl && typeof FAQ_DATA !== 'undefined' && FAQ_DATA.ui && FAQ_DATA.ui.fabTitle) {
+        fabEl.setAttribute('title', FAQ_DATA.ui.fabTitle[lang] || FAQ_DATA.ui.fabTitle.ko);
       }
-
-      // ── Chatbot name/status ──
-      const chnm = document.querySelector('.ch-nm'); if (chnm && t.bot_name) chnm.textContent = t.bot_name;
-      const chst = document.querySelector('.ch-st'); if (chst && t.bot_status) chst.textContent = t.bot_status;
 
       // ── Page title ──
       document.title = lang === 'ko' ? '생명의 선물 코리아 | Gift of Life International Korea' : lang === 'zh' ? '生命礼物国际 | Gift of Life International Korea' : 'Gift of Life International Korea';
@@ -10495,8 +10482,10 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
     function toggleChat() {
       chatOpen = !chatOpen;
       document.getElementById('chatWin').classList.toggle('open', chatOpen);
-      document.getElementById('chatBadge').style.display = chatOpen ? 'none' : 'flex';
-      if (chatOpen && chatHist.length === 0) addBotMsg(T[curLang].bot_welcome);
+      if (chatOpen) {
+        faqReset();
+        renderFaq();
+      }
     }
     function addBotMsg(text) { const el = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg bot'; d.innerHTML = `<div class="msg-bbl">${text.replace(/\n/g, '<br>')}</div><div class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`; el.appendChild(d); el.scrollTop = el.scrollHeight; }
     function addUserMsg(text) { const el = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg user'; d.innerHTML = `<div class="msg-bbl">${text}</div><div class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`; el.appendChild(d); el.scrollTop = el.scrollHeight; }
@@ -11173,8 +11162,8 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
       el.innerHTML = OFFICERS.map(o => `<div class="off-card"><div class="off-ava">${o.ava}</div><div class="off-name">${o.name[curLang]}</div><div class="off-role">${o.role[curLang]}</div><div style="font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5">${o.note[curLang]}</div></div>`).join('');
     }
     function renderChatChips() {
-      const el = document.getElementById('chatChips'); if (!el) return; const t = T[curLang];
-      el.innerHTML = [t.chip_amara, t.chip_how, t.chip_join, t.chip_cost].map(c => `<button class="chat-chip" onclick="quickAsk('${c}')">${c}</button>`).join('');
+      // 레거시 이름 유지, 내부는 새 FAQ 렌더러 호출
+      try { renderFaq(); } catch(e) {}
     }
     function renderTicker() {
       const el = document.getElementById('tickerTr'); if (!el) return;
