@@ -1,2 +1,15 @@
 node_modules
 node_modules
+
+# Demo QA scratch files
+demo/_qa_test.py
+demo/_qa_screenshots/
+demo/_art_qa.py
+demo/_art_screenshots/
+demo/_viewer_template_ref.html
+
+# Python pip scratch (ensurepip artifacts)
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
