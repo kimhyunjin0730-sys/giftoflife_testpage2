@@ -3822,22 +3822,6 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, .18)
     }
 
-    .chat-badge {
-      position: absolute;
-      top: -3px;
-      right: -3px;
-      width: 18px;
-      height: 18px;
-      background: var(--red);
-      border-radius: 50%;
-      font-size: 9px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #fff
-    }
-
     .chat-win {
       position: fixed;
       top: 0;
@@ -3866,41 +3850,6 @@
       flex-shrink: 0
     }
 
-    .ch-ava {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px
-    }
-
-    .ch-nm {
-      color: #fff;
-      font-weight: 700;
-      font-size: 13.5px
-    }
-
-    .ch-st {
-      color: rgba(255, 255, 255, .5);
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
-
-    .ch-st::before {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #4ade80;
-      animation: dot 1.5s infinite;
-      display: inline-block
-    }
-
     .chat-x {
       background: rgba(255, 255, 255, .15);
       border: none;
@@ -3914,160 +3863,6 @@
       align-items: center;
       justify-content: center;
       margin-left: auto
-    }
-
-    .chat-chips {
-      display: flex;
-      gap: 6px;
-      padding: 8px 12px 0;
-      flex-wrap: wrap;
-      flex-shrink: 0
-    }
-
-    .chat-chip {
-      padding: 5px 12px;
-      background: var(--blue-lt);
-      border: 1px solid var(--blue-mid);
-      border-radius: 16px;
-      font-size: 11.5px;
-      color: var(--blue);
-      cursor: pointer;
-      font-weight: 500;
-      transition: var(--ease)
-    }
-
-    .chat-chip:hover {
-      background: var(--blue);
-      color: #fff
-    }
-
-    .chat-msgs {
-      flex: 1;
-      overflow-y: auto;
-      padding: 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      background: var(--bg)
-    }
-
-    .msg {
-      max-width: 84%;
-      animation: fadeUp .3s ease
-    }
-
-    .msg.bot {
-      align-self: flex-start
-    }
-
-    .msg.user {
-      align-self: flex-end
-    }
-
-    .msg-bbl {
-      padding: 11px 14px;
-      border-radius: 14px;
-      font-size: 13px;
-      line-height: 1.65
-    }
-
-    .msg.bot .msg-bbl {
-      background: #fff;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 14px 14px 14px 3px
-    }
-
-    .msg.user .msg-bbl {
-      background: linear-gradient(135deg, #f43b5e, #e11d48);
-      color: #fff;
-      border-radius: 18px 18px 4px 18px
-    }
-
-    .msg-time {
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 3px;
-      text-align: right
-    }
-
-    .msg.bot .msg-time {
-      text-align: left
-    }
-
-    .chat-typing {
-      display: flex;
-      gap: 4px;
-      padding: 11px 14px;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      align-self: flex-start;
-      align-items: center
-    }
-
-    .chat-typing span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--muted);
-      animation: dot .9s infinite
-    }
-
-    .chat-typing span:nth-child(2) {
-      animation-delay: .2s
-    }
-
-    .chat-typing span:nth-child(3) {
-      animation-delay: .4s
-    }
-
-    .chat-inp-row {
-      padding: 11px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-      background: #fff
-    }
-
-    .chat-inp {
-      flex: 1;
-      padding: 9px 14px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 13px;
-      outline: none;
-      resize: none;
-      max-height: 80px;
-      font-family: 'Plus Jakarta Sans', 'Apple SD Gothic Neo', sans-serif;
-      transition: var(--ease)
-    }
-
-    .chat-inp:focus {
-      border-color: var(--blue)
-    }
-
-    .chat-send {
-      width: 38px;
-      height: 38px;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer
-    }
-
-    .chat-send:hover {
-      background: var(--blue2)
-    }
-
-    .chat-send:disabled {
-      background: #ccc
     }
 
     /* ── FAQ UI (챗봇 교체용) ── */
@@ -7846,9 +7641,6 @@
         agree: '개인정보 수집 및 이용에 동의합니다.',
         submit_btn: '지금 후원하기', pay_cta: '납부 신청서 →', submit_form: '납부 신청서',
         ok_ttl: '신청이 완료되었습니다', ok_body: '후원 신청서가 접수되었습니다.', confirm: '확인', ok_steps_title: '📋 다음 절차를 따라주세요', ok_step1_title: '1단계: 계좌이체 완료', ok_step1_body: '국민은행 123-456-7890 (예금주: 생명의선물코리아)\n입금자명: 성함+후원 (예: 홍길동후원)', ok_step2_title: '2단계: 사무국 확인 (영업일 1~2일)', ok_step2_body: '입금 확인 후 등록 이메일로 확인서가 발송됩니다.', ok_step3_title: '3단계: 회원 등록 완료', ok_step3_body: '회원 페이지에서 후원 내역과 매칭 어린이 정보를 확인하실 수 있습니다.', ok_contact_note: '📧 문의: golikorea@naver.com', ok_mypage_btn: '내 후원 내역 →',
-        bot_name: 'Gift of Life', bot_status: '상담 가능',
-        bot_welcome: '안녕하세요! 생명의 선물 코리아 AI 도우미입니다. 후원, 어린이 사례, 클럽 가입 등 무엇이든 물어보세요! 😊',
-        chip_amara: 'Amara 이야기', chip_how: '어떻게 후원하나요?', chip_join: '회원 가입', chip_cost: '수술 비용',
         dd_history: '소개 및 연혁', dd_mission: '미션', dd_officers: '임원진 소개',
         dd_heart: '심장병 어린이 구호', dd_earth: '지구 살리기', dd_cases: '수술 성공 사례',
         about_h2: 'Gift of Life International Korea',
@@ -7868,7 +7660,6 @@
         ft_links: '바로가기', ft_related: '관련 기관', ft_social: '소셜 미디어',
         ft_rotary: '로타리 3640지구',
         fab_donate: '후원',
-        chat_placeholder: '질문을 입력하세요...',
         ph_dw_custom: '직접 입력',
         ph_cms_bank: '예: 국민은행',
         ph_captcha: '위 코드 입력',
@@ -8009,9 +7800,6 @@
         agree: 'I agree to the collection and use of personal information.',
         submit_btn: 'Donate Now', pay_cta: 'Apply Now →', submit_form: 'Application Form',
         ok_ttl: 'Application Submitted', ok_body: 'Your donation application has been received.', confirm: 'OK', ok_steps_title: '📋 Next Steps', ok_step1_title: 'Step 1: Complete Bank Transfer', ok_step1_body: 'Kookmin Bank 123-456-7890 (Account: GOL Korea)\nTransfer note: YourName+Donation', ok_step2_title: 'Step 2: Office Confirmation (1-2 business days)', ok_step2_body: 'A confirmation email will be sent after payment is verified.', ok_step3_title: 'Step 3: Registration Complete', ok_step3_body: 'You can view your donation history and matched child on your member page.', ok_contact_note: '📧 Contact: golikorea@naver.com', ok_mypage_btn: 'My Donations →',
-        bot_name: 'Gift of Life', bot_status: 'Available',
-        bot_welcome: "Hello! I'm the Gift of Life International AI assistant. Ask me anything about donations, children's stories, or how to join! 😊",
-        chip_amara: "Amara's Story", chip_how: 'How to donate?', chip_join: 'How to join?', chip_cost: 'Surgery cost?',
         dd_history: 'History', dd_mission: 'Mission', dd_officers: 'Our Team',
         dd_heart: 'Heart Disease Children', dd_earth: 'Save the Earth', dd_cases: 'Success Stories',
         about_h2: 'Gift of Life International Korea',
@@ -8030,7 +7818,6 @@
         news_sub: 'Latest news and stories from our global mission.',
         ft_links: 'Quick Links', ft_related: 'Related', ft_social: 'Social Media', ft_rotary: 'Rotary District 3640',
         fab_donate: 'Donate',
-        chat_placeholder: 'Type your question...',
         ph_dw_custom: 'Custom amount',
         ph_cms_bank: 'e.g. Kookmin Bank',
         ph_captcha: 'Enter the code above',
@@ -8168,9 +7955,6 @@
         agree: '我同意收集和使用个人信息。',
         submit_btn: '立即捐款', pay_cta: '立即申请 →', submit_form: '申请表',
         ok_ttl: '申请已提交', ok_body: '您的捐款申请已收到。', confirm: '确认', ok_steps_title: '📋 后续步骤', ok_step1_title: '第一步：完成银行转账', ok_step1_body: '国民银行 123-456-7890 (账户名: GOL Korea)\n转账备注: 姓名+捐款', ok_step2_title: '第二步：办公室确认 (1-2个工作日)', ok_step2_body: '付款确认后将发送确认邮件。', ok_step3_title: '第三步：注册完成', ok_step3_body: '您可以在会员页面查看捐款记录和匹配的儿童信息。', ok_contact_note: '📧 联系: golikorea@naver.com', ok_mypage_btn: '我的捐款 →',
-        bot_name: 'Gift of Life', bot_status: '可咨询',
-        bot_welcome: '您好！我是生命礼物国际AI助手。随时问我关于捐款、儿童故事或如何加入的问题！😊',
-        chip_amara: 'Amara的故事', chip_how: '如何捐款？', chip_join: '如何加入？', chip_cost: '手术费用？',
         dd_history: '历史', dd_mission: '使命', dd_officers: '核心成员',
         dd_heart: '心脏病儿童救助', dd_earth: '拯救地球', dd_cases: '成功案例',
         about_h2: '生命礼物国际',
@@ -8190,7 +7974,6 @@
         ft_links: '快速入口', ft_related: '相关机构', ft_social: '社交媒体',
         ft_rotary: 'Rotary District 3640',
         fab_donate: '捐款',
-        chat_placeholder: '请输入您的问题...',
         ph_dw_custom: '自定义金额',
         ph_cms_bank: '例如：国民银行',
         ph_captcha: '请输入上方验证码',
@@ -8500,7 +8283,7 @@
     let curLang = 'ko', selLang = 'ko';
     let donationRegion = 'kr';
     let curSlide = 0, slideCount = KIDS.length, slidePaused = false, slideTimer = null;
-    let chatOpen = false, chatHist = [], isSending = false;
+    let chatOpen = false;
     let authMode = 'login', currentUser = null;
     let donateType = 'regular', donateAmt = 0, dwType = 'regular';
     let allNews = [...DEFAULT_NEWS], newsPage = 1, newsTotalPages = 1;
@@ -10275,21 +10058,6 @@
       URL.revokeObjectURL(url);
     }
 
-    /* ══════════════════════════════════════
-       CHATBOT
-    ══════════════════════════════════════ */
-    function getSiteCtx() {
-      const t = T[curLang];
-      return `You are the official AI assistant for Gift of Life International Korea (생명의 선물 코리아).
-ORGANIZATION: Founded 2003 Seoul, Korea. Parent: Gift of Life International (1975, New York). Founder: Brett Halvorson (이길우) — heart surgery survivor, flew on Air Force One with Reagan in 1983.
-Mission: Save children with congenital heart disease (CHD) regardless of birthplace.
-47,599 children saved, ₩1,864,634,329 raised since 2003. 93% of 1.3M CHD births/year don't get surgery. First borderless global online satellite Rotary club, targeting 3,000+ members.
-CURRENT CHILDREN: Amara (Malawi, 4): $8,400/$12,000 raised, awaiting surgery. Krist (Kosovo, 5): surgery 2022, recovered. Diego (Bolivia, 5): $5,200/$12,000, awaiting surgery.
-SURGERY COST: ~$12,000 per child. MEMBERSHIP: ₩20,000/month Supporter, ₩30,000/month Champion.
-PAYMENT: Kookmin Bank 123-456-7890 (생명의선물코리아). EVENTS: Charity Concert May 2 National Theater. Satellite Club launch June 2026.
-CONTACT: golikorea@naver.com | 010-9985-5328 | @golikorea
-IMPORTANT: The current UI language is "${curLang}". Always respond in that language unless the user explicitly writes in a different language. Be warm and helpful.`;
-    }
     /* ── Article detail PAGE (별도 페이지) ── */
     let currentArticleIdx = 0;
 
@@ -10487,15 +10255,6 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
         renderFaq();
       }
     }
-    function addBotMsg(text) { const el = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg bot'; d.innerHTML = `<div class="msg-bbl">${text.replace(/\n/g, '<br>')}</div><div class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`; el.appendChild(d); el.scrollTop = el.scrollHeight; }
-    function addUserMsg(text) { const el = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg user'; d.innerHTML = `<div class="msg-bbl">${text}</div><div class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`; el.appendChild(d); el.scrollTop = el.scrollHeight; }
-    function showTyping() { const el = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'chat-typing'; d.id = 'chatTyping'; d.innerHTML = '<span></span><span></span><span></span>'; el.appendChild(d); el.scrollTop = el.scrollHeight; }
-    function hideTyping() { const e = document.getElementById('chatTyping'); if (e) e.remove(); }
-    function quickAsk(text) { document.getElementById('chatInp').value = text; sendChat(); }
-    function chatKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
-    /* ── 로컬 키워드 응답 ── */
-    function has(t, words) { return words.some(w => t.includes(w)); }
-
     /* ══════════════════════════════════════
        FAQ DATA (카테고리 → 질문 → 답변 + CTA)
        모든 텍스트는 존댓말 formal 톤, 3개 언어
@@ -10627,161 +10386,6 @@ IMPORTANT: The current UI language is "${curLang}". Always respond in that langu
       }
     };
 
-    function localReply(text) {
-      const t = text.toLowerCase();
-      const L = curLang;
-
-      // 후원/기부
-      if (has(t, ['후원', '기부', 'donate', 'donation', 'how to give', '어떻게 후원', '捐款', '捐钱'])) {
-        return {
-          ko: '💳 <b>후원 방법</b><br><br>1️⃣ 후원하기 페이지로 이동<br>2️⃣ 금액 선택 ($1, ₩20,000, ₩30,000 등)<br>3️⃣ 국민은행 123-456-7890으로 입금<br>4️⃣ 신청서 제출 → 사무국 확인<br><br>월 ₩30,000(챔피언)으로 아이 1명을 직접 매칭 지원할 수 있습니다! ',
-          en: '💳 <b>How to Donate</b><br><br>1️⃣ Go to the Donate page<br>2️⃣ Select amount ($1, $20, $30, etc.)<br>3️⃣ Transfer to Kookmin Bank 123-456-7890<br>4️⃣ Submit form → Office confirms<br><br>With ₩30,000/month (Champion) you can be matched 1:1 with a child! ',
-          zh: '💳 <b>如何捐款</b><br><br>1️⃣ 前往捐款页面<br>2️⃣ 选择金额（$1、₩20,000、₩30,000等）<br>3️⃣ 转账至Kookmin Bank 123-456-7890<br>4️⃣ 提交申请 → 办公室确认<br><br>每月₩30,000（冠军会员）可1:1资助一名儿童！'
-        }[L];
-      }
-
-      // Amara
-      if (has(t, ['amara'])) {
-        return {
-          ko: '👧 <b>Amara (말라위, 4세)</b><br><br>말라위는 심장 수술 역량이 전무합니다. 선천성 심장 기형을 가진 Amara는 6살 이전 수술이 필요합니다.<br><br>💰 모금 현황: $8,400 / $12,000 (70%)<br><br>지금 후원 페이지에서 Amara를 도와주세요! ',
-          en: '👧 <b>Amara (Malawi, age 4)</b><br><br>Malawi has no cardiac surgery capacity. Amara has a congenital heart defect and needs surgery before age 6.<br><br>💰 Raised: $8,400 / $12,000 (70%)<br><br>Help Amara on the Donate page! ',
-          zh: '👧 <b>Amara（马拉维，4岁）</b><br><br>马拉维没有心脏手术能力。Amara患有先天性心脏缺陷，需在6岁前手术。<br><br>💰 筹款：$8,400 / $12,000 (70%)<br><br>请在捐款页面帮助Amara！'
-        }[L];
-      }
-
-      // Krist
-      if (has(t, ['krist', '코소보', 'kosovo'])) {
-        return {
-          ko: '👦 <b>Krist (코소보, 5세)</b><br><br>2022년 한국에서 성공적으로 수술을 받았습니다. 지금은 축구와 수영을 즐기며 건강하게 성장 중입니다! ✅',
-          en: '👦 <b>Krist (Kosovo, age 5)</b><br><br>Krist received surgery in Korea in 2022. He now loves soccer and swimming! ✅',
-          zh: '👦 <b>Krist（科索沃，5岁）</b><br><br>Krist于2022年在韩国手术成功，现在健康成长，喜欢踢足球和游泳！✅'
-        }[L];
-      }
-
-      // Diego
-      if (has(t, ['diego', '볼리비아', 'bolivia'])) {
-        return {
-          ko: '👦 <b>Diego (볼리비아, 5세)</b><br><br>볼리비아 작은 마을 출신으로 현재 수술을 기다리고 있습니다.<br><br>💰 모금 현황: $5,200 / $12,000 (43%)<br><br>Diego를 도와주세요! ',
-          en: '👦 <b>Diego (Bolivia, age 5)</b><br><br>From a small Bolivian village, awaiting surgery.<br><br>💰 Raised: $5,200 / $12,000 (43%)<br><br>Help Diego! ',
-          zh: '👦 <b>Diego（玻利维亚，5岁）</b><br><br>来自玻利维亚小村庄，正在等待手术。<br><br>💰 筹款：$5,200 / $12,000 (43%)<br><br>帮助Diego！'
-        }[L];
-      }
-
-      // 수술 비용
-      if (has(t, ['비용', 'cost', '수술 얼마', 'price', '요금', '费用', '手术费'])) {
-        return {
-          ko: '💰 <b>수술 비용 구성</b><br><br>• 수술비: $3,500~$8,000<br>• 항공편 & 체류: $3,000<br>• 행정비용: $500<br>• <b>총합: 약 $12,000 (약 ₩14,400,000)</b><br><br>12,000명이 $1씩 모으면 한 아이의 심장이 다시 뜁니다!',
-          en: '💰 <b>Surgery Cost Breakdown</b><br><br>• Surgery: $3,500–$8,000<br>• Airfare & stay: $3,000<br>• Admin: $500<br>• <b>Total: ~$12,000</b><br><br>If 12,000 people give $1 each, a child lives!',
-          zh: '💰 <b>手术费用明细</b><br><br>• 手术费：$3,500~$8,000<br>• 机票及住宿：$3,000<br>• 行政费用：$500<br>• <b>合计：约$12,000</b><br><br>12,000人各捐$1，一个孩子就能获救！'
-        }[L];
-      }
-
-      // 회원 가입
-      if (has(t, ['가입', 'join', 'member', '회원', '멤버', 'membership', '加入', '会员'])) {
-        return {
-          ko: '👥 <b>회원 등급</b><br><br>🥉 <b>서포터</b> — ₩20,000/월<br>월 1회 Zoom, 뉴스레터, 디지털 회원증<br><br>🥇 <b>챔피언</b> — ₩30,000/월 ⭐추천<br>전체 Zoom, 1:1 아동 매칭, 공식 회원증<br><br>🏢 <b>파트너</b> — 기업/단체 별도 협의<br><br>우측 상단 로그인 → 회원가입 버튼!',
-          en: '👥 <b>Membership Tiers</b><br><br>🥉 <b>Supporter</b> — ₩20,000/mo<br>Monthly Zoom, newsletter, digital card<br><br>🥇 <b>Champion</b> — ₩30,000/mo ⭐Recommended<br>All Zoom, 1:1 child match, official card<br><br>🏢 <b>Partner</b> — Corporate, contact us<br><br>Click Login → Sign Up in the top right!',
-          zh: '👥 <b>会员等级</b><br><br>🥉 <b>支持者</b> — ₩20,000/月<br>月度Zoom、通讯、数字会员证<br><br>🥇 <b>冠军</b> — ₩30,000/月 ⭐推荐<br>全部Zoom、1:1儿童匹配、官方会员证<br><br>🏢 <b>合作伙伴</b> — 企业另行协商<br><br>点击右上角登录 → 注册！'
-        }[L];
-      }
-
-      // 이벤트/일정
-      if (has(t, ['이벤트', '일정', 'event', 'schedule', 'concert', '음악회', '활동', '活动', '日程'])) {
-        return {
-          ko: '📅 <b>주요 일정</b><br><br>🎵 <b>5월 2일 오후 5시</b> — 자선 음악회 (국립극장)<br>🚀 <b>6월 2026</b> — 위성클럽 공식 발족 (Zoom)<br>📞 <b>매월 마지막 금요일</b> — 글로벌 Zoom 정기미팅',
-          en: '📅 <b>Upcoming Events</b><br><br>🎵 <b>May 2, 5PM</b> — Charity Concert (National Theater)<br>🚀 <b>June 2026</b> — Satellite Club Launch (Zoom)<br>📞 <b>Last Friday monthly</b> — Global Zoom Meeting',
-          zh: '📅 <b>即将举行的活动</b><br><br>🎵 <b>5月2日下午5时</b> — 慈善音乐会（国立剧场）<br>🚀 <b>2026年6月</b> — 卫星社正式成立（Zoom）<br>📞 <b>每月最后周五</b> — 全球Zoom例会'
-        }[L];
-      }
-
-      // 클럽 소개/연혁
-      if (has(t, ['소개', 'about', '연혁', 'history', '역사', '클럽', '로타리', 'rotary', '관于', '历史'])) {
-        return {
-          ko: '<b>생명의 선물 코리아 소개</b><br><br>1975년 미국 뉴욕에서 설립된 Gift of Life International의 한국 위성클럽입니다.<br><br>설립자 이길우(Brett Halvorson)는 1983년 레이건 대통령 지원으로 에어포스원을 타고 미국에서 심장 수술을 받은 생존자입니다.<br><br>📊 47,599명 구호 | ₩18.6억 모금 | 30+개국',
-          en: '<b>About Gift of Life International Korea</b><br><br>A satellite club of Gift of Life International (est. 1975, New York).<br><br>Founder Brett Halvorson survived heart surgery in 1983 aboard Air Force One under President Reagan.<br><br>📊 47,599 children saved | ₩1.86B raised | 30+ countries',
-          zh: '<b>关于生命礼物国际韩国</b><br><br>是1975年在纽约成立的Gift of Life International的卫星社。<br><br>创始人Brett Halvorson是1983年在里根总统支持下乘坐空军一号赴美心脏手术的幸存者。<br><br>📊 47,599名儿童获救 | ₩18.6亿筹款 | 30+国家'
-        }[L];
-      }
-
-      // 연락처
-      if (has(t, ['연락', 'contact', '문의', '이메일', 'email', '전화', '주소', '电话', '邮件'])) {
-        return {
-          ko: '📬 <b>연락처</b><br><br>📧 golikorea@naver.com<br>📱 010-9985-5328<br>📸 Instagram: @golikorea<br>📍 서울 영등포구 선유로3길 10, 2층<br>🌐 www.golikorea.or.kr',
-          en: '📬 <b>Contact</b><br><br>📧 golikorea@naver.com<br>📱 010-9985-5328<br>📸 Instagram: @golikorea<br>📍 2F, 10 Seonyu-ro 3-gil, Yeongdeungpo-gu, Seoul<br>🌐 www.golikorea.or.kr',
-          zh: '📬 <b>联系方式</b><br><br>📧 golikorea@naver.com<br>📱 010-9985-5328<br>📸 Instagram: @golikorea<br>📍 首尔市永登浦区仙游路3街10号2楼<br>🌐 www.golikorea.or.kr'
-        }[L];
-      }
-
-      // 통계/심장병
-      if (has(t, ['통계', 'stat', '135만', '심장병', 'congenital', 'chd', '先天', '心脏'])) {
-        return {
-          ko: '📊 <b>선천성 심장병 현황</b><br><br>• 매년 전 세계 약 135만 명 CHD 아이 출생<br>• 그 중 93%가 수술을 받지 못함 (~100만 명 사망)<br>• 현재 약 10%만 수술 가능<br>• 한 아이당 수술비 약 $12,000<br><br>우리가 함께하면 바꿀 수 있습니다!',
-          en: '📊 <b>CHD Statistics</b><br><br>• ~1.35M children born with CHD annually worldwide<br>• 93% do not receive surgery (~1M deaths)<br>• Only ~10% currently receive treatment<br>• Surgery cost: ~$12,000 per child<br><br>Together we can change this!',
-          zh: '📊 <b>先天性心脏病现状</b><br><br>• 全球每年约135万名CHD患儿出生<br>• 其中93%未获手术（约100万人死亡）<br>• 目前仅约10%能接受治疗<br>• 每名儿童手术费约$12,000<br><br>我们携手可以改变这一切！'
-        }[L];
-      }
-
-      // 관리자 — 보안상 안내하지 않음
-      if (has(t, ['관리자', 'admin', '어드민', 'administrator'])) {
-        return {
-          ko: '🔒 Administrator 관련 문의는 golikorea@naver.com으로 직접 연락해 주세요.',
-          en: '🔒 For admin-related inquiries, please contact golikorea@naver.com directly.',
-          zh: '🔒 如有管理相关问题，请直接联系 golikorea@naver.com。'
-        }[L];
-      }
-
-      // 납부 계좌
-      if (has(t, ['계좌', 'bank', '납부', '입금', 'account', '银行', '账户'])) {
-        return {
-          ko: '🏦 <b>납부 계좌</b><br><br>국민은행 123-456-7890<br>예금주: 생명의선물코리아<br><br>입금 후 후원 신청서를 제출해 주세요.',
-          en: '🏦 <b>Bank Account</b><br><br>Kookmin Bank 123-456-7890<br>Account: Gift of Life Korea<br><br>Please submit the donation form after transferring.',
-          zh: '🏦 <b>银行账户</b><br><br>国民银行 123-456-7890<br>账户名：生命礼物韩国<br><br>转账后请提交捐款申请表。'
-        }[L];
-      }
-
-      return null;
-    }
-
-    async function sendChat() {
-      if (isSending) return;
-      const inp = document.getElementById('chatInp'); const text = inp.value.trim(); if (!text) return;
-      inp.value = ''; addUserMsg(text); chatHist.push({ role: 'user', content: text });
-      isSending = true; document.getElementById('chatSendBtn').disabled = true; showTyping();
-
-      // 1) 로컬 키워드 우선 응답
-      const local = localReply(text);
-      if (local) {
-        await new Promise(r => setTimeout(r, 500));
-        hideTyping();
-        addBotMsg(local);
-        chatHist.push({ role: 'assistant', content: local });
-        isSending = false; document.getElementById('chatSendBtn').disabled = false;
-        return;
-      }
-
-      // 2) Anthropic API 시도
-      try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 700, system: getSiteCtx(), messages: chatHist.slice(-10) })
-        });
-        if (!res.ok) throw new Error('API ' + res.status);
-        const data = await res.json();
-        const reply = data.content?.[0]?.text || '죄송합니다, 다시 시도해 주세요.';
-        hideTyping(); addBotMsg(reply); chatHist.push({ role: 'assistant', content: reply });
-      } catch (err) {
-        // 3) API 실패 시 종합 안내로 폴백
-        hideTyping();
-        const fallback = {
-          ko: '안녕하세요! 제가 직접 답변드릴게요. 궁금한 내용을 알려주세요:\n\n💛 <b>후원 방법</b>: "후원" 또는 "기부"\n👧 <b>아동 사례</b>: "Amara", "Krist", "Diego"\n💰 <b>수술 비용</b>: "비용" 또는 "수술"\n👥 <b>회원 가입</b>: "가입" 또는 "멤버십"\n📅 <b>일정/이벤트</b>: "일정"\n📬 <b>연락처</b>: "연락" 또는 "문의"',
-          en: 'Hello! Ask me about:\n\n💛 <b>How to donate</b>: type "donate"\n👧 <b>Child stories</b>: "Amara", "Krist", "Diego"\n💰 <b>Surgery cost</b>: "cost"\n👥 <b>Membership</b>: "join"\n📅 <b>Events</b>: "events"\n📬 <b>Contact</b>: "contact"',
-          zh: '您好！请问我：\n\n💛 <b>如何捐款</b>：输入"捐款"\n👧 <b>儿童故事</b>："Amara"、"Krist"\n💰 <b>手术费用</b>："费用"\n👥 <b>会员</b>："加入"\n📅 <b>活动</b>："活动"\n📬 <b>联系</b>："联系"'
-        };
-        addBotMsg(fallback[curLang] || fallback.ko);
-      }
-      isSending = false; document.getElementById('chatSendBtn').disabled = false;
-    }
 
     /* ══════════════════════════════════════
        RENDER
