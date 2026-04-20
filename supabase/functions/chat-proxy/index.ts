@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
+const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -49,13 +50,21 @@ const SYSTEM_PROMPT = `당신은 생명의선물 코리아(Gift of Life Korea) �
 5. 답변은 간결하게 작성해 주세요 (5~10문장 이내).
 6. 이모지 사용은 최소화해 주세요.`;
 
+// Gemini는 role 값으로 'user' 또는 'model'을 사용 (assistant 아님)
+function toGeminiContents(messages: Array<{ role: string; content: string }>) {
+  return messages.map((m) => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: CORS });
   }
 
-  if (!ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY is not set');
+  if (!GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not set');
     return new Response(JSON.stringify({ error: 'API key not configured' }), {
       status: 500,
       headers: { ...CORS, 'Content-Type': 'application/json' },
@@ -73,35 +82,40 @@ serve(async (req) => {
     }
 
     const recent = messages.slice(-10);
-
     console.log(`chat-proxy 호출: lang=${lang}, msgs=${recent.length}`);
 
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+    const res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 700,
-        system: SYSTEM_PROMPT,
-        messages: recent,
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: toGeminiContents(recent),
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 700,
+        },
+        safetySettings: [
+          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+        ],
       }),
     });
 
     if (!res.ok) {
       const errText = await res.text();
-      console.error('Anthropic API 에러:', res.status, errText);
-      return new Response(JSON.stringify({ error: `Anthropic API ${res.status}` }), {
+      console.error('Gemini API 에러:', res.status, errText);
+      return new Response(JSON.stringify({ error: `Gemini API ${res.status}` }), {
         status: 502,
         headers: { ...CORS, 'Content-Type': 'application/json' },
       });
     }
 
     const data = await res.json();
-    const reply = data.content?.[0]?.text || '죄송합니다. 답변을 생성하지 못했습니다.';
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || '죄송합니다. 답변을 생성하지 못했습니다.';
     console.log('chat-proxy 응답 생성 완료, 길이:', reply.length);
 
     return new Response(JSON.stringify({ reply }), {
