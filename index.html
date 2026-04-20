@@ -9324,14 +9324,18 @@
 
       // Resend 이메일 알림 (Edge Function 사용)
       try {
-        await sb.functions.invoke('resend-email', {
+        const { data: mRes, error: mErr } = await sb.functions.invoke('resend-email', {
           body: {
             to: [CONTACT_TO],
             subject: `[GOL] 새 후원 신청: ${payload.name} - ${payload.amount}`,
             html: `<p>후원자: ${payload.name}<br>이메일: ${payload.email}<br>금액: ${payload.amount}<br>입금자명: ${payload.depositor || '-'}</p>`
           }
         });
-        console.log('Resend donation notice sent');
+        if (mErr || (mRes && mRes.error)) {
+          console.error('Donation email error:', mErr || mRes.error);
+        } else {
+          console.log('Resend donation notice sent');
+        }
       } catch (e) { console.warn('Resend mail error', e); }
 
       await new Promise(r => setTimeout(r, 400));
@@ -9592,9 +9596,18 @@
           }
         });
         
-        if (!mailErr) mailOk = true;
-        else console.error('Resend Edge Function error:', mailErr);
-      } catch (e) { console.warn('Resend relay failed', e); }
+        if (!mailErr && mailRes && !mailRes.error) {
+          mailOk = true;
+          console.log('메일 발송 성공:', mailRes);
+        } else {
+          console.error('메일 발송 실패:', mailErr || mailRes?.error);
+          if (mailErr) alert('메일 발송 에러: ' + mailErr.message);
+          else if (mailRes?.error) alert('Resend 에러: ' + JSON.stringify(mailRes.error));
+        }
+      } catch (e) { 
+        console.warn('Resend relay failed', e);
+        alert('네트워크 또는 서버 오류로 메일 발송에 실패했습니다.');
+      }
 
       btn.innerHTML = '✉️ ' + (T[curLang].contact_send || '문의 보내기'); btn.disabled = false;
 
