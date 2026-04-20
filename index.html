@@ -4070,6 +4070,121 @@
       background: #ccc
     }
 
+    /* ── FAQ UI (챗봇 교체용) ── */
+    .faq-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 18px;
+      background: #f7f9fc;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-welcome {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.6;
+      margin: 4px 2px 12px;
+    }
+    .faq-category-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      margin: 4px 2px 6px;
+      text-transform: none;
+    }
+    .faq-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #e2e8f2;
+      background: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #0f172a;
+      text-align: left;
+      min-height: 48px;
+      transition: background .15s, border-color .15s;
+    }
+    .faq-item:hover {
+      background: #f1f5f9;
+      border-color: #c8d3e6;
+    }
+    .faq-item .faq-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+    .faq-item .faq-item-label {
+      flex: 1;
+    }
+    .faq-item .faq-item-arrow {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+    .faq-answer {
+      background: #fff;
+      border: 1px solid #e2e8f2;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #0f172a;
+    }
+    .faq-answer b {
+      color: #0f172a;
+    }
+    .faq-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 16px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 10px;
+      background: #E11D48;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      min-height: 44px;
+      width: 100%;
+      transition: background .15s;
+    }
+    .faq-cta:hover {
+      background: #be123c;
+    }
+    .faq-answer-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .faq-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .faq-back:hover {
+      background: rgba(255,255,255,.12);
+    }
+    .faq-title {
+      flex: 1;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
     /* FAB */
     .fab-donate {
       position: fixed;
