@@ -2,8 +2,23 @@
 
 마지막 업데이트: 2026-04-21
 
-프로젝트: `golikorearotary.or.kr` (확정) · GitHub Pages 호스팅
+프로젝트: `golikorearotary.or.kr` (확정)
+호스팅 전환: GitHub Pages → **Vercel** (진행 중, 가이드 → [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md))
 저장소: https://github.com/kimhyunjin0730-sys/giftoflife_testpage2
+
+---
+
+## 🚀 진행 중 — Vercel 이관 + 회원 역할 스키마 (2026-04-21 시작)
+
+- [x] `vercel.json` · `.vercelignore` 커밋
+- [x] Supabase 마이그레이션 SQL 작성 ([supabase/migrations/20260421120000_members_auth_roles.sql](supabase/migrations/20260421120000_members_auth_roles.sql))
+- [x] 배포 가이드 문서 ([VERCEL_DEPLOY.md](VERCEL_DEPLOY.md))
+- [ ] Vercel 프로젝트 생성 + 첫 배포 (→ 가이드 Part 1.1~1.2)
+- [ ] 도메인 DNS 전환 (→ 가이드 Part 1.3)
+- [ ] Supabase SQL 실행 + 첫 admin 지정 (→ 가이드 Part 2.1~2.2)
+- [ ] 프론트엔드 연동 작업 (로그인 → 역할 확인 → Channel B 분기 렌더)
+- [ ] Admin 페이지에 회원 인증 토글 UI 추가
+- [ ] GitHub Pages 비활성화 (Vercel 안정화 후)
 
 ---
 

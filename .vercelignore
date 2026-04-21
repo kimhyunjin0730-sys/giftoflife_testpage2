@@ -1,0 +1,44 @@
+# ─── 배포에서 제외: 자료/문서/무거운 파일 ──────────────────
+
+# 자료성 PDF / 텍스트 (사이트에 노출되지 않아야 하는 내부 자료)
+견적서*.pdf
+*견적서*.pdf
+NGO.pdf
+우리의*소중한*일경험이*사라지지*않도록.txt
+"java script key*.txt"
+
+# 개발/실험 폴더
+demo/
+figma/
+docs/
+giftoflife_testpage2/
+Scripts/
+Include/
+Lib/
+ppnfonts/
+
+# 로컬 환경
+node_modules/
+.env
+.env.local
+.env.*.local
+
+# Supabase 로컬 (Vercel에 올릴 필요 없음)
+supabase/
+
+# 패키지 개발용
+package-lock.json
+
+# 에디터/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 오픈API 스펙 (개발용)
+portone-v2-openapi.json
+
+# 할 일 관리 (배포에 불필요)
+TODO.md
+CLAUDE.md
+VERCEL_DEPLOY.md
