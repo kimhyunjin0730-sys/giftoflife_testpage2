@@ -6944,6 +6944,91 @@
 
             <!-- ═══ Content (인증된 로타리/관리자) ═══ -->
             <div id="rotaryContent" style="display:none">
+
+              <!-- ── Stage 1: 시작 화면 ── -->
+              <div id="rotaryStageInitial" style="background:rgba(255,255,255,.035);border:1px dashed rgba(232,114,138,.42);border-radius:var(--r);padding:28px 22px 24px;margin-bottom:14px;position:relative;z-index:1;text-align:center">
+                <div aria-hidden="true" style="width:46px;height:46px;margin:0 auto 14px;border-radius:12px;background:rgba(232,114,138,.14);border:1px solid rgba(232,114,138,.4);display:flex;align-items:center;justify-content:center">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e8728a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><path d="M21 12c0 1-2 6-9 6s-9-5-9-6 2-6 9-6 9 5 9 6z"></path></svg>
+                </div>
+                <div style="font-family:'Libre Bodoni',serif;font-size:16px;font-weight:600;color:#fff;margin-bottom:6px">
+                  <span id="rotaryWelcomeName">회원님</span> · <span data-i="rotary_verified_label">인증된 로타리 회원</span>
+                </div>
+                <p style="font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.7;max-width:320px;margin:0 auto 18px" data-i="rotary_intro_p">
+                  후원 정보(입금자명·금액)를 먼저 등록하시면 한수로타리클럽 위성클럽 전용 계좌가 공개됩니다. 회계담당자가 송금을 매칭해 드립니다.
+                </p>
+                <button type="button" onclick="showRotaryStage('form')"
+                  style="display:inline-flex;align-items:center;gap:8px;padding:13px 24px;background:var(--blue);color:#fff;border:0;border-radius:999px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .25s ease;box-shadow:0 8px 22px -8px rgba(232,114,138,.7)"
+                  onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 12px 28px -8px rgba(232,114,138,.9)'"
+                  onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 22px -8px rgba(232,114,138,.7)'">
+                  <span data-i="rotary_cta_start">후원 신청 시작</span>
+                  <span style="font-size:15px;line-height:1">→</span>
+                </button>
+              </div>
+
+              <!-- ── Stage 2: 신청 폼 ── -->
+              <div id="rotaryStageForm" style="display:none;background:rgba(255,255,255,.035);border:1px dashed rgba(232,114,138,.42);border-radius:var(--r);padding:24px 22px 22px;margin-bottom:14px;position:relative;z-index:1">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px">
+                  <button type="button" onclick="showRotaryStage('initial')" aria-label="뒤로"
+                    style="background:transparent;border:0;color:rgba(255,255,255,.55);cursor:pointer;font-size:18px;padding:0">‹</button>
+                  <div style="font-family:'Libre Bodoni',serif;font-size:15.5px;font-weight:600;color:#fff;letter-spacing:.2px" data-i="rotary_form_title">후원 신청서</div>
+                </div>
+
+                <form id="rotaryForm" onsubmit="submitRotaryDonation(event)">
+                  <!-- 후원자 (자동) -->
+                  <div style="margin-bottom:14px">
+                    <label style="display:block;font-size:10.5px;letter-spacing:1.4px;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;margin-bottom:6px" data-i="rotary_form_member">후원 회원 (자동)</label>
+                    <div id="rotaryFormMemberLabel" style="font-size:13.5px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px">—</div>
+                  </div>
+
+                  <!-- 입금자명 -->
+                  <div style="margin-bottom:14px">
+                    <label for="rfDepositor" style="display:block;font-size:10.5px;letter-spacing:1.4px;color:rgba(255,255,255,.6);text-transform:uppercase;font-weight:600;margin-bottom:6px">
+                      <span data-i="rotary_form_depositor">입금자명</span> <span style="color:#fca5a5">*</span>
+                    </label>
+                    <input id="rfDepositor" name="depositor" type="text" required maxlength="40"
+                      style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:11px 13px;color:#fff;font-size:14px;font-family:inherit"
+                      data-i-ph="rotary_form_depositor_ph" placeholder="실제 송금하실 입금자명" />
+                  </div>
+
+                  <!-- 금액 -->
+                  <div style="margin-bottom:14px">
+                    <label for="rfAmount" style="display:block;font-size:10.5px;letter-spacing:1.4px;color:rgba(255,255,255,.6);text-transform:uppercase;font-weight:600;margin-bottom:6px">
+                      <span data-i="rotary_form_amount">금액 (원)</span> <span style="color:#fca5a5">*</span>
+                    </label>
+                    <input id="rfAmount" name="amount" type="number" min="1000" step="1000" required
+                      style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:11px 13px;color:#fff;font-size:14px;font-family:ui-monospace,Menlo,monospace"
+                      data-i-ph="rotary_form_amount_ph" placeholder="50000" />
+                  </div>
+
+                  <!-- 메모 -->
+                  <div style="margin-bottom:18px">
+                    <label for="rfNote" style="display:block;font-size:10.5px;letter-spacing:1.4px;color:rgba(255,255,255,.6);text-transform:uppercase;font-weight:600;margin-bottom:6px" data-i="rotary_form_note">메모 (선택)</label>
+                    <input id="rfNote" name="note" type="text" maxlength="120"
+                      style="width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:11px 13px;color:#fff;font-size:14px;font-family:inherit"
+                      data-i-ph="rotary_form_note_ph" placeholder="정기/일시 구분, 후원 목적 등" />
+                  </div>
+
+                  <button type="submit" id="rotarySubmitBtn"
+                    style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 22px;background:var(--blue);color:#fff;border:0;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;transition:background .25s ease"
+                    onmouseover="this.style.background='var(--blue2)'"
+                    onmouseout="this.style.background='var(--blue)'">
+                    <span data-i="rotary_form_submit">신청 + 계좌 보기</span>
+                    <span style="font-size:15px;line-height:1">→</span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- ── Stage 3: 신청 완료 + 계좌 정보 ── -->
+              <div id="rotaryStageBank" style="display:none">
+              <!-- 신청 요약 (제출된 정보 확인용) -->
+              <div id="rotarySubmitSummary" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;position:relative;z-index:1;display:none">
+                <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#86efac;font-weight:700;margin-bottom:6px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span data-i="rotary_submit_ok">후원 신청이 접수되었습니다</span>
+                </div>
+                <div id="rotarySubmitDetails" style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.7"></div>
+              </div>
+
             <!-- ROTARY_BANK_INFO_PLACEHOLDER:start  (계좌번호 확정 시 JS 내 ROTARY_BANK_INFO 값만 교체) -->
             <div id="rotaryBankBox" style="background:rgba(255,255,255,.035);border:1px dashed rgba(232,114,138,.42);border-radius:var(--r);padding:26px 22px 20px;margin-bottom:18px;position:relative;z-index:1">
               <!-- Status badge with live pulse -->
@@ -6972,6 +7057,18 @@
               <span data-i="bank_copy_disabled">계좌번호 확정 후 복사 가능</span>
             </button>
             <p style="font-size:11.5px;color:rgba(255,255,255,.55);text-align:center;margin-top:14px;line-height:1.7;position:relative;z-index:1" data-i="donate_ch_b_note">계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.</p>
+
+            <!-- 송금 후 안내 + 다시 신청 -->
+            <div style="margin-top:18px;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);font-size:11.5px;color:rgba(255,255,255,.7);line-height:1.7;position:relative;z-index:1" data-i="rotary_after_transfer">
+              💡 송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.
+            </div>
+            <button type="button" onclick="showRotaryStage('initial')"
+              style="margin-top:10px;width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);padding:10px 16px;border-radius:var(--r);font-size:12.5px;cursor:pointer;transition:all .2s ease;position:relative;z-index:1"
+              onmouseover="this.style.background='rgba(255,255,255,.05)';this.style.color='#fff'"
+              onmouseout="this.style.background='transparent';this.style.color='rgba(255,255,255,.75)'"
+              data-i="rotary_new_request">새로 신청하기</button>
+
+              </div><!-- /#rotaryStageBank -->
             </div><!-- /#rotaryContent -->
           </article>
 
@@ -7402,8 +7499,8 @@
                     <th>이메일</th>
                     <th>연락처</th>
                     <th>금액</th>
-                    <th>구분</th>
-                    <th>납부방법</th>
+                    <th>메모</th>
+                    <th>채널</th>
                     <th>날짜</th>
                     <th>상태</th>
                     <th>관리</th>
@@ -7735,6 +7832,21 @@
         gate_desc: '이 채널은 한수 로타리클럽 위성클럽 회원 전용입니다. 로그인 후 관리자 인증을 거쳐 이용할 수 있습니다.',
         gate_cta: '로그인 / 회원가입',
         gate_pending: '로그인 확인됨. 한수 로타리클럽 관리자의 회원 인증을 기다리는 중입니다.',
+        rotary_verified_label: '인증된 로타리 회원',
+        rotary_intro_p: '후원 정보(입금자명·금액)를 먼저 등록하시면 한수로타리클럽 위성클럽 전용 계좌가 공개됩니다. 회계담당자가 송금을 매칭해 드립니다.',
+        rotary_cta_start: '후원 신청 시작',
+        rotary_form_title: '후원 신청서',
+        rotary_form_member: '후원 회원 (자동)',
+        rotary_form_depositor: '입금자명',
+        rotary_form_depositor_ph: '실제 송금하실 입금자명',
+        rotary_form_amount: '금액 (원)',
+        rotary_form_amount_ph: '50000',
+        rotary_form_note: '메모 (선택)',
+        rotary_form_note_ph: '정기/일시 구분, 후원 목적 등',
+        rotary_form_submit: '신청 + 계좌 보기',
+        rotary_submit_ok: '후원 신청이 접수되었습니다',
+        rotary_after_transfer: '💡 송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.',
+        rotary_new_request: '새로 신청하기',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— 추후 안내 —',
         bank_tbd_acct: '— 계좌번호 확정 후 게시 —',
@@ -7929,6 +8041,21 @@
         gate_desc: 'This channel is reserved for verified Hansoo Rotary Satellite Club members. Sign in and wait for admin verification.',
         gate_cta: 'Sign in / Sign up',
         gate_pending: 'Signed in. Awaiting Hansoo Rotary Club admin verification.',
+        rotary_verified_label: 'Verified Rotarian',
+        rotary_intro_p: 'Submit your donation info (depositor name + amount) to reveal the dedicated bank account. Our treasurer will match your transfer to this record.',
+        rotary_cta_start: 'Start Donation Request',
+        rotary_form_title: 'Donation Form',
+        rotary_form_member: 'Member (auto)',
+        rotary_form_depositor: 'Depositor Name',
+        rotary_form_depositor_ph: 'The name on the bank transfer',
+        rotary_form_amount: 'Amount (KRW)',
+        rotary_form_amount_ph: '50000',
+        rotary_form_note: 'Note (optional)',
+        rotary_form_note_ph: 'Recurring / one-time, purpose, etc.',
+        rotary_form_submit: 'Submit + Show Account',
+        rotary_submit_ok: 'Your donation request has been received',
+        rotary_after_transfer: '💡 Within 1–2 business days the treasurer will confirm your transfer.',
+        rotary_new_request: 'New Request',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— To be announced —',
         bank_tbd_acct: '— To be published soon —',
@@ -8119,6 +8246,21 @@
         gate_desc: '此捐款渠道仅限汉秀扶轮社卫星俱乐部会员。请登录后等待管理员认证。',
         gate_cta: '登录 / 注册',
         gate_pending: '已登录。正在等待汉秀扶轮社管理员认证。',
+        rotary_verified_label: '认证扶轮社会员',
+        rotary_intro_p: '请先提交捐款信息（汇款人姓名·金额），即可查看汉秀扶轮社卫星俱乐部专用账户。会计将为您匹配汇款记录。',
+        rotary_cta_start: '开始捐款申请',
+        rotary_form_title: '捐款申请书',
+        rotary_form_member: '捐款会员（自动）',
+        rotary_form_depositor: '汇款人姓名',
+        rotary_form_depositor_ph: '实际汇款时使用的姓名',
+        rotary_form_amount: '金额（韩元）',
+        rotary_form_amount_ph: '50000',
+        rotary_form_note: '备注（可选）',
+        rotary_form_note_ph: '定期/一次性、捐款目的等',
+        rotary_form_submit: '提交 + 查看账户',
+        rotary_submit_ok: '您的捐款申请已收到',
+        rotary_after_transfer: '💡 汇款后 1~2 个工作日内会计将确认并更新到我的页面。',
+        rotary_new_request: '新建申请',
         bank_label_bank: '银行', bank_label_account: '账号', bank_label_holder: '户名',
         bank_tbd: '— 待通知 —',
         bank_tbd_acct: '— 账号确定后公布 —',
@@ -9084,6 +9226,83 @@
       }
     }
 
+    /* Rotary 신청 폼 — 3-stage 전환 */
+    function showRotaryStage(stage) {
+      const stages = { initial: 'rotaryStageInitial', form: 'rotaryStageForm', bank: 'rotaryStageBank' };
+      Object.entries(stages).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = (key === stage) ? '' : 'none';
+      });
+      // 폼으로 진입 시 회원명 자동 채움
+      if (stage === 'form') {
+        const nm = (currentUserProfile?.name) || (currentUser?.user_metadata?.name) || (currentUser?.email?.split('@')[0]) || '';
+        const memberLbl = document.getElementById('rotaryFormMemberLabel');
+        if (memberLbl) memberLbl.textContent = nm + (currentUser?.email ? ' · ' + currentUser.email : '');
+        const dep = document.getElementById('rfDepositor');
+        if (dep && !dep.value) dep.value = nm;
+      }
+    }
+
+    async function submitRotaryDonation(e) {
+      e.preventDefault();
+      const btn = document.getElementById('rotarySubmitBtn');
+      const depositor = document.getElementById('rfDepositor')?.value.trim();
+      const amountRaw = document.getElementById('rfAmount')?.value;
+      const note = document.getElementById('rfNote')?.value.trim() || null;
+      const amount = parseInt(amountRaw, 10);
+
+      if (!depositor || !amount || amount < 1000) {
+        alert(curLang === 'ko' ? '입금자명과 금액(최소 1,000원)을 정확히 입력해 주세요.' : 'Please enter a valid depositor name and amount (min 1,000).');
+        return;
+      }
+      if (!currentUser?.id) {
+        alert(curLang === 'ko' ? '로그인이 필요합니다.' : 'Login required.');
+        return;
+      }
+
+      btn.disabled = true;
+      const originalBtnHTML = btn.innerHTML;
+      btn.innerHTML = '<span>저장 중…</span>';
+
+      const payload = {
+        user_id: currentUser.id,
+        channel: 'rotary_transfer',
+        amount: amount,
+        currency: 'KRW',
+        donor_name: depositor,
+        donor_email: currentUser.email || null,
+        status: 'recorded',  // pending admin confirmation
+        note: note,
+      };
+
+      try {
+        const { data, error } = await sb.from('donations').insert([payload]).select().single();
+        if (error) throw error;
+
+        // Stage 3로 전환 + 신청 요약 표시
+        const sumBox = document.getElementById('rotarySubmitSummary');
+        const sumDetails = document.getElementById('rotarySubmitDetails');
+        if (sumBox) sumBox.style.display = '';
+        if (sumDetails) {
+          const fmtAmount = '₩' + amount.toLocaleString();
+          sumDetails.innerHTML =
+            '<b>' + escHtml(depositor) + '</b> · ' + fmtAmount +
+            (note ? '<br><span style="color:rgba(255,255,255,.6);font-size:12px">' + escHtml(note) + '</span>' : '');
+        }
+        showRotaryStage('bank');
+        // 폼 리셋
+        document.getElementById('rotaryForm').reset();
+      } catch (err) {
+        console.error('Rotary donation insert error:', err);
+        alert((curLang === 'ko' ? '신청 저장 실패: ' : 'Submission failed: ') + (err.message || err));
+        btn.innerHTML = originalBtnHTML;
+        btn.disabled = false;
+        return;
+      }
+      btn.innerHTML = originalBtnHTML;
+      btn.disabled = false;
+    }
+
     function updateRotaryCardAccess() {
       const gate = document.getElementById('rotaryGate');
       const content = document.getElementById('rotaryContent');
@@ -9093,6 +9312,11 @@
       if (isRotaryPrivileged()) {
         gate.style.display = 'none';
         content.style.display = '';
+        // 회원 환영명 갱신
+        const wn = document.getElementById('rotaryWelcomeName');
+        if (wn) wn.textContent = (currentUserProfile?.name || currentUser?.user_metadata?.name || currentUser?.email?.split('@')[0] || '회원');
+        // 진입 시 항상 Stage 1으로
+        try { showRotaryStage('initial'); } catch (e) {}
         // 계좌 정보 상태 갱신 (ROTARY_BANK_INFO 기반)
         try { applyRotaryBankInfo(); } catch (e) {}
       } else {
@@ -10158,28 +10382,52 @@
         return;
       }
       if (!data || data.length === 0) { tbl.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">후원 내역이 없습니다.</td></tr>`; return; }
-      const payMethod = m => m === 'kakaopay' ? '💛 카카오페이' : '🏦 계좌이체';
+      // 신/구 컬럼 호환: 새 폼은 donor_name/donor_email/channel, 옛 데이터는 name/email/pay_method
+      const channelLabel = ch => {
+        if (ch === 'rotary_transfer') return '🎖️ 로타리 회원';
+        if (ch === 'mrm') return '🌏 MRM 일반';
+        if (ch === 'wire') return '✈️ 해외 송금';
+        if (ch === 'manual') return '✍️ 수기 입력';
+        return '💳 계좌이체';
+      };
       tbl.innerHTML = data.map(d => {
-        const isConfirmed = d.status === 'confirmed';
+        const name = d.donor_name || d.name || '-';
+        const email = d.donor_email || d.email || '-';
+        const phone = d.donor_phone || d.phone || '-';
+        const status = d.status || 'recorded';
+        const isConfirmed = status === 'confirmed';
+        // status 라벨
+        let badgeClass = 'pending', badgeTxt = '⏳ 확인 대기';
+        if (isConfirmed) { badgeClass = 'confirmed'; badgeTxt = '✅ 확인완료'; }
+        else if (status === 'refunded') { badgeClass = 'pending'; badgeTxt = '↩️ 환불'; }
+        else if (status === 'void') { badgeClass = 'pending'; badgeTxt = '🗑 무효'; }
+        const amountFmt = d.amount ? '₩' + Number(d.amount).toLocaleString() : '-';
+        const channelTag = d.channel ? channelLabel(d.channel) : (d.pay_method === 'kakaopay' ? '💛 카카오페이' : '🏦 계좌이체');
         return `<tr>
-      <td>${escHtml(d.name || '-')}</td>
-      <td style="font-size:11.5px;color:var(--muted)">${escHtml(d.email || '-')}</td>
-      <td style="font-size:11.5px">${d.phone || '-'}</td>
-      <td style="font-weight:700;color:var(--blue)">${d.amount || '-'}</td>
-      <td style="font-size:12px">${d.pay_type === 'regular' ? '정기' : '일시'}</td>
-      <td style="font-size:11.5px">${payMethod(d.pay_method)}</td>
-      <td style="font-size:11px;color:var(--muted)">${d.pay_date || d.created_at?.slice(0, 10) || '-'}</td>
-      <td><span class="admin-badge ${isConfirmed ? 'confirmed' : 'pending'}">${isConfirmed ? '✅ 확인완료' : '⏳ 대기'}</span></td>
+      <td>${escHtml(name)}</td>
+      <td style="font-size:11.5px;color:var(--muted)">${escHtml(email)}</td>
+      <td style="font-size:11.5px">${escHtml(phone)}</td>
+      <td style="font-weight:700;color:var(--blue)">${amountFmt}</td>
+      <td style="font-size:11.5px">${escHtml(d.note || '-')}</td>
+      <td style="font-size:11.5px">${channelTag}</td>
+      <td style="font-size:11px;color:var(--muted)">${d.created_at?.slice(0, 10) || '-'}</td>
+      <td><span class="admin-badge ${badgeClass}">${badgeTxt}</span></td>
       <td class="action-cell"><div style="display:flex;gap:4px">
         ${!isConfirmed ? `<button class="btn-sm green" onclick="confirmDonation('${d.id}',this,'confirmed')" title="확인 완료">✅</button>` : ''}
-        ${isConfirmed ? `<button class="btn-sm" style="background:#f59e0b;color:#fff;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:12px" onclick="confirmDonation('${d.id}',this,'pending')" title="대기로 되돌리기">↩️</button>` : ''}
+        ${isConfirmed ? `<button class="btn-sm" style="background:#f59e0b;color:#fff;padding:4px 8px;border:none;border-radius:4px;cursor:pointer;font-size:12px" onclick="confirmDonation('${d.id}',this,'recorded')" title="대기로 되돌리기">↩️</button>` : ''}
         <button class="btn-sm red" onclick="deleteDonation('${d.id}',this)" title="삭제">✕</button>
       </div></td>
     </tr>`;
       }).join('');
-      document.getElementById('asc-donations').textContent = data.length;
+      const ascD = document.getElementById('asc-donations');
+      if (ascD) ascD.textContent = data.length;
     }
     async function confirmDonation(id, btn, newStatus = 'confirmed') {
+      // 유효한 enum: recorded / confirmed / refunded / void
+      const validStatuses = ['recorded', 'confirmed', 'refunded', 'void'];
+      if (!validStatuses.includes(newStatus)) {
+        alert('알 수 없는 상태: ' + newStatus); return;
+      }
       const { error } = await sb.from('donations').update({ status: newStatus }).eq('id', id);
       if (error) { alert('상태 변경 실패: ' + error.message); return; }
       const tr = btn.closest('tr');
@@ -10188,15 +10436,14 @@
       if (badge) {
         if (newStatus === 'confirmed') {
           badge.className = 'admin-badge confirmed'; badge.textContent = '✅ 확인완료';
-        } else if (newStatus === 'pending') {
-          badge.className = 'admin-badge pending'; badge.textContent = '⏳ 대기';
+        } else {
+          badge.className = 'admin-badge pending'; badge.textContent = '⏳ 확인 대기';
         }
       }
-      // 버튼 갱신
       const donId = id;
       actionCell.innerHTML = `<div style="display:flex;gap:4px">
     ${newStatus !== 'confirmed' ? `<button class="btn-sm green" onclick="confirmDonation('${donId}',this,'confirmed')">✅</button>` : ''}
-    ${newStatus === 'confirmed' ? `<button class="btn-sm" style="background:#f59e0b;color:#fff" onclick="confirmDonation('${donId}',this,'pending')">↩️</button>` : ''}
+    ${newStatus === 'confirmed' ? `<button class="btn-sm" style="background:#f59e0b;color:#fff" onclick="confirmDonation('${donId}',this,'recorded')">↩️</button>` : ''}
     <button class="btn-sm red" onclick="deleteDonation('${donId}',this)">✕</button>
   </div>`;
     }
