@@ -13,8 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <!-- PortOne (구 아임포트) 결제 SDK V1 -->
-  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
   <style>
     /* ═══ DESIGN TOKENS — figma/ (slate + rose) ══════════════════════════ */
     :root {
@@ -5343,13 +5341,15 @@
           <h3><span></span> <span data-i="dw_ttl">후원하기</span></h3>
           <p data-i="dw_desc">당신의 관심이 선천성 심장병 어린이에게 새 생명을 선물합니다.</p>
         </div>
-        <div class="dw-form">
-          <div class="dw-tabs"><button class="dw-tab on" id="dwtab-regular" onclick="setDwType('regular')"
-              data-i="monthly">정기후원</button><button class="dw-tab" id="dwtab-once" onclick="setDwType('once')"
-              data-i="once">일시후원</button></div>
-          <div class="dw-amounts" id="dwAmounts"></div>
-          <input class="dw-custom" id="dwCustom" type="number" data-i-ph="ph_dw_custom" placeholder="직접 입력" min="1" oninput="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'));donateAmt=parseInt(this.value)||0" onfocus="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'))" onclick="document.querySelectorAll('.dw-amt').forEach(b=>b.classList.remove('on'))" />
-          <button class="dw-go" onclick="applyDwAndGo()"><span data-i="donate_btn">후원하기</span></button>
+        <div class="dw-form" style="justify-content:flex-end">
+          <a href="https://online.mrm.or.kr/oytvcb5" target="_blank" rel="noopener" class="dw-go" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none" data-i-title="donate_ch_a_cta">
+            <span data-i="dw_general">일반 후원</span>
+            <span style="font-size:16px;line-height:1">↗</span>
+          </a>
+          <button type="button" class="dw-go" onclick="goPage('donate')" style="background:var(--navy);color:#fff;border:0;display:inline-flex;align-items:center;gap:8px">
+            <span data-i="dw_rotary">로타리 회원 후원</span>
+            <span style="font-size:16px;line-height:1">→</span>
+          </button>
         </div>
       </div>
     </div>
@@ -6749,354 +6749,122 @@
 
   <!-- ════ DONATE ════ -->
   <div class="page" id="page-donate">
-    <div class="section">
+    <div class="section" style="padding:60px 0 80px;background:linear-gradient(180deg,#fff 0%,var(--blue-lt) 60%,#fff 100%)">
       <div class="wrap">
-        <div class="layout2">
-          <div class="main-col">
-            <div style="margin-bottom:20px;padding-bottom:16px;border-bottom:3px solid var(--blue);width:fit-content;min-width:220px">
-              <h2 style="font-family:'Libre Bodoni',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="donate_h2">작은 후원, 큰 기적</h2>
-              <p style="font-size:14px;color:var(--muted)" data-i="donate_sub">여러분의 정기 후원이 모여 한 아이의 심장이 다시 뜁니다.</p>
-            </div>
-            <div class="dpb">
-              <div>
-                <div class="dpb-raised">$8,400</div>
-                <div class="dpb-goal">목표 $12,000 · Amara (말라위 4세)</div>
-              </div>
-              <div class="dpb-pct">70%</div>
-              <div class="dpb-track-wrap">
-                <div style="font-size:12px;color:var(--muted);margin-bottom:5px" data-i="prog_label">모금 현황</div>
-                <div class="dpb-track">
-                  <div class="dpb-fill" style="width:70%"></div>
-                </div>
-              </div>
-            </div>
-            <!-- 외부 결제 사이트 바로가기 CTA -->
-            <div style="background:linear-gradient(135deg,#fff5f5,#fff);border:2px solid var(--blue-mid);border-radius:var(--r2);padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
-              <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle at top right,rgba(var(--rose),.08),transparent 70%);pointer-events:none"></div>
-              <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
-                <div style="width:48px;height:48px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 4px 14px rgba(var(--rose),.3)"></div>
-                <div>
-                  <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2px">온라인 후원 결제</div>
-                  <div style="font-size:12.5px;color:var(--muted)">생명나눔본부 공식 결제 페이지에서 안전하게 후원하세요</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">💳 신용카드</span>
-                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">🏦 계좌이체</span>
-                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">간편결제</span>
-                <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted)">🔄 정기후원</span>
-              </div>
-              <a href="https://online.mrm.or.kr/oytvcb5" target="_blank" rel="noopener"
-                style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 24px;background:var(--blue);color:#fff;border:none;border-radius:var(--r2);font-size:15px;font-weight:700;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 16px rgba(var(--rose),.3);text-decoration:none"
-                onmouseover="this.style.background='var(--blue2)';this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 24px rgba(244,63,94,.4)'"
-                onmouseout="this.style.background='var(--blue)';this.style.transform='translateY(0)';this.style.boxShadow='0 4px 16px rgba(244,63,94,.3)'">
-                🔗 공식 결제 페이지에서 후원하기
-                <span style="font-size:18px">→</span>
-              </a>
-              <p style="text-align:center;font-size:11.5px;color:var(--muted);margin-top:10px">생명나눔본부 공인 결제 시스템 · SSL 보안 · 세액공제 영수증 자동발급</p>
-            </div>
-            <!-- ① 후원 유형 + 금액 -->
-            <div class="box">
-              <div class="box-hd" data-i="donate_type">후원 유형 선택</div>
-              <div class="box-bd">
-                <div class="dt-tabs">
-                  <button class="dt-tab on" id="dt-regular" onclick="setDonateType('regular')" data-i="monthly">🔄 정기
-                    후원</button>
-                  <button class="dt-tab" id="dt-once" onclick="setDonateType('once')" data-i="once">일시 후원</button>
-                </div>
-                <div style="font-size:13px;font-weight:600;color:var(--muted);margin-bottom:12px" data-i="amt_select">후원
-                  금액</div>
-                <div class="amt-grid" id="donateAmtGrid"></div>
-                <div class="amt-row"><input class="amt-inp" type="number" id="customAmtInp" min="1"
-                    oninput="customAmt(this)" onfocus="customAmt(this)" placeholder="직접 입력" /><span class="amt-unit" id="currUnit">원</span></div>
-                <div class="nbox blue">💡 <span data-i="amt_note">월 20,000원 = 연 240,000원 | 연말 세액공제 혜택 가능</span></div>
-              </div>
-            </div>
-
-            <form id="donateForm" onsubmit="submitDonate(event)">
-
-              <!-- ② 기본정보: 개인 / 기업·단체 -->
-              <div class="box">
-                <div class="box-hd" data-i="donor_basic_info">👤 기본정보</div>
-                <div class="box-bd">
-                  <!-- 개인/기업 탭 -->
-                  <div
-                    style="display:flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:18px">
-                    <button type="button" id="donor-personal-tab" onclick="setDonorType('personal')"
-                      style="flex:1;padding:11px;border:none;background:var(--blue);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;transition:.2s">
-                      <span data-i="donor_personal">개인</span>
-                    </button>
-                    <button type="button" id="donor-org-tab" onclick="setDonorType('org')"
-                      style="flex:1;padding:11px;border:none;background:#fff;color:var(--muted);font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s;border-left:1.5px solid var(--border)">
-                      <span data-i="donor_org">기업/단체</span>
-                    </button>
-                  </div>
-
-                  <!-- 개인 필드 -->
-                  <div id="donor-personal-fields">
-                    <div class="fg"><label class="fl" data-i="fl_name">성명<span class="req">*</span></label><input
-                        class="fi" name="name" id="donorName" required /></div>
-                    <div class="fg"><label class="fl" data-i="fl_email">이메일<span class="req">*</span></label><input
-                        class="fi" type="email" name="email" id="donorEmail" required /></div>
-                    <div class="fg"><label class="fl" data-i="fl_phone">연락처<span class="req">*</span></label><input
-                        class="fi" name="phone" id="donorPhone" required /></div>
-                  </div>
-
-                  <!-- 기업/단체 필드 (기본 숨김) -->
-                  <div id="donor-org-fields" style="display:none">
-                    <div class="fg"><label class="fl">기업/단체명<span class="req">*</span></label><input class="fi"
-                        name="org_name" id="orgName" /></div>
-                    <div class="fg"><label class="fl">담당자명<span class="req">*</span></label><input class="fi"
-                        name="name" id="donorName" required /></div>
-                    <div class="fg"><label class="fl">담당자 연락처<span class="req">*</span></label><input class="fi"
-                        name="phone" id="donorPhone" required /></div>
-                    <div class="fg"><label class="fl">담당자 이메일<span class="req">*</span></label><input class="fi"
-                        type="email" name="email" id="donorEmail" required /></div>
-                  </div>
-
-                  <!-- 숨김 필드: 개인/기업 구분 -->
-                  <input type="hidden" name="donor_type" id="donorTypeHidden" value="personal" />
-                </div>
-              </div>
-
-              <!-- ③ 납부 정보: 정기/일시에 따라 결제수단 변경 -->
-              <div class="box">
-                <div class="box-hd" data-i="pay_info">납부 정보</div>
-                <div class="box-bd">
-
-                  <!-- ─── 정기후원 결제수단 ─── -->
-                  <div id="pay-methods-regular">
-                    <div style="font-size:13px;color:var(--muted);margin-bottom:12px">
-                      📋 정기 후원은 매월 자동으로 납부되는 방식을 선택해 주세요.
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                      <label onclick="togglePayMethod('cms')" style="cursor:pointer">
-                        <div id="pm-cms" class="pay-card active-card">
-                          <input type="radio" name="payMethod" value="cms" checked style="display:none" />
-                          <span style="font-size:20px">🏦</span>
-                          <div>
-                            <div style="font-weight:700;font-size:13px;color:var(--navy)">CMS 자동이체</div>
-                            <div style="font-size:10.5px;color:var(--muted)">계좌에서 매월 자동출금</div>
-                          </div>
-                          <span class="pm-check active-check" id="pm-cms-check">✓</span>
-                        </div>
-                      </label>
-                      <label onclick="togglePayMethod('card_regular')" style="cursor:pointer">
-                        <div id="pm-card_regular" class="pay-card">
-                          <input type="radio" name="payMethod" value="card_regular" style="display:none" />
-                          <span style="font-size:20px">💳</span>
-                          <div>
-                            <div style="font-weight:700;font-size:13px;color:var(--navy)">신용카드</div>
-                            <div style="font-size:10.5px;color:var(--muted)">카드 자동결제</div>
-                          </div>
-                          <span class="pm-check" id="pm-card_regular-check">✓</span>
-                        </div>
-                      </label>
-                    </div>
-                    <!-- CMS 자동이체 상세 필드 -->
-                    <div id="cms-fields" style="margin-top:14px">
-                      <div class="box-hd" style="margin-bottom:14px">결제정보</div>
-
-                      <div class="fg"><label class="fl">결제수단</label>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                          <button type="button" id="pmt-cms-btn" class="pmt-toggle active" onclick="switchPayDetail('cms')">CMS자동이체</button>
-                          <button type="button" id="pmt-card-btn" class="pmt-toggle" onclick="switchPayDetail('card_regular')">신용카드</button>
-                        </div>
-                      </div>
-
-                      <div id="cms-detail-fields">
-                        <div class="fg"><label class="fl">은행명</label>
-                          <select class="fi" name="cms_bank" id="cmsBankSel">
-                            <option value="">은행을 선택해 주세요</option>
-                            <option>국민</option><option>농협</option><option>기업</option><option>신한</option>
-                            <option>우리</option><option>씨티</option><option>하나</option><option>SC제일</option>
-                            <option>우체국</option><option>축협</option><option>수협</option><option>수협중앙회</option>
-                            <option>신협</option><option>새마을금고</option><option>산림조합</option><option>서울</option>
-                            <option>부산</option><option>대구</option><option>광주</option><option>제주</option>
-                            <option>전북</option><option>경남</option><option>카카오뱅크</option><option>토스뱅크</option>
-                            <option>케이뱅크</option>
-                          </select>
-                        </div>
-                        <div class="fg"><label class="fl">계좌번호</label><input class="fi" name="cms_account"
-                            id="cmsAccountInp" placeholder="휴대폰번호 형식의 계좌번호 사용불가" /></div>
-                        <div class="fg"><label class="fl">예금주구분</label>
-                          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                            <button type="button" id="cms-owner-personal" class="pmt-toggle active" onclick="setCmsOwnerType('personal')">개인(개인사업자)</button>
-                            <button type="button" id="cms-owner-corp" class="pmt-toggle" onclick="setCmsOwnerType('corp')">법인/단체</button>
-                          </div>
-                        </div>
-                        <div class="fg"><label class="fl">출금일</label>
-                          <select class="fi" name="cms_date" id="cmsDateSel">
-                            <option value="5" selected>매월 5일</option>
-                            <option value="10">매월 10일</option>
-                            <option value="15">매월 15일</option>
-                            <option value="20">매월 20일</option>
-                            <option value="25">매월 25일</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- 신용카드(정기) 상세 필드 -->
-                    <div id="card_regular-fields" style="display:none;margin-top:14px">
-                      <div class="box-hd" style="margin-bottom:14px">결제정보</div>
-
-                      <div class="fg"><label class="fl">결제수단</label>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                          <button type="button" id="pmt-cms-btn2" class="pmt-toggle" onclick="switchPayDetail('cms')">CMS자동이체</button>
-                          <button type="button" id="pmt-card-btn2" class="pmt-toggle active" onclick="switchPayDetail('card_regular')">신용카드</button>
-                        </div>
-                      </div>
-
-                      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-                        <input type="checkbox" id="cardSameInfo" onchange="fillCardFromBasic()" />
-                        <label for="cardSameInfo" style="font-size:13px;color:var(--text);cursor:pointer">기본정보와 동일</label>
-                      </div>
-
-                      <div class="fg"><label class="fl">카드주명</label><input class="fi" name="card_name" id="cardNameInp" /></div>
-                      <div class="fg"><label class="fl">카드주 생년월일</label><input class="fi" name="card_birth" id="cardBirthInp" placeholder="개인은 생년월일 6자리(법인은 사업자번호 10자리)" /></div>
-                      <div class="fg"><label class="fl">카드번호</label><input class="fi" name="card_number" id="cardNumInp" placeholder="0000-0000-0000-0000" /></div>
-                      <div class="fg"><label class="fl">유효기간</label><input class="fi" name="card_expiry" id="cardExpInp" placeholder="MMYY" maxlength="4" /></div>
-                      <div class="fg"><label class="fl">카드비밀번호</label><input class="fi" type="password" name="card_pin" id="cardPinInp" placeholder="앞 2자리" maxlength="2" /></div>
-                      <div class="fg"><label class="fl">카드주 휴대폰</label><input class="fi" name="card_phone" id="cardPhoneInp" placeholder="010-0000-0000" /></div>
-                      <div class="fg"><label class="fl">결제일</label>
-                        <select class="fi" name="card_date" id="cardDateSel">
-                          <option value="5" selected>매월 5일</option>
-                          <option value="10">매월 10일</option>
-                          <option value="15">매월 15일</option>
-                          <option value="20">매월 20일</option>
-                          <option value="25">매월 25일</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- ─── 일시후원 결제수단 ─── -->
-                  <div id="pay-methods-once" style="display:none">
-                    <div style="font-size:13px;color:var(--muted);margin-bottom:12px">
-                      원하시는 결제 방법을 선택해 주세요.
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                      <label onclick="togglePayMethod('nicepay')" style="cursor:pointer">
-                        <div id="pm-nicepay" class="pay-card active-card">
-                          <input type="radio" name="payMethod" value="nicepay" checked style="display:none" />
-                          <span style="font-size:18px">🏦</span>
-                          <div>
-                            <div style="font-weight:700;font-size:12.5px;color:var(--navy)">실시간 계좌이체</div>
-                            <div style="font-size:10px;color:var(--muted)">PortOne 연동</div>
-                          </div>
-                          <span class="pm-check active-check" id="pm-nicepay-check">✓</span>
-                        </div>
-                      </label>
-                      <label onclick="togglePayMethod('vbank')" style="cursor:pointer">
-                        <div id="pm-vbank" class="pay-card">
-                          <input type="radio" name="payMethod" value="vbank" style="display:none" />
-                          <span style="font-size:18px">🏧</span>
-                          <div>
-                            <div style="font-weight:700;font-size:12.5px;color:var(--navy)">가상계좌</div>
-                            <div style="font-size:10px;color:var(--muted)">입금 후 자동확인</div>
-                          </div>
-                          <span class="pm-check" id="pm-vbank-check">✓</span>
-                        </div>
-                      </label>
-                      <label onclick="togglePayMethod('card')" style="cursor:pointer">
-                        <div id="pm-card" class="pay-card">
-                          <input type="radio" name="payMethod" value="card" style="display:none" />
-                          <span style="font-size:18px">💳</span>
-                          <div>
-                            <div style="font-weight:700;font-size:12.5px;color:var(--navy)">신용카드</div>
-                            <div style="font-size:10px;color:var(--muted)">즉시결제</div>
-                          </div>
-                          <span class="pm-check" id="pm-card-check">✓</span>
-                        </div>
-                      </label>
-                      <label onclick="togglePayMethod('kakaopay')" style="cursor:pointer">
-                        <div id="pm-kakaopay" class="pay-card">
-                          <input type="radio" name="payMethod" value="kakaopay" style="display:none" />
-                          <span style="font-size:18px">💛</span>
-                          <div>
-                            <div style="font-weight:700;font-size:12.5px;color:#3A1D1D">카카오페이</div>
-                            <div style="font-size:10px;color:var(--muted)">간편결제</div>
-                          </div>
-                          <span class="pm-check" id="pm-kakaopay-check">✓</span>
-                        </div>
-                      </label>
-                    </div>
-
-                    <!-- PortOne 실시간계좌이체 안내 -->
-                    <div id="nicepay-fields" style="margin-top:14px">
-                      <div class="acct-box" style="background:#f0f7ff">
-                        🏦 <b>실시간 계좌이체 (PortOne)</b><br>
-                        <span style="font-size:12px;line-height:1.9">"결제하기" 클릭 시 PortOne 결제창이 열립니다.<br>모든 은행의 인터넷뱅킹으로 즉시
-                          이체 가능합니다.</span>
-                      </div>
-                    </div>
-
-                    <!-- 가상계좌 -->
-                    <div id="vbank-fields" style="display:none;margin-top:14px">
-                      <div class="acct-box" style="background:#f0f7ff">
-                        🏧 <b>가상계좌 입금</b><br>
-                        <span style="font-size:12px;line-height:1.9">신청 후 전용 가상계좌 번호가 발급됩니다.<br>24시간 내 입금하시면 자동으로
-                          확인됩니다.</span>
-                      </div>
-                    </div>
-
-                    <!-- 신용카드(일시) -->
-                    <div id="card-fields" style="display:none;margin-top:14px">
-                      <div class="acct-box" style="background:#f0f7ff">
-                        💳 <b>신용카드 결제</b><br>
-                        <span style="font-size:12px;line-height:1.9">"결제하기" 클릭 시 PortOne 신용카드 결제창이 열립니다.</span>
-                      </div>
-                    </div>
-
-                    <!-- 카카오페이 -->
-                    <div id="kakaopay-info" style="display:none;margin-top:14px">
-                      <div
-                        style="background:#FFFBE6;border:1.5px solid #FFD400;border-radius:8px;padding:14px 16px;font-size:13px;color:#5C4A00;line-height:1.9">
-                        💛 <b>카카오페이 QR 결제</b><br>
-                        결제 버튼 클릭 시 QR코드가 팝업됩니다. 카카오페이 앱으로 스캔하세요.
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- 계좌이체(수기) — 정기후원 CMS 아닌 경우 공통 표시 -->
-                  <div id="transfer-fields" style="display:none;margin-top:14px">
-                    <div class="acct-box"><b data-i="acct_guide">입금 계좌:</b> Kookmin Bank 123-456-7890 / <span data-i="acct_holder">예금주:</span> GOL Korea / <span
-                        style="color:var(--red)" id="transferNote">입금자명: 이름+후원</span></div>
-                    <div class="fg"><label class="fl" data-i="fl_depositor">입금자명<span class="req">*</span></label><input
-                        class="fi" name="depositor" id="depositorInp" /></div>
-                    <div class="fg"><label class="fl" data-i="fl_date">납부일</label><input class="fi" type="date"
-                        name="payDate" id="payDateFld" /></div>
-                  </div>
-
-                </div>
-              </div>
-
-              <!-- ④ 보안 확인 -->
-              <div class="box">
-                <div class="box-hd" data-i="security">🔒 보안 확인</div>
-                <div class="box-bd">
-                  <div class="cap-wrap"><span class="cap-code" id="capCode">GOLI26</span><button type="button"
-                      style="background:none;border:none;color:var(--blue);font-size:13px;cursor:pointer"
-                      onclick="refreshCap()">🔄</button></div>
-                  <input class="fi" type="text" name="captcha" id="capInput" data-i-ph="ph_captcha"
-                    placeholder="위 코드 입력" required style="max-width:210px;margin-top:10px" />
-                  <div class="agree-row"><input type="checkbox" name="agree" required /><span data-i="agree">개인정보 수집 및
-                      이용에 동의합니다.</span></div>
-                </div>
-              </div>
-
-              <button type="submit" class="donate-submit-btn" id="donateSubmitBtn"><span></span> <span
-                  data-i="submit_btn">지금 후원하기</span></button>
-            </form>
-          </div>
-          <aside class="sidebar">
-            <div class="sb-box" style="padding:16px"><b style="font-size:13px;color:var(--navy)" data-i="acct_title">납부 계좌</b>
-              <div style="font-size:13px;line-height:2.2;color:#444;margin-top:9px">
-                <b>Kookmin Bank</b><br>123-456-7890<br><span>GOL Korea</span></div>
-            </div>
-          </aside>
+        <!-- Editorial header -->
+        <div style="text-align:center;max-width:720px;margin:0 auto 48px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px" data-i="donate_eyebrow">Donate · 후원</div>
+          <h2 style="font-family:'Libre Bodoni',serif;font-size:clamp(30px,5vw,46px);font-weight:700;color:var(--navy);line-height:1.25;margin-bottom:16px" data-i="donate_h2">당신의 선물이 심장을 뛰게 합니다</h2>
+          <p style="font-size:15.5px;color:var(--muted);line-height:1.75;max-width:580px;margin:0 auto" data-i="donate_sub">Gift of Life Korea의 모든 활동은 여러분의 후원으로 이어집니다. 아래 두 경로 중 한 곳을 선택해 후원에 참여해 주세요.</p>
+          <div style="width:48px;height:3px;background:var(--blue);margin:28px auto 0;border-radius:2px"></div>
         </div>
+
+        <!-- 2-channel donation grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;max-width:1040px;margin:0 auto">
+
+          <!-- ══ CHANNEL A · General Donation (MRM link) ══ -->
+          <article style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:36px 32px 32px;position:relative;display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(15,23,42,.04);transition:transform .35s ease,box-shadow .35s ease"
+            onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 24px 60px -20px rgba(232,114,138,.28),0 2px 6px rgba(15,23,42,.04)'"
+            onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 1px 0 rgba(15,23,42,.04)'">
+            <div style="position:absolute;top:0;left:36px;right:36px;height:4px;background:var(--blue);border-radius:0 0 3px 3px"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
+              <span style="font-family:'Libre Bodoni',serif;font-size:13px;letter-spacing:2px;color:var(--blue);font-weight:600">01</span>
+              <span style="height:10px;width:1px;background:var(--border)"></span>
+              <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase" data-i="donate_ch_a_kicker">For Everyone</span>
+            </div>
+
+            <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px">
+              <div aria-hidden="true" style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--blue-lt),#fff);border:1px solid var(--blue-mid);display:flex;align-items:center;justify-content:center;font-size:22px">🌏</div>
+              <div>
+                <h3 style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:6px" data-i="donate_ch_a_title">일반 후원</h3>
+                <p style="font-size:13px;color:var(--muted);line-height:1.6" data-i="donate_ch_a_sub">누구나 참여 가능한 온라인 후원 (생명나눔본부 공식 페이지)</p>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px">
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:6px 11px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_card">💳 신용카드</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:6px 11px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_easy">📱 간편결제</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:6px 11px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_transfer">🏦 계좌이체</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:6px 11px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_recurring">🔄 정기후원</span>
+            </div>
+
+            <div style="flex:1"></div>
+
+            <a href="https://online.mrm.or.kr/oytvcb5" target="_blank" rel="noopener"
+              style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;background:var(--navy);color:#fff;border-radius:var(--r);font-size:14.5px;font-weight:700;text-decoration:none;transition:background .25s ease,transform .25s ease"
+              onmouseover="this.style.background='var(--blue)';this.style.transform='translateX(2px)'"
+              onmouseout="this.style.background='var(--navy)';this.style.transform='translateX(0)'">
+              <span data-i="donate_ch_a_cta">공식 후원 페이지로 이동</span>
+              <span style="font-size:18px;line-height:1">→</span>
+            </a>
+            <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6" data-i="donate_ch_a_note">세액공제 영수증 자동발급 · SSL 보안 결제</p>
+          </article>
+
+          <!-- ══ CHANNEL B · Rotary Member Exclusive (bank info) ══ -->
+          <article style="background:linear-gradient(165deg,var(--navy) 0%,#1a2540 50%,#1e293b 100%);color:#fff;border-radius:var(--r2);padding:36px 32px 32px;position:relative;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px -25px rgba(15,23,42,.45)">
+            <div aria-hidden="true" style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,114,138,.22),transparent 70%);pointer-events:none"></div>
+            <div style="position:absolute;top:0;left:36px;right:36px;height:4px;background:var(--blue);border-radius:0 0 3px 3px"></div>
+
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;position:relative">
+              <span style="font-family:'Libre Bodoni',serif;font-size:13px;letter-spacing:2px;color:var(--blue);font-weight:600">02</span>
+              <span style="height:10px;width:1px;background:rgba(255,255,255,.2)"></span>
+              <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(255,255,255,.6);text-transform:uppercase" data-i="donate_ch_b_kicker">For Rotarians</span>
+            </div>
+
+            <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:22px;position:relative">
+              <div aria-hidden="true" style="flex-shrink:0;width:52px;height:52px;border-radius:14px;background:rgba(232,114,138,.12);border:1px solid rgba(232,114,138,.3);display:flex;align-items:center;justify-content:center">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e8728a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+              </div>
+              <div>
+                <h3 style="font-family:'Libre Bodoni',serif;font-size:24px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:6px" data-i="donate_ch_b_title">로타리 회원 전용</h3>
+                <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6" data-i="donate_ch_b_sub">한수 로타리클럽이 위성클럽 회원 후원을 위한 전용 계좌를 개설하고 있습니다.</p>
+              </div>
+            </div>
+
+            <!-- ROTARY_BANK_INFO_PLACEHOLDER:start  (계좌번호 확정 시 아래 3개 값만 교체) -->
+            <div id="rotaryBankBox" style="background:rgba(255,255,255,.04);border:1px dashed rgba(232,114,138,.4);border-radius:var(--r);padding:22px 20px;margin-bottom:16px;position:relative">
+              <div style="position:absolute;top:-10px;left:18px;background:var(--blue);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.2px;padding:4px 10px;border-radius:999px;text-transform:uppercase" data-i="bank_status_pending">계좌 개설 중 · Pending</div>
+
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:baseline;margin-top:6px">
+                <span style="font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.5);text-transform:uppercase" data-i="bank_label_bank">Bank</span>
+                <span data-rotary-bank style="font-family:'Libre Bodoni',serif;font-size:18px;color:rgba(255,255,255,.85);font-weight:500" data-i="bank_tbd">— 추후 안내 —</span>
+
+                <span style="font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.5);text-transform:uppercase" data-i="bank_label_account">Account No.</span>
+                <span data-rotary-account style="font-family:'Libre Bodoni',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:.5px;word-break:break-all" data-i="bank_tbd_acct">— 계좌번호 확정 후 게시 —</span>
+
+                <span style="font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.5);text-transform:uppercase" data-i="bank_label_holder">Holder</span>
+                <span data-rotary-holder style="font-size:14.5px;color:rgba(255,255,255,.92);font-weight:600" data-i="bank_holder_hansoo">한수 로타리클럽 위성클럽 · Hansoo Rotary Satellite Club</span>
+              </div>
+            </div>
+            <!-- ROTARY_BANK_INFO_PLACEHOLDER:end -->
+
+            <button type="button" id="btnCopyRotaryAccount" onclick="copyRotaryAccount()" disabled
+              style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px 22px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);font-size:14px;font-weight:700;cursor:not-allowed;transition:all .25s ease">
+              <span data-i="bank_copy_disabled">계좌번호 확정 후 복사 가능</span>
+            </button>
+            <p style="font-size:11.5px;color:rgba(255,255,255,.55);text-align:center;margin-top:12px;line-height:1.7" data-i="donate_ch_b_note">계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.</p>
+          </article>
+
+        </div>
+
+        <!-- International donors note -->
+        <div style="max-width:760px;margin:52px auto 0;padding:22px 24px;background:#fff;border:1px solid var(--border);border-radius:var(--r);display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+          <div aria-hidden="true" style="flex-shrink:0;width:40px;height:40px;border-radius:10px;background:var(--blue-lt);display:flex;align-items:center;justify-content:center;font-size:18px">✉️</div>
+          <div style="flex:1;min-width:220px">
+            <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px" data-i="donate_intl_title">해외 송금 후원 · International Wire Transfer</div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.7" data-i="donate_intl_desc">해외에서 송금하시려는 경우 아래 이메일로 연락 주시면 wire transfer 계좌 정보를 안내해 드립니다.</p>
+          </div>
+          <a href="mailto:golikorea@naver.com" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--navy);color:#fff;border-radius:999px;font-size:12.5px;font-weight:700;text-decoration:none;transition:background .25s ease" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--navy)'">
+            golikorea@naver.com <span style="font-size:14px">→</span>
+          </a>
+        </div>
+
+        <!-- Mission reaffirmation -->
+        <div style="max-width:640px;margin:36px auto 0;text-align:center">
+          <p style="font-family:'Libre Bodoni',serif;font-size:17px;font-style:italic;color:var(--navy);line-height:1.7" data-i="donate_epilogue">"가장 아름다운 선물, 생명을 나누어 주세요."</p>
+          <p style="font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:1.5px;text-transform:uppercase">— Gift of Life Korea</p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -7755,8 +7523,29 @@
         imp0: '총 누적 모금액 (2003~)', imp1: '수술 성공 · 30+개국', imp2: '아동 1인 수술 비용',
         events_ttl: '주요 일정',
         tbl_no: '번호', tbl_title: '제목', tbl_author: '작성자', tbl_date: '날짜', tbl_views: '조회',
-        donate_h2: '작은 후원, 큰 기적', donate_sub: '여러분의 정기 후원이 모여 한 아이의 심장이 다시 뜁니다.',
+        donate_h2: '당신의 선물이 심장을 뛰게 합니다', donate_sub: 'Gift of Life Korea의 모든 활동은 여러분의 후원으로 이어집니다. 아래 두 경로 중 한 곳을 선택해 후원에 참여해 주세요.',
+        donate_eyebrow: 'Donate · 후원',
         donate_type: '💝 후원 유형 선택', monthly: '정기 후원', once: '일시 후원',
+        donate_ch_a_kicker: 'For Everyone',
+        donate_ch_a_title: '일반 후원',
+        donate_ch_a_sub: '누구나 참여 가능한 온라인 후원 (생명나눔본부 공식 페이지)',
+        donate_ch_a_cta: '공식 후원 페이지로 이동',
+        donate_ch_a_note: '세액공제 영수증 자동발급 · SSL 보안 결제',
+        donate_ch_b_kicker: 'For Rotarians',
+        donate_ch_b_title: '로타리 회원 전용',
+        donate_ch_b_sub: '한수 로타리클럽이 위성클럽 회원 후원을 위한 전용 계좌를 개설하고 있습니다.',
+        donate_ch_b_note: '계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.',
+        pay_card: '💳 신용카드', pay_easy: '📱 간편결제', pay_transfer: '🏦 계좌이체', pay_recurring: '🔄 정기후원',
+        bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
+        bank_tbd: '— 추후 안내 —',
+        bank_tbd_acct: '— 계좌번호 확정 후 게시 —',
+        bank_holder_hansoo: '한수 로타리클럽 위성클럽 · Hansoo Rotary Satellite Club',
+        bank_status_pending: '계좌 개설 중 · Pending',
+        bank_copy_disabled: '계좌번호 확정 후 복사 가능',
+        donate_intl_title: '해외 송금 후원 · International Wire Transfer',
+        donate_intl_desc: '해외에서 송금하시려는 경우 아래 이메일로 연락 주시면 wire transfer 계좌 정보를 안내해 드립니다.',
+        donate_epilogue: '"가장 아름다운 선물, 생명을 나누어 주세요."',
+        dw_general: '일반 후원', dw_rotary: '로타리 회원 후원',
         dw_ttl: '후원하기', dw_desc: '당신의 관심이 선천성 심장병 어린이에게 새 생명을 선물합니다.',
         amt_select: '후원 금액', amt_note: '월 20,000원 = 연 240,000원 | 연말 세액공제 혜택 가능',
         donor_info: '👤 후원자 정보', pay_info: '🏦 납부 정보',
@@ -7914,8 +7703,29 @@
         imp0: 'Total Raised (2003~)', imp1: 'Children Saved · 30+ Countries', imp2: 'Surgery Cost Per Child',
         events_ttl: 'Upcoming Events',
         tbl_no: 'No.', tbl_title: 'Title', tbl_author: 'Author', tbl_date: 'Date', tbl_views: 'Views',
-        donate_h2: 'The $1 Miracle', donate_sub: "When 12,000 people give $1 each, a child's heart beats again.",
+        donate_h2: 'Your Gift Makes a Heart Beat', donate_sub: 'Every Gift of Life Korea mission is powered by your support. Choose one of the two paths below to donate.',
+        donate_eyebrow: 'Donate',
         donate_type: '💝 Donation Type', monthly: 'Monthly', once: 'One-time',
+        donate_ch_a_kicker: 'For Everyone',
+        donate_ch_a_title: 'General Donation',
+        donate_ch_a_sub: 'Open to anyone via the official Life-Sharing Headquarters checkout page',
+        donate_ch_a_cta: 'Go to Official Donation Page',
+        donate_ch_a_note: 'Automatic tax-deduction receipt · SSL-secured checkout',
+        donate_ch_b_kicker: 'For Rotarians',
+        donate_ch_b_title: 'Rotary Members Only',
+        donate_ch_b_sub: 'Hansoo Rotary Club is opening a dedicated bank account for satellite-club members.',
+        donate_ch_b_note: 'This page will be updated the moment the account details are confirmed.',
+        pay_card: '💳 Credit Card', pay_easy: '📱 Easy Pay', pay_transfer: '🏦 Bank Transfer', pay_recurring: '🔄 Monthly',
+        bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
+        bank_tbd: '— To be announced —',
+        bank_tbd_acct: '— To be published soon —',
+        bank_holder_hansoo: 'Hansoo Rotary Satellite Club',
+        bank_status_pending: 'Pending · Account Opening',
+        bank_copy_disabled: 'Copy available once the account is confirmed',
+        donate_intl_title: 'International Wire Transfer',
+        donate_intl_desc: 'If you wish to send a donation from abroad, please email us and we will share the wire transfer details.',
+        donate_epilogue: '"Share the most beautiful gift — the gift of life."',
+        dw_general: 'General Donation', dw_rotary: 'Rotary Members',
         dw_ttl: 'Donate', dw_desc: 'Your support gives hope to children with congenital heart disease.',
         amt_select: 'Select Amount', amt_note: '$20/month = $240/year | Tax deduction may apply',
         donor_info: '👤 Donor Info', pay_info: '🏦 Payment Info',
@@ -8069,8 +7879,29 @@
         imp0: '总累计筹款(2003~)', imp1: '获救儿童 · 30+国家', imp2: '单个儿童手术费用',
         events_ttl: '即将举行的活动',
         tbl_no: '编号', tbl_title: '标题', tbl_author: '作者', tbl_date: '日期', tbl_views: '浏览',
-        donate_h2: '$1的奇迹', donate_sub: '如果12,000人各捐$1，一颗心脏将重新跳动。',
+        donate_h2: '您的礼物让心脏重新跳动', donate_sub: 'Gift of Life Korea 的每一项活动都源于您的支持。请从下方两条路径中选择一种参与捐款。',
+        donate_eyebrow: '捐款 · Donate',
         donate_type: '💝 捐款类型', monthly: '每月定期', once: '一次性',
+        donate_ch_a_kicker: 'For Everyone',
+        donate_ch_a_title: '一般捐款',
+        donate_ch_a_sub: '任何人都可参与 (生命分享本部官方结算页面)',
+        donate_ch_a_cta: '前往官方捐款页面',
+        donate_ch_a_note: '自动开具税前扣除收据 · SSL 安全结算',
+        donate_ch_b_kicker: 'For Rotarians',
+        donate_ch_b_title: '扶轮社会员专用',
+        donate_ch_b_sub: '汉秀扶轮社正在为卫星俱乐部会员开设专用银行账户。',
+        donate_ch_b_note: '账户信息确定后将立即在此页面更新。',
+        pay_card: '💳 信用卡', pay_easy: '📱 便捷支付', pay_transfer: '🏦 银行转账', pay_recurring: '🔄 定期捐款',
+        bank_label_bank: '银行', bank_label_account: '账号', bank_label_holder: '户名',
+        bank_tbd: '— 待通知 —',
+        bank_tbd_acct: '— 账号确定后公布 —',
+        bank_holder_hansoo: '汉秀扶轮社卫星俱乐部',
+        bank_status_pending: '开户中 · Pending',
+        bank_copy_disabled: '账号确定后可复制',
+        donate_intl_title: '海外汇款捐款 · International Wire Transfer',
+        donate_intl_desc: '如需从海外汇款，请通过以下邮箱联系我们，我们将为您提供 wire transfer 账户信息。',
+        donate_epilogue: '"分享最美丽的礼物——生命。"',
+        dw_general: '一般捐款', dw_rotary: '扶轮社会员捐款',
         dw_ttl: '捐款', dw_desc: '您的支持给先天性心脏病儿童带来新希望。',
         amt_select: '选择金额', amt_note: '$20/月 = $240/年',
         donor_info: '👤 捐款人信息', pay_info: '🏦 付款信息',
@@ -8450,14 +8281,9 @@
       buildSlides();
       setLang(curLang);
       setDonationRegion('kr');
-      // 후원 폼 초기 상태
-      try { setDonateType('regular'); setDonorType('personal'); } catch (e) { }
+      // 로타리 전용 계좌 정보 UI 반영
+      try { applyRotaryBankInfo(); } catch (e) { }
       handleKakaoReturn();
-
-      // PortOne (구 아임포트) 가맹점 초기화
-      // ▶ PortOne 관리자(https://admin.portone.io) > 내 식별코드 확인 후 아래 값 교체
-      const PORTONE_IMP_CODE = 'imp00000000'; // ← 실제 가맹점 식별코드로 교체 필요
-      try { IMP.init(PORTONE_IMP_CODE); } catch (e) { console.warn('PortOne init failed:', e); }
 
       // ④ 백그라운드 Supabase (실패해도 페이지는 정상 동작)
       try {
@@ -8919,29 +8745,63 @@
     function resetTimer() { clearTimeout(slideTimer); if (!slidePaused) startSlideTimer(); }
 
     /* ══════════════════════════════════════
-       DONATE
+       DONATE — Rotary 전용 계좌 복사 유틸
     ══════════════════════════════════════ */
-    function setDwType(t) { dwType = t;['regular', 'once'].forEach(x => document.getElementById('dwtab-' + x).classList.toggle('on', x === t)); }
-    function applyDwAndGo() {
-      // 홈 위젯에서 선택한 금액/유형을 후원 페이지에 반영
-      const customVal = document.getElementById('dwCustom')?.value;
-      goPage('donate');
-      // 유형 반영
-      try { setDonateType(dwType); } catch(e){}
-      // 금액 반영
-      setTimeout(() => {
-        if (customVal && parseInt(customVal) > 0) {
-          donateAmt = parseInt(customVal);
-          const ci = document.getElementById('customAmtInp'); if (ci) ci.value = customVal;
-          document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('on'));
-        } else if (donateAmt > 0) {
-          const ci = document.getElementById('customAmtInp'); if (ci) ci.value = '';
-          document.querySelectorAll('.amt-btn').forEach(b => {
-            if (parseInt(b.dataset.amt) === donateAmt) b.classList.add('on');
-            else b.classList.remove('on');
-          });
+    // 계좌번호가 확정되면 이 객체의 값만 교체하면 UI에 자동 반영됩니다.
+    const ROTARY_BANK_INFO = {
+      bank: '',        // 예: '신한은행'
+      account: '',     // 예: '123-456-7890'
+      holder: '한수 로타리클럽 위성클럽 · Hansoo Rotary Satellite Club',
+    };
+
+    function applyRotaryBankInfo() {
+      const box = document.getElementById('rotaryBankBox');
+      if (!box) return;
+      const bankEl = box.querySelector('[data-rotary-bank]');
+      const acctEl = box.querySelector('[data-rotary-account]');
+      const holderEl = box.querySelector('[data-rotary-holder]');
+      const copyBtn = document.getElementById('btnCopyRotaryAccount');
+      const hasData = ROTARY_BANK_INFO.bank && ROTARY_BANK_INFO.account;
+      if (hasData) {
+        if (bankEl) { bankEl.textContent = ROTARY_BANK_INFO.bank; bankEl.removeAttribute('data-i'); }
+        if (acctEl) { acctEl.textContent = ROTARY_BANK_INFO.account; acctEl.removeAttribute('data-i'); }
+        if (holderEl) { holderEl.textContent = ROTARY_BANK_INFO.holder; holderEl.removeAttribute('data-i'); }
+        box.style.borderStyle = 'solid';
+        const badge = box.querySelector('[data-i="bank_status_pending"]');
+        if (badge) { badge.textContent = (curLang === 'ko' ? '공개중' : 'Published'); badge.style.background = 'var(--navy)'; }
+        if (copyBtn) {
+          copyBtn.disabled = false;
+          copyBtn.style.background = 'var(--blue)';
+          copyBtn.style.color = '#fff';
+          copyBtn.style.borderColor = 'var(--blue)';
+          copyBtn.style.cursor = 'pointer';
+          const lbl = copyBtn.querySelector('[data-i="bank_copy_disabled"]') || copyBtn.querySelector('span');
+          if (lbl) { lbl.textContent = (curLang === 'ko' ? '계좌번호 복사하기' : 'Copy Account Number'); lbl.removeAttribute('data-i'); }
         }
-      }, 100);
+      }
+    }
+
+    async function copyRotaryAccount() {
+      if (!ROTARY_BANK_INFO.account) return;
+      const text = (ROTARY_BANK_INFO.bank ? ROTARY_BANK_INFO.bank + ' ' : '') + ROTARY_BANK_INFO.account;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (err) {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      const btn = document.getElementById('btnCopyRotaryAccount');
+      if (!btn) return;
+      const span = btn.querySelector('span');
+      const prev = span ? span.textContent : '';
+      if (span) span.textContent = (curLang === 'ko' ? '✓ 복사되었습니다' : '✓ Copied');
+      btn.style.background = '#10b981';
+      setTimeout(() => {
+        if (span) span.textContent = prev;
+        btn.style.background = 'var(--blue)';
+      }, 1500);
     }
     function setDonateType(t) {
       donateType = t;
@@ -9108,258 +8968,9 @@
     /* ══════════════════════════════════════
        DONATE FORM SUBMIT
     ══════════════════════════════════════ */
-    async function submitDonate(e) {
-      e.preventDefault();
-      const capVal = document.getElementById('capInput')?.value.toUpperCase().trim();
-      if (capVal !== curCap) {
-        alert(curLang === 'ko' ? '보안 코드가 일치하지 않습니다.' : 'Security code mismatch.');
-        return;
-      }
-      const btn = document.getElementById('donateSubmitBtn');
-      const fd = new FormData(e.target);
-      const method = currentPayMethod;
+    // submitDonate removed — donation handled via external MRM link + Rotary bank transfer
+    async function submitDonate(e){ if(e&&e.preventDefault) e.preventDefault(); }
 
-      // 미국 납부는 결제 API 우선 연결(카드/계좌/가상계좌)
-      if (donationRegion === 'us' && ['nicepay', 'card', 'vbank', 'transfer'].includes(method)) {
-        try {
-          btn.innerHTML = '<span class="spinner"></span>';
-          btn.disabled = true;
-          const out = await createDonationCheckout(fd, method);
-          if (out?.redirect_url) { window.location.href = out.redirect_url; return; }
-          throw new Error('missing redirect_url');
-        } catch (apiErr) {
-          console.warn('US checkout api failed:', apiErr.message);
-          alert(curLang === 'ko' ? '미국 결제 API 연결에 실패했습니다. 관리자에게 문의해 주세요.' : 'US payment API connection failed. Please contact support.');
-          btn.innerHTML = T[curLang].submit_btn || '후원하기';
-          btn.disabled = false;
-          return;
-        }
-      }
-
-      // ── PortOne 결제창 (카카오페이 / 신용카드 / 계좌이체 / 가상계좌) ──
-      if (['kakaopay', 'nicepay', 'card', 'vbank'].includes(method)) {
-        const name = fd.get('name') || '';
-        const email = fd.get('email') || '';
-        const phone = fd.get('phone') || '';
-        if (!name || !email) {
-          alert(curLang === 'ko' ? '성명과 이메일을 입력해 주세요.' : 'Please enter your name and email.');
-          return;
-        }
-        const rawAmt = donateAmt || fd.get('customAmt') || '30000';
-        const numAmt = parseInt(String(rawAmt).replace(/[^0-9]/g, '')) || 30000;
-        const merchantUid = 'goli_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-
-        // PG사 & 결제수단 매핑
-        // ▶ 실제 계약한 PG사 코드로 변경 (예: 'html5_inicis', 'nice', 'tosspayments' 등)
-        let pg = 'html5_inicis';
-        let payMethod = 'card';
-        if (method === 'nicepay') { pg = 'html5_inicis'; payMethod = 'trans'; }
-        else if (method === 'card') { pg = 'html5_inicis'; payMethod = 'card'; }
-        else if (method === 'vbank') { pg = 'html5_inicis'; payMethod = 'vbank'; }
-        else if (method === 'kakaopay') { pg = 'kakaopay'; payMethod = 'card'; }
-
-        btn.innerHTML = '<span class="spinner"></span> 결제창 연결 중...';
-        btn.disabled = true;
-
-        const portoneParams = {
-          pg,
-          pay_method: payMethod,
-          merchant_uid: merchantUid,
-          name: '생명의선물코리아 후원',
-          amount: numAmt,
-          buyer_email: email,
-          buyer_name: name,
-          buyer_tel: phone || '010-0000-0000',
-          m_redirect_url: window.location.href,
-        };
-        // 가상계좌: 입금 기한 설정 (3일 후)
-        if (payMethod === 'vbank') {
-          const due = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
-          portoneParams.vbank_due = due.getFullYear() + '' +
-            String(due.getMonth() + 1).padStart(2, '0') +
-            String(due.getDate()).padStart(2, '0') + '2359';
-        }
-
-        IMP.request_pay(portoneParams, async function (rsp) {
-          if (rsp.success) {
-            btn.innerHTML = '<span class="spinner"></span> 결제 확인 중...';
-            try {
-              await sb.from('donations').insert([{
-                name, email,
-                phone: phone || null,
-                amount: String(numAmt),
-                pay_type: donateType || 'once',
-                pay_method: method,
-                status: payMethod === 'vbank' ? 'vbank_ready' : 'paid',
-                imp_uid: rsp.imp_uid,
-                merchant_uid: merchantUid,
-                donor_type: fd.get('donor_type') || 'personal',
-                lang: curLang,
-              }]);
-            } catch (dbErr) { console.warn('DB insert error', dbErr); }
-            btn.innerHTML = T[curLang].submit_btn || '후원하기';
-            btn.disabled = false;
-            const msg = payMethod === 'vbank'
-              ? '가상계좌가 발급되었습니다.\n' + rsp.vbank_name + ' ' + rsp.vbank_num + '\n입금 기한: ' + rsp.vbank_date
-              : (T[curLang].ok_body || '결제가 완료되었습니다. 감사합니다!');
-            document.getElementById('okBody').textContent = msg;
-            document.getElementById('okMod').classList.add('open');
-            e.target.reset(); setDonateType(donateType); setDonorType('personal');
-            if (currentUser?.email) loadMyDonations(currentUser.email);
-          } else {
-            btn.innerHTML = T[curLang].submit_btn || '후원하기';
-            btn.disabled = false;
-            // error_code F0000 = 사용자 취소 (alert 불필요)
-            if (rsp.error_code !== 'F0000') {
-              alert('결제 실패: ' + (rsp.error_msg || '알 수 없는 오류'));
-            }
-          }
-        });
-        return;
-      }
-
-      // ── 정기후원: 카드 자동결제 (PortOne 빌링키 등록) ──────────────────
-      if (method === 'card_regular') {
-        const name = fd.get('name') || '';
-        const email = fd.get('email') || '';
-        const phone = fd.get('phone') || '';
-        if (!name || !email) {
-          alert(curLang === 'ko' ? '성명과 이메일을 입력해 주세요.' : 'Please enter your name and email.');
-          return;
-        }
-        const rawAmt = donateAmt || fd.get('customAmt') || '30000';
-        const numAmt = parseInt(String(rawAmt).replace(/[^0-9]/g, '')) || 30000;
-        const customerUid = 'goli_cust_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-        btn.innerHTML = '<span class="spinner"></span> 카드 등록 중...';
-        btn.disabled = true;
-        // PortOne 빌링키 발급 (0원 인증 후 서버에서 매월 정기결제 처리)
-        IMP.request_subscribe({
-          pg: 'html5_inicis',      // ▶ 실제 계약 PG사로 교체
-          pay_method: 'card',
-          merchant_uid: 'goli_sub_' + Date.now(),
-          customer_uid: customerUid,
-          name: '생명의선물코리아 정기후원 카드 등록',
-          amount: 0,               // 0원: 카드 등록만, 실결제 없음
-          buyer_email: email,
-          buyer_name: name,
-          buyer_tel: phone || '010-0000-0000',
-        }, async function (rsp) {
-          if (rsp.success) {
-            try {
-              await sb.from('donations').insert([{
-                name, email,
-                phone: phone || null,
-                amount: String(numAmt),
-                pay_type: 'regular',
-                pay_method: 'card_regular',
-                status: 'pending',
-                customer_uid: customerUid,
-                donor_type: fd.get('donor_type') || 'personal',
-                lang: curLang,
-              }]);
-            } catch (dbErr) { console.warn('DB error', dbErr); }
-            btn.innerHTML = T[curLang].submit_btn || '후원하기';
-            btn.disabled = false;
-            document.getElementById('okBody').textContent = '카드 등록이 완료되었습니다. 매월 지정 금액이 자동 결제됩니다.';
-            document.getElementById('okMod').classList.add('open');
-            e.target.reset(); setDonateType(donateType); setDonorType('personal');
-            if (currentUser?.email) loadMyDonations(currentUser.email);
-          } else {
-            btn.innerHTML = T[curLang].submit_btn || '후원하기';
-            btn.disabled = false;
-            if (rsp.error_code !== 'F0000') {
-              alert('카드 등록 실패: ' + (rsp.error_msg || '알 수 없는 오류'));
-            }
-          }
-        });
-        return;
-      }
-
-      // ── CMS 자동이체 ──────────────────────────────────
-      if (method === 'cms') {
-        btn.innerHTML = '<span class="spinner"></span>';
-        btn.disabled = true;
-        const payload = {
-          name: fd.get('name') || '',
-          email: fd.get('email') || '',
-          phone: fd.get('phone') || null,
-          grade: (document.querySelector('input[name="grade"]:checked')?.value) || 'champion',
-          amount: donateAmt || fd.get('customAmt') || '미지정',
-          pay_type: 'regular',
-          pay_method: 'cms',
-          status: 'pending',
-          lang: curLang,
-          org_name: fd.get('org_name') || null,
-          donor_type: fd.get('donor_type') || 'personal',
-          cms_bank: fd.get('cms_bank') || null,
-          cms_account: fd.get('cms_account') || null,
-          cms_holder: fd.get('cms_holder') || null,
-          cms_date: fd.get('cms_date') || '15',
-        };
-        try { await sb.from('donations').insert([payload]); }
-        catch (e) { console.warn('DB error', e); }
-        await new Promise(r => setTimeout(r, 400));
-        btn.innerHTML = T[curLang].submit_btn || '후원하기';
-        btn.disabled = false;
-        document.getElementById('okBody').textContent = T[curLang].ok_body || '후원 신청서가 접수되었습니다.';
-        document.getElementById('okMod').classList.add('open');
-        e.target.reset(); setDonateType(donateType); setDonorType('personal');
-        if (currentUser?.email) loadMyDonations(currentUser.email);
-        return;
-      }
-
-      // ── 계좌이체 (원래 Supabase 저장 로직 유지) ────
-      btn.innerHTML = '<span class="spinner"></span>';
-      btn.disabled = true;
-      const payDate = fd.get('payDate');
-      const payload = {
-        name: fd.get('name') || '',
-        email: fd.get('email') || '',
-        phone: fd.get('phone') || null,
-        grade: (document.querySelector('input[name="grade"]:checked')?.value) || 'champion',
-        amount: donateAmt || fd.get('customAmt') || '미지정',
-        pay_type: donateType || 'regular',
-        depositor: fd.get('depositor') || null,
-        pay_date: (payDate && payDate.trim() !== '') ? payDate : null,
-        pay_method: currentPayMethod || 'transfer',
-        status: 'pending',
-        lang: curLang,
-        org_name: fd.get('org_name') || null,
-        donor_type: fd.get('donor_type') || 'personal',
-      };
-      try {
-        const { error: dbErr } = await sb.from('donations').insert([payload]);
-        if (dbErr) console.error('Donation DB error:', dbErr.message, dbErr);
-        else console.log('Donation saved OK');
-      } catch (err) { console.warn('Donation save exception', err); }
-
-      // Resend 이메일 알림 (Edge Function 사용)
-      try {
-        const { data: mRes, error: mErr } = await sb.functions.invoke('resend-email', {
-          body: {
-            to: [CONTACT_TO],
-            subject: `[GOL] 새 후원 신청: ${payload.name} - ${payload.amount}`,
-            html: `<p>후원자: ${payload.name}<br>이메일: ${payload.email}<br>금액: ${payload.amount}<br>입금자명: ${payload.depositor || '-'}</p>`
-          }
-        });
-        if (mErr || (mRes && mRes.error)) {
-          console.error('Donation email error:', mErr || mRes.error);
-        } else {
-          console.log('Resend donation notice sent');
-        }
-      } catch (e) { console.warn('Resend mail error', e); }
-
-      await new Promise(r => setTimeout(r, 400));
-      btn.innerHTML = T[curLang].submit_btn || '후원하기';
-      btn.disabled = false;
-      document.getElementById('okBody').textContent = T[curLang].ok_body || '후원 신청서가 접수되었습니다.';
-      document.getElementById('okMod').classList.add('open');
-      e.target.reset();
-      togglePayMethod(donateType === 'regular' ? 'cms' : 'nicepay');
-      setDonorType('personal');
-      // 마이페이지 후원 내역 갱신
-      if (currentUser?.email) loadMyDonations(currentUser.email);
-    }
 
     /* ══════════════════════════════════════
        카카오페이 QR 결제 모달 & 폴링
