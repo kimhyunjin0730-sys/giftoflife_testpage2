@@ -6862,10 +6862,10 @@
 
             <!-- payment method chips -->
             <div style="display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:1">
-              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_card">💳 신용카드</span>
-              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_easy">📱 간편결제</span>
-              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_transfer">🏦 계좌이체</span>
-              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_recurring">🔄 정기후원</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_card">신용카드</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_easy">간편결제</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_transfer">계좌이체</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:600;color:var(--text)" data-i="pay_recurring">정기후원</span>
             </div>
 
             <!-- trust row (fills height to match Card B) -->
@@ -7060,7 +7060,7 @@
 
             <!-- 송금 후 안내 + 다시 신청 -->
             <div style="margin-top:18px;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);font-size:11.5px;color:rgba(255,255,255,.7);line-height:1.7;position:relative;z-index:1" data-i="rotary_after_transfer">
-              💡 송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.
+              송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.
             </div>
             <button type="button" onclick="showRotaryStage('initial')"
               style="margin-top:10px;width:100%;background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);padding:10px 16px;border-radius:var(--r);font-size:12.5px;cursor:pointer;transition:all .2s ease;position:relative;z-index:1"
@@ -7200,7 +7200,7 @@
     <div class="section">
       <div class="wrap">
         <div class="my-banner">
-          <div class="my-ava">👤</div>
+          <div class="my-ava"></div>
           <div class="my-info">
             <h3 id="mb-name">회원님</h3>
             <p id="mb-email">user@email.com</p>
@@ -7208,7 +7208,7 @@
           <div style="margin-left:auto;display:flex;gap:10px;align-items:center;">
             <span id="mb-admin-badge"
               style="display:none;background:var(--gold);color:#fff;padding:5px 12px;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer"
-              onclick="goPage('admin')">⚙️ Administrator</span>
+              onclick="goPage('admin')">Administrator</span>
             <button onclick="doLogout()"
               style="padding:9px 20px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:13px;cursor:pointer"
               data-i="logout">로그아웃</button>
@@ -7216,7 +7216,7 @@
         </div>
         <!-- 회원 상태 배지 -->
         <div id="myRoleStatus" style="margin-top:18px;padding:18px 22px;background:#fff;border:1px solid var(--border);border-radius:var(--r2);display:flex;gap:14px;align-items:center;flex-wrap:wrap">
-          <div aria-hidden="true" id="myRoleIcon" style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:20px">👤</div>
+          <div aria-hidden="true" id="myRoleIcon" style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:var(--bg2);border:1px solid var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-family:'Libre Bodoni',serif;font-size:20px;font-weight:700">M</div>
           <div style="flex:1;min-width:200px">
             <div id="myRoleTitle" style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px" data-i="my_role_public">일반 회원</div>
             <p id="myRoleDesc" style="font-size:12.5px;color:var(--muted);line-height:1.6" data-i="my_role_public_desc">로타리 회원 인증을 받으시면 위성클럽 전용 후원 채널을 이용하실 수 있습니다.</p>
@@ -7225,7 +7225,7 @@
 
         <!-- 후원 안내 -->
         <div class="box" style="margin-top:18px">
-          <div class="box-hd" data-i="my_donate_guide_h">💝 후원 안내</div>
+          <div class="box-hd" data-i="my_donate_guide_h">후원 안내</div>
           <div class="box-bd" style="padding:22px 24px">
             <p style="font-size:13.5px;color:var(--text);line-height:1.85;margin-bottom:14px" data-i="my_donate_guide_p1">
               <b>Gift of Life Korea</b>는 후원 페이지에서 안내된 채널을 통해 후원을 받고 있습니다. 후원 내역은 한수로타리클럽 회계담당자가 별도로 안전하게 관리합니다.
@@ -7242,7 +7242,7 @@
 
         <!-- 문의 안내 -->
         <div style="margin-top:18px;padding:18px 22px;background:var(--blue-lt);border:1px solid var(--blue-mid);border-radius:var(--r2);font-size:13px;color:var(--text);line-height:1.7">
-          <b style="color:var(--navy)" data-i="my_inquiry_h">📩 후원 내역이 궁금하신가요?</b><br>
+          <b style="color:var(--navy)" data-i="my_inquiry_h">후원 내역이 궁금하신가요?</b><br>
           <span data-i="my_inquiry_p">기부금영수증 발급, 송금 확인, 정기 후원 변경 등은</span>
           <a href="mailto:golikorea@naver.com" style="color:var(--blue);font-weight:700;text-decoration:none">golikorea@naver.com</a>
           <span data-i="my_inquiry_suffix">으로 연락 주시면 회계담당자가 안내해 드립니다.</span>
@@ -7256,13 +7256,13 @@
     <div class="admin-layout">
       <div class="admin-sidebar">
         <div class="admin-sidebar-ttl">Administrator</div>
-        <div class="admin-nav-item active" onclick="switchAdminTab('dashboard')">📊 대시보드</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('notices-mgmt');loadAdminNotices()">📋 공지사항 관리</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('news-mgmt')">📰 뉴스 관리</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('members-mgmt')">👥 회원 관리</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('rotary-mgmt');loadRotaryProfiles()">🎖️ 로타리 인증</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('contacts-mgmt')">✉️ 문의 관리</div>
-        <div class="admin-nav-item" onclick="switchAdminTab('donations-mgmt')">💳 후원 관리</div>
+        <div class="admin-nav-item active" onclick="switchAdminTab('dashboard')">대시보드</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('notices-mgmt');loadAdminNotices()">공지사항 관리</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('news-mgmt')">뉴스 관리</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('members-mgmt')">회원 관리</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('rotary-mgmt');loadRotaryProfiles()">로타리 인증</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('contacts-mgmt')">문의 관리</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('donations-mgmt')">후원 관리</div>
       </div>
       <div class="admin-content">
 
@@ -7290,21 +7290,21 @@
           </div>
           <div
             style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:22px;box-shadow:var(--sh)">
-            <div style="font-weight:700;font-size:15px;color:var(--navy);margin-bottom:16px">⚡ 빠른 작업</div>
+            <div style="font-weight:700;font-size:15px;color:var(--navy);margin-bottom:16px">빠른 작업</div>
             <!-- DB 연결 상태 -->
             <div id="db-status"
               style="margin-bottom:16px;font-size:13px;padding:10px 14px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border)">
               <span class="spinner dark"></span> DB 연결 확인 중...
             </div>
             <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn-primary" onclick="loadAdminDashboard()">🔄 새로고침</button>
-              <button class="btn-primary" onclick="openNewsModal()">+ 뉴스 추가</button>
+              <button class="btn-primary" onclick="loadAdminDashboard()">새로고침</button>
+              <button class="btn-primary" onclick="openNewsModal()">뉴스 추가</button>
               <button class="btn-primary" style="background:var(--green)"
-                onclick="switchAdminTab('contacts-mgmt');loadAdminContacts()">✉️ 문의 확인</button>
+                onclick="switchAdminTab('contacts-mgmt');loadAdminContacts()">문의 확인</button>
               <button class="btn-primary" style="background:var(--navy)"
-                onclick="switchAdminTab('members-mgmt');loadAdminMembers()">👥 회원 목록</button>
-              <button class="btn-primary" style="background:#7c3aed" onclick="exportCSV('members')">📥 회원 CSV</button>
-              <button class="btn-primary" style="background:#0891b2" onclick="exportCSV('donations')">📥 후원 CSV</button>
+                onclick="switchAdminTab('members-mgmt');loadAdminMembers()">회원 목록</button>
+              <button class="btn-primary" style="background:#7c3aed" onclick="exportCSV('members')">회원 CSV</button>
+              <button class="btn-primary" style="background:#0891b2" onclick="exportCSV('donations')">후원 CSV</button>
             </div>
           </div>
         </div>
@@ -7377,7 +7377,7 @@
 
         <!-- ROTARY MGMT (신규) -->
         <div class="admin-tab" id="admin-tab-rotary-mgmt">
-          <div class="admin-hd">🎖️ 로타리 회원 인증</div>
+          <div class="admin-hd">로타리 회원 인증</div>
           <div class="admin-sub">위성클럽 회원을 인증하면 후원 페이지의 Channel B (로타리 전용 계좌)가 해당 사용자에게 열립니다.</div>
           <div class="admin-table-wrap">
             <div class="admin-table-hd">
@@ -7390,7 +7390,7 @@
                   <option value="admin">관리자 (admin)</option>
                 </select>
                 <input class="fi" style="max-width:200px;padding:8px 12px;font-size:12px" placeholder="이름·이메일 검색" id="rotarySearchInp" oninput="renderRotaryProfiles()" />
-                <button class="btn-primary" style="font-size:12px;padding:8px 14px" onclick="loadRotaryProfiles()">🔄 새로고침</button>
+                <button class="btn-primary" style="font-size:12px;padding:8px 14px" onclick="loadRotaryProfiles()">새로고침</button>
               </div>
             </div>
             <div style="padding:0">
@@ -7412,7 +7412,7 @@
               </table>
             </div>
             <div style="padding:12px 16px;background:var(--bg2);border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);line-height:1.7">
-              💡 <b>인증</b>을 누르면 해당 사용자가 Channel B(전용 계좌)를 볼 수 있게 됩니다 · <b>해제</b>는 즉시 권한 회수
+              <b>인증</b>을 누르면 해당 사용자가 Channel B(전용 계좌)를 볼 수 있게 됩니다 · <b>해제</b>는 즉시 권한 회수
             </div>
           </div>
         </div>
@@ -7457,7 +7457,7 @@
           <div class="admin-table-wrap">
             <div class="admin-table-hd">
               <h3>문의 목록</h3><button class="btn-primary" onclick="loadAdminContacts()"
-                style="font-size:12px;padding:8px 16px">🔄 새로고침</button>
+                style="font-size:12px;padding:8px 16px">새로고침</button>
             </div>
             <div style="padding:0">
               <table class="admin-tbl">
@@ -7489,7 +7489,7 @@
           <div class="admin-table-wrap">
             <div class="admin-table-hd">
               <h3>후원 목록</h3><button class="btn-primary" onclick="loadAdminDonations()"
-                style="font-size:12px;padding:8px 16px">🔄 새로고침</button>
+                style="font-size:12px;padding:8px 16px">새로고침</button>
             </div>
             <div style="padding:0;overflow-x:auto">
               <table class="admin-tbl">
@@ -7535,9 +7535,9 @@
             data-i="signup">회원가입</button></div>
         <div class="login-err" id="loginErr"></div>
         <div class="lrow"><label>이메일</label><input class="linput" type="email" id="authEmail"
-            placeholder="example@email.com" /></div>
+            placeholder="example@email.com" autocomplete="off" autocapitalize="off" spellcheck="false" /></div>
         <div class="lrow"><label>비밀번호</label><input class="linput" type="password" id="authPw" data-i-ph="ph_auth_pw"
-            placeholder="6자 이상 입력" /></div>
+            placeholder="6자 이상 입력" autocomplete="new-password" /></div>
         <div class="lrow" id="authNameRow" style="display:none"><label>성명</label><input class="linput" type="text"
             id="authName" data-i-ph="ph_auth_name" placeholder="홍길동" /></div>
         <div class="lrow" id="authPhoneRow" style="display:none"><label>연락처</label><input class="linput" type="tel"
@@ -7654,7 +7654,7 @@
         <!-- 앱으로 열기 버튼 -->
         <a id="kakaoQrDirectLink" href="#" target="_blank"
           style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:#FFE000;border-radius:12px;font-weight:700;font-size:14px;color:#3A1D1D;text-decoration:none;margin-bottom:12px;box-shadow:0 4px 14px rgba(255,224,0,.5)">
-          💛 카카오페이 앱으로 결제
+          카카오페이 앱으로 결제
         </a>
 
         <div style="font-size:11px;color:#bbb;margin-bottom:8px">결제 완료 후 자동으로 확인됩니다</div>
@@ -7799,11 +7799,11 @@
         my_donation: '내 정보',
         my_role_public: '일반 회원',
         my_role_public_desc: '로타리 회원 인증을 받으시면 위성클럽 전용 후원 채널을 이용하실 수 있습니다.',
-        my_donate_guide_h: '💝 후원 안내',
+        my_donate_guide_h: '후원 안내',
         my_donate_guide_p1: 'Gift of Life Korea는 후원 페이지에서 안내된 채널을 통해 후원을 받고 있습니다. 후원 내역은 한수로타리클럽 회계담당자가 별도로 안전하게 관리합니다.',
         my_donate_guide_p2: '· 일반 후원: 생명나눔본부 공식 결제 페이지에서 처리되며, 영수증·세액공제는 그쪽 계정에서 확인하실 수 있습니다. · 로타리 회원 후원: 인증된 회원은 전용 계좌로 송금하시면 됩니다. 송금 내역은 회계담당자가 매월 정리하여 안내드립니다.',
         my_go_donate: '후원 페이지로 이동 →',
-        my_inquiry_h: '📩 후원 내역이 궁금하신가요?',
+        my_inquiry_h: '후원 내역이 궁금하신가요?',
         my_inquiry_p: '기부금영수증 발급, 송금 확인, 정기 후원 변경 등은',
         my_inquiry_suffix: '으로 연락 주시면 회계담당자가 안내해 드립니다.',
         shortcut: '바로가기', acct_title: '납부 계좌', acct_holder: '예금주:',
@@ -7826,7 +7826,7 @@
         donate_ch_b_title: '로타리 회원 전용',
         donate_ch_b_sub: '한수 로타리클럽이 위성클럽 회원 후원을 위한 전용 계좌를 개설하고 있습니다.',
         donate_ch_b_note: '계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.',
-        pay_card: '💳 신용카드', pay_easy: '📱 간편결제', pay_transfer: '🏦 계좌이체', pay_recurring: '🔄 정기후원',
+        pay_card: '신용카드', pay_easy: '간편결제', pay_transfer: '계좌이체', pay_recurring: '정기후원',
         trust_years: '활동 연수', trust_direct: '직접 지원', trust_kids: '누적 수술',
         gate_title: '회원 인증 후 열람',
         gate_desc: '이 채널은 한수 로타리클럽 위성클럽 회원 전용입니다. 로그인 후 관리자 인증을 거쳐 이용할 수 있습니다.',
@@ -7845,7 +7845,7 @@
         rotary_form_note_ph: '정기/일시 구분, 후원 목적 등',
         rotary_form_submit: '신청 + 계좌 보기',
         rotary_submit_ok: '후원 신청이 접수되었습니다',
-        rotary_after_transfer: '💡 송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.',
+        rotary_after_transfer: '송금 후 영업일 1~2일 내 회계담당자가 확인하여 마이페이지에 반영합니다.',
         rotary_new_request: '새로 신청하기',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— 추후 안내 —',
@@ -8008,11 +8008,11 @@
         login: 'Login', donate_btn: 'Donate', my_donation: 'My Account',
         my_role_public: 'Member',
         my_role_public_desc: 'Verify as a Rotary member to access the satellite-club-only donation channel.',
-        my_donate_guide_h: '💝 Donation Guide',
+        my_donate_guide_h: 'Donation Guide',
         my_donate_guide_p1: 'Gift of Life Korea accepts donations through the channels listed on our donation page. Records are kept separately by the Hansoo Rotary Club treasurer.',
         my_donate_guide_p2: '· General donations are processed via the official Life-Sharing Headquarters page; receipts and tax deduction info are available there. · Verified Rotary members may transfer to the dedicated bank account; the treasurer will share monthly summaries.',
         my_go_donate: 'Go to Donation Page →',
-        my_inquiry_h: '📩 Questions about your donation?',
+        my_inquiry_h: 'Questions about your donation?',
         my_inquiry_p: 'For tax receipts, transfer confirmation, or recurring donation changes, please contact',
         my_inquiry_suffix: 'and our treasurer will assist you.',
         shortcut: 'Quick Links', acct_title: 'Bank Account', acct_holder: 'Account:',
@@ -8035,7 +8035,7 @@
         donate_ch_b_title: 'Rotary Members Only',
         donate_ch_b_sub: 'Hansoo Rotary Club is opening a dedicated bank account for satellite-club members.',
         donate_ch_b_note: 'This page will be updated the moment the account details are confirmed.',
-        pay_card: '💳 Credit Card', pay_easy: '📱 Easy Pay', pay_transfer: '🏦 Bank Transfer', pay_recurring: '🔄 Monthly',
+        pay_card: 'Credit Card', pay_easy: 'Easy Pay', pay_transfer: 'Bank Transfer', pay_recurring: 'Monthly',
         trust_years: 'Years', trust_direct: 'Direct Aid', trust_kids: 'Hearts Saved',
         gate_title: 'Verified Members Only',
         gate_desc: 'This channel is reserved for verified Hansoo Rotary Satellite Club members. Sign in and wait for admin verification.',
@@ -8054,7 +8054,7 @@
         rotary_form_note_ph: 'Recurring / one-time, purpose, etc.',
         rotary_form_submit: 'Submit + Show Account',
         rotary_submit_ok: 'Your donation request has been received',
-        rotary_after_transfer: '💡 Within 1–2 business days the treasurer will confirm your transfer.',
+        rotary_after_transfer: 'Within 1–2 business days the treasurer will confirm your transfer.',
         rotary_new_request: 'New Request',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— To be announced —',
@@ -8213,11 +8213,11 @@
         login: '登录', donate_btn: '捐款', my_donation: '我的账户',
         my_role_public: '普通会员',
         my_role_public_desc: '通过扶轮社会员认证后即可使用卫星俱乐部专用捐款渠道。',
-        my_donate_guide_h: '💝 捐款指南',
+        my_donate_guide_h: '捐款指南',
         my_donate_guide_p1: 'Gift of Life Korea 通过捐款页面所列渠道接收捐款。捐款记录由汉秀扶轮社会计另行妥善保管。',
         my_donate_guide_p2: '· 一般捐款：通过生命分享本部官方支付页面处理，收据和税务扣除信息可在该账户查看。 · 已认证扶轮社会员：可向专用账户汇款，会计将每月整理并通知。',
         my_go_donate: '前往捐款页面 →',
-        my_inquiry_h: '📩 关于您的捐款有疑问？',
+        my_inquiry_h: '关于您的捐款有疑问？',
         my_inquiry_p: '关于税务收据、汇款确认、定期捐款变更等问题，请联系',
         my_inquiry_suffix: '会计将为您提供帮助。',
         shortcut: '快速入口', acct_title: '汇款账户', acct_holder: '账户名:',
@@ -8240,7 +8240,7 @@
         donate_ch_b_title: '扶轮社会员专用',
         donate_ch_b_sub: '汉秀扶轮社正在为卫星俱乐部会员开设专用银行账户。',
         donate_ch_b_note: '账户信息确定后将立即在此页面更新。',
-        pay_card: '💳 信用卡', pay_easy: '📱 便捷支付', pay_transfer: '🏦 银行转账', pay_recurring: '🔄 定期捐款',
+        pay_card: '信用卡', pay_easy: '便捷支付', pay_transfer: '银行转账', pay_recurring: '定期捐款',
         trust_years: '活动年数', trust_direct: '直接援助', trust_kids: '手术成功',
         gate_title: '会员认证后查看',
         gate_desc: '此捐款渠道仅限汉秀扶轮社卫星俱乐部会员。请登录后等待管理员认证。',
@@ -8259,7 +8259,7 @@
         rotary_form_note_ph: '定期/一次性、捐款目的等',
         rotary_form_submit: '提交 + 查看账户',
         rotary_submit_ok: '您的捐款申请已收到',
-        rotary_after_transfer: '💡 汇款后 1~2 个工作日内会计将确认并更新到我的页面。',
+        rotary_after_transfer: '汇款后 1~2 个工作日内会计将确认并更新到我的页面。',
         rotary_new_request: '新建申请',
         bank_label_bank: '银行', bank_label_account: '账号', bank_label_holder: '户名',
         bank_tbd: '— 待通知 —',
@@ -9145,25 +9145,30 @@
 
     /* ── profile loader (Supabase profiles 테이블이 있어야 작동; 없으면 조용히 public 취급) ── */
     async function loadCurrentProfile() {
-      if (!currentUser?.id) { currentUserProfile = null; return null; }
+      if (!currentUser?.id) { currentUserProfile = null; window.currentUserProfile = null; return null; }
+      // 매번 호출 시 이전 캐시 비우기 — admin이 인증한 직후에도 항상 신선한 role 받기
+      currentUserProfile = null;
+      window.currentUserProfile = null;
       try {
-        const { data, error } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+        const { data, error } = await sb
+          .from('profiles')
+          .select('id,email,name,role,verified_at,verified_by,rotary_club,rotary_member_id')
+          .eq('id', currentUser.id)
+          .maybeSingle();
         if (error) {
-          // 테이블이 없거나 RLS 미적용이면 graceful fallback
           if (/relation.*profiles.*does not exist|permission denied/i.test(error.message || '')) {
             console.info('[profiles] 테이블 미적용 — public 취급');
           } else {
             console.warn('[profiles] load error:', error.message);
           }
-          currentUserProfile = null;
           return null;
         }
         currentUserProfile = data || null;
         window.currentUserProfile = currentUserProfile;
+        console.log('[profiles] loaded role=' + (data?.role || 'public') + ', verified=' + !!data?.verified_at);
         return currentUserProfile;
       } catch (e) {
         console.warn('[profiles] exception:', e?.message);
-        currentUserProfile = null;
         return null;
       }
     }
@@ -9190,19 +9195,19 @@
       const lang = curLang || 'ko';
       const T_ROLE = {
         ko: {
-          public: { ic: '👤', t: '일반 회원', d: '로타리 회원 인증을 받으시면 위성클럽 전용 후원 채널을 이용하실 수 있습니다.' },
-          rotary: { ic: '🎖️', t: '인증된 로타리 회원', d: '한수로타리클럽 위성클럽 회원으로 인증되었습니다. 후원 페이지의 로타리 전용 계좌를 열람하실 수 있습니다.' },
-          admin:  { ic: '⚙️', t: '관리자',           d: '전체 회원·후원·문의·로타리 인증을 관리할 권한이 있습니다.' },
+          public: { ic: 'M', t: '일반 회원', d: '로타리 회원 인증을 받으시면 위성클럽 전용 후원 채널을 이용하실 수 있습니다.' },
+          rotary: { ic: 'R', t: '인증된 로타리 회원', d: '한수로타리클럽 위성클럽 회원으로 인증되었습니다. 후원 페이지의 로타리 전용 계좌를 열람하실 수 있습니다.' },
+          admin:  { ic: 'A', t: '관리자',           d: '전체 회원·후원·문의·로타리 인증을 관리할 권한이 있습니다.' },
         },
         en: {
-          public: { ic: '👤', t: 'Member', d: 'Verify as a Rotary member to access the satellite-club-only donation channel.' },
-          rotary: { ic: '🎖️', t: 'Verified Rotarian', d: 'You are verified as a Hansoo Rotary Satellite Club member and can view the Rotary-only donation account.' },
-          admin:  { ic: '⚙️', t: 'Administrator', d: 'You can manage members, donations, inquiries, and Rotary verifications.' },
+          public: { ic: 'M', t: 'Member', d: 'Verify as a Rotary member to access the satellite-club-only donation channel.' },
+          rotary: { ic: 'R', t: 'Verified Rotarian', d: 'You are verified as a Hansoo Rotary Satellite Club member and can view the Rotary-only donation account.' },
+          admin:  { ic: 'A', t: 'Administrator', d: 'You can manage members, donations, inquiries, and Rotary verifications.' },
         },
         zh: {
-          public: { ic: '👤', t: '普通会员', d: '通过扶轮社会员认证后即可使用卫星俱乐部专用捐款渠道。' },
-          rotary: { ic: '🎖️', t: '认证扶轮社会员', d: '您已通过汉秀扶轮社卫星俱乐部认证，可查看扶轮社专用账户。' },
-          admin:  { ic: '⚙️', t: '管理员', d: '您可以管理会员、捐款、咨询和扶轮社认证。' },
+          public: { ic: 'M', t: '普通会员', d: '通过扶轮社会员认证后即可使用卫星俱乐部专用捐款渠道。' },
+          rotary: { ic: 'R', t: '认证扶轮社会员', d: '您已通过汉秀扶轮社卫星俱乐部认证，可查看扶轮社专用账户。' },
+          admin:  { ic: 'A', t: '管理员', d: '您可以管理会员、捐款、咨询和扶轮社认证。' },
         }
       };
       const dict = T_ROLE[lang] || T_ROLE.ko;
@@ -9213,16 +9218,24 @@
       icon.textContent = v.ic;
       titleEl.textContent = v.t;
       descEl.textContent = v.d;
+      // 알파벳 레터 스타일 (이모지 대신)
+      icon.style.fontFamily = "'Libre Bodoni',serif";
+      icon.style.fontSize = '20px';
+      icon.style.fontWeight = '700';
+      icon.style.letterSpacing = '0';
       // 색상 톤
       if (key === 'rotary') {
-        icon.style.background = 'rgba(232,114,138,.12)';
+        icon.style.background = 'var(--blue-lt)';
         icon.style.color = 'var(--blue)';
+        icon.style.border = '1px solid var(--blue-mid)';
       } else if (key === 'admin') {
         icon.style.background = 'var(--navy)';
         icon.style.color = '#fff';
+        icon.style.border = 'none';
       } else {
         icon.style.background = 'var(--bg2)';
         icon.style.color = 'var(--muted)';
+        icon.style.border = '1px solid var(--border)';
       }
     }
 
@@ -9606,7 +9619,7 @@
         linkEl.href = redirectUrl;
         linkEl.style.display = 'inline-flex';
         linkEl.textContent = isMobile
-          ? (curLang === 'ko' ? '💛 카카오페이 앱으로 결제' : '💛 Pay with KakaoPay App')
+          ? (curLang === 'ko' ? '카카오페이 앱으로 결제' : '💛 Pay with KakaoPay App')
           : (curLang === 'ko' ? '앱으로 열기' : 'Open in App');
       }
 
@@ -9714,7 +9727,7 @@
             : 'KakaoPay payment completed and confirmed!';
           const s1t = document.getElementById('ok-step1-title');
           const s1b = document.getElementById('ok-step1-body');
-          if (s1t) s1t.textContent = '💛 카카오페이 결제 완료';
+          if (s1t) s1t.textContent = '카카오페이 결제 완료';
           if (s1b) s1b.textContent = '결제가 즉시 처리되었습니다. 영수증은 카카오페이 앱에서 확인하세요.';
           const s2 = document.getElementById('ok-step2-title');
           const s3 = document.getElementById('ok-step3-title');
@@ -9837,7 +9850,19 @@
     /* ══════════════════════════════════════
        AUTH (Supabase)
     ══════════════════════════════════════ */
-    function openLogin() { document.getElementById('loginModal').classList.add('open'); }
+    function openLogin() {
+      const m = document.getElementById('loginModal');
+      // 보안: 매번 입력값 초기화 — 브라우저 자동완성/이전 값 노출 방지
+      ['authEmail', 'authPw', 'authName', 'authPhone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.defaultValue = ''; }
+      });
+      const errEl = document.getElementById('loginErr');
+      if (errEl) errEl.textContent = '';
+      m.classList.add('open');
+      // 살짝 후 이메일에 포커스
+      setTimeout(() => { document.getElementById('authEmail')?.focus(); }, 80);
+    }
     function closeLogin() { document.getElementById('loginModal').classList.remove('open'); }
     function setAuthMode(mode) {
       authMode = mode;
@@ -10017,7 +10042,7 @@
       };
 
       const payMethodLabel = (d) => {
-        if (d.pay_method === 'kakaopay') return '💛 카카오페이';
+        if (d.pay_method === 'kakaopay') return '카카오페이';
         return '🏦 ' + (t2.transfer || '계좌이체');
       };
 
@@ -10178,9 +10203,9 @@
     <td>
       <select class="admin-grade-sel" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer"
         onchange="updateMemberGrade('${m.id}',this.value)">
-        <option value="supporter" ${m.grade === 'supporter' || !m.grade ? 'selected' : ''}>🥉 서포터</option>
-        <option value="champion" ${m.grade === 'champion' ? 'selected' : ''}>🥇 챔피언</option>
-        <option value="partner" ${m.grade === 'partner' ? 'selected' : ''}>🏢 파트너</option>
+        <option value="supporter" ${m.grade === 'supporter' || !m.grade ? 'selected' : ''}>서포터</option>
+        <option value="champion" ${m.grade === 'champion' ? 'selected' : ''}>챔피언</option>
+        <option value="partner" ${m.grade === 'partner' ? 'selected' : ''}>파트너</option>
       </select>
     </td>
     <td style="color:var(--muted);font-size:11px">${m.lang || 'ko'}</td>
@@ -10384,11 +10409,11 @@
       if (!data || data.length === 0) { tbl.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">후원 내역이 없습니다.</td></tr>`; return; }
       // 신/구 컬럼 호환: 새 폼은 donor_name/donor_email/channel, 옛 데이터는 name/email/pay_method
       const channelLabel = ch => {
-        if (ch === 'rotary_transfer') return '🎖️ 로타리 회원';
-        if (ch === 'mrm') return '🌏 MRM 일반';
-        if (ch === 'wire') return '✈️ 해외 송금';
-        if (ch === 'manual') return '✍️ 수기 입력';
-        return '💳 계좌이체';
+        if (ch === 'rotary_transfer') return '로타리 회원';
+        if (ch === 'mrm') return 'MRM 일반';
+        if (ch === 'wire') return '해외 송금';
+        if (ch === 'manual') return '수기 입력';
+        return '계좌이체';
       };
       tbl.innerHTML = data.map(d => {
         const name = d.donor_name || d.name || '-';
@@ -10397,12 +10422,12 @@
         const status = d.status || 'recorded';
         const isConfirmed = status === 'confirmed';
         // status 라벨
-        let badgeClass = 'pending', badgeTxt = '⏳ 확인 대기';
-        if (isConfirmed) { badgeClass = 'confirmed'; badgeTxt = '✅ 확인완료'; }
-        else if (status === 'refunded') { badgeClass = 'pending'; badgeTxt = '↩️ 환불'; }
-        else if (status === 'void') { badgeClass = 'pending'; badgeTxt = '🗑 무효'; }
+        let badgeClass = 'pending', badgeTxt = '확인 대기';
+        if (isConfirmed) { badgeClass = 'confirmed'; badgeTxt = '확인완료'; }
+        else if (status === 'refunded') { badgeClass = 'pending'; badgeTxt = '환불'; }
+        else if (status === 'void') { badgeClass = 'pending'; badgeTxt = '무효'; }
         const amountFmt = d.amount ? '₩' + Number(d.amount).toLocaleString() : '-';
-        const channelTag = d.channel ? channelLabel(d.channel) : (d.pay_method === 'kakaopay' ? '💛 카카오페이' : '🏦 계좌이체');
+        const channelTag = d.channel ? channelLabel(d.channel) : (d.pay_method === 'kakaopay' ? '카카오페이' : '🏦 계좌이체');
         return `<tr>
       <td>${escHtml(name)}</td>
       <td style="font-size:11.5px;color:var(--muted)">${escHtml(email)}</td>
