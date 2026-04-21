@@ -8488,9 +8488,19 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (session?.user) await onUserLogin(session.user);
-        sb.auth.onAuthStateChange(async (_ev, sess) => {
-          if (sess?.user) await onUserLogin(sess.user);
-          else onUserLogout();
+        sb.auth.onAuthStateChange(async (event, sess) => {
+          // 이벤트별로 분기 — 토큰 자동 갱신 시 페이지 강제 이동 방지
+          if (event === 'INITIAL_SESSION') return; // 위 getSession에서 이미 처리
+          if (event === 'SIGNED_IN' && sess?.user) {
+            await onUserLogin(sess.user);
+          } else if (event === 'SIGNED_OUT') {
+            onUserLogout();
+          } else if ((event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') && sess?.user) {
+            // 토큰 갱신 / 사용자 정보 업데이트 — 상태만 갱신, 페이지 이동 금지
+            currentUser = sess.user;
+            window._currentUser = sess.user;
+            try { await loadCurrentProfile(); updateRotaryCardAccess(); } catch (e) {}
+          }
         });
       } catch (e) { console.warn('Supabase auth error:', e.message); }
 
@@ -9643,7 +9653,26 @@
       document.getElementById('mb-admin-badge').style.display = 'none';
       try { updateRotaryCardAccess(); } catch (e) {}
     }
-    async function doLogout() { await sb.auth.signOut(); goPage('home'); }
+    async function doLogout() {
+      // 1) Supabase 로그아웃 시도 (실패해도 진행)
+      try {
+        const { error } = await sb.auth.signOut();
+        if (error) console.warn('signOut warning:', error.message);
+      } catch (e) { console.warn('signOut exception:', e?.message); }
+
+      // 2) 로컬 상태 강제 초기화 (signOut 결과와 무관하게)
+      try { onUserLogout(); } catch (e) {}
+
+      // 3) localStorage의 sb-* 토큰 키 제거 (예외 케이스 대비)
+      try {
+        Object.keys(localStorage)
+          .filter(k => k.startsWith('sb-') && k.endsWith('-auth-token'))
+          .forEach(k => localStorage.removeItem(k));
+      } catch (e) {}
+
+      // 4) 홈으로 이동
+      goPage('home');
+    }
 
     async function loadMyDonations(email) {
       if (!email) { console.warn('loadMyDonations: email 없음'); return; }
