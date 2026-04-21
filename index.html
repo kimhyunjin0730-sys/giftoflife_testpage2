@@ -6925,6 +6925,25 @@
             <h3 style="font-family:'Libre Bodoni',serif;font-size:28px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:8px;letter-spacing:-.012em;position:relative;z-index:1" data-i="donate_ch_b_title">로타리 회원 전용</h3>
             <p style="font-size:13.5px;color:rgba(255,255,255,.68);line-height:1.7;margin-bottom:24px;position:relative;z-index:1" data-i="donate_ch_b_sub">한수 로타리클럽이 위성클럽 회원 후원을 위한 전용 계좌를 개설하고 있습니다.</p>
 
+            <!-- ═══ Gate (비인증 사용자) ═══ -->
+            <div id="rotaryGate" style="background:rgba(255,255,255,.04);border:1px dashed rgba(232,114,138,.38);border-radius:var(--r);padding:32px 24px 28px;text-align:center;position:relative;z-index:1;margin-bottom:18px">
+              <div aria-hidden="true" style="width:46px;height:46px;margin:0 auto 16px;border-radius:50%;background:rgba(232,114,138,.14);border:1px solid rgba(232,114,138,.35);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e8728a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div style="font-family:'Libre Bodoni',serif;font-size:17px;font-weight:600;color:#fff;margin-bottom:8px;letter-spacing:-.005em" data-i="gate_title">회원 인증 후 열람</div>
+              <p style="font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.7;max-width:300px;margin:0 auto 20px" data-i="gate_desc">이 채널은 한수 로타리클럽 위성클럽 회원 전용입니다. 로그인 후 관리자 인증을 거쳐 이용할 수 있습니다.</p>
+              <button type="button" onclick="openLogin()" id="btnRotaryGateLogin"
+                style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--blue);color:#fff;border:0;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;transition:all .25s ease;box-shadow:0 8px 22px -8px rgba(232,114,138,.7)"
+                onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 12px 28px -8px rgba(232,114,138,.9)'"
+                onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 22px -8px rgba(232,114,138,.7)'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                <span data-i="gate_cta">로그인 / 회원가입</span>
+              </button>
+              <div id="rotaryGatePendingMsg" style="display:none;margin-top:16px;padding:10px 14px;background:rgba(232,114,138,.08);border:1px solid rgba(232,114,138,.25);border-radius:var(--r);font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.6" data-i="gate_pending">로그인 확인됨. 한수 로타리클럽 관리자의 회원 인증을 기다리는 중입니다.</div>
+            </div>
+
+            <!-- ═══ Content (인증된 로타리/관리자) ═══ -->
+            <div id="rotaryContent" style="display:none">
             <!-- ROTARY_BANK_INFO_PLACEHOLDER:start  (계좌번호 확정 시 JS 내 ROTARY_BANK_INFO 값만 교체) -->
             <div id="rotaryBankBox" style="background:rgba(255,255,255,.035);border:1px dashed rgba(232,114,138,.42);border-radius:var(--r);padding:26px 22px 20px;margin-bottom:18px;position:relative;z-index:1">
               <!-- Status badge with live pulse -->
@@ -6953,6 +6972,7 @@
               <span data-i="bank_copy_disabled">계좌번호 확정 후 복사 가능</span>
             </button>
             <p style="font-size:11.5px;color:rgba(255,255,255,.55);text-align:center;margin-top:14px;line-height:1.7;position:relative;z-index:1" data-i="donate_ch_b_note">계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.</p>
+            </div><!-- /#rotaryContent -->
           </article>
 
         </div>
@@ -7141,6 +7161,7 @@
         <div class="admin-nav-item" onclick="switchAdminTab('notices-mgmt');loadAdminNotices()">📋 공지사항 관리</div>
         <div class="admin-nav-item" onclick="switchAdminTab('news-mgmt')">📰 뉴스 관리</div>
         <div class="admin-nav-item" onclick="switchAdminTab('members-mgmt')">👥 회원 관리</div>
+        <div class="admin-nav-item" onclick="switchAdminTab('rotary-mgmt');loadRotaryProfiles()">🎖️ 로타리 인증</div>
         <div class="admin-nav-item" onclick="switchAdminTab('contacts-mgmt')">✉️ 문의 관리</div>
         <div class="admin-nav-item" onclick="switchAdminTab('donations-mgmt')">💳 후원 관리</div>
       </div>
@@ -7251,6 +7272,48 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROTARY MGMT (신규) -->
+        <div class="admin-tab" id="admin-tab-rotary-mgmt">
+          <div class="admin-hd">🎖️ 로타리 회원 인증</div>
+          <div class="admin-sub">위성클럽 회원을 인증하면 후원 페이지의 Channel B (로타리 전용 계좌)가 해당 사용자에게 열립니다.</div>
+          <div class="admin-table-wrap">
+            <div class="admin-table-hd">
+              <h3>가입 사용자 (profiles)</h3>
+              <div style="display:flex;gap:8px;align-items:center">
+                <select id="rotaryRoleFilter" class="fi" style="padding:8px 10px;font-size:12px" onchange="renderRotaryProfiles()">
+                  <option value="all">전체</option>
+                  <option value="public" selected>미인증 (public)</option>
+                  <option value="rotary">로타리 (rotary)</option>
+                  <option value="admin">관리자 (admin)</option>
+                </select>
+                <input class="fi" style="max-width:200px;padding:8px 12px;font-size:12px" placeholder="이름·이메일 검색" id="rotarySearchInp" oninput="renderRotaryProfiles()" />
+                <button class="btn-primary" style="font-size:12px;padding:8px 14px" onclick="loadRotaryProfiles()">🔄 새로고침</button>
+              </div>
+            </div>
+            <div style="padding:0">
+              <table class="admin-tbl">
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>역할</th>
+                    <th>로타리클럽</th>
+                    <th>회원번호</th>
+                    <th>인증 시각</th>
+                    <th>관리</th>
+                  </tr>
+                </thead>
+                <tbody id="rotaryProfilesTbl">
+                  <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="padding:12px 16px;background:var(--bg2);border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);line-height:1.7">
+              💡 <b>인증</b>을 누르면 해당 사용자가 Channel B(전용 계좌)를 볼 수 있게 됩니다 · <b>해제</b>는 즉시 권한 회수
             </div>
           </div>
         </div>
@@ -7657,6 +7720,10 @@
         donate_ch_b_note: '계좌 정보가 확정되면 이 페이지에 바로 반영됩니다.',
         pay_card: '💳 신용카드', pay_easy: '📱 간편결제', pay_transfer: '🏦 계좌이체', pay_recurring: '🔄 정기후원',
         trust_years: '활동 연수', trust_direct: '직접 지원', trust_kids: '누적 수술',
+        gate_title: '회원 인증 후 열람',
+        gate_desc: '이 채널은 한수 로타리클럽 위성클럽 회원 전용입니다. 로그인 후 관리자 인증을 거쳐 이용할 수 있습니다.',
+        gate_cta: '로그인 / 회원가입',
+        gate_pending: '로그인 확인됨. 한수 로타리클럽 관리자의 회원 인증을 기다리는 중입니다.',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— 추후 안내 —',
         bank_tbd_acct: '— 계좌번호 확정 후 게시 —',
@@ -7838,6 +7905,10 @@
         donate_ch_b_note: 'This page will be updated the moment the account details are confirmed.',
         pay_card: '💳 Credit Card', pay_easy: '📱 Easy Pay', pay_transfer: '🏦 Bank Transfer', pay_recurring: '🔄 Monthly',
         trust_years: 'Years', trust_direct: 'Direct Aid', trust_kids: 'Hearts Saved',
+        gate_title: 'Verified Members Only',
+        gate_desc: 'This channel is reserved for verified Hansoo Rotary Satellite Club members. Sign in and wait for admin verification.',
+        gate_cta: 'Sign in / Sign up',
+        gate_pending: 'Signed in. Awaiting Hansoo Rotary Club admin verification.',
         bank_label_bank: 'BANK', bank_label_account: 'ACCOUNT NO.', bank_label_holder: 'HOLDER',
         bank_tbd: '— To be announced —',
         bank_tbd_acct: '— To be published soon —',
@@ -8015,6 +8086,10 @@
         donate_ch_b_note: '账户信息确定后将立即在此页面更新。',
         pay_card: '💳 信用卡', pay_easy: '📱 便捷支付', pay_transfer: '🏦 银行转账', pay_recurring: '🔄 定期捐款',
         trust_years: '活动年数', trust_direct: '直接援助', trust_kids: '手术成功',
+        gate_title: '会员认证后查看',
+        gate_desc: '此捐款渠道仅限汉秀扶轮社卫星俱乐部会员。请登录后等待管理员认证。',
+        gate_cta: '登录 / 注册',
+        gate_pending: '已登录。正在等待汉秀扶轮社管理员认证。',
         bank_label_bank: '银行', bank_label_account: '账号', bank_label_holder: '户名',
         bank_tbd: '— 待通知 —',
         bank_tbd_acct: '— 账号确定后公布 —',
@@ -8362,7 +8437,7 @@
     let donationRegion = 'kr';
     let curSlide = 0, slideCount = KIDS.length, slidePaused = false, slideTimer = null;
     let chatOpen = false;
-    let authMode = 'login', currentUser = null;
+    let authMode = 'login', currentUser = null, currentUserProfile = null;
     let donateType = 'regular', donateAmt = 0, dwType = 'regular';
     let allNews = [...DEFAULT_NEWS], newsPage = 1, newsTotalPages = 1;
     let membersCache = [];
@@ -8404,15 +8479,19 @@
       buildSlides();
       setLang(curLang);
       setDonationRegion('kr');
-      // 로타리 전용 계좌 정보 UI 반영
+      // 로타리 전용 계좌 정보 UI 반영 + 게이트 상태 초기화
       try { applyRotaryBankInfo(); } catch (e) { }
+      try { updateRotaryCardAccess(); } catch (e) { }
       handleKakaoReturn();
 
       // ④ 백그라운드 Supabase (실패해도 페이지는 정상 동작)
       try {
         const { data: { session } } = await sb.auth.getSession();
-        if (session?.user) onUserLogin(session.user);
-        sb.auth.onAuthStateChange((_ev, sess) => { if (sess?.user) onUserLogin(sess.user); else onUserLogout(); });
+        if (session?.user) await onUserLogin(session.user);
+        sb.auth.onAuthStateChange(async (_ev, sess) => {
+          if (sess?.user) await onUserLogin(sess.user);
+          else onUserLogout();
+        });
       } catch (e) { console.warn('Supabase auth error:', e.message); }
 
       try {
@@ -8798,7 +8877,13 @@
         activeBtn.classList.add('active');
       }
     }
-    function isAdmin() { return currentUser && ADMIN_EMAILS.includes(currentUser.email); }
+    function isAdmin() {
+      if (!currentUser) return false;
+      // DB의 profiles.role === 'admin' 이 우선 (마이그레이션 적용된 경우)
+      if (currentUserProfile?.role === 'admin') return true;
+      // fallback: 마이그레이션 전/테이블 미적용 시 하드코딩 리스트 사용
+      return ADMIN_EMAILS.includes(currentUser.email);
+    }
 
     /* ══════════════════════════════════════
        HERO SLIDER
@@ -8876,6 +8961,79 @@
       account: '',     // 예: '123-456-7890'
       holder: '한수 로타리클럽 위성클럽 · Hansoo Rotary Satellite Club',
     };
+
+    /* ── profile loader (Supabase profiles 테이블이 있어야 작동; 없으면 조용히 public 취급) ── */
+    async function loadCurrentProfile() {
+      if (!currentUser?.id) { currentUserProfile = null; return null; }
+      try {
+        const { data, error } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+        if (error) {
+          // 테이블이 없거나 RLS 미적용이면 graceful fallback
+          if (/relation.*profiles.*does not exist|permission denied/i.test(error.message || '')) {
+            console.info('[profiles] 테이블 미적용 — public 취급');
+          } else {
+            console.warn('[profiles] load error:', error.message);
+          }
+          currentUserProfile = null;
+          return null;
+        }
+        currentUserProfile = data || null;
+        window.currentUserProfile = currentUserProfile;
+        return currentUserProfile;
+      } catch (e) {
+        console.warn('[profiles] exception:', e?.message);
+        currentUserProfile = null;
+        return null;
+      }
+    }
+
+    function isRotaryPrivileged() {
+      if (!currentUserProfile) return false;
+      return (currentUserProfile.role === 'rotary' || currentUserProfile.role === 'admin')
+        && !!currentUserProfile.verified_at;
+    }
+
+    function isRotaryPendingApproval() {
+      // 로그인은 했는데 아직 rotary 인증 전
+      return !!currentUser && currentUserProfile && currentUserProfile.role === 'public';
+    }
+
+    function updateRotaryCardAccess() {
+      const gate = document.getElementById('rotaryGate');
+      const content = document.getElementById('rotaryContent');
+      const pendingMsg = document.getElementById('rotaryGatePendingMsg');
+      if (!gate || !content) return;
+
+      if (isRotaryPrivileged()) {
+        gate.style.display = 'none';
+        content.style.display = '';
+        // 계좌 정보 상태 갱신 (ROTARY_BANK_INFO 기반)
+        try { applyRotaryBankInfo(); } catch (e) {}
+      } else {
+        gate.style.display = '';
+        content.style.display = 'none';
+        // 로그인은 했지만 인증 대기 중인 경우 안내 메시지
+        if (pendingMsg) {
+          pendingMsg.style.display = isRotaryPendingApproval() ? '' : 'none';
+        }
+        // 로그인 상태면 CTA를 "인증 대기" 문구로
+        const cta = document.querySelector('#btnRotaryGateLogin span[data-i]');
+        const btn = document.getElementById('btnRotaryGateLogin');
+        if (cta && btn) {
+          if (isRotaryPendingApproval()) {
+            cta.textContent = (curLang === 'ko' ? '인증 대기 중' : (curLang === 'en' ? 'Awaiting verification' : '等待认证'));
+            btn.disabled = true;
+            btn.style.opacity = '.55';
+            btn.style.cursor = 'not-allowed';
+          } else {
+            cta.textContent = (T[curLang]?.gate_cta || '로그인 / 회원가입');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+          }
+        }
+      }
+    }
 
     function applyRotaryBankInfo() {
       const box = document.getElementById('rotaryBankBox');
@@ -9451,7 +9609,7 @@
       }
       btn.innerHTML = authMode === 'login' ? '로그인' : '회원가입'; btn.disabled = false;
     }
-    function onUserLogin(user) {
+    async function onUserLogin(user) {
       currentUser = user;
       window._currentUser = user;
       const displayName = user.user_metadata?.name || user.email.split('@')[0];
@@ -9460,6 +9618,10 @@
       document.getElementById('mb-name').textContent = displayName + ' 님';
       document.getElementById('mb-email').textContent = user.email;
       closeLogin();
+      // Supabase profiles 로드 — DB에서 role 확인
+      await loadCurrentProfile();
+      // 로타리 전용 카드 접근 제어 즉시 반영
+      try { updateRotaryCardAccess(); } catch (e) { console.warn('updateRotaryCardAccess:', e?.message); }
       if (isAdmin()) {
         document.getElementById('mb-admin-badge').style.display = 'inline-flex';
         showAdminNoticesBtn();
@@ -9474,9 +9636,12 @@
     }
     function onUserLogout() {
       currentUser = null;
+      currentUserProfile = null;
+      window.currentUserProfile = null;
       document.getElementById('btnLogin').textContent = T[curLang].login || '로그인';
       document.getElementById('btnLogin').onclick = openLogin;
       document.getElementById('mb-admin-badge').style.display = 'none';
+      try { updateRotaryCardAccess(); } catch (e) {}
     }
     async function doLogout() { await sb.auth.signOut(); goPage('home'); }
 
@@ -9600,7 +9765,7 @@
       const items = document.querySelectorAll('.admin-nav-item');
       const tabMap = { 'dashboard': 0, 'news-mgmt': 1, 'members-mgmt': 2, 'contacts-mgmt': 3, 'donations-mgmt': 4 };
       items[tabMap[tab]]?.classList.add('active');
-      const loaders = { 'news-mgmt': loadAdminNews, 'members-mgmt': loadAdminMembers, 'contacts-mgmt': loadAdminContacts, 'donations-mgmt': loadAdminDonations, 'dashboard': loadAdminDashboard };
+      const loaders = { 'news-mgmt': loadAdminNews, 'members-mgmt': loadAdminMembers, 'rotary-mgmt': loadRotaryProfiles, 'contacts-mgmt': loadAdminContacts, 'donations-mgmt': loadAdminDonations, 'dashboard': loadAdminDashboard };
       if (loaders[tab]) loaders[tab]();
     }
 
@@ -9706,6 +9871,97 @@
       if (!q) { renderMembersTable(membersCache); return; }
       const f = membersCache.filter(m => (m.name || '').toLowerCase().includes(q.toLowerCase()) || (m.email || '').toLowerCase().includes(q.toLowerCase()));
       renderMembersTable(f);
+    }
+
+    /* ══════════════════════════════════════
+       ROTARY PROFILES (역할 인증)
+    ══════════════════════════════════════ */
+    let rotaryProfilesCache = [];
+
+    async function loadRotaryProfiles() {
+      const tbl = document.getElementById('rotaryProfilesTbl');
+      if (!tbl) return;
+      tbl.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)"><span class="spinner dark"></span> 로딩 중...</td></tr>';
+      let data, error;
+      try {
+        ({ data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: false }));
+      } catch (e) { error = { message: e.message }; }
+      if (error) {
+        const hint = /relation.*profiles.*does not exist/i.test(error.message || '')
+          ? ' — Supabase 마이그레이션 (20260421120000_members_auth_roles.sql) 아직 실행 안 됨. VERCEL_DEPLOY.md Part 2 참고.'
+          : '';
+        tbl.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}${hint}</td></tr>`;
+        return;
+      }
+      rotaryProfilesCache = data || [];
+      renderRotaryProfiles();
+    }
+
+    function renderRotaryProfiles() {
+      const tbl = document.getElementById('rotaryProfilesTbl');
+      if (!tbl) return;
+      const filter = document.getElementById('rotaryRoleFilter')?.value || 'public';
+      const q = (document.getElementById('rotarySearchInp')?.value || '').toLowerCase().trim();
+      let rows = rotaryProfilesCache;
+      if (filter !== 'all') rows = rows.filter(r => (r.role || 'public') === filter);
+      if (q) rows = rows.filter(r => (r.name || '').toLowerCase().includes(q) || (r.email || '').toLowerCase().includes(q));
+
+      if (!rows.length) {
+        tbl.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">해당 조건의 사용자가 없습니다.</td></tr>';
+        return;
+      }
+
+      tbl.innerHTML = rows.map(p => {
+        const role = p.role || 'public';
+        const roleBadge = role === 'admin'
+          ? '<span style="display:inline-block;padding:2px 8px;background:#1e293b;color:#fff;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.5px">ADMIN</span>'
+          : role === 'rotary'
+            ? '<span style="display:inline-block;padding:2px 8px;background:var(--blue);color:#fff;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.5px">ROTARY ✓</span>'
+            : '<span style="display:inline-block;padding:2px 8px;background:var(--bg2);color:var(--muted);border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.5px">PUBLIC</span>';
+        const verified = p.verified_at ? p.verified_at.slice(0, 10) : '<span style="color:var(--muted)">—</span>';
+        const actionBtn = (role === 'rotary' || role === 'admin')
+          ? `<button class="btn-sm red" onclick="revokeRotaryProfile('${p.id}')" title="로타리 권한 해제">해제</button>`
+          : `<button class="btn-sm" style="background:var(--blue);color:#fff" onclick="verifyRotaryProfile('${p.id}')" title="로타리 회원으로 인증">인증</button>`;
+        return `<tr>
+          <td style="font-weight:500">${escHtml(p.name || '-')}</td>
+          <td style="font-size:12px;color:var(--muted)">${escHtml(p.email || '-')}</td>
+          <td>${roleBadge}</td>
+          <td style="font-size:12px">${escHtml(p.rotary_club || '-')}</td>
+          <td style="font-size:12px;font-family:ui-monospace,Menlo,monospace">${escHtml(p.rotary_member_id || '-')}</td>
+          <td style="font-size:11.5px;color:var(--muted)">${verified}</td>
+          <td>${actionBtn}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function verifyRotaryProfile(targetId) {
+      const club = prompt('로타리 클럽명 (기본: 한수로타리클럽)', '한수로타리클럽');
+      if (club === null) return; // 취소
+      const memberId = prompt('로타리 회원번호 (선택, 예: HSR-001)', '') || null;
+      try {
+        const { data, error } = await sb.rpc('admin_verify_rotary', {
+          target_id: targetId,
+          club_name: club || '한수로타리클럽',
+          member_id: memberId,
+        });
+        if (error) throw error;
+        alert('✓ 인증 완료');
+        await loadRotaryProfiles();
+      } catch (e) {
+        alert('❌ 인증 실패: ' + (e.message || e));
+      }
+    }
+
+    async function revokeRotaryProfile(targetId) {
+      if (!confirm('로타리 권한을 해제하시겠습니까? (Channel B 접근이 차단됩니다)')) return;
+      try {
+        const { data, error } = await sb.rpc('admin_revoke_rotary', { target_id: targetId });
+        if (error) throw error;
+        alert('✓ 해제 완료');
+        await loadRotaryProfiles();
+      } catch (e) {
+        alert('❌ 해제 실패: ' + (e.message || e));
+      }
     }
 
     let _contactsCache = [];
