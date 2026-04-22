@@ -1,8 +1,25 @@
 import type { Metadata } from 'next';
+import { Plus_Jakarta_Sans, Libre_Bodoni } from 'next/font/google';
 import './globals.css';
 import { LangProvider } from '@/i18n/LangProvider';
+import { NotificationBar } from '@/components/NotificationBar';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { FloatingButtons } from '@/components/FloatingButtons';
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
+  display: 'swap',
+});
+
+const bodoni = Libre_Bodoni({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-bodoni',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -25,12 +42,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={`${jakarta.variable} ${bodoni.variable}`}>
       <body>
         <LangProvider>
+          <NotificationBar />
           <Header />
           <main>{children}</main>
           <Footer />
+          <FloatingButtons />
         </LangProvider>
       </body>
     </html>

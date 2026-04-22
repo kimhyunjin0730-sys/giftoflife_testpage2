@@ -1,46 +1,19 @@
-'use client';
-
-import { useLang } from '@/i18n/LangProvider';
-
-const STATS = [
-  { v: '₩18.6억', label: { ko: '누적 모금액', en: 'Total Raised', zh: '累计募款' } },
-  { v: '130만', label: { ko: '매년 CHD 출생아', en: 'CHD Births / Year', zh: '每年新生 CHD 患儿' } },
-  { v: '93%', label: { ko: '치료 못 받는 비율', en: 'Without Treatment', zh: '未接受治疗比率' } },
-  { v: '47,599', label: { ko: '목표 회원 수', en: 'Membership Goal', zh: '会员目标' } },
+const STATS: { v: string; l: string }[] = [
+  { v: '₩18.6억', l: '누적 모금액' },
+  { v: '130만', l: '매년 CHD 출생아' },
+  { v: '93%', l: '치료 못 받는 비율' },
+  { v: '47,599', l: '목표 회원 수' },
 ];
 
 export function HomeStats() {
-  const { lang } = useLang();
-
   return (
-    <section className="section">
-      <div className="wrap" style={grid}>
-        {STATS.map((s) => (
-          <div key={s.v} style={card}>
-            <div style={{ fontFamily: "'Libre Bodoni', serif", fontSize: 40, fontWeight: 700, color: 'var(--navy)', marginBottom: 6 }}>
-              {s.v}
-            </div>
-            <div style={{ fontSize: 13, color: 'var(--muted)', fontWeight: 600, letterSpacing: 0.3 }}>
-              {s.label[lang] ?? s.label.ko}
-            </div>
-          </div>
-        ))}
-      </div>
+    <section className="stats-bar" aria-label="주요 지표">
+      {STATS.map((s) => (
+        <div key={s.l} className="stat-i">
+          <span className="stat-v">{s.v}</span>
+          <span className="stat-l">{s.l}</span>
+        </div>
+      ))}
     </section>
   );
 }
-
-const grid: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(4, 1fr)',
-  gap: 18,
-};
-
-const card: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid var(--border)',
-  borderRadius: 'var(--r2)',
-  padding: '32px 24px',
-  textAlign: 'center',
-  boxShadow: 'var(--sh)',
-};

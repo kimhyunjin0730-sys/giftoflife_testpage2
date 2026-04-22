@@ -1,146 +1,98 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useLang } from '@/i18n/LangProvider';
 import { KIDS } from '@/data/kids';
 
-const INTERVAL_MS = 7000;
+const SLIDE_MS = 5000;
 
 export function HeroSlider() {
-  const { lang, t } = useLang();
   const [idx, setIdx] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const total = KIDS.length;
+
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setIdx((i) => (i + 1) % total);
+    }, SLIDE_MS);
+  }, [total]);
 
   useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % KIDS.length), INTERVAL_MS);
-    return () => clearInterval(id);
-  }, []);
+    startTimer();
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [idx, startTimer]);
 
-  const kid = KIDS[idx];
-  const nameOf = (k: (typeof KIDS)[number]) =>
-    typeof k.name === 'string' ? k.name : k.name[lang] ?? k.name.ko;
+  const goPrev = () => setIdx((i) => (i - 1 + total) % total);
+  const goNext = () => setIdx((i) => (i + 1) % total);
 
   return (
-    <section style={wrap}>
-      {KIDS.map((k, i) => {
-        const bg = k.heroImg ?? k.img;
-        return (
+    <section className="uni-hero" id="heroSlider" aria-label="히어로 슬라이더">
+      {KIDS.map((kid, i) => (
+        <div key={kid.id} className={`slide${i === idx ? ' active' : ''}`}>
           <div
-            key={k.id}
-            style={{
-              ...slide,
-              backgroundImage: `url('${bg}')`,
-              opacity: i === idx ? 1 : 0,
-            }}
-            aria-hidden={i !== idx}
+            className={`slide-bg${i === idx ? ' ken' : ''}`}
+            style={{ backgroundImage: `url(${kid.img})` }}
           />
-        );
-      })}
-      <div style={overlay} />
-
-      <div className="wrap" style={content}>
-        <div style={eyebrow}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--blue)' }} />
-          {kid.country[lang] ?? kid.country.ko} · {kid.age[lang] ?? kid.age.ko} · {nameOf(kid)}
+          <div className="slide-ov" />
         </div>
-        <h1
-          style={h1}
-          dangerouslySetInnerHTML={{ __html: t('hero_h').replace('<span class="accent">', '<span style="color:var(--blue)">') }}
+      ))}
+
+      <div className="uni-hero-content">
+        <div className="uni-hero-left">
+          <span className="uni-eyebrow">
+            <span className="dot" />
+            해외 파트너 사례 · 뉴스 보도
+          </span>
+          <h1 className="uni-hero-h">
+            모든 아이는 심장을 고칠 <span className="accent">권리</span>가 있습니다
+          </h1>
+          <p className="uni-hero-p">
+            매년 135만 명의 아이들이 선천성 심장병을 안고 태어납니다. 93%는 수술을 받지 못합니다. 당신의 후원이 그 숫자를 바꿉니다.
+          </p>
+          <div className="uni-hero-btns">
+            <Link href="/donate" className="uni-btn-primary">
+              후원하기
+            </Link>
+            <Link href="/children" className="uni-btn-ghost">
+              어린이 이야기 →
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="uni-dots" role="tablist" aria-label="슬라이드 인디케이터">
+        {KIDS.map((kid, i) => (
+          <button
+            key={kid.id}
+            type="button"
+            className={`uni-dot${i === idx ? ' active' : ''}`}
+            aria-label={`슬라이드 ${i + 1}`}
+            aria-selected={i === idx}
+            onClick={() => setIdx(i)}
+          />
+        ))}
+      </div>
+
+      <div className="uni-nav">
+        <button type="button" className="uni-nav-btn" aria-label="이전" onClick={goPrev}>
+          ‹
+        </button>
+        <button type="button" className="uni-nav-btn" aria-label="다음" onClick={goNext}>
+          ›
+        </button>
+      </div>
+
+      <div className="uni-timebar">
+        <div
+          key={idx}
+          className="uni-timefill"
+          style={{ width: '100%' }}
         />
-        <p style={para}>{t('hero_p')}</p>
-        <div style={{ display: 'flex', gap: 14, marginTop: 28, flexWrap: 'wrap' }}>
-          <Link href="/donate" className="btn-primary">{t('donate_btn')}</Link>
-          <Link href="/children" className="btn-ghost" style={{ background: 'rgba(255,255,255,0.8)' }}>
-            {t('hero_more')} →
-          </Link>
-        </div>
-
-        <div style={dots}>
-          {KIDS.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIdx(i)}
-              aria-label={`slide ${i + 1}`}
-              style={{
-                width: i === idx ? 28 : 8,
-                height: 8,
-                borderRadius: 999,
-                background: i === idx ? 'var(--blue)' : 'rgba(255, 255, 255, 0.7)',
-                transition: 'all 0.3s ease',
-              }}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
 }
-
-const wrap: React.CSSProperties = {
-  position: 'relative',
-  width: '100%',
-  minHeight: '560px',
-  overflow: 'hidden',
-  color: '#fff',
-};
-
-const slide: React.CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  transition: 'opacity 1.2s ease',
-};
-
-const overlay: React.CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  background: 'linear-gradient(120deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.35) 55%, rgba(15, 23, 42, 0.2) 100%)',
-};
-
-const content: React.CSSProperties = {
-  position: 'relative',
-  zIndex: 2,
-  padding: '96px 24px 88px',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  textAlign: 'center',
-  gap: 16,
-};
-
-const eyebrow: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 10,
-  padding: '7px 16px',
-  borderRadius: 999,
-  border: '1px solid rgba(255,255,255,0.3)',
-  background: 'rgba(0,0,0,0.24)',
-  fontSize: 12.5,
-  fontWeight: 600,
-  letterSpacing: 0.3,
-};
-
-const h1: React.CSSProperties = {
-  fontFamily: "'Libre Bodoni', serif",
-  fontSize: 'clamp(32px, 5.5vw, 56px)',
-  fontWeight: 700,
-  lineHeight: 1.15,
-  maxWidth: 880,
-};
-
-const para: React.CSSProperties = {
-  fontSize: 16,
-  lineHeight: 1.75,
-  color: 'rgba(255,255,255,0.92)',
-  maxWidth: 640,
-};
-
-const dots: React.CSSProperties = {
-  marginTop: 32,
-  display: 'flex',
-  gap: 8,
-  alignItems: 'center',
-};

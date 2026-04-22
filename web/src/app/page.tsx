@@ -1,21 +1,19 @@
 import { HeroSlider } from '@/components/HeroSlider';
+import { DonationCTA } from '@/components/home/DonationCTA';
 import { HomeStats } from '@/components/HomeStats';
-import { KidsPreview } from '@/components/KidsPreview';
-import { HowItWorks } from '@/components/home/HowItWorks';
-import { NewsPreview } from '@/components/home/NewsPreview';
-import { PartnersStrip } from '@/components/home/PartnersStrip';
-import { FinalCTA } from '@/components/home/FinalCTA';
+import { ChildrenGrid } from '@/components/home/ChildrenGrid';
+import { NewsSection } from '@/components/home/NewsSection';
+import { HomeCTABanner } from '@/components/home/HomeCTABanner';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="page active" id="page-home">
       <HeroSlider />
+      <DonationCTA />
       <HomeStats />
-      <KidsPreview />
-      <HowItWorks />
-      <NewsPreview />
-      <PartnersStrip />
-      <FinalCTA />
-    </>
+      <ChildrenGrid />
+      <NewsSection />
+      <HomeCTABanner />
+    </div>
   );
 }

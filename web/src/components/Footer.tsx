@@ -1,105 +1,121 @@
-'use client';
-
 import Link from 'next/link';
-import { useLang } from '@/i18n/LangProvider';
 
 const LINKS = [
-  { key: 'nav_home', href: '/' },
-  { key: 'nav_about', href: '/about' },
-  { key: 'nav_partners', href: '/partners' },
-  { key: 'nav_children', href: '/children' },
-  { key: 'nav_news', href: '/news' },
-  { key: 'nav_activities', href: '/activities' },
-  { key: 'nav_donate', href: '/donate' },
-  { key: 'nav_contact', href: '/contact' },
+  { href: '/about', label: '소개' },
+  { href: '/children', label: '우리 아이들' },
+  { href: '/news', label: '뉴스 & 소식' },
+  { href: '/donate', label: '후원하기' },
+  { href: '/contact', label: '문의하기' },
+  { href: '/notices', label: '공지사항' },
 ];
 
 export function Footer() {
-  const { t } = useLang();
-
   return (
-    <footer style={wrap}>
-      <div className="wrap" style={grid}>
+    <footer
+      className="ft"
+      style={{
+        background: '#0f172a',
+        color: 'rgba(255,255,255,.78)',
+        marginTop: 80,
+      }}
+    >
+      <div
+        className="ft-top"
+        style={{
+          maxWidth: 'var(--max)',
+          margin: '0 auto',
+          padding: '56px 24px 32px',
+          display: 'grid',
+          gridTemplateColumns: '1.4fr 1fr 1fr',
+          gap: 48,
+        }}
+      >
         <div>
-          <div style={{ fontFamily: "'Libre Bodoni', serif", fontSize: 18, fontWeight: 700, color: 'var(--navy)', marginBottom: 14 }}>
-            생명의 <em style={{ color: 'var(--blue)', fontStyle: 'normal' }}>선물</em> 코리아
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <strong
+              style={{
+                fontSize: 22,
+                fontWeight: 800,
+                color: '#fff',
+                fontFamily: "'Libre Bodoni', serif",
+                letterSpacing: '-.02em',
+              }}
+            >
+              gift of life
+            </strong>
+            <span style={{ fontSize: 11, letterSpacing: 1, color: '#94a3b8' }}>KOREA</span>
           </div>
-          <p style={{ fontStyle: 'italic', color: '#475569', fontSize: 12.5, lineHeight: 1.95, marginBottom: 14, maxWidth: 230 }}>
-            {t('footer_tagline')}
+          <p style={{ fontSize: 13, lineHeight: 1.8, color: 'rgba(255,255,255,.6)' }}>
+            사단법인 생명의 선물 코리아<br />
+            Gift of Life International Korea
           </p>
-          <div style={{ color: '#64748b', fontSize: 12.5, lineHeight: 2.3 }}>
-            e. golikorea@naver.com
-            <br />m. 010-9985-5328
-            <br />w. www.golikorea.or.kr
-            <br />l. {t('footer_contact_address')}
-          </div>
+          <p style={{ fontSize: 12, lineHeight: 1.8, color: 'rgba(255,255,255,.5)', marginTop: 10 }}>
+            서울특별시 (주소 등록 필요)<br />
+            대표 전화: 02-0000-0000<br />
+            이메일: contact@goli.kr
+          </p>
         </div>
 
-        <div>
-          <div style={ttl}>{t('ft_links')}</div>
-          <ul style={{ listStyle: 'none' }}>
-            {LINKS.map((item) => (
-              <li key={item.key}>
-                <Link href={item.href} style={linkStyle}>
-                  <span style={{ color: 'var(--blue)', marginRight: 5 }}>›</span>{t(item.key)}
+        <div className="ft-links">
+          <h4
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#fff',
+              letterSpacing: 1,
+              textTransform: 'uppercase',
+              marginBottom: 14,
+            }}
+          >
+            바로가기
+          </h4>
+          <ul style={{ listStyle: 'none', display: 'grid', gap: 8 }}>
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  style={{ fontSize: 13, color: 'rgba(255,255,255,.7)' }}
+                >
+                  {l.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        <div>
-          <div style={ttl}>{t('ft_related')}</div>
-          <ul style={{ listStyle: 'none' }}>
-            <li><a href="https://giftoflifeinternational.org" target="_blank" rel="noopener" style={linkStyle}><span style={{ color: 'var(--blue)', marginRight: 5 }}>›</span>Gift of Life International</a></li>
-            <li><a href="https://rotary.org" target="_blank" rel="noopener" style={linkStyle}><span style={{ color: 'var(--blue)', marginRight: 5 }}>›</span>Rotary International</a></li>
-            <li><a href="#" style={linkStyle}><span style={{ color: 'var(--blue)', marginRight: 5 }}>›</span>로타리 3640지구</a></li>
+        <div className="ft-social">
+          <h4
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#fff',
+              letterSpacing: 1,
+              textTransform: 'uppercase',
+              marginBottom: 14,
+            }}
+          >
+            소셜
+          </h4>
+          <ul style={{ listStyle: 'none', display: 'grid', gap: 8, fontSize: 13 }}>
+            <li><a href="#" style={{ color: 'rgba(255,255,255,.7)' }}>Facebook</a></li>
+            <li><a href="#" style={{ color: 'rgba(255,255,255,.7)' }}>Instagram</a></li>
+            <li><a href="#" style={{ color: 'rgba(255,255,255,.7)' }}>YouTube</a></li>
           </ul>
         </div>
       </div>
 
-      <div style={bot}>
-        <div className="wrap" style={{ color: '#94a3b8', fontSize: 12, padding: '16px 24px' }}>
-          {t('ft_cp')}
-        </div>
+      <div
+        className="ft-bot"
+        style={{
+          borderTop: '1px solid rgba(255,255,255,.08)',
+          padding: '20px 24px',
+          textAlign: 'center',
+          fontSize: 12,
+          color: 'rgba(255,255,255,.4)',
+        }}
+      >
+        © 2026 Gift of Life International Korea. All rights reserved.
       </div>
     </footer>
   );
 }
-
-const wrap: React.CSSProperties = {
-  background: '#f1f5f9',
-  marginTop: 64,
-};
-
-const grid: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '1.8fr 1fr 1fr',
-  gap: 36,
-  padding: '50px 24px 38px',
-  borderBottom: '1px solid #e2e8f0',
-};
-
-const ttl: React.CSSProperties = {
-  color: '#64748b',
-  fontWeight: 700,
-  fontSize: 11,
-  marginBottom: 16,
-  paddingBottom: 8,
-  borderBottom: '1px solid #e2e8f0',
-  letterSpacing: 0.3,
-  textTransform: 'uppercase',
-};
-
-const linkStyle: React.CSSProperties = {
-  color: '#475569',
-  fontSize: 13,
-  display: 'block',
-  padding: '3px 0',
-  transition: 'color 0.2s ease',
-};
-
-const bot: React.CSSProperties = {
-  maxWidth: 'var(--max)',
-  margin: '0 auto',
-};
