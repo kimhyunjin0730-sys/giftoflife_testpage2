@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans, Libre_Bodoni } from 'next/font/google';
+import { Fraunces, Manrope, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { LangProvider } from '@/i18n/LangProvider';
 import { NotificationBar } from '@/components/NotificationBar';
@@ -7,17 +7,24 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FloatingButtons } from '@/components/FloatingButtons';
 
-const jakarta = Plus_Jakarta_Sans({
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+  axes: ['SOFT', 'opsz'],
+});
+
+const manrope = Manrope({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-jakarta',
+  variable: '--font-body',
   display: 'swap',
 });
 
-const bodoni = Libre_Bodoni({
+const mono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-bodoni',
+  weight: ['400', '500', '600'],
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -42,7 +49,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={`${jakarta.variable} ${bodoni.variable}`}>
+    <html
+      lang="ko"
+      className={`${fraunces.variable} ${manrope.variable} ${mono.variable}`}
+    >
       <body>
         <LangProvider>
           <NotificationBar />
