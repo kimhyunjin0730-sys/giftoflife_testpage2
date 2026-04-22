@@ -3,7 +3,6 @@ import path from 'node:path';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // 모노레포(루트 package.json + web/ package.json) 워크스페이스 루트 명시
   outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
@@ -11,6 +10,15 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
       { protocol: 'https', hostname: 'i.ytimg.com' },
     ],
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/', destination: '/index.html' },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
 };
 
