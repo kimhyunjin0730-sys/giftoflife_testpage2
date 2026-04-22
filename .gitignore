@@ -1,5 +1,11 @@
 node_modules
-node_modules
+app/node_modules
+app/dist
+
+# Local env
+.env
+.env.local
+.env.*.local
 
 # Demo QA scratch files
 demo/_qa_test.py
@@ -13,3 +19,6 @@ Include/
 Lib/
 Scripts/
 pyvenv.cfg
+
+# Vercel
+.vercel
