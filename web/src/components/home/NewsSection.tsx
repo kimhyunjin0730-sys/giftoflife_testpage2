@@ -40,8 +40,7 @@ export function NewsSection() {
           <div className="main-col">
             <div className="sec-hd">
               <div>
-                <h2 className="sec-ttl">최근 뉴스</h2>
-                <p className="sec-sub">생명의 선물 코리아의 활동과 어린이들의 소식</p>
+                <h2 className="sec-ttl">최신 뉴스</h2>
               </div>
               <Link href="/news" className="sec-more">
                 더 보기 →

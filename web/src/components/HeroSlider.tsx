@@ -45,19 +45,19 @@ export function HeroSlider() {
         <div className="uni-hero-left">
           <span className="uni-eyebrow">
             <span className="dot" />
-            해외 파트너 사례 · 뉴스 보도
+            <span id="hero-eyebrow-txt">{KIDS[idx].country.ko} · {KIDS[idx].age.ko} · 2026</span>
           </span>
-          <h1 className="uni-hero-h">
-            모든 아이는 심장을 고칠 <span className="accent">권리</span>가 있습니다
+          <h1 className="uni-hero-h" id="uni-hero-h">
+            모든 아이는 <span className="accent">심장을 고칠</span> 권리가 있습니다
           </h1>
-          <p className="uni-hero-p">
+          <p className="uni-hero-p" id="uni-hero-p">
             매년 135만 명의 아이들이 선천성 심장병을 안고 태어납니다. 93%는 수술을 받지 못합니다. 당신의 후원이 그 숫자를 바꿉니다.
           </p>
           <div className="uni-hero-btns">
             <Link href="/donate" className="uni-btn-primary">
-              후원하기
+              지금 후원하기
             </Link>
-            <Link href="/children" className="uni-btn-ghost">
+            <Link href="/activities" className="uni-btn-ghost">
               어린이 이야기 →
             </Link>
           </div>

@@ -1,91 +1,54 @@
-'use client';
-
-import { useLang } from '@/i18n/LangProvider';
-
 const STEPS = [
-  {
-    h: { ko: '후원 신청', en: 'Donate', zh: '捐款申请' },
-    p: { ko: '정기 또는 일시 후원을 간편하게 신청합니다', en: 'Easily start a one-time or monthly donation', zh: '轻松开始一次性或每月捐款' },
-    icon: '01',
-  },
-  {
-    h: { ko: '아동 선정', en: 'Child Selected', zh: '选定儿童' },
-    p: { ko: '수술이 시급한 아이를 의료팀이 선정합니다', en: 'Medical team selects a child in urgent need', zh: '医疗团队选定急需手术的儿童' },
-    icon: '02',
-  },
-  {
-    h: { ko: '심장 수술', en: 'Heart Surgery', zh: '心脏手术' },
-    p: { ko: '파트너 병원에서 전문의가 수술합니다', en: 'Specialists operate at partner hospitals', zh: '合作医院的专家进行手术' },
-    icon: '03',
-  },
-  {
-    h: { ko: '건강한 미래', en: 'Healthy Future', zh: '健康未来' },
-    p: { ko: '회복 후 건강한 삶을 되찾습니다', en: 'The child recovers and returns to a healthy life', zh: '孩子康复后重获健康生活' },
-    icon: '04',
-  },
+  { n: 1, h: '후원 신청', p: '정기 또는 일시 후원을 간편하게 신청합니다' },
+  { n: 2, h: '아동 선정', p: '수술이 시급한 아이를 의료팀이 선정합니다' },
+  { n: 3, h: '심장 수술', p: '파트너 병원에서 전문의가 수술합니다' },
+  { n: 4, h: '건강한 미래', p: '회복 후 건강한 삶을 되찾습니다' },
 ];
 
 export function HowItWorks() {
-  const { lang } = useLang();
-
   return (
-    <section className="section" style={{ background: '#fff' }}>
+    <div style={{ background: '#fff', padding: '36px 0' }} id="homeHowItWorks">
       <div className="wrap">
-        <div style={{ textAlign: 'center', marginBottom: 44 }}>
-          <div className="eyebrow">How It Works</div>
-          <h2 style={h2}>
-            {lang === 'en' ? 'How Your Donation Saves Lives'
-              : lang === 'zh' ? '您的捐款如何拯救生命'
-              : '후원이 생명이 되기까지'}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <h2 style={{ fontFamily: "'Libre Bodoni', serif", fontSize: 26, fontWeight: 700, color: 'var(--navy)' }}>
+            후원이 생명이 되기까지
           </h2>
-          <div style={{ width: 50, height: 3, background: 'var(--blue)', margin: '14px auto 0' }} />
         </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, position: 'relative' }}>
-          {STEPS.map((s, i) => (
-            <div key={s.icon} style={{ ...stepCard, animationDelay: `${i * 100}ms` }}>
-              <div style={iconBadge}>{s.icon}</div>
-              <h3 style={{ fontFamily: "'Libre Bodoni', serif", fontSize: 18, fontWeight: 700, color: 'var(--navy)', margin: '14px 0 8px' }}>
-                {s.h[lang]}
-              </h3>
-              <p style={{ fontSize: 13.5, color: 'var(--muted)', lineHeight: 1.75 }}>{s.p[lang]}</p>
+        <div className="hiw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {STEPS.map((s) => (
+            <div
+              key={s.n}
+              style={{
+                textAlign: 'center',
+                padding: '22px 16px',
+                background: 'var(--bg2)',
+                borderRadius: 'var(--r2)',
+                border: '1px solid var(--border)',
+              }}
+            >
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  background: 'linear-gradient(135deg, #fce4ec, #f8bbd0)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 17,
+                  margin: '0 auto 12px',
+                  fontWeight: 700,
+                  color: '#d4607a',
+                }}
+              >
+                {s.n}
+              </div>
+              <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--navy)', marginBottom: 6 }}>{s.h}</h4>
+              <p style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6 }}>{s.p}</p>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
-
-const h2: React.CSSProperties = {
-  fontFamily: "'Libre Bodoni', serif",
-  fontSize: 'clamp(24px, 3.2vw, 34px)',
-  fontWeight: 700,
-  color: 'var(--navy)',
-  margin: '10px 0',
-};
-
-const stepCard: React.CSSProperties = {
-  background: '#fff',
-  border: '1px solid var(--border)',
-  borderRadius: 'var(--r2)',
-  padding: '28px 24px',
-  textAlign: 'center',
-  position: 'relative',
-  boxShadow: 'var(--sh)',
-};
-
-const iconBadge: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 56,
-  height: 56,
-  borderRadius: '50%',
-  background: 'linear-gradient(135deg, var(--blue), var(--blue2))',
-  color: '#fff',
-  fontFamily: "'Libre Bodoni', serif",
-  fontSize: 20,
-  fontWeight: 700,
-  letterSpacing: -0.5,
-};

@@ -2,7 +2,7 @@ const STATS: { v: string; l: string }[] = [
   { v: '₩18.6억', l: '누적 모금액' },
   { v: '130만', l: '매년 CHD 출생아' },
   { v: '93%', l: '치료 못 받는 비율' },
-  { v: '47,599', l: '목표 회원 수' },
+  { v: '47,599', l: '누적 수술 성공' },
 ];
 
 export function HomeStats() {
