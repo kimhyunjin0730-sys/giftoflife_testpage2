@@ -14,11 +14,11 @@ demo/_art_qa.py
 demo/_art_screenshots/
 demo/_viewer_template_ref.html
 
-# Python pip scratch (ensurepip artifacts)
-Include/
-Lib/
-Scripts/
-pyvenv.cfg
+# Python pip scratch (ensurepip artifacts) — 루트만 매칭 (web/src/lib 등 충돌 방지)
+/Include/
+/Lib/
+/Scripts/
+/pyvenv.cfg
 
 # Vercel
 .vercel
