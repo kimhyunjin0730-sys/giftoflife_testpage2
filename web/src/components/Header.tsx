@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { useLang } from '@/i18n/LangProvider';
 import { LangSwitcher } from './LangSwitcher';
@@ -17,6 +18,7 @@ const NAV = [
 
 export function Header() {
   const { t } = useLang();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <header style={headerStyle}>
@@ -28,7 +30,8 @@ export function Header() {
           <span style={{ fontSize: 10, color: 'var(--muted)', letterSpacing: 1 }}>KOREA</span>
         </Link>
 
-        <nav style={navStyle}>
+        {/* Desktop nav */}
+        <nav className="hdr-nav" style={navStyle}>
           {NAV.map((item) => (
             <Link key={item.key} href={item.href} style={navLinkStyle}>
               {t(item.key)}
@@ -38,14 +41,72 @@ export function Header() {
 
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <LangSwitcher />
-          <Link href="/login" style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', padding: '8px 14px' }}>
+          <Link href="/login" className="hdr-login" style={{ fontSize: 13, fontWeight: 600, color: 'var(--muted)', padding: '8px 14px' }}>
             {t('login')}
           </Link>
-          <Link href="/donate" className="btn-primary" style={{ padding: '10px 22px', fontSize: 14 }}>
+          <Link href="/donate" className="btn-primary hdr-donate" style={{ padding: '10px 22px', fontSize: 14 }}>
             {t('donate_btn')}
           </Link>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            aria-label="Menu"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+            className="hdr-burger"
+            style={burgerStyle}
+          >
+            <span style={burgerBar(mobileOpen, 0)} />
+            <span style={burgerBar(mobileOpen, 1)} />
+            <span style={burgerBar(mobileOpen, 2)} />
+          </button>
         </div>
       </div>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div className="hdr-drawer" style={drawerStyle}>
+          <div className="wrap" style={{ padding: '14px 24px 22px' }}>
+            {NAV.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                style={drawerLink}
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+            <div style={{ display: 'flex', gap: 10, marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                style={{ flex: 1, padding: '11px 14px', textAlign: 'center', border: '1px solid var(--border)', borderRadius: 999, fontSize: 14, fontWeight: 600, color: 'var(--navy)' }}
+              >
+                {t('login')}
+              </Link>
+              <Link
+                href="/donate"
+                onClick={() => setMobileOpen(false)}
+                className="btn-primary"
+                style={{ flex: 1, padding: '11px 14px', fontSize: 14 }}
+              >
+                {t('donate_btn')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 900px) {
+          .hdr-nav { display: none !important; }
+          .hdr-login { display: none !important; }
+          .hdr-donate { display: none !important; }
+          .hdr-burger { display: inline-flex !important; }
+        }
+      `}</style>
     </header>
   );
 }
@@ -84,4 +145,52 @@ const navStyle: React.CSSProperties = {
 const navLinkStyle: React.CSSProperties = {
   color: 'var(--navy)',
   transition: 'color 0.2s ease',
+};
+
+const burgerStyle: React.CSSProperties = {
+  display: 'none',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 40,
+  height: 40,
+  gap: 4,
+  borderRadius: 8,
+  border: '1px solid var(--border)',
+  background: '#fff',
+  padding: 0,
+};
+
+const burgerBar = (open: boolean, i: number): React.CSSProperties => {
+  const base: React.CSSProperties = {
+    display: 'block',
+    width: 18,
+    height: 2,
+    background: 'var(--navy)',
+    borderRadius: 2,
+    transition: 'transform 0.25s ease, opacity 0.2s ease',
+  };
+  if (!open) return base;
+  if (i === 0) return { ...base, transform: 'translateY(6px) rotate(45deg)' };
+  if (i === 1) return { ...base, opacity: 0 };
+  return { ...base, transform: 'translateY(-6px) rotate(-45deg)' };
+};
+
+const drawerStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: '100%',
+  left: 0,
+  right: 0,
+  background: '#fff',
+  borderBottom: '1px solid var(--border)',
+  boxShadow: '0 12px 24px rgba(15, 23, 42, 0.08)',
+};
+
+const drawerLink: React.CSSProperties = {
+  display: 'block',
+  padding: '12px 10px',
+  fontSize: 15,
+  fontWeight: 600,
+  color: 'var(--navy)',
+  borderBottom: '1px solid var(--bg2)',
 };
