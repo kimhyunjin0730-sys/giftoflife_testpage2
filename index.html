@@ -129,11 +129,13 @@
 
     @keyframes fadeIn {
       from {
-        opacity: 0
+        opacity: 0;
+        transform: translateY(8px)
       }
 
       to {
-        opacity: 1
+        opacity: 1;
+        transform: translateY(0)
       }
     }
 
@@ -1010,7 +1012,29 @@
 
     .page.active {
       display: block;
-      animation: fadeIn .32s ease
+      animation: fadeIn .35s cubic-bezier(.22,.8,.28,1)
+    }
+
+    /* 부드러운 스크롤 + 렌더 힌트로 저사양 기기에서 버벅임 감소 */
+    html {
+      scroll-behavior: smooth
+    }
+
+    .page.active,
+    .site-hdr,
+    .ft {
+      will-change: opacity, transform
+    }
+
+    /* 모션 민감 사용자 배려 */
+    @media (prefers-reduced-motion: reduce) {
+      .page.active {
+        animation-duration: .01s
+      }
+
+      html {
+        scroll-behavior: auto
+      }
     }
 
     /* HERO — centered text, floating Amara card */
@@ -9007,13 +9031,20 @@
     function goPage(k) {
       if (k === 'admin' && !isAdmin()) return;
       const d = PAGES[k]; if (!d) return;
+      // 같은 페이지 재호출이면 아무것도 하지 않음 (불필요한 리렌더/애니메이션 방지)
+      const targetEl = document.getElementById(d.p);
+      if (targetEl?.classList.contains('active')) return;
+      // 스크롤 먼저 위로(smooth 대신 즉시) — 페이지 전환 중 스크롤이 밀리는 현상 방지
+      window.scrollTo({ top: 0, behavior: 'auto' });
       document.querySelectorAll('.page').forEach(e => e.classList.remove('active'));
       document.querySelectorAll('.nav-ul>li').forEach(e => e.classList.remove('act'));
-      document.getElementById(d.p).classList.add('active');
+      // requestAnimationFrame으로 페인트 동기화 — active 클래스가 다음 프레임에 붙도록
+      requestAnimationFrame(() => {
+        targetEl.classList.add('active');
+      });
       if (d.n) { const ni = document.getElementById(d.n); if (ni) ni.classList.add('act'); }
       document.getElementById('bcTxt').textContent = T[curLang][d.bc] || d.bc;
       switchHeader(k === 'home', T[curLang][d.bc] || d.bc);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       closeMob();
       if (k === 'news') renderNewsPage();
       if (k === 'notices') renderNoticesPage();
