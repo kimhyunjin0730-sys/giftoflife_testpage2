@@ -12,9 +12,9 @@ demo/
 figma/
 docs/
 giftoflife_testpage2/
-Scripts/
-Include/
-Lib/
+/Scripts/
+/Include/
+/Lib/
 ppnfonts/
 
 # 로컬 환경
