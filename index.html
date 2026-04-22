@@ -7457,7 +7457,7 @@
                     <th>이름</th>
                     <th>이메일</th>
                     <th>연락처</th>
-                    <th>등급</th>
+                    <th>역할</th>
                     <th>언어</th>
                     <th>가입일</th>
                     <th>관리</th>
@@ -8791,8 +8791,8 @@
       ['ko', 'en', 'zh'].forEach(k => document.getElementById('rc-' + k)?.classList.toggle('active', k === l));
       const lb = { ko: '한국어로 계속하기', en: 'Continue in English', zh: '以中文继续' };
       const rcb = document.getElementById('regionConfirmBtn'); if (rcb) rcb.textContent = lb[l];
-      // 카드 클릭 시 바로 언어 적용 (확인 버튼 없이도 미리보기)
-      chooseLang(l);
+      // 미리보기만 — localStorage 저장은 confirmRegion()에서만 발생
+      setLang(l);
     }
     function chooseLang(lang) {
       setLang(lang);
@@ -10212,13 +10212,14 @@
   </tr>`).join('');
     }
 
+    /* 회원 관리 탭 — profiles 테이블 기반으로 전환 (role: 일반/로타리/관리자) */
     async function loadAdminMembers() {
       let data, error;
       try {
-        ({ data, error } = await sb.from('members').select('*').order('created_at', { ascending: false }));
+        ({ data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: false }));
       } catch (e) { error = { message: e.message }; }
       if (error) {
-        document.getElementById('adminMembersTbl').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--red)">❌ 로드 실패: ${error.message}</td></tr>`;
+        document.getElementById('adminMembersTbl').innerHTML = `<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--red)">로드 실패: ${error.message}</td></tr>`;
         return;
       }
       membersCache = data || [];
@@ -10226,33 +10227,34 @@
     }
     function renderMembersTable(data) {
       const tbl = document.getElementById('adminMembersTbl');
-      if (!data || data.length === 0) { tbl.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`; return; }
+      if (!data || data.length === 0) {
+        tbl.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">가입 회원이 없습니다.</td></tr>`;
+        return;
+      }
+      const roleBadge = (role, verified) => {
+        if (role === 'admin') return '<span style="display:inline-block;padding:3px 10px;background:var(--navy);color:#fff;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.3px">관리자</span>';
+        if (role === 'rotary' && verified) return '<span style="display:inline-block;padding:3px 10px;background:var(--blue);color:#fff;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.3px">로타리 회원</span>';
+        return '<span style="display:inline-block;padding:3px 10px;background:var(--bg2);color:var(--muted);border:1px solid var(--border);border-radius:999px;font-size:11px;font-weight:600">일반 회원</span>';
+      };
       tbl.innerHTML = data.map(m => `<tr>
-    <td style="font-weight:500">${m.name || '-'}</td>
-    <td style="font-size:12px;color:var(--muted)">${m.email || '-'}</td>
-    <td style="font-size:12px;color:var(--muted)">${m.phone || '-'}</td>
-    <td>
-      <select class="admin-grade-sel" style="font-size:12px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer"
-        onchange="updateMemberGrade('${m.id}',this.value)">
-        <option value="supporter" ${m.grade === 'supporter' || !m.grade ? 'selected' : ''}>서포터</option>
-        <option value="champion" ${m.grade === 'champion' ? 'selected' : ''}>챔피언</option>
-        <option value="partner" ${m.grade === 'partner' ? 'selected' : ''}>파트너</option>
-      </select>
-    </td>
+    <td style="font-weight:500">${escHtml(m.name || '-')}</td>
+    <td style="font-size:12px;color:var(--muted)">${escHtml(m.email || '-')}</td>
+    <td style="font-size:12px;color:var(--muted)">${escHtml(m.phone || '-')}</td>
+    <td>${roleBadge(m.role, m.verified_at)}</td>
     <td style="color:var(--muted);font-size:11px">${m.lang || 'ko'}</td>
     <td style="color:var(--muted);font-size:11px">${m.created_at?.slice(0, 10) || '-'}</td>
-    <td>
-      <button class="btn-sm red" onclick="deleteMember('${m.id}',this)">✕</button>
-    </td>
+    <td><div style="display:flex;gap:4px">
+      <button class="btn-sm" style="background:var(--blue);color:#fff;padding:4px 10px;border:0;border-radius:4px;cursor:pointer;font-size:11px" onclick="switchAdminTab('rotary-mgmt');loadRotaryProfiles()" title="로타리 인증 관리로 이동">역할 변경</button>
+      <button class="btn-sm red" onclick="deleteMember('${m.id}',this)" title="삭제">✕</button>
+    </div></td>
   </tr>`).join('');
     }
-    async function updateMemberGrade(id, grade) {
-      await sb.from('members').update({ grade }).eq('id', id);
-    }
+    /* deleteMember — profiles 삭제는 auth.users CASCADE로 처리.
+       여기서는 auth admin api가 없으므로 단순히 UI에서 숨기는 대신, 삭제 안내 */
     async function deleteMember(id, btn) {
-      if (!confirm('회원을 삭제하시겠습니까?')) return;
-      await sb.from('members').delete().eq('id', id);
-      btn.closest('tr').remove();
+      if (!confirm('회원을 삭제하시겠습니까?\n(Supabase Auth에서 삭제 처리됩니다)')) return;
+      // 직접 auth.users 삭제는 클라이언트에서 불가 — Supabase Dashboard에서 처리 필요
+      alert('클라이언트에서 인증된 회원 삭제는 지원되지 않습니다.\nSupabase Dashboard → Authentication → Users 에서 삭제해 주세요.');
     }
     function filterMembers(q) {
       if (!q) { renderMembersTable(membersCache); return; }
