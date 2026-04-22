@@ -9153,10 +9153,13 @@
 
       // ── FAQ 위젯 ──
       try { renderFaq(); } catch(e) {}
-      const fabEl = document.getElementById('faqFab');
-      if (fabEl && typeof FAQ_DATA !== 'undefined' && FAQ_DATA.ui && FAQ_DATA.ui.fabTitle) {
-        fabEl.setAttribute('title', FAQ_DATA.ui.fabTitle[lang] || FAQ_DATA.ui.fabTitle.ko);
-      }
+      // FAQ_DATA 는 같은 스크립트 하단에 const 선언되어 있어 초기 setLang 호출 시 TDZ 로 ReferenceError 가 남 → try/catch 로 가드
+      try {
+        const fabEl = document.getElementById('faqFab');
+        if (fabEl && FAQ_DATA && FAQ_DATA.ui && FAQ_DATA.ui.fabTitle) {
+          fabEl.setAttribute('title', FAQ_DATA.ui.fabTitle[lang] || FAQ_DATA.ui.fabTitle.ko);
+        }
+      } catch(e) {}
       // ── 채팅 섹션 ──
       try { updateChatI18n(lang); } catch(e) {}
 
