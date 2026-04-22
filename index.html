@@ -644,19 +644,18 @@
 
     .nav-drop {
       position: absolute;
-      top: 100%;
+      top: calc(100% + 6px);
       left: 0;
       min-width: 200px;
       background: #fff;
       border: 1px solid var(--border);
-      border-top: 3px solid var(--blue);
       box-shadow: 0 12px 36px rgba(0, 0, 0, .08);
       opacity: 0;
       visibility: hidden;
-      transform: translateY(8px);
-      transition: var(--ease);
+      transform: translateY(6px);
+      transition: opacity .22s ease, transform .22s ease, visibility .22s;
       z-index: 600;
-      border-radius: 0 0 var(--r2) var(--r2)
+      border-radius: var(--r)
     }
 
     .nav-ul>li:hover .nav-drop,
@@ -5851,8 +5850,9 @@
             <div
               style="background:#fff;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh)">
               <div style="height:5px;background:linear-gradient(90deg,var(--blue),var(--blue2))"></div>
-              <img src="소개-단체소개-1.jpg" style="width:100%;height:160px;object-fit:cover;display:block"
-                alt="지속 가능한 소아 심장 센터" />
+              <img src="소개-단체소개-ribbon.jpg" style="width:100%;height:160px;object-fit:cover;display:block"
+                onerror="this.onerror=null;this.src='network-550x400.jpeg'"
+                alt="지속 가능한 소아 심장 센터 — 리본커팅 세리머니" />
               <div style="padding:24px">
                 <div
                   style="font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--blue);text-transform:uppercase;margin-bottom:8px">
@@ -6042,8 +6042,9 @@
             <div>
               <div
                 style="position:relative;padding-bottom:56.25%;border-radius:var(--r2);overflow:hidden;box-shadow:var(--sh2)">
-                <iframe src="https://www.youtube.com/embed/d3E2CzX5Ves"
-                  style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/beIoD4hbZSg"
+                  style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen
+                  title="Gift of Life 발전 영상"></iframe>
               </div>
             </div>
             <div style="font-size:15px;color:var(--text);line-height:2">
