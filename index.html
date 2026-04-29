@@ -5714,6 +5714,17 @@
           style="resize:vertical" placeholder="English content..."></textarea></div>
       <div class="fg"><label class="fl">내용 (中文)</label><textarea class="fi" id="noticeContentZh" rows="3"
           style="resize:vertical" placeholder="中文内容..."></textarea></div>
+      <div class="fg">
+        <label class="fl">이미지 (선택)</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <input type="file" id="noticeImgFile" accept="image/jpeg,image/png,image/webp,image/gif"
+            onchange="handleImageUpload(this, 'noticeImg', 'noticeImgPreview', 'noticeImgStatus')"
+            style="flex:1;font-size:12.5px;padding:8px;border:1px dashed var(--border);border-radius:var(--r);background:var(--bg)" />
+          <span id="noticeImgStatus" style="font-size:11.5px;color:var(--muted);min-width:60px"></span>
+        </div>
+        <input class="fi" id="noticeImg" placeholder="https://... 또는 위에서 파일 업로드" oninput="updateImagePreview('noticeImg','noticeImgPreview')" />
+        <img id="noticeImgPreview" alt="" style="display:none;margin-top:8px;max-width:100%;max-height:160px;border:1px solid var(--border);border-radius:var(--r);object-fit:cover" />
+      </div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px">
         <input type="checkbox" id="noticeIsNew" style="width:16px;height:16px;cursor:pointer" />
         <label for="noticeIsNew" style="font-size:13.5px;font-weight:600;cursor:pointer">NEW 배지 표시</label>
@@ -7557,8 +7568,17 @@
           <div class="mfg"><label>카테고리 (中文)</label><input class="mfi" id="nCatZh" placeholder="全球" /></div>
         </div>
         <div class="mfg"><label>날짜</label><input class="mfi" id="nDate" type="date" /></div>
-        <div class="mfg"><label>이미지 URL</label><input class="mfi" id="nImg"
-            placeholder="https://images.unsplash.com/..." /></div>
+        <div class="mfg">
+          <label>이미지 (파일 업로드 또는 URL)</label>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+            <input type="file" id="nImgFile" accept="image/jpeg,image/png,image/webp,image/gif"
+              onchange="handleImageUpload(this, 'nImg', 'nImgPreview', 'nImgStatus')"
+              style="flex:1;font-size:12.5px;padding:8px;border:1px dashed var(--border);border-radius:var(--r);background:var(--bg)" />
+            <span id="nImgStatus" style="font-size:11.5px;color:var(--muted);min-width:60px"></span>
+          </div>
+          <input class="mfi" id="nImg" placeholder="https://... 또는 위에서 파일 업로드" oninput="updateImagePreview('nImg','nImgPreview')" />
+          <img id="nImgPreview" alt="" style="display:none;margin-top:8px;max-width:100%;max-height:160px;border:1px solid var(--border);border-radius:var(--r);object-fit:cover" />
+        </div>
         <div class="mfg"><label>외부 링크 URL (선택)</label><input class="mfi" id="nUrl" placeholder="https://..." /></div>
         <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)" />
         <div style="font-weight:700;font-size:14px;color:var(--navy);margin-bottom:14px">🇰🇷 한국어</div>
@@ -10689,6 +10709,7 @@
       document.getElementById('newsModalTitle').textContent = id ? '뉴스 수정' : '새 뉴스 작성';
       document.getElementById('editNewsId').value = id || '';
       if (!id) { ['nCatKo', 'nCatEn', 'nCatZh', 'nTitleKo', 'nTitleEn', 'nTitleZh', 'nDescKo', 'nDescEn', 'nDescZh', 'nImg', 'nUrl'].forEach(x => document.getElementById(x).value = ''); document.getElementById('nDate').value = new Date().toISOString().slice(0, 10); }
+      resetImageUploadUI('nImgFile', 'nImg', 'nImgPreview', 'nImgStatus');
       document.getElementById('newsModal').classList.add('open');
     }
     function closeNewsModal() { document.getElementById('newsModal').classList.remove('open'); }
@@ -10708,9 +10729,65 @@
       document.getElementById('nImg').value = data.img || '';
       document.getElementById('nUrl').value = data.url || '';
       document.getElementById('nDate').value = data.date || '';
+      // 파일 input 은 보안상 프로그램 설정 불가 — 미리보기만 채움
+      const fi = document.getElementById('nImgFile'); if (fi) fi.value = '';
+      const st = document.getElementById('nImgStatus'); if (st) { st.textContent = ''; st.style.color = 'var(--muted)'; }
+      updateImagePreview('nImg', 'nImgPreview');
       document.getElementById('newsModalTitle').textContent = '뉴스 수정';
       document.getElementById('newsModal').classList.add('open');
     }
+    /* ──────────────────────────────────────────
+       이미지 업로드 헬퍼 (Storage: news-images 버킷)
+       ────────────────────────────────────────── */
+    async function uploadImageToStorage(file) {
+      if (!file) return null;
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const safeExt = ['jpg','jpeg','png','webp','gif'].includes(ext) ? ext : 'jpg';
+      const fileName = `${Date.now()}_${Math.random().toString(36).slice(2,9)}.${safeExt}`;
+      const { data, error } = await sb.storage
+        .from('news-images')
+        .upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+      if (error) throw error;
+      const { data: pub } = sb.storage.from('news-images').getPublicUrl(data.path);
+      return pub.publicUrl;
+    }
+    function updateImagePreview(urlInputId, previewImgId) {
+      const url = document.getElementById(urlInputId)?.value?.trim();
+      const img = document.getElementById(previewImgId);
+      if (!img) return;
+      if (url) { img.src = url; img.style.display = 'block'; }
+      else { img.removeAttribute('src'); img.style.display = 'none'; }
+    }
+    async function handleImageUpload(fileInput, urlInputId, previewImgId, statusElId) {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      const status = document.getElementById(statusElId);
+      const urlInput = document.getElementById(urlInputId);
+      if (file.size > 10 * 1024 * 1024) {
+        if (status) status.textContent = '❌ 10MB 초과';
+        if (status) status.style.color = 'var(--red)';
+        fileInput.value = '';
+        return;
+      }
+      if (status) { status.textContent = '⏳ 업로드 중...'; status.style.color = 'var(--muted)'; }
+      try {
+        const url = await uploadImageToStorage(file);
+        if (urlInput) urlInput.value = url;
+        updateImagePreview(urlInputId, previewImgId);
+        if (status) { status.textContent = '✅ 완료'; status.style.color = 'var(--green)'; }
+      } catch (e) {
+        console.error('upload error', e);
+        if (status) { status.textContent = '❌ 실패'; status.style.color = 'var(--red)'; }
+        alert('이미지 업로드 실패: ' + (e.message || '알 수 없는 오류'));
+        fileInput.value = '';
+      }
+    }
+    function resetImageUploadUI(fileInputId, urlInputId, previewImgId, statusElId) {
+      const fi = document.getElementById(fileInputId); if (fi) fi.value = '';
+      const status = document.getElementById(statusElId); if (status) { status.textContent = ''; status.style.color = 'var(--muted)'; }
+      updateImagePreview(urlInputId, previewImgId);
+    }
+
     async function saveNews() {
       const id = document.getElementById('editNewsId').value;
       const payload = {
@@ -11294,6 +11371,7 @@
           isNotice: r.is_notice || false,
           id: r.id,
           category: r.category || 'general',
+          imageUrl: r.image_url || null,
         }));
         allNoticesData = dbRows;
         renderNotices();
@@ -11447,6 +11525,8 @@
       document.getElementById('noticeContentEn').value = '';
       document.getElementById('noticeContentZh').value = '';
       document.getElementById('noticeIsNew').checked = true;
+      const noticeImgEl = document.getElementById('noticeImg'); if (noticeImgEl) noticeImgEl.value = '';
+      resetImageUploadUI('noticeImgFile', 'noticeImg', 'noticeImgPreview', 'noticeImgStatus');
 
       if (id) {
         const n = allNoticesData.find(x => String(x.id) === String(id));
@@ -11459,6 +11539,8 @@
           document.getElementById('noticeContentEn').value = n.content?.en || '';
           document.getElementById('noticeContentZh').value = n.content?.zh || '';
           document.getElementById('noticeIsNew').checked = n.isNew || false;
+          if (noticeImgEl) noticeImgEl.value = n.imageUrl || n.image_url || '';
+          updateImagePreview('noticeImg', 'noticeImgPreview');
         }
       }
       modal.style.display = 'flex';
@@ -11473,6 +11555,7 @@
       const btn = document.getElementById('noticeSaveBtn');
       btn.innerHTML = '<span class="spinner"></span>'; btn.disabled = true;
 
+      const noticeImgVal = document.getElementById('noticeImg')?.value?.trim() || null;
       const payload = {
         title_ko: titleKo,
         title_en: document.getElementById('noticeTitleEn').value.trim() || titleKo,
@@ -11480,6 +11563,7 @@
         content_ko: document.getElementById('noticeContentKo').value.trim(),
         content_en: document.getElementById('noticeContentEn').value.trim(),
         content_zh: document.getElementById('noticeContentZh').value.trim(),
+        image_url: noticeImgVal,
         author_ko: '운영사무국', author_en: 'Admin', author_zh: '运营办公室',
         category: document.getElementById('noticeCategory').value,
         is_notice: document.getElementById('noticeCategory').value === 'notice',
