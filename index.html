@@ -7318,6 +7318,18 @@
           <a href="mailto:golikorea@naver.com" style="color:var(--blue);font-weight:700;text-decoration:none">golikorea@naver.com</a>
           <span data-i="my_inquiry_suffix">으로 연락 주시면 회계담당자가 안내해 드립니다.</span>
         </div>
+
+        <!-- 회원 탈퇴 (위험 영역) -->
+        <div style="margin-top:32px;padding:18px 22px;background:#fff7f7;border:1px solid #fecaca;border-radius:var(--r2);font-size:13px;color:#7f1d1d;line-height:1.7">
+          <b style="color:#991b1b;font-size:14px" data-i="account_delete_h">회원 탈퇴</b>
+          <p style="margin-top:6px;color:#7f1d1d" data-i="account_delete_p">
+            계정을 영구적으로 삭제합니다. 회원 정보, 로그인 권한이 즉시 제거되며 복구할 수 없습니다.
+            (후원 기록은 회계 처리를 위해 5년간 별도 보관)
+          </p>
+          <button type="button" onclick="confirmAccountDelete()"
+            style="margin-top:12px;padding:10px 20px;background:#fff;color:#991b1b;border:1px solid #fecaca;border-radius:9999px;font-size:13px;font-weight:600;cursor:pointer"
+            data-i="account_delete_btn">계정 삭제하기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -10346,6 +10358,45 @@
 
       // 4) 홈으로 이동
       goPage('home');
+    }
+
+    /* ──────────────────────────────────────────
+       회원 탈퇴 (자기 자신만 삭제 가능 — security definer RPC)
+       ────────────────────────────────────────── */
+    async function confirmAccountDelete() {
+      if (!currentUser) { alert('로그인이 필요합니다.'); return; }
+      const msg1 = '정말로 계정을 삭제하시겠습니까?\n\n' +
+                   '⚠️ 회원 정보, 로그인 권한이 즉시 영구 삭제되며 복구할 수 없습니다.\n' +
+                   '(후원 기록은 회계 처리를 위해 별도로 5년간 보관됩니다.)';
+      if (!confirm(msg1)) return;
+      const typed = prompt('확인을 위해 가입 이메일을 정확히 입력해 주세요:');
+      if (!typed) return;
+      const myEmail = (currentUser?.email || '').toLowerCase().trim();
+      if (typed.toLowerCase().trim() !== myEmail) {
+        alert('이메일이 일치하지 않습니다. 탈퇴를 취소합니다.');
+        return;
+      }
+      try {
+        const { error } = await sb.rpc('delete_my_account');
+        if (error) {
+          console.error('delete_my_account error:', error);
+          alert('계정 삭제 실패: ' + error.message);
+          return;
+        }
+        alert('계정이 삭제되었습니다. 그동안 함께해 주셔서 감사합니다.');
+        // 로컬 세션 정리 + 홈으로
+        try { await sb.auth.signOut(); } catch (e) {}
+        try { onUserLogout(); } catch (e) {}
+        try {
+          Object.keys(localStorage)
+            .filter(k => k.startsWith('sb-') && k.endsWith('-auth-token'))
+            .forEach(k => localStorage.removeItem(k));
+        } catch (e) {}
+        goPage('home');
+      } catch (e) {
+        console.error('계정 삭제 예외:', e);
+        alert('네트워크 또는 서버 오류로 삭제에 실패했습니다.');
+      }
     }
 
     async function loadMyDonations(email) {
