@@ -119,8 +119,13 @@ serve(async (req) => {
     const { to, subject, html, reply_to, skip_template } = await req.json()
     console.log(`발송 시도: to=${to}, subject=${subject}`);
 
-    // 도메인 verify 완료 (golikorearotary.or.kr) — 자체 도메인에서 발송
-    const fromAddress = `${SITE_NAME} <noreply@golikorearotary.or.kr>`
+    // From 표시: 운영 메일(golikorea@naver.com) 을 표시 이름에 노출 — 수신자 입장에서
+    // 'naver 주소가 운영 주체' 임이 분명히 보이도록.
+    // 실제 SMTP 발송 주소는 verified 도메인(golikorearotary.or.kr) 사용 (필수).
+    const fromAddress = `${SITE_NAME} (golikorea@naver.com) <noreply@golikorearotary.or.kr>`
+
+    // Reply-To 기본값: 호출자가 지정 안 하면 운영 메일(naver) 로 자동 회귀.
+    const finalReplyTo = reply_to || 'golikorea@naver.com'
 
     // skip_template: true 면 호출자가 보낸 HTML 그대로 (디버깅 / 특수 메일용)
     const finalHtml = skip_template ? html : wrapInTemplate(html || '', subject || SITE_NAME)
@@ -134,7 +139,7 @@ serve(async (req) => {
       body: JSON.stringify({
         from: fromAddress,
         to,
-        reply_to,
+        reply_to: finalReplyTo,
         subject,
         html: finalHtml,
       }),
