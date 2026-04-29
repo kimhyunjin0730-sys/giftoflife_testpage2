@@ -8929,7 +8929,7 @@
       // 로타리 전용 계좌 정보 UI 반영 + 게이트 상태 초기화
       try { applyRotaryBankInfo(); } catch (e) { }
       try { updateRotaryCardAccess(); } catch (e) { }
-      handleKakaoReturn();
+      // KakaoPay 리다이렉트 처리 제거 — 후원은 외부 MRM 링크 + 로타리 계좌이체로 단일화
 
       // ④ 백그라운드 Supabase (실패해도 페이지는 정상 동작)
       try {
@@ -10333,26 +10333,27 @@
         return '<span class="admin-badge pending">⏳ ' + (t2.pending_txt || '확인중') + '</span>';
       };
 
-      const payMethodLabel = (d) => {
-        if (d.pay_method === 'kakaopay') return '카카오페이';
-        return '🏦 ' + (t2.transfer || '계좌이체');
+      const channelLabel = ch => {
+        if (ch === 'rotary_transfer') return '로타리 회원';
+        if (ch === 'mrm') return 'MRM 일반';
+        if (ch === 'wire') return '해외 송금';
+        if (ch === 'manual') return '수기 입력';
+        return '계좌이체';
       };
 
       container.innerHTML = `
     <table class="ntbl" style="width:100%">
       <thead><tr>
         <th>${t2.my_history_date || '날짜'}</th>
-        <th>납부방법</th>
+        <th>채널</th>
         <th>${t2.my_history_amt || '금액'}</th>
-        <th>${t2.my_history_type || '구분'}</th>
         <th>${t2.my_history_status || '상태'}</th>
       </tr></thead>
       <tbody>
         ${data.map(d => `<tr>
           <td class="dt">${d.pay_date || d.created_at?.slice(0, 10) || '-'}</td>
-          <td style="font-size:12px">${payMethodLabel(d)}</td>
-          <td style="font-weight:700;color:var(--blue)">${d.amount || '-'}</td>
-          <td class="dt">${d.pay_type === 'regular' ? (t2.regular_txt || '정기') : (t2.once_txt || '일시')}</td>
+          <td style="font-size:12px">${d.channel ? channelLabel(d.channel) : '계좌이체'}</td>
+          <td style="font-weight:700;color:var(--blue)">${d.amount ? '₩' + Number(d.amount).toLocaleString() : '-'}</td>
           <td>${statusBadge(d)}</td>
         </tr>`).join('')}
       </tbody>
@@ -10701,7 +10702,7 @@
         return;
       }
       if (!data || data.length === 0) { tbl.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">후원 내역이 없습니다.</td></tr>`; return; }
-      // 신/구 컬럼 호환: 새 폼은 donor_name/donor_email/channel, 옛 데이터는 name/email/pay_method
+      // 후원 채널 라벨 — 외부 링크(MRM) / 로타리 계좌이체 / 해외송금 / 수기 입력 4개
       const channelLabel = ch => {
         if (ch === 'rotary_transfer') return '로타리 회원';
         if (ch === 'mrm') return 'MRM 일반';
@@ -10721,7 +10722,7 @@
         else if (status === 'refunded') { badgeClass = 'pending'; badgeTxt = '환불'; }
         else if (status === 'void') { badgeClass = 'pending'; badgeTxt = '무효'; }
         const amountFmt = d.amount ? '₩' + Number(d.amount).toLocaleString() : '-';
-        const channelTag = d.channel ? channelLabel(d.channel) : (d.pay_method === 'kakaopay' ? '카카오페이' : '🏦 계좌이체');
+        const channelTag = d.channel ? channelLabel(d.channel) : '계좌이체';
         return `<tr>
       <td>${escHtml(name)}</td>
       <td style="font-size:11.5px;color:var(--muted)">${escHtml(email)}</td>
