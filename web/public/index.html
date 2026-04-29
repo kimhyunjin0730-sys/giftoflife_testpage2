@@ -54,8 +54,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
 
-  <!-- Supabase SDK: defer 로 본문 파싱 차단 안 함 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+  <!-- Supabase SDK: 동기 로드 (이후 인라인 스크립트가 sb 객체에 의존) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
   <!-- ── JSON-LD 구조화 데이터 (Organization) ───────────────── -->
   <script type="application/ld+json">
