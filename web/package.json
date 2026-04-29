@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
+    "sync-legacy": "node -e \"require('fs').copyFileSync('../index.html', 'public/index.html'); console.log('Synced ../index.html → public/index.html')\"",
+    "predev": "npm run sync-legacy",
+    "prebuild": "npm run sync-legacy",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

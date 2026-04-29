@@ -66,6 +66,42 @@
 - Brett이 wire transfer 계좌 정보 전달 시, 별도 페이지 만들지 말고 **문의 이메일 응답 템플릿**만 준비
 - 현재 UI는 `golikorea@naver.com`으로 메일 유도하도록 구현됨
 
+### D. 🌐 도메인(`golikorearotary.or.kr`) 발급 후 3단계 — 메일 발송 활성화
+
+도메인을 실제로 구입·DNS 적용 완료한 직후 **순서대로** 진행:
+
+**① Resend 대시보드에서 도메인 verify**
+- https://resend.com/domains → "Add Domain" → `golikorearotary.or.kr`
+- Resend가 제공하는 SPF / DKIM / (선택) DMARC TXT 레코드를 도메인 등록업체 DNS에 추가
+- Resend 대시보드에서 "Verified" 상태 확인 (전파 ~수분~수시간)
+
+**② Edge Function 의 `fromAddress` 변경**
+- 파일: [supabase/functions/resend-email/index.ts](supabase/functions/resend-email/index.ts) — **line 22**
+  ```ts
+  // 변경 전 (현재)
+  const fromAddress = 'onboarding@resend.dev'
+  // 변경 후 (예시)
+  const fromAddress = 'noreply@golikorearotary.or.kr'
+  ```
+- 배포: `npx supabase functions deploy resend-email`
+
+**③ 메일 발송 실패 알림 활성화**
+- 파일: [index.html](index.html) — `=== MAIL_ALERT_ENABLE_HERE ===` 마커 검색 (라인 번호 변동 무관)
+  ```js
+  // === MAIL_ALERT_ENABLE_HERE ===
+  // 아래 2줄의 // 제거:
+  // if (mailErr) alert('메일 발송 에러: ' + mailErr.message);
+  // else if (mailRes?.error) alert('Resend 에러: ' + JSON.stringify(mailRes.error));
+  // === END MAIL_ALERT_ENABLE_HERE ===
+  ```
+- `web/public/index.html` 도 같은 위치 수정 필요? → **불필요**.
+  `web/package.json` 의 `prebuild` 스크립트가 빌드 시 자동으로 `index.html` →
+  `web/public/index.html` 로 복사함. 루트 `index.html` 만 수정하면 자동 동기화.
+
+**Tips**
+- ① 완료 전에 ②/③을 먼저 적용하면 메일 자체가 거부됨. 순서 중요.
+- ③의 `alert()` 는 사용자 화면에 직접 알림 → 운영 중에는 console-only 로 남기는 것도 옵션.
+
 ---
 
 ## 🔵 선택/추후 개선 — 여유 생길 때
@@ -93,6 +129,9 @@
 - [x] KO/EN/ZH 다국어 키 29개 추가
 - [x] HTML 무결성 검증 (div 균형 784/784)
 - [x] 커밋 푸시 `136c834`
+- [x] 소개/임무 섹션 이미지 4종 교체 완료 (2026-04-22)
+  - ribbon.jpg, screening.jpg, training.jpg, surgical.jpg
+
 
 ---
 

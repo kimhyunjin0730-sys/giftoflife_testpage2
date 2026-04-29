@@ -10107,10 +10107,12 @@
           console.log('메일 발송 성공:', mailRes);
         } else {
           console.error('메일 발송 실패:', mailErr || mailRes?.error);
+          // === MAIL_ALERT_ENABLE_HERE ===
           // TEMP: Resend 샌드박스 제약으로 메일 발송은 현재 비활성. DB 저장은 정상 동작.
-          // 도메인 인증(golikorea.or.kr) 완료 후 아래 2줄 주석 해제.
+          // 도메인 인증(golikorearotary.or.kr) 완료 후 아래 2줄 주석 해제.
           // if (mailErr) alert('메일 발송 에러: ' + mailErr.message);
           // else if (mailRes?.error) alert('Resend 에러: ' + JSON.stringify(mailRes.error));
+          // === END MAIL_ALERT_ENABLE_HERE ===
         }
       } catch (e) { 
         console.warn('Resend relay failed', e);
