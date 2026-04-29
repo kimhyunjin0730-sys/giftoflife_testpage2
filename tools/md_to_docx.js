@@ -22,8 +22,10 @@ const {
   WidthType, ShadingType, LevelFormat, ExternalHyperlink, PageBreak,
 } = require(docxPath);
 
-const SRC = path.join(__dirname, '..', 'HANDOFF.md');
-const OUT = path.join(__dirname, '..', 'HANDOFF.docx');
+// 인자 1: 입력 .md 경로 (생략 시 HANDOFF.md)
+const arg = process.argv[2] || 'HANDOFF.md';
+const SRC = path.isAbsolute(arg) ? arg : path.join(__dirname, '..', arg);
+const OUT = SRC.replace(/\.md$/i, '.docx');
 
 const md = fs.readFileSync(SRC, 'utf-8');
 
