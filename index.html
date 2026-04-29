@@ -8835,10 +8835,15 @@
       '주소': { en: 'Address', zh: '地址' },
       'Administrator': { en: 'Administrator', zh: '管理员' },
       '대시보드': { en: 'Dashboard', zh: '仪表盘' },
+      '공지사항 관리': { en: 'Notices Management', zh: '公告管理' },
       '뉴스 관리': { en: 'News Management', zh: '新闻管理' },
       '회원 관리': { en: 'Member Management', zh: '会员管理' },
+      '로타리 인증': { en: 'Rotary Verification', zh: '扶轮社认证' },
       '문의 관리': { en: 'Contact Management', zh: '咨询管理' },
       '후원 관리': { en: 'Donation Management', zh: '捐款管理' },
+      '공지 목록': { en: 'Notice List', zh: '公告列表' },
+      '+ 새 공지 작성': { en: '+ New Notice', zh: '+ 新建公告' },
+      '홈 및 공지사항 페이지에 표시되는 공지 게시물 관리': { en: 'Manage notices shown on home and notices pages', zh: '管理显示在首页和公告页的公告' },
       // donate 페이지
       '온라인 후원 결제': { en: 'Online Donation Payment', zh: '在线捐款支付' },
       '생명나눔본부 공식 결제 페이지에서 안전하게 후원하세요': { en: 'Donate securely through the official payment page', zh: '通过官方支付页面安全捐款' },
@@ -9976,103 +9981,7 @@
       togglePayMethod('transfer');
     }
 
-    async function approveKakaoPayment(pg_token, orderId, donorInfo) {
-      document.getElementById('kakaoQrStatus').textContent = '결제 승인 중...';
-      const tid = sessionStorage.getItem('kakao_tid');
-      try {
-        const res = await fetch(
-          'https://wpeaskqbozozzcqytoyd.supabase.co/functions/v1/kakaopay-approve',
-          {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pg_token, tid, order_id: orderId, donor_info: donorInfo })
-          }
-        );
-        const result = await res.json();
-        document.getElementById('kakaoQrModal').classList.remove('open');
-        sessionStorage.removeItem('kakao_tid');
-        sessionStorage.removeItem('kakao_order_id');
-        sessionStorage.removeItem('kakao_donor');
-
-        if (result.success) {
-          // ✅ Supabase donations 테이블에도 직접 저장 (안전장치)
-          try {
-            await sb.from('donations').insert([{
-              name: donorInfo.name || '',
-              email: donorInfo.email || '',
-              phone: donorInfo.phone || null,
-              grade: donorInfo.grade || 'champion',
-              amount: donorInfo.amount || '0',
-              pay_type: donorInfo.pay_type || 'regular',
-              pay_method: 'kakaopay',
-              payment_id: result.payment?.aid || tid,
-              status: 'confirmed',
-              lang: donorInfo.lang || 'ko'
-            }]);
-          } catch (dbErr) { console.warn('DB insert error (already saved by edge fn):', dbErr); }
-
-          // 완료 모달 표시
-          goPage('donate');
-          const okBody = document.getElementById('okBody');
-          if (okBody) okBody.textContent = curLang === 'ko'
-            ? '카카오페이 결제가 완료되었습니다! 즉시 확인되었습니다.'
-            : 'KakaoPay payment completed and confirmed!';
-          const s1t = document.getElementById('ok-step1-title');
-          const s1b = document.getElementById('ok-step1-body');
-          if (s1t) s1t.textContent = '카카오페이 결제 완료';
-          if (s1b) s1b.textContent = '결제가 즉시 처리되었습니다. 영수증은 카카오페이 앱에서 확인하세요.';
-          const s2 = document.getElementById('ok-step2-title');
-          const s3 = document.getElementById('ok-step3-title');
-          if (s2) s2.style.opacity = '0.4';
-          if (s3) s3.style.opacity = '0.4';
-          document.getElementById('okMod').classList.add('open');
-        } else {
-          alert('결제 승인 실패. 문의: golikorea@naver.com');
-        }
-      } catch (err) {
-        document.getElementById('kakaoQrModal').classList.remove('open');
-        alert('결제 처리 오류: ' + err.message + '. 문의: golikorea@naver.com');
-      }
-    }
-
-    /* pg_token 리다이렉트 처리 (approval_url로 돌아온 경우) */
-    async function handleKakaoReturn() {
-      const params = new URLSearchParams(window.location.search);
-
-      // 결제 실패/취소 처리
-      if (params.get('kakao_fail') || params.get('kakao_cancel')) {
-        window.history.replaceState({}, '', window.location.origin + window.location.pathname);
-        setTimeout(() => {
-          goPage('donate');
-          alert(curLang === 'ko'
-            ? '카카오페이 결제가 취소되었습니다. 다시 시도하거나 계좌이체를 이용해 주세요.'
-            : 'KakaoPay payment was cancelled. Please try again or use bank transfer.');
-        }, 300);
-        return;
-      }
-
-      const pg_token = params.get('pg_token');
-      if (!pg_token) return;
-      window.history.replaceState({}, '', window.location.origin + window.location.pathname);
-
-      const tid = sessionStorage.getItem('kakao_tid');
-      const orderId = sessionStorage.getItem('kakao_order_id') || params.get('order_id');
-      const donorInfo = JSON.parse(sessionStorage.getItem('kakao_donor') || '{}');
-
-      if (!tid || !orderId) {
-        // QR 폴링이 진행 중일 수 있음 — sessionStorage에 pg_token 저장
-        sessionStorage.setItem('kakao_pg_token', pg_token);
-        return;
-      }
-
-      // 로딩
-      const loadEl = document.createElement('div');
-      loadEl.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px';
-      loadEl.innerHTML = '<div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#FFE000;border-radius:50%;animation:spin .8s linear infinite"></div><div style="color:#fff;font-size:15px;font-weight:600">결제 확인 중...</div>';
-      document.body.appendChild(loadEl);
-
-      await approveKakaoPayment(pg_token, orderId, donorInfo);
-      loadEl.remove();
-    }
+    // approveKakaoPayment / handleKakaoReturn 제거 (외부 MRM 링크 + 로타리 계좌이체로 단일화)
 
     /* ══════════════════════════════════════
        CONTACT FORM (Fixed)
