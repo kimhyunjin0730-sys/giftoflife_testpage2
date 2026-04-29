@@ -4,15 +4,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
-  <title id="pageTitle">Gift of Life International Korea</title>
-  <!-- Plus Jakarta Sans (PPN Neue Montreal 대안) + Libre Bodoni (PPN Editorial New 대안) -->
+  <meta name="theme-color" content="#e8728a" />
+  <title id="pageTitle">생명의 선물 코리아 | Gift of Life International Korea</title>
+
+  <!-- ── SEO meta (다국어) ────────────────────────────────────── -->
+  <meta name="description" id="metaDesc" content="선천성 심장병 어린이에게 새 생명을 선물합니다. 한수로타리 위성클럽이 운영하는 비영리 기금. 후원 · 회원가입 · 자선 음악회." />
+  <meta name="keywords" content="Gift of Life, 생명의 선물, 한수로타리, 위성클럽, 선천성 심장병, 어린이 심장 수술, 자선, 후원, charity, congenital heart disease, Rotary" />
+  <meta name="author" content="Gift of Life Korea" />
+  <link rel="canonical" id="canonicalLink" href="https://www.golikorearotary.or.kr/" />
+
+  <!-- ── 다국어 hreflang ─────────────────────────────────────── -->
+  <link rel="alternate" hreflang="ko" href="https://www.golikorearotary.or.kr/?lang=ko" />
+  <link rel="alternate" hreflang="en" href="https://www.golikorearotary.or.kr/?lang=en" />
+  <link rel="alternate" hreflang="zh" href="https://www.golikorearotary.or.kr/?lang=zh" />
+  <link rel="alternate" hreflang="x-default" href="https://www.golikorearotary.or.kr/" />
+
+  <!-- ── Open Graph / SNS 미리보기 ──────────────────────────── -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Gift of Life Korea" />
+  <meta property="og:title" id="ogTitle" content="생명의 선물 코리아 · 한수로타리 위성클럽" />
+  <meta property="og:description" id="ogDesc" content="선천성 심장병 어린이에게 새 생명을 선물합니다. 매년 135만 명, 그 중 93%는 수술을 받지 못합니다. 당신의 후원이 그 숫자를 바꿉니다." />
+  <meta property="og:url" content="https://www.golikorearotary.or.kr/" />
+  <meta property="og:image" content="https://www.golikorearotary.or.kr/gift_of_life_logo.png" />
+  <meta property="og:image:width" content="800" />
+  <meta property="og:image:height" content="800" />
+  <meta property="og:locale" id="ogLocale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="생명의 선물 코리아" />
+  <meta name="twitter:description" content="선천성 심장병 어린이에게 새 생명을 선물합니다." />
+  <meta name="twitter:image" content="https://www.golikorearotary.or.kr/gift_of_life_logo.png" />
+
+  <!-- ── 파비콘 ─────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/gift_of_life_logo.svg" />
+  <link rel="alternate icon" type="image/png" href="/gift_of_life_logo.png" />
+  <link rel="apple-touch-icon" href="/gift_of_life_logo.png" />
+
+  <!-- ── Lighthouse 최적화: preconnect / dns-prefetch ───────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://wpeaskqbozozzcqytoyd.supabase.co" crossorigin />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="dns-prefetch" href="https://api.qrserver.com" />
+
+  <!-- 폰트: display=swap 으로 FOIT 회피 -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <!-- Supabase SDK: defer 로 본문 파싱 차단 안 함 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
+
+  <!-- ── JSON-LD 구조화 데이터 (Organization) ───────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    "name": "Gift of Life Korea",
+    "alternateName": "생명의 선물 코리아",
+    "url": "https://www.golikorearotary.or.kr/",
+    "logo": "https://www.golikorearotary.or.kr/gift_of_life_logo.png",
+    "description": "선천성 심장병 어린이에게 새 생명을 선물하는 비영리 단체. 한수로타리 위성클럽이 운영합니다.",
+    "sameAs": [
+      "https://giftoflifeinternational.org",
+      "https://rotary.org"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "KR",
+      "addressLocality": "Seoul"
+    },
+    "email": "golikorea@naver.com",
+    "areaServed": "Worldwide"
+  }
+  </script>
   <style>
     /* ═══ DESIGN TOKENS — figma/ (slate + rose) ══════════════════════════ */
     :root {
@@ -8929,14 +8996,16 @@
         const _n = document.getElementById('nDate'); if (_n) _n.value = _now.toISOString().slice(0, 10);
       } catch (e) { }
 
-      // ② 언어 감지 — auto-detect & skip modal on first visit
+      // ② 언어 감지 — URL ?lang= → localStorage → browser detect 순
       try {
+        const urlLang = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
+        const validUrlLang = ['ko', 'en', 'zh'].includes(urlLang) ? urlLang : null;
         const savedLang = localStorage.getItem('gol_lang');
         const browserLang = (navigator.language || navigator.languages?.[0] || 'ko').toLowerCase();
         let detectedLang = 'ko';
         if (browserLang.startsWith('zh')) detectedLang = 'zh';
         else if (!browserLang.startsWith('ko')) detectedLang = 'en';
-        const chosenLang = savedLang || detectedLang;
+        const chosenLang = validUrlLang || savedLang || detectedLang;
         selLang = chosenLang; curLang = chosenLang;
         ['ko', 'en', 'zh'].forEach(l => document.getElementById('rc-' + l)?.classList.toggle('active', l === chosenLang));
         const lb = { ko: '한국어로 계속하기', en: 'Continue in English', zh: '以中文继续' };
@@ -9132,6 +9201,43 @@
     function setLang(lang) {
       curLang = lang;
       document.getElementById('htmlRoot').lang = lang === 'ko' ? 'ko' : lang === 'zh' ? 'zh' : 'en';
+
+      // ── 다국어 SEO 메타 자동 갱신 (title / description / og:locale) ──
+      try {
+        const SEO = {
+          ko: {
+            title: '생명의 선물 코리아 | Gift of Life International Korea',
+            desc: '선천성 심장병 어린이에게 새 생명을 선물합니다. 한수로타리 위성클럽이 운영하는 비영리 기금. 후원 · 회원가입 · 자선 음악회.',
+            ogTitle: '생명의 선물 코리아 · 한수로타리 위성클럽',
+            ogDesc: '매년 135만 명의 어린이가 선천성 심장병을 안고 태어납니다. 그 중 93%는 수술을 받지 못합니다. 당신의 후원이 그 숫자를 바꿉니다.',
+            locale: 'ko_KR',
+          },
+          en: {
+            title: 'Gift of Life International Korea — Hansoo Rotary Satellite Club',
+            desc: 'Non-profit fund operated by Hansoo Rotary Satellite Club, providing heart surgery for children with congenital heart disease worldwide.',
+            ogTitle: 'Gift of Life Korea · Hansoo Rotary Satellite Club',
+            ogDesc: '1.35M children are born with CHD every year. 93% never receive surgery. Your support changes that number.',
+            locale: 'en_US',
+          },
+          zh: {
+            title: '生命礼物韩国 | Gift of Life International Korea',
+            desc: '为患有先天性心脏病的儿童提供心脏手术的非营利基金 — 由汉水扶轮卫星社运营。',
+            ogTitle: '生命礼物韩国 · 汉水扶轮卫星社',
+            ogDesc: '每年有135万名儿童罹患先天性心脏病，其中93%无法接受手术。您的捐款能改变这个数字。',
+            locale: 'zh_CN',
+          },
+        };
+        const s = SEO[lang] || SEO.ko;
+        document.title = s.title;
+        const dt = document.getElementById('pageTitle'); if (dt) dt.textContent = s.title;
+        const md = document.getElementById('metaDesc'); if (md) md.setAttribute('content', s.desc);
+        const ot = document.getElementById('ogTitle'); if (ot) ot.setAttribute('content', s.ogTitle);
+        const od = document.getElementById('ogDesc'); if (od) od.setAttribute('content', s.ogDesc);
+        const ol = document.getElementById('ogLocale'); if (ol) ol.setAttribute('content', s.locale);
+        // canonical: 언어 파라미터 포함
+        const cl = document.getElementById('canonicalLink');
+        if (cl) cl.setAttribute('href', `https://www.golikorearotary.or.kr/?lang=${lang}`);
+      } catch (e) { console.warn('SEO meta update failed:', e?.message); }
       ['ko', 'en', 'zh'].forEach(l => {
         document.getElementById('lb-' + l)?.classList.toggle('on', l === lang);
         document.getElementById('hlb-' + l)?.classList.toggle('on', l === lang);

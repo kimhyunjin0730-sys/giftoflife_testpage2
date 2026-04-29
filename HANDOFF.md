@@ -254,19 +254,19 @@ Image upload: pick a file in the modal → uploaded to Supabase Storage automati
 ### 한국어
 - [ ] 도메인 갱신 자동화 (가비아 자동결제)
 - [ ] Vercel Analytics 활성화 (트래픽 모니터링)
-- [ ] Supabase 백업 자동화 (주 1회 스냅샷)
-- [ ] 이메일 템플릿 디자인 (현재는 plain text)
-- [ ] Lighthouse / Core Web Vitals 최적화 (현재 미측정)
-- [ ] 다국어 SEO 메타 태그 (현재 한국어만)
+- [x] **Supabase 백업 자동화** — `.github/workflows/supabase-backup.yml` (매주 월요일 03:00 KST). 처음 한 번 GitHub Secrets 설정 필요: `SUPABASE_ACCESS_TOKEN` / `SUPABASE_DB_PASSWORD` / `SUPABASE_PROJECT_REF`.
+- [x] **이메일 템플릿 디자인** — `supabase/functions/resend-email/index.ts` 안에 `wrapInTemplate()` 추가. 호출 시 자동으로 브랜드 헤더/풋터/CTA 가 입혀짐. `skip_template: true` 로 skip 가능.
+- [x] **Lighthouse / Core Web Vitals 퀵 윈** — Supabase SDK `defer`, font `display=swap`, dns-prefetch (Unsplash/QR), preconnect (Supabase), theme-color 메타.
+- [x] **다국어 SEO 메타 태그** — `hreflang` (ko/en/zh/x-default), `og:locale` + alternates, canonical, JSON-LD (NGO schema), 언어 변경 시 title/description 자동 갱신, URL `?lang=ko/en/zh` 파라미터로 직접 접근 가능.
 - [ ] 모바일 푸시 알림 / Slack 연동 (운영자용)
 
 ### English
 - [ ] Domain auto-renewal at Gabia
 - [ ] Enable Vercel Analytics for traffic monitoring
-- [ ] Automated Supabase backups (weekly snapshots)
-- [ ] Branded email templates (currently plain text)
-- [ ] Lighthouse / Core Web Vitals optimization (not yet measured)
-- [ ] Multilingual SEO meta tags (currently Korean only)
+- [x] **Automated Supabase backups** — `.github/workflows/supabase-backup.yml` (every Monday 03:00 KST). One-time setup: GitHub Secrets `SUPABASE_ACCESS_TOKEN` / `SUPABASE_DB_PASSWORD` / `SUPABASE_PROJECT_REF`.
+- [x] **Branded email templates** — `wrapInTemplate()` added in `supabase/functions/resend-email/index.ts`. Auto-wraps payload with branded header/footer/CTA. Pass `skip_template: true` to bypass.
+- [x] **Lighthouse / Core Web Vitals quick wins** — Supabase SDK `defer`, font `display=swap`, dns-prefetch (Unsplash/QR), preconnect (Supabase), theme-color meta.
+- [x] **Multilingual SEO meta tags** — `hreflang` (ko/en/zh/x-default), `og:locale` + alternates, canonical, JSON-LD (NGO schema), title/description auto-updated on language change, direct access via `?lang=ko/en/zh`.
 - [ ] Operator notifications (mobile push / Slack integration)
 
 ---

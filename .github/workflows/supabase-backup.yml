@@ -1,0 +1,72 @@
+name: Supabase Weekly Backup
+
+on:
+  # 매주 월요일 03:00 KST (= 일요일 18:00 UTC)
+  schedule:
+    - cron: '0 18 * * 0'
+  # 수동 실행도 가능
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Set timestamp
+        id: ts
+        run: echo "stamp=$(date -u +%Y%m%d_%H%M)" >> "$GITHUB_OUTPUT"
+
+      - name: Dump schema + data
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          set -e
+          mkdir -p backup
+          supabase link --project-ref "$PROJECT_REF" --password "$SUPABASE_DB_PASSWORD"
+          # 1) 스키마 + 데이터 풀 덤프 (DDL + DML)
+          supabase db dump --linked --data-only=false -f "backup/schema_${{ steps.ts.outputs.stamp }}.sql"
+          # 2) 데이터만 덤프 (복원 용)
+          supabase db dump --linked --data-only=true  -f "backup/data_${{ steps.ts.outputs.stamp }}.sql"
+          # 3) auth schema 덤프 (auth.users 등 — 옵션)
+          supabase db dump --linked --schema auth -f "backup/auth_${{ steps.ts.outputs.stamp }}.sql" || true
+          # 4) storage schema (메타 — 실제 파일은 별도)
+          supabase db dump --linked --schema storage -f "backup/storage_${{ steps.ts.outputs.stamp }}.sql" || true
+          ls -lh backup/
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-backup-${{ steps.ts.outputs.stamp }}
+          path: backup/
+          retention-days: 90
+
+      - name: Summary
+        run: |
+          echo "## ✅ Supabase 백업 완료" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 시각: ${{ steps.ts.outputs.stamp }} UTC" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 보관: 90일 (GitHub Actions Artifacts)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- 다운로드: Actions 탭 → 이 run → Artifacts 섹션" >> "$GITHUB_STEP_SUMMARY"
+
+# ────────────────────────────────────────────────────────────
+# 1회 설정: GitHub 저장소 → Settings → Secrets and variables →
+#   Actions → New repository secret 으로 아래 3개 추가
+#
+#   SUPABASE_ACCESS_TOKEN     # https://supabase.com/dashboard/account/tokens
+#   SUPABASE_DB_PASSWORD      # Supabase 프로젝트 → Settings → Database → Connection string
+#   SUPABASE_PROJECT_REF      # 현재: wpeaskqbozozzcqytoyd
+# ────────────────────────────────────────────────────────────
