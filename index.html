@@ -8606,7 +8606,7 @@
     ══════════════════════════════════════ */
     const KIDS = [
       {
-        name: 'Paisleigh Maliro', flag: '🇲🇼',
+        name: { ko: '페이즐리 말리로 (Paisleigh Maliro)', en: 'Paisleigh Maliro', zh: 'Paisleigh Maliro' }, flag: '',
         country: { ko: '말라위', en: 'Malawi', zh: '马拉维' },
         age: { ko: '4세', en: 'Age 4', zh: '4岁' },
         status: 'recovered', goal: 12000, raised: 12000,
@@ -8620,7 +8620,7 @@
         video: 'https://www.youtube.com/embed/UsutqN82VBg',
       },
       {
-        name: 'Andi Nuhiu & Murat Shpendija', flag: '🌍',
+        name: { ko: '안디 누히우 & 무라트 슈펜디야 (Andi Nuhiu & Murat Shpendija)', en: 'Andi Nuhiu & Murat Shpendija', zh: 'Andi Nuhiu & Murat Shpendija' }, flag: '',
         country: { ko: '해외 파트너 사례', en: 'Partner Case Abroad', zh: '海外合作案例' },
         age: { ko: '뉴스 보도', en: 'News Coverage', zh: '新闻报道' },
         status: 'recovered', goal: 12000, raised: 12000,
@@ -8634,7 +8634,7 @@
         },
       },
       {
-        name: { ko: '양○○ 군 (16세)', en: 'Yang (age 16)', zh: '杨同学 (16岁)' }, flag: '🇰🇷',
+        name: { ko: '양○○ 군 (16세)', en: 'Yang (age 16)', zh: '杨同学 (16岁)' }, flag: '',
         country: { ko: '대한민국', en: 'Korea', zh: '韩国' },
         age: { ko: '16세', en: 'Age 16', zh: '16岁' },
         status: 'recovered', goal: 12000, raised: 12000,
@@ -8648,7 +8648,7 @@
         },
       },
       {
-        name: { ko: '마리아 (Maria)', en: 'Maria', zh: 'Maria' }, flag: '🇺🇬',
+        name: { ko: '마리아 (Maria)', en: 'Maria', zh: 'Maria' }, flag: '',
         country: { ko: '우간다', en: 'Uganda', zh: '乌干达' },
         age: { ko: '—', en: '—', zh: '—' },
         status: 'recovered', goal: 12000, raised: 12000,
@@ -8661,7 +8661,7 @@
         },
       },
       {
-        name: 'Danna', flag: '🇧🇴',
+        name: { ko: '단나 (Danna)', en: 'Danna', zh: 'Danna' }, flag: '',
         country: { ko: '볼리비아 · Cochabamba', en: 'Bolivia · Cochabamba', zh: '玻利维亚 · 科恰班巴' },
         age: { ko: '—', en: '—', zh: '—' },
         status: 'recovered', goal: 12000, raised: 12000,
@@ -8674,7 +8674,7 @@
         },
       },
       {
-        name: { ko: '라힘 (Rahim)', en: 'Rahim', zh: 'Rahim' }, flag: '🇲🇼',
+        name: { ko: '라힘 (Rahim)', en: 'Rahim', zh: 'Rahim' }, flag: '',
         country: { ko: '말라위', en: 'Malawi', zh: '马拉维' },
         age: { ko: '3세', en: 'Age 3', zh: '3岁' },
         status: 'waiting', goal: 12000, raised: 7200,
@@ -11342,8 +11342,8 @@
         const fundBlock = !ok
           ? `<div class="cc-prog-row"><span>${t.prog_label || '모금 현황'}</span><span>$${k.raised.toLocaleString()} / $${k.goal.toLocaleString()}</span></div><div class="cc-track"><div class="cc-fill ${k.status}" style="width:${pct}%"></div></div><button class="cc-btn" onclick="event.stopPropagation();goPage('donate')">${t.donate_btn}</button>`
           : `<div class="cc-done" style="margin-top:10px">✔ ${t.recovered || '치료 완료'}</div>`;
-        const hospitalBlock = hospital ? `<div class="cc-meta" style="margin-top:4px;font-size:12px;color:var(--muted)">🏥 ${hospital}</div>` : '';
-        return `<div class="cc"><div class="cc-img"><img src="${k.img}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=600&h=400&fit=crop'"/><span class="cc-st ${k.status}">${ok ? (t.recovered || '치료 완료') : (t.waiting || '진행 중')}</span></div><div class="cc-body"><div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span style="font-size:24px">${k.flag}</span><div><div class="cc-nm">${nameOf(k)}</div><div class="cc-meta">${k.country[curLang] || k.country.ko} · ${k.age[curLang] || k.age.ko}</div>${hospitalBlock}</div></div><p class="cc-story">${k.story[curLang] || k.story.ko}</p>${videoBlock}${fundBlock}</div></div>`;
+        const hospitalBlock = hospital ? `<div class="cc-meta" style="margin-top:4px;font-size:12px;color:var(--muted)">${hospital}</div>` : '';
+        return `<div class="cc"><div class="cc-img"><img src="${k.img}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=600&h=400&fit=crop'"/><span class="cc-st ${k.status}">${ok ? (t.recovered || '치료 완료') : (t.waiting || '진행 중')}</span></div><div class="cc-body"><div style="margin-bottom:8px"><div class="cc-nm">${nameOf(k)}</div><div class="cc-meta">${k.country[curLang] || k.country.ko} · ${k.age[curLang] || k.age.ko}</div>${hospitalBlock}</div><p class="cc-story">${k.story[curLang] || k.story.ko}</p>${videoBlock}${fundBlock}</div></div>`;
       }).join('');
     }
     function renderNews(id, limit) {
