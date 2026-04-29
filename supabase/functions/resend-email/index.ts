@@ -18,8 +18,8 @@ serve(async (req) => {
     const { to, subject, html, reply_to } = await req.json()
     console.log(`발송 시도: to=${to}, subject=${subject}`);
     
-    // 샌드박스 환경에서는 'from' 주소를 단순하게 유지합니다.
-    const fromAddress = 'onboarding@resend.dev'
+    // 도메인 verify 완료 (golikorearotary.or.kr) — 자체 도메인에서 발송
+    const fromAddress = 'Gift of Life Korea <noreply@golikorearotary.or.kr>'
 
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',

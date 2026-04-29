@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   description:
     '선천성 심장병을 가진 세계 각국의 어린이들에게 수술과 지원을 제공하는 비영리 단체 Gift of Life International Korea. 당신의 후원이 한 아이의 심장을 구합니다.',
-  metadataBase: new URL('https://giftoflife-testpage2.vercel.app'),
+  metadataBase: new URL('https://www.golikorearotary.or.kr'),
   openGraph: {
     type: 'website',
     title: '생명의 선물 코리아',
