@@ -5166,7 +5166,7 @@
 <body>
 
   <!-- REGION MODAL -->
-  <div class="region-ov" id="regionModal">
+  <div class="region-ov" id="regionModal" style="display:none">
     <div class="region-box">
       <!-- 헤더 -->
       <div class="rg-header">
@@ -8916,11 +8916,17 @@
         ['ko', 'en', 'zh'].forEach(l => document.getElementById('rc-' + l)?.classList.toggle('active', l === chosenLang));
         const lb = { ko: '한국어로 계속하기', en: 'Continue in English', zh: '以中文继续' };
         const rcb = document.getElementById('regionConfirmBtn'); if (rcb) rcb.textContent = lb[chosenLang];
-        // 이전에 언어를 선택한 적 있으면 모달 건너뛰기, 아니면 선택할 때까지 대기
-        if (savedLang) {
-          const _rm = document.getElementById('regionModal'); if (_rm) _rm.style.display = 'none';
-          // 재방문자: 언어 이미 선택되어 있으므로 팝업 바로 표시
-          setTimeout(function(){ if(typeof openAmaraModal==='function') openAmaraModal(); }, 2000);
+        // 모달 표시 결정 — savedLang 없을 때만 명시적으로 띄움 (HTML 기본 hidden)
+        // → 재방문자는 모달이 한 번도 보이지 않음 (플래시 제거)
+        const _rm = document.getElementById('regionModal');
+        if (_rm) {
+          if (savedLang) {
+            _rm.style.display = 'none';
+            // 재방문자: 언어 이미 선택되어 있으므로 팝업 바로 표시
+            setTimeout(function(){ if(typeof openAmaraModal==='function') openAmaraModal(); }, 2000);
+          } else {
+            _rm.style.display = 'flex';
+          }
         }
         try { if (savedLang) localStorage.setItem('gol_lang', chosenLang); } catch (e) { }
       } catch (e) { }
