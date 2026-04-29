@@ -9338,7 +9338,11 @@
     function mgo(k) { goPage(k); }
     function toggleMob() { document.getElementById('mobWrap').classList.toggle('open'); }
     function closeMob() { document.getElementById('mobWrap').classList.remove('open'); }
-    function goMyPage() { if (currentUser) goPage('mypage'); else openLogin(); }
+    function goMyPage() {
+      if (currentUser) { goPage('mypage'); return; }
+      // 로그아웃 상태에서는 자동 로그인 모달 띄우지 않음 — 사용자가 헤더 로그인 버튼을 직접 누르도록
+      goPage('home');
+    }
 
     function goAboutTab(tab) {
       // about 페이지가 안 보이면 먼저 이동
