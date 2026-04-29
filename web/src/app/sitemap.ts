@@ -3,7 +3,7 @@ import { KIDS } from '@/data/kids';
 import { DEFAULT_NEWS } from '@/data/news-defaults';
 import { DEFAULT_NOTICES } from '@/data/notices';
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://giftoflife-testpage2.vercel.app';
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.golikorearotary.or.kr';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/contact',
     '/login',
     '/signup',
+    '/privacy.html',
+    '/terms.html',
   ].map((path) => ({
     url: `${BASE}${path}`,
     lastModified: now,
