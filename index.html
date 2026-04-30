@@ -57,6 +57,49 @@
   <!-- Supabase SDK: 동기 로드 (이후 인라인 스크립트가 sb 객체에 의존) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 
+  <!-- ── Google Analytics 4 (방문 분석) ─────────────────────────
+       사용 방법: 아래 G-XXXXXXXXXX 를 실제 측정 ID 로 교체
+       발급: https://analytics.google.com → 속성 만들기 → 측정 ID 복사
+       교체 안 해도 사이트는 정상 동작 (스크립트만 noop) -->
+  <script>
+    window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // ← 실제 ID 로 교체
+    if (window.GA_MEASUREMENT_ID && window.GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+      const _gaScript = document.createElement('script');
+      _gaScript.async = true;
+      _gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+      document.head.appendChild(_gaScript);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', window.GA_MEASUREMENT_ID, { anonymize_ip: true });
+    }
+  </script>
+
+  <!-- ── Sentry (에러 추적) ──────────────────────────────────────
+       사용 방법: 아래 SENTRY_DSN 을 실제 DSN 으로 교체
+       발급: https://sentry.io → 프로젝트 만들기 → Client Keys (DSN)
+       교체 안 해도 사이트는 정상 동작 -->
+  <script>
+    window.SENTRY_DSN = 'https://your-key@oXXXXX.ingest.sentry.io/XXXXX'; // ← 실제 DSN
+    if (window.SENTRY_DSN && !window.SENTRY_DSN.includes('your-key')) {
+      const _sScript = document.createElement('script');
+      _sScript.src = 'https://browser.sentry-cdn.com/7.99.0/bundle.tracing.min.js';
+      _sScript.crossOrigin = 'anonymous';
+      _sScript.async = true;
+      _sScript.onload = function() {
+        try {
+          Sentry.init({
+            dsn: window.SENTRY_DSN,
+            tracesSampleRate: 0.1,
+            environment: location.hostname.includes('localhost') ? 'dev' : 'prod',
+          });
+        } catch(e) { console.warn('Sentry init failed', e); }
+      };
+      document.head.appendChild(_sScript);
+    }
+  </script>
+
   <!-- ── JSON-LD 구조화 데이터 (Organization) ───────────────── -->
   <script type="application/ld+json">
   {
@@ -7233,6 +7276,11 @@
                     <span data-i="agree">개인정보 수집 및 이용에 동의합니다.</span>
                     <a href="/privacy.html" target="_blank" rel="noopener" style="margin-left:8px;font-size:12px;color:var(--blue);text-decoration:underline">자세히 보기</a>
                   </div>
+                  <!-- Honeypot: 봇 자동 스팸 방지 — 사람에게는 안 보이고 봇은 자동으로 채움 -->
+                  <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+                    <label for="cwebsite_url">Website (don't fill)</label>
+                    <input type="text" id="cwebsite_url" name="website_url" tabindex="-1" autocomplete="off" />
+                  </div>
                   <div id="contactResult" style="margin-top:14px"></div>
                   <button type="button" class="send-btn" id="contactSubmitBtn" onclick="sendContact()"
                     style="margin-top:16px">
@@ -10151,8 +10199,16 @@
       const subject = document.getElementById('csubject').value.trim();
       const message = document.getElementById('cmessage').value.trim();
       const agree = document.getElementById('cagree').checked;
+      const honeypot = document.getElementById('cwebsite_url')?.value || '';
       const result = document.getElementById('contactResult');
       const btn = document.getElementById('contactSubmitBtn');
+
+      // Honeypot: 봇이 hidden 필드에 텍스트를 채우면 조용히 성공한 척 종료
+      if (honeypot) {
+        console.warn('honeypot triggered — likely bot');
+        result.innerHTML = '<div class="nbox green">✅ 문의가 접수되었습니다.</div>';
+        return;
+      }
 
       if (!name || !email || !subject || !message) { result.innerHTML = '<div class="nbox red">⚠️ 필수 항목을 모두 입력해 주세요.</div>'; return; }
       if (!agree) { result.innerHTML = '<div class="nbox red">⚠️ 개인정보 수집에 동의해 주세요.</div>'; return; }

@@ -254,6 +254,10 @@ Image upload: pick a file in the modal → uploaded to Supabase Storage automati
 ### 한국어
 - [ ] 도메인 갱신 자동화 (가비아 자동결제)
 - [ ] Vercel Analytics 활성화 (트래픽 모니터링)
+- [ ] **Supabase Auth 이메일 인증 활성화** — Dashboard → Authentication → Providers → Email → "Confirm email" ON. 활성화하면 가입 시 메일 확인 링크 클릭해야 로그인 가능. SMTP 는 Supabase 기본값 사용 (또는 별도 SMTP 등록 가능 — Resend 호환).
+- [ ] **GA4 측정 ID 입력** — `index.html` 의 `window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'` 를 실제 ID 로 교체. 발급: https://analytics.google.com.
+- [ ] **Sentry DSN 입력** — `index.html` 의 `window.SENTRY_DSN` 을 실제 DSN 으로 교체. 발급: https://sentry.io.
+- [ ] (선택) Cloudflare Turnstile 또는 reCAPTCHA — 현재는 honeypot 만 적용. 폼 스팸 폭증 시 추가.
 - [x] **Supabase 백업 자동화** — `.github/workflows/supabase-backup.yml` (매주 월요일 03:00 KST). 처음 한 번 GitHub Secrets 설정 필요: `SUPABASE_ACCESS_TOKEN` / `SUPABASE_DB_PASSWORD` / `SUPABASE_PROJECT_REF`.
 - [x] **이메일 템플릿 디자인** — `supabase/functions/resend-email/index.ts` 안에 `wrapInTemplate()` 추가. 호출 시 자동으로 브랜드 헤더/풋터/CTA 가 입혀짐. `skip_template: true` 로 skip 가능.
 - [x] **Lighthouse / Core Web Vitals 퀵 윈** — Supabase SDK `defer`, font `display=swap`, dns-prefetch (Unsplash/QR), preconnect (Supabase), theme-color 메타.
