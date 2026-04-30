@@ -100,27 +100,82 @@
     }
   </script>
 
-  <!-- ── JSON-LD 구조화 데이터 (Organization) ───────────────── -->
+  <!-- ── 검색엔진 사이트 인증 (등록 후 값 입력 필요) ─────────────
+       Google Search Console: https://search.google.com/search-console
+       Naver Search Advisor:  https://searchadvisor.naver.com
+       Bing Webmaster Tools:  https://www.bing.com/webmasters
+  ─────────────────────────────────────────────────────────────── -->
+  <meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_CODE" />
+  <meta name="naver-site-verification" content="REPLACE_WITH_NAVER_VERIFICATION_CODE" />
+  <meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_CODE" />
+
+  <!-- ── JSON-LD #1: Organization (검색결과 우측 Knowledge Panel + 로고) ── -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "NGO",
-    "name": "Gift of Life Korea",
-    "alternateName": "생명의 선물 코리아",
+    "@id": "https://www.golikorearotary.or.kr/#organization",
+    "name": "생명의 선물 코리아",
+    "alternateName": ["Gift of Life Korea", "Gift of Life International Korea", "한수로타리 위성클럽"],
     "url": "https://www.golikorearotary.or.kr/",
-    "logo": "https://www.golikorearotary.or.kr/gift_of_life_logo.png",
-    "description": "선천성 심장병 어린이에게 새 생명을 선물하는 비영리 단체. 한수로타리 위성클럽이 운영합니다.",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.golikorearotary.or.kr/gift_of_life_logo.png",
+      "width": 800,
+      "height": 800,
+      "caption": "생명의 선물 코리아 로고"
+    },
+    "image": "https://www.golikorearotary.or.kr/gift_of_life_logo.png",
+    "description": "생명의 선물 코리아 (Gift of Life Korea) — 선천성 심장병을 가진 세계 각국의 어린이들에게 심장 수술과 의료 지원을 제공하는 비영리 단체. 한수로타리 위성클럽이 운영하는 자선 기금입니다.",
+    "foundingDate": "2026",
     "sameAs": [
       "https://giftoflifeinternational.org",
-      "https://rotary.org"
+      "https://www.rotary.org"
     ],
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "KR",
-      "addressLocality": "Seoul"
+      "addressRegion": "서울특별시",
+      "addressLocality": "영등포구",
+      "streetAddress": "선유로3길 10, 2층",
+      "postalCode": "07212"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+82-10-9985-5328",
+      "email": "golikorea@naver.com",
+      "contactType": "customer service",
+      "availableLanguage": ["Korean", "English", "Chinese"]
     },
     "email": "golikorea@naver.com",
-    "areaServed": "Worldwide"
+    "telephone": "+82-10-9985-5328",
+    "areaServed": "Worldwide",
+    "knowsLanguage": ["ko", "en", "zh"],
+    "taxID": "825-82-00555",
+    "nonprofitStatus": "NonprofitType501c3"
+  }
+  </script>
+
+  <!-- ── JSON-LD #2: WebSite (검색창 sitelinks searchbox 노출) ─────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://www.golikorearotary.or.kr/#website",
+    "url": "https://www.golikorearotary.or.kr/",
+    "name": "생명의 선물 코리아",
+    "alternateName": "Gift of Life Korea",
+    "description": "선천성 심장병 어린이에게 새 생명을 선물합니다.",
+    "publisher": { "@id": "https://www.golikorearotary.or.kr/#organization" },
+    "inLanguage": "ko-KR",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.golikorearotary.or.kr/?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
   }
   </script>
   <style>
