@@ -1,0 +1,88 @@
+name: Supabase Keepalive
+
+# 무료 플랜 7일 inactivity → 자동 paused 방지.
+# Supabase 의 inactivity 카운터는 client API 호출(REST/Auth/Functions)만 카운트하므로
+# CLI 기반 백업 워크플로는 keepalive 로 동작하지 않음 → 별도 client ping 필요.
+
+on:
+  # 4일마다 03:00 UTC (한국 정오) — 7일 트리거 대비 3일 마진
+  schedule:
+    - cron: '0 3 */4 * *'
+  # 수동 실행 (Actions 탭에서 즉시 트리거)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Ping Supabase (REST + Functions)
+        env:
+          SUPABASE_URL: https://wpeaskqbozozzcqytoyd.supabase.co
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -e
+          if [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "❌ SUPABASE_ANON_KEY secret 미등록"
+            echo "   GitHub 저장소 → Settings → Secrets and variables → Actions → New repository secret"
+            echo "   Name: SUPABASE_ANON_KEY"
+            echo "   Value: index.html 의 SUPABASE_ANON 변수 값"
+            exit 1
+          fi
+
+          echo "1️⃣ REST API ping (PostgREST → DB activity 트리거)"
+          rest_status=$(curl -sS -o /tmp/rest -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/contact_messages?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          echo "   HTTP ${rest_status}"
+          head -c 300 /tmp/rest; echo
+          if [ "${rest_status}" -ge 500 ]; then
+            echo "❌ REST 5xx — Supabase 가 paused 상태이거나 서버 장애"
+            exit 1
+          fi
+
+          echo ""
+          echo "2️⃣ Edge Function CORS preflight (Functions activity 트리거)"
+          fn_status=$(curl -sS -o /tmp/fn -w "%{http_code}" -X OPTIONS \
+            "${SUPABASE_URL}/functions/v1/resend-email" \
+            -H "Origin: https://www.golikorearotary.or.kr" \
+            -H "Access-Control-Request-Method: POST" \
+            -H "Access-Control-Request-Headers: authorization, content-type")
+          echo "   HTTP ${fn_status}"
+          if [ "${fn_status}" -ge 500 ]; then
+            echo "⚠️ Edge Function 5xx (REST 가 200/4xx 면 paused 는 아님 — 함수만 별도 점검 필요)"
+          fi
+
+          echo ""
+          echo "✅ Supabase keepalive 완료 — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## ✅ Supabase Keepalive Ping"
+            echo ""
+            echo "- 시각: $(date -u +%Y-%m-%dT%H:%M:%SZ) UTC"
+            echo "- 주기: 4일 (cron \`0 3 */4 * *\`)"
+            echo "- 다음 자동 실행: 약 4일 후"
+            echo "- 수동 실행: Actions 탭 → Supabase Keepalive → Run workflow"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+# ────────────────────────────────────────────────────────────
+# 1회 설정: GitHub 저장소 → Settings → Secrets and variables →
+#   Actions → New repository secret 으로 아래 1개 추가
+#
+#   SUPABASE_ANON_KEY    # index.html 의 SUPABASE_ANON 값과 동일
+#                        # (이미 클라이언트에 공개된 키이지만 Secret 으로 관리하면
+#                        #  로그/PR 노출 면적을 줄일 수 있음)
+#
+# 참고:
+# - GitHub Actions 의 schedule 은 저장소에 60일간 commit/PR 이 없으면 자동 비활성화됨.
+#   정적 사이트로 거의 commit 안 한다면 매월 1회 dummy commit 권장
+#   (또는 외부 cron-job.org 무료 백업).
+# ────────────────────────────────────────────────────────────
